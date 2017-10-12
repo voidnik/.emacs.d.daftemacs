@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# neotree (https://github.com/jaypei/emacs-neotree)
+git clone https://github.com/jaypei/emacs-neotree.git
+
+# popup (https://github.com/auto-complete/popup-el)
+git clone https://github.com/auto-complete/popup-el.git
+
+# auto-complete (https://github.com/auto-complete/auto-complete)
+git clone https://github.com/auto-complete/auto-complete.git
+
+# emacs-ac-etags (https://github.com/syohex/emacs-ac-etags)
+git clone https://github.com/syohex/emacs-ac-etags.git

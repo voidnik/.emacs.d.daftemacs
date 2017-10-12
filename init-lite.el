@@ -1,0 +1,7 @@
+(setq make-backup-files nil)
+(setq-default truncate-lines t)
+(show-paren-mode t)
+(delete-selection-mode t)
+(setq gdb-many-windows t)
+;(setq split-width-threshold nil)
+(setq split-height-threshold nil)

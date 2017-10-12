@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cd emacs-neotree
+git pull
+cd ..
+
+cd popup-el
+git pull
+cd ..
+
+cd auto-complete
+git pull
+cd ..
+
+cd emacs-ac-etags
+git pull
+cd ..

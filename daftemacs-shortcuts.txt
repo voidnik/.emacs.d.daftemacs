@@ -1,0 +1,228 @@
+Editor: Richard Jaeho Hur
+Date: 2017.09.24
+
+* Run Emacs
+$ emacs —no-window-system : Run with no window system
+$ emacs -nw : Run with no window system
+$ emacs -q : Run without loading init file
+
+* Help
+C-h C-h : Help
+C-h k : What does this key do?
+C-h f : What does this function do?
+C-h m : What does this mode do?
+C-h b : What keys are bound and what do they do?
+C-h a : Search for a command ("apropos")
+C-h t : Online tutorial
+C-h r : Online manual
+C-h i : Info reader
+
+* Basic
+C-x C-c : Quit Emacs
+C-g : Cancel command
+C-u : Numeric-prefix operator
+M-p, M-n : Traverse up and down the history list
+
+* Buffer
+C-x C-f : Open file
+C-x C-v : Reopen file
+C-x C-s : Save file
+C-x C-w : Save as
+C-x s : Save some buffers
+C-x C-b : List buffers
+C-x b : Switch buffer
+C-x k : Kill a buffer
+C-x C-q : Toggle read only
+M-x toggle-read-only : Toggle read only
+M-x erase-buffer : Erase all contents in a buffer
+
+* Dired mode
+C-x d : Dired
+M-x dired : Dired
+f : Open or Create a file
+v : Open a file as read-only
+D : Delete
+g : Update list
+R : Rename
+C : Copy
++ | M-x make-directory : Make directory
+
+* Window
+C-x 1 : Close all windows except a current window
+C-x 2 : Divide a current window horizontally
+C-x 3 : Divide a current window vertically
+C-x o : Move to other window
+C-x 3 M-x follow-mode : Newspaper mode
+C-x ^ : Expand window height
+C-x { : Expand window width
+C-x } : Narrow window width
+C-x + : Resize windows uniformly
+
+* Navigation
+C-l : Move the text around the cursor to the center of the screen
+C-p : Up
+M-{ : Up (by paragraph)
+M-v : Up (by screen)
+C-n : Down
+M-} : Down (by paragraph)
+C-v : Down (by screen)
+C-b : Left
+M-b : Left (by sentence)
+C-f : Right
+M-f : Right (by sentence)
+C-a : Beginning of line
+C-e : End of line
+M-< : Beginning of buffer
+M-> : End of buffer
+M-g M-g | M-g g | M-x goto-line : Go to specific line number
+C-c C-p : Start of #ifdef
+C-c C-n : End of #ifdef
+C-M-a : Start of function
+C-M-e : End of function
+C-M-f | ESC C-f : Next matching bracket
+C-M-b | ESC C-b : Previous matching braket
+
+* Register
+M-x view-registers <RET> r : Display a description of what register r contains.
+C-x r <SPC> r | M-x point-to-register : Save point in register r.
+C-x r j r | M-x jump-to-register : Jump to point saved in register r.
+C-x r s r | M-x copy-to-register : Copy region into register r.
+C-x r i r | M-x insert-register : Insert text from register r.
+
+* Bookmark
+C-x r l | M-x bookmark-set : Bookmark list
+C-x r m | M-x bookmark-bmenu-list : Bookmark the current position
+C-x r b | M-x bookmark-jump : Jump to point saved in bookmark
+
+* Search
+C-s : Forward search
+C-r : Backward search
+C-s C-w [C-w ...] : Forward search with word under cursor
+C-r C-w [C-w ...] : Backward search with word under cursor
+M-% | M-x query-replace : Search and replace
+M-x occur : List occurrences
+M-x rgrep : Run grep
+C-M-s : Reg-exp search
+
+* Marking
+C-SPC : Set it to the current position
+C-u C-SPC : Move to a previous mark
+C-x C-x : Swap point and mark
+C-x h : Select whole region
+
+* Editing
+C-d : Delete character (=DEL)
+M-d : Kill word
+C-k : Kill line
+M-k : Kill sentence
+M-z : Kill ("zap") to next occurrence of character
+C-w : Kill region
+M-w : Save region without killing
+C-y : Yank
+M-y : Yank earlier killed text
+C-x r k : Kill region vertically
+C-x r y : Yank vertically
+C-x i : Insert file
+C-/ | C-_ | C-x u : Undo
+C-o : Insert a new line
+C-j : RET with appropriate indentation (Evaluate LISP function in Scratch buffer)
+C-m : Alternative RET
+M-u : Convert a word to uppercase
+M-l : Convert a word to lowercase
+M-c : Convert the first character to uppercase in a word
+M-x untabify : Replace tabs to spaces
+C-x C-q : Toggle read-only
+C-x C-t : Swap the current line for the previous one
+M-t : Swap the current word for the next one
+C-t : Swap the current character for the previous one
+M-q : Paragraph-ise current region
+M-$ | M-x ispell : Spell-check current word
+M-x replace-string C-q C-m : Removing ^M
+
+* Rectangle Commands
+C-x r r : Copy to a register
+C-x r k : Kill rectangle region
+C-x r y : Yank a rectangle
+C-x r o : Open a rectangle, shifting text right.
+C-x r c : Blank out a rectangle
+C-x r t : Prefix with text
+
+* Auto-completion
+M-/ | M-x dabbrev-expand : Expand previous word dynamically.
+
+* Keyboard Macros
+C-x ( : Begin recording
+C-x ) : End recording
+C-x e : Execute macro
+
+* Encoding
+C-x RET r : Change encoding for read
+C-x RET f : Change encoding for write
+C-\ : Change input method
+
+* etags
+M-. : Find by using etags
+M-* : Go back to the original position after finding a tag
+
+* CEDET
+M-x eassist-list-methods
+M-x eassist-switch-h-cpp
+
+* ediff
+M-x ediff : Start a ediff session
+M-x ediff-directories
+n : Next match
+p : Previous match
+a : Copy from file A to B
+b : Copy from file B to A
+wa : Save file A
+wb : Save file B
+D : See diff output
+## : Ignore whitespace differences
+
+* ecb
+M-x customize-variable RET ecb-source-path
+
+* Remote Files
+/host:filename
+/user@host:filename
+/user@host#port:filename
+/method:user@host:filename
+/method:user@host#port:filename
+/ftp:user@host:filename
+/ssh:user@host:filename
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Remote-Files.html
+
+* Misc
+M-x view-lossage : What did I just do?
+
+M-x find-name-dired : Search for files with names matching a wildcard pattern
+M-x find-grep-dired : 
+M-x grep-find :
+M-x find-dired :
+M-x locate :
+
+F3 : Start recording macro
+F4 : Stop recording macro, Replay macro
+M-5 F4 : Replay macro 5 times
+M-0 F4 : Replay macro until "the end"
+
+M-x java-mode
+M-x python-mode
+M-x fundamental-mode
+
+M-x whitespace-mode
+
+M-x grep : Grep
+M-x man : Manual pages
+M-x dired : File manager
+M-x compile : Compile command
+M-x hexl-mode : Hexa mode
+M-x shell : Terminal emulator
+M-x shell-command | M-!: Shell Command
+M-x gnus : Mail/News/RSS reader
+M-x doctor : Psychoanalyst
+
+M-x calculator : Built-in calculator
+  id, ib, io, ih : Change input base
+  od, ob, oo, oh : Change output base
