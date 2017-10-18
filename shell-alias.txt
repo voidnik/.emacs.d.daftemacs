@@ -1,0 +1,11 @@
+export MACPORTS_EMACS_PATH='/Applications/MacPorts/Emacs.app/Contents/MacOS'
+if [ -d "$MACPORTS_EMACS_PATH" ]; then
+    alias emacs='${MACPORTS_EMACS_PATH}/Emacs'
+    alias emacsclient='${MACPORTS_EMACS_PATH}/bin/emacsclient'
+fi
+alias enable-daftemacs='rm -f ~/.emacs.d && ln -s ~/.emacs.d.daftemacs ~/.emacs.d'
+alias enable-spacemacs='rm -f ~/.emacs.d && ln -s ~/.emacs.d.spacemacs ~/.emacs.d'
+alias e='emacs -nw -q --load "~/.emacs.d.daftemacs/init-lite.el"'
+alias se='sudo emacs -nw -q --load "~/.emacs.d.daftemacs/init-lite.el"'
+alias emacs-shell='emacs -nw'
+alias emacsclient-shell='emacsclient -nw'
