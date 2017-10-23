@@ -1,7 +1,6 @@
 ;; Editor: Richard Jaeho Hur
 ;; Emacs Version: 25.3.1
 
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -16,13 +15,14 @@
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2017-10-03)" user-init-file)
+(message "user-init-file: %s (last modified date: 2017-10-24)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 
 ;;================
 ;; Basic Settings
 ;;================
 
+(setq default-directory (concat (getenv "HOME") "/Workspace/"))
 (setq make-backup-files nil)
 (setq-default truncate-lines t)
 (show-paren-mode t)
@@ -43,13 +43,21 @@
       ;(set-frame-height (selected-frame) 100)
       ;(print (font-family-list))
 
+      (defun toggle-fullscreen (&optional f)
+        (interactive)
+        (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                               '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+        (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                               '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+
       (cond
        ((string-equal system-type "darwin")
         (progn
           (set-face-attribute 'default nil :height 115 :family "monospace")))
        ((string-equal system-type "gnu/linux")
         (progn
-          (set-face-attribute 'default nil :height 100 :family "FreeMono")))
+	  ;(set-face-attribute 'default nil :height 95 :family "FreeMono")))
+          (set-face-attribute 'default nil :height 90 :family "monospace")))
        )
       )
   ;;======================
