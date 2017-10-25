@@ -31,40 +31,41 @@
 ;(setq split-width-threshold nil)
 (setq split-height-threshold nil)
 
-(if (display-graphic-p)
+(defun startup-on-gui ()
+  (tool-bar-mode -1) ; hide tool bar
+
+  (set-frame-position (selected-frame) 0 0)
+  ;(set-frame-width (selected-frame) 150)
+  ;(set-frame-height (selected-frame) 100)
+  ;(print (font-family-list))
+
+  (load-theme 'material t)
+
+  (defun toggle-fullscreen (&optional f)
+    (interactive)
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+
+  (cond
+   ((string-equal system-type "darwin")
     (progn
-      ;;======================
-      ;; GUI Settings
-      ;;======================
-      (tool-bar-mode -1) ; hide tool bar
+      (set-face-attribute 'default nil :height 115 :family "monospace")))
+   ((string-equal system-type "gnu/linux")
+    (progn
+      ;(set-face-attribute 'default nil :height 95 :family "FreeMono")))
+      (set-face-attribute 'default nil :height 90 :family "monospace")))
+   )
+  )
 
-      (set-frame-position (selected-frame) 0 0)
-      ;(set-frame-width (selected-frame) 150)
-      ;(set-frame-height (selected-frame) 100)
-      ;(print (font-family-list))
-
-      (defun toggle-fullscreen (&optional f)
-        (interactive)
-        (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                               '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-        (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                               '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-
-      (cond
-       ((string-equal system-type "darwin")
-        (progn
-          (set-face-attribute 'default nil :height 115 :family "monospace")))
-       ((string-equal system-type "gnu/linux")
-        (progn
-	  ;(set-face-attribute 'default nil :height 95 :family "FreeMono")))
-          (set-face-attribute 'default nil :height 90 :family "monospace")))
-       )
-      )
-  ;;======================
-  ;; CUI Settings
-  ;;======================
+(defun startup-on-cui ()
   (setq window-min-width 20)
   )
+
+(if (display-graphic-p)
+    (startup-on-gui)
+  (startup-on-cui))
 
 ;;======================
 ;; Custom Set Variables
@@ -77,7 +78,7 @@
  ;; If there is more than one, they won't work right.
  '(inhibit-startup-screen t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages (quote (magit pdf-tools))))
+ '(package-selected-packages (quote (material-theme magit pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
