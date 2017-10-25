@@ -1,5 +1,8 @@
 ;; Editor: Richard Jaeho Hur
-;; Emacs Version: 25.3.1
+
+;;==========
+;; Packages
+;;==========
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -11,16 +14,21 @@
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.org/packages/") t)
 
+;;===============
+;; Info Messages
+;;===============
+
 (message "emacs-version: %s %d %d" emacs-version emacs-major-version emacs-minor-version)
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2017-10-24)" user-init-file)
+(message "user-init-file: %s (last modified date: 2017-10-26)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
+(message "package-archives: %s" package-archives)
 
-;;================
-;; Basic Settings
-;;================
+;;=====================
+;; Basic Customization
+;;=====================
 
 (setq default-directory (concat (getenv "HOME") "/Workspace/"))
 (setq make-backup-files nil)
@@ -31,36 +39,62 @@
 ;(setq split-width-threshold nil)
 (setq split-height-threshold nil)
 
+(defun init-my-font ()
+  ;(print (font-family-list))
+
+  (cond
+   ((string-equal system-type "darwin")
+    (progn
+      (set-face-attribute 'default nil :height 115 :family "monospace")
+      )
+    )
+   ((string-equal system-type "gnu/linux")
+    (progn
+      ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
+      ;(set-face-attribute 'default nil :height 90 :family "monospace")
+      (set-face-attribute 'default nil :height 98 :family "Ubuntu Mono")
+      )
+    )
+   )
+  )
+
+(defun init-my-color-themes ()
+  (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
+
+  (require 'color-theme)
+
+  (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
+  (load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
+
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       (color-theme-tm)))
+  )
+
 (defun startup-on-gui ()
   (tool-bar-mode -1) ; hide tool bar
 
   (set-frame-position (selected-frame) 0 0)
   ;(set-frame-width (selected-frame) 150)
   ;(set-frame-height (selected-frame) 100)
-  ;(print (font-family-list))
 
   (load-theme 'material t)
+  (init-my-font)
+  (init-my-color-themes)
 
   (defun toggle-fullscreen (&optional f)
     (interactive)
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
                            '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-
-  (cond
-   ((string-equal system-type "darwin")
-    (progn
-      (set-face-attribute 'default nil :height 115 :family "monospace")))
-   ((string-equal system-type "gnu/linux")
-    (progn
-      ;(set-face-attribute 'default nil :height 95 :family "FreeMono")))
-      (set-face-attribute 'default nil :height 90 :family "monospace")))
-   )
+                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+    )
   )
 
 (defun startup-on-cui ()
   (setq window-min-width 20)
+  (init-my-color-themes)
   )
 
 (if (display-graphic-p)
@@ -91,21 +125,6 @@
 ;;=============
 
 (require 'cl)
-
-;;=============
-;; Color Theme
-;;=============
-
-(add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
-;(add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-goodies-el/")
-
-(require 'color-theme)
-(load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
-(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-tm)))
 
 ;;=======
 ;; CEDET
