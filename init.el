@@ -18,6 +18,12 @@
 ;; Info Messages
 ;;===============
 
+(message "      _        __ _")
+(message "     | |      / _| |")
+(message "   __| | __ _| |_| |_ ___ _ __ ___   __ _  ___ ___ ")
+(message "  / _` |/ _` |  _| __/ _ \\ '_ ` _ \\ / _` |/ __/ __|")
+(message " | (_| | (_| | | | ||  __/ | | | | | (_| | (__\\__ \\")
+(message "  \\__,_|\\__,_|_|  \\__\\___|_| |_| |_|\\__,_|\\___|___/\n")
 (message "emacs-version: %s %d %d" emacs-version emacs-major-version emacs-minor-version)
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
@@ -30,7 +36,6 @@
 ;; Basic Customization
 ;;=====================
 
-(setq default-directory (concat (getenv "HOME") "/Workspace/"))
 (setq make-backup-files nil)
 (setq-default truncate-lines t)
 (show-paren-mode t)
@@ -39,6 +44,16 @@
 ;(setq split-width-threshold nil)
 (setq split-height-threshold nil)
 
+(switch-to-buffer "*Messages*")
+
+(setq default-directory (concat (getenv "HOME") "/Workspace/")) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
+(message "default-directory: %s\n" default-directory)
+
+(defun open-user-init-file ()
+  (interactive)
+  (find-file user-init-file)
+  )
+  
 (defun init-my-font ()
   ;(print (font-family-list))
 
@@ -64,12 +79,12 @@
   (require 'color-theme)
 
   (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
-  (load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
+  ;(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
 
   (eval-after-load "color-theme"
     '(progn
        (color-theme-initialize)
-       (color-theme-tm)))
+       (color-theme-sunburst)))
   )
 
 (defun startup-on-gui ()
@@ -112,6 +127,7 @@
  ;; If there is more than one, they won't work right.
  '(inhibit-startup-screen t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ ;'(initial-buffer-choice (concat user-emacs-directory "/init.el"))
  '(package-selected-packages (quote (material-theme magit pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
