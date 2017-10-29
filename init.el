@@ -28,7 +28,7 @@
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2017-10-26)" user-init-file)
+(message "user-init-file: %s (last modified date: 2017-10-29)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 (message "package-archives: %s" package-archives)
 
@@ -44,10 +44,10 @@
 ;(setq split-width-threshold nil)
 (setq split-height-threshold nil)
 
-(switch-to-buffer "*Messages*")
-
 (setq default-directory (concat (getenv "HOME") "/Workspace/")) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
 (message "default-directory: %s\n" default-directory)
+
+(switch-to-buffer "*Messages*")
 
 (defun open-user-init-file ()
   (interactive)
@@ -89,6 +89,7 @@
 
 (defun startup-on-gui ()
   (tool-bar-mode -1) ; hide tool bar
+  ;(menu-bar-mode -1) ; hide menu bar
 
   (set-frame-position (selected-frame) 0 0)
   ;(set-frame-width (selected-frame) 150)
@@ -499,7 +500,13 @@
   (interactive)
   (other-window -1))
 
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
+
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 (global-set-key (kbd "C-c \\") 'neotree-toggle)
 
