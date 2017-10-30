@@ -1,38 +1,37 @@
-;;; linum.el --- Display line numbers to the left of buffers
+;;; linum.el --- display line numbers in the left margin -*- lexical-binding: t -*-
 
-;; Copyright (C) 2007, 2008  Markus Triska
+;; Copyright (C) 2008-2017 Free Software Foundation, Inc.
 
 ;; Author: Markus Triska <markus.triska@gmx.at>
+;; Maintainer: emacs-devel@gnu.org
 ;; Keywords: convenience
+;; Version: 0.9x
 
-;; This file is free software; you can redistribute it and/or modify
+;; This file is part of GNU Emacs.
+
+;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
 
-;; This file is distributed in the hope that it will be useful,
+;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
-;; Display line numbers for the current buffer. Copy linum.el to your
-;; load-path and add to your .emacs:
-
-;;    (require 'linum)
-
-;; Then toggle display of line numbers with M-x linum-mode. To enable
+;; Display line numbers for the current buffer.
+;;
+;; Toggle display of line numbers with M-x linum-mode.  To enable
 ;; line numbering in all buffers, use M-x global-linum-mode.
 
 ;;; Code:
 
-(defconst linum-version "0.9wza")
+(defconst linum-version "0.9x")
 
 (defvar linum-overlays nil "Overlays used in this buffer.")
 (defvar linum-available nil "Overlays available for reuse.")
@@ -42,18 +41,19 @@
 (mapc #'make-variable-buffer-local '(linum-overlays linum-available))
 
 (defgroup linum nil
-  "Show line numbers to the left of buffers"
+  "Show line numbers in the left margin."
   :group 'convenience)
 
-;;;###autoload
 (defcustom linum-format 'dynamic
-  "Format used to display line numbers. Either a format string
-like \"%7d\", 'dynamic to adapt the width as needed, or a
-function that is called with a line number as its argument and
-should evaluate to a string to be shown on that line. See also
-`linum-before-numbering-hook'."
+  "Format used to display line numbers.
+Either a format string like \"%7d\", `dynamic' to adapt the width
+as needed, or a function that is called with a line number as its
+argument and should evaluate to a string to be shown on that line.
+See also `linum-before-numbering-hook'."
   :group 'linum
-  :type 'sexp)
+  :type '(choice (string :tag "Format string")
+                 (const :tag "Dynamic width" dynamic)
+                 (function :tag "Function")))
 
 (defface linum
   '((t :inherit (shadow default)))
@@ -62,8 +62,8 @@ should evaluate to a string to be shown on that line. See also
 
 (defcustom linum-eager t
   "Whether line numbers should be updated after each command.
-The conservative setting `nil' might miss some buffer changes,
-and you have to scroll or press C-l to update the numbers."
+The conservative setting nil might miss some buffer changes,
+and you have to scroll or press \\[recenter-top-bottom] to update the numbers."
   :group 'linum
   :type 'boolean)
 
@@ -74,7 +74,12 @@ and you have to scroll or press C-l to update the numbers."
 
 ;;;###autoload
 (define-minor-mode linum-mode
-  "Toggle display of line numbers in the left marginal area."
+  "Toggle display of line numbers in the left margin (Linum mode).
+With a prefix argument ARG, enable Linum mode if ARG is positive,
+and disable it otherwise.  If called from Lisp, enable the mode
+if ARG is omitted or nil.
+
+Linum mode is a buffer-local minor mode."
   :lighter ""                           ; for desktop.el
   (if linum-mode
       (progn
@@ -84,18 +89,22 @@ and you have to scroll or press C-l to update the numbers."
                                            'linum-update-current) nil t)
           (add-hook 'after-change-functions 'linum-after-change nil t))
         (add-hook 'window-scroll-functions 'linum-after-scroll nil t)
-        ;; mistake in Emacs: window-size-change-functions cannot be local
-        (add-hook 'window-size-change-functions 'linum-after-size)
+        ;; Using both window-size-change-functions and
+        ;; window-configuration-change-hook seems redundant. --Stef
+        ;; (add-hook 'window-size-change-functions 'linum-after-size nil t)
         (add-hook 'change-major-mode-hook 'linum-delete-overlays nil t)
         (add-hook 'window-configuration-change-hook
-                  'linum-after-config nil t)
+                  ;; FIXME: If the buffer is shown in N windows, this
+                  ;; will be called N times rather than once.  We should use
+                  ;; something like linum-update-window instead.
+                  'linum-update-current nil t)
         (linum-update-current))
     (remove-hook 'post-command-hook 'linum-update-current t)
     (remove-hook 'post-command-hook 'linum-schedule t)
-    (remove-hook 'window-size-change-functions 'linum-after-size)
+    ;; (remove-hook 'window-size-change-functions 'linum-after-size t)
     (remove-hook 'window-scroll-functions 'linum-after-scroll t)
     (remove-hook 'after-change-functions 'linum-after-change t)
-    (remove-hook 'window-configuration-change-hook 'linum-after-config t)
+    (remove-hook 'window-configuration-change-hook 'linum-update-current t)
     (remove-hook 'change-major-mode-hook 'linum-delete-overlays t)
     (linum-delete-overlays)))
 
@@ -103,7 +112,16 @@ and you have to scroll or press C-l to update the numbers."
 (define-globalized-minor-mode global-linum-mode linum-mode linum-on)
 
 (defun linum-on ()
-  (unless (minibufferp)
+  (unless (or (minibufferp)
+              ;; Turning linum-mode in the daemon's initial frame
+              ;; could significantly slow down startup, if the buffer
+              ;; in which this is done is large, because Emacs thinks
+              ;; the "window" spans the entire buffer then.  This
+              ;; could happen when restoring session via desktop.el,
+              ;; if some large buffer was under linum-mode when
+              ;; desktop was saved.  So we disable linum-mode for
+              ;; non-client frames in a daemon session.
+              (and (daemonp) (null (frame-parameter nil 'client))))
     (linum-mode 1)))
 
 (defun linum-delete-overlays ()
@@ -111,7 +129,15 @@ and you have to scroll or press C-l to update the numbers."
   (mapc #'delete-overlay linum-overlays)
   (setq linum-overlays nil)
   (dolist (w (get-buffer-window-list (current-buffer) nil t))
-    (set-window-margins w 0)))
+    ;; restore margins if needed FIXME: This still fails if the
+    ;; "other" mode has incidentally set margins to exactly what linum
+    ;; had: see bug#20674 for a similar workaround in nlinum.el
+    (let ((set-margins (window-parameter w 'linum--set-margins))
+          (current-margins (window-margins w)))
+      (when (and set-margins
+                 (equal set-margins current-margins))
+        (set-window-margins w 0 (cdr current-margins))
+        (set-window-parameter w 'linum--set-margins nil)))))
 
 (defun linum-update-current ()
   "Update line numbers for the current buffer."
@@ -129,6 +155,17 @@ and you have to scroll or press C-l to update the numbers."
       (mapc #'delete-overlay linum-available)
       (setq linum-available nil))))
 
+;; Behind display-graphic-p test.
+(declare-function font-info "font.c" (name &optional frame))
+
+(defun linum--face-width (face)
+  (let ((info (font-info (face-font face)))
+        width)
+    (setq width (aref info 11))
+    (if (<= width 0)
+        (setq width (aref info 10)))
+    width))
+
 (defun linum-update-window (win)
   "Update line numbers for the portion visible in window WIN."
   (goto-char (window-start win))
@@ -143,16 +180,17 @@ and you have to scroll or press C-l to update the numbers."
     (run-hooks 'linum-before-numbering-hook)
     ;; Create an overlay (or reuse an existing one) for each
     ;; line visible in this window, if necessary.
-    (while (and (not (eobp)) (<= (point) limit))
+    (while (and (not (eobp)) (< (point) limit))
       (let* ((str (if fmt
                       (propertize (format fmt line) 'face 'linum)
                     (funcall linum-format line)))
              (visited (catch 'visited
                         (dolist (o (overlays-in (point) (point)))
-                          (when (string= (overlay-get o 'linum-str) str)
+                          (when (equal-including-properties
+                                 (overlay-get o 'linum-str) str)
                             (unless (memq o linum-overlays)
                               (push o linum-overlays))
-                            (setq linum-available (delete o linum-available))
+                            (setq linum-available (delq o linum-available))
                             (throw 'visited t))))))
         (setq width (max width (length str)))
         (unless visited
@@ -163,30 +201,48 @@ and you have to scroll or press C-l to update the numbers."
             (overlay-put ov 'before-string
                          (propertize " " 'display `((margin left-margin) ,str)))
             (overlay-put ov 'linum-str str))))
-      (forward-line)
+      ;; Text may contain those nasty intangible properties, but that
+      ;; shouldn't prevent us from counting those lines.
+      (let ((inhibit-point-motion-hooks t))
+        (forward-line))
       (setq line (1+ line)))
-    (set-window-margins win width)))
+    (when (display-graphic-p)
+      (setq width (ceiling
+                   (/ (* width 1.0 (linum--face-width 'linum))
+                      (frame-char-width)))))
+    ;; open up space in the left margin, if needed, and record that
+    ;; fact as the window-parameter `linum--set-margins'
+    (let ((existing-margins (window-margins win)))
+      (when (> width (or (car existing-margins) 0))
+        (set-window-margins win width (cdr existing-margins))
+        (set-window-parameter win 'linum--set-margins (window-margins win))))))
 
-(defun linum-after-change (beg end len)
+(defun linum-after-change (beg end _len)
   ;; update overlays on deletions, and after newlines are inserted
   (when (or (= beg end)
             (= end (point-max))
-            ;; TODO: use string-match-p with CVS or new release
-            (string-match "\n" (buffer-substring-no-properties beg end)))
+            (string-match-p "\n" (buffer-substring-no-properties beg end)))
     (linum-update-current)))
 
-(defun linum-after-scroll (win start)
+(defun linum-after-scroll (win _start)
   (linum-update (window-buffer win)))
 
-(defun linum-after-size (frame)
-  (linum-after-config))
+;; (defun linum-after-size (frame)
+;;   (linum-after-config))
 
 (defun linum-schedule ()
   ;; schedule an update; the delay gives Emacs a chance for display changes
   (run-with-idle-timer 0 nil #'linum-update-current))
 
-(defun linum-after-config ()
-  (walk-windows (lambda (w) (linum-update (window-buffer w))) nil 'visible))
+;; (defun linum-after-config ()
+;;   (walk-windows (lambda (w) (linum-update (window-buffer w))) nil 'visible))
+
+(defun linum-unload-function ()
+  "Unload the Linum library."
+  (global-linum-mode -1)
+  ;; continue standard unloading
+  nil)
 
 (provide 'linum)
+
 ;;; linum.el ends here
