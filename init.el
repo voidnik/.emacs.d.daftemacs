@@ -22,6 +22,7 @@
 ;;==================
 (defvar my-initial-buffer nil)
 ;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
+(defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
 
 ;;==========
 ;; Packages
@@ -51,7 +52,7 @@
 ;(setq split-width-threshold nil)
 (setq split-height-threshold nil)
 
-(setq default-directory (concat (getenv "HOME") "/Workspace/")) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
+(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
 (message "default-directory: %s\n" default-directory)
 
 (switch-to-buffer "*Messages*")
