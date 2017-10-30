@@ -1,19 +1,5 @@
 ;; Editor: Richard Jaeho Hur
 
-;;==========
-;; Packages
-;;==========
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
-
 ;;===============
 ;; Info Messages
 ;;===============
@@ -30,6 +16,27 @@
 (message "user-login-name: %s" user-login-name)
 (message "user-init-file: %s (last modified date: 2017-10-30)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
+
+;;==================
+;; Custom Variables
+;;==================
+(defvar my-initial-buffer nil)
+;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
+
+;;==========
+;; Packages
+;;==========
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+
 (message "package-archives: %s" package-archives)
 
 ;;=====================
@@ -128,7 +135,7 @@
  ;; If there is more than one, they won't work right.
  '(inhibit-startup-screen t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- ;'(initial-buffer-choice (concat user-emacs-directory "/init.el"))
+ '(initial-buffer-choice my-initial-buffer)
  '(package-selected-packages (quote (material-theme magit pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -495,7 +502,7 @@
 (setq mouse-wheel-follow-mouse t) ; scroll window under mouse
 (setq scroll-step 1) ; keyboard scroll one line at a time
 (setq scroll-conservatively 10000)
-;; OR
+;; alternative
 ;(load-file "~/.emacs.d/smooth-scroll.el")
 ;(require 'smooth-scroll)
 ;(smooth-scroll-mode t)
