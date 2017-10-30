@@ -28,7 +28,7 @@
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2017-10-29)" user-init-file)
+(message "user-init-file: %s (last modified date: 2017-10-30)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 (message "package-archives: %s" package-archives)
 
@@ -234,6 +234,7 @@
 
 (load-file "~/.emacs.d/linum.el")
 (setq linum-format "%5d \u2502")
+(setq linum-delay t)
 (global-linum-mode)
 
 (defcustom linum-disabled-modes-list '(eshell-mode wl-summary-mode compilation-mode org-mode text-mode dired-mode doc-view-mode)
@@ -482,9 +483,26 @@
 
 ;(require 'jabber-autoloads)
 
-;;====================
-;; Custom Key Mapping
-;;====================
+;;=================================================
+;; Smooth Scrolling
+;;
+;; https://www.emacswiki.org/emacs/SmoothScrolling
+;;=================================================
+
+;; scroll one line at a time (less "jumpy" than defaults)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
+(setq mouse-wheel-progressive-speed t) ; accelerate scrolling
+(setq mouse-wheel-follow-mouse t) ; scroll window under mouse
+(setq scroll-step 1) ; keyboard scroll one line at a time
+(setq scroll-conservatively 10000)
+;; OR
+;(load-file "~/.emacs.d/smooth-scroll.el")
+;(require 'smooth-scroll)
+;(smooth-scroll-mode t)
+
+;;===========================
+;; Key Mapping Customiaztion
+;;===========================
 
 (defun my-shell-hook ()
   (local-set-key "\C-cl" 'erase-buffer))
