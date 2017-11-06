@@ -97,8 +97,14 @@
   ;(set-frame-width (selected-frame) 150)
   ;(set-frame-height (selected-frame) 100)
 
+  ;; themes
+  (ample-theme)
+  ;(ample-light-theme)
+  ;(ample-flat-theme)
+  ;(load-theme 'afternoon t)
+  ;(load-theme 'ahungry t)
   ;(abyss-theme)
-  (load-theme 'alect-black t)
+  ;(load-theme 'alect-black t)
   ;(load-theme 'alect-light t)
   ;(load-theme 'material t)
   ;(init-my-color-themes)
@@ -134,7 +140,9 @@
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages (quote (abyss-theme alect-themes material-theme pdf-tools))))
+ '(package-selected-packages
+   (quote
+    (ample-theme afternoon-theme ahungry-theme abyss-theme alect-themes material-theme pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
