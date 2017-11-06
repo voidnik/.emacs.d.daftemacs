@@ -15,3 +15,8 @@ cd ..
 cd emacs-ac-etags
 git pull
 cd ..
+
+cd magit
+git pull
+make
+cd ..

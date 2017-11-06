@@ -1,13 +1,33 @@
 #!/bin/bash
 
 # neotree (https://github.com/jaypei/emacs-neotree)
-git clone https://github.com/jaypei/emacs-neotree.git
+if [ ! -d "emacs-neotree" ]; then
+    echo ">> Cloning 'emacs-neotree'"
+    git clone https://github.com/jaypei/emacs-neotree.git
+fi
 
-# popup (https://github.com/auto-complete/popup-el)
-git clone https://github.com/auto-complete/popup-el.git
+# popup-el (https://github.com/auto-complete/popup-el)
+if [ ! -d "popup-el" ]; then
+    echo ">> Cloning 'popup-el'"
+    git clone https://github.com/auto-complete/popup-el.git
+fi
 
 # auto-complete (https://github.com/auto-complete/auto-complete)
-git clone https://github.com/auto-complete/auto-complete.git
+if [ ! -d "auto-complete" ]; then
+    echo ">> Cloning 'auto-complete'"
+    git clone https://github.com/auto-complete/auto-complete.git
+fi
 
 # emacs-ac-etags (https://github.com/syohex/emacs-ac-etags)
-git clone https://github.com/syohex/emacs-ac-etags.git
+if [ ! -d "emacs-ac-etags" ]; then
+    echo ">> Cloning 'emacs-ac-etags'"
+    git clone https://github.com/syohex/emacs-ac-etags.git
+fi
+
+# magit (https://github.com/magit/magit.git)
+if [ ! -d "magit" ]; then
+    echo ">> Cloning 'magit'"
+    git clone https://github.com/magit/magit.git
+    cd magit
+    make
+fi

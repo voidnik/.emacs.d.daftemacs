@@ -14,7 +14,7 @@
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2017-10-30)" user-init-file)
+(message "user-init-file: %s (last modified date: 2017-11-06)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 
 ;;==================
@@ -135,9 +135,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(inhibit-startup-screen t)
- '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-buffer-choice my-initial-buffer)
- '(package-selected-packages (quote (material-theme magit pdf-tools))))
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages (quote (material-theme pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -484,6 +484,13 @@
 
 (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
 (setq exec-path (append exec-path '("/Users/daftcoder/Workspace/trtc/depot_tools")))
+
+;;=======
+;; Magit
+;;=======
+
+(add-to-list 'load-path "~/.emacs.d/magit/lisp/")
+(require 'magit)
 
 ;;========
 ;; Jabber
