@@ -52,16 +52,11 @@
 ;(setq split-width-threshold nil)
 (setq split-height-threshold nil)
 
-(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
-(message "default-directory: %s\n" default-directory)
-
-(switch-to-buffer "*Messages*")
-
 (defun open-user-init-file ()
   (interactive)
   (find-file user-init-file)
   )
-  
+
 (defun init-my-font ()
   ;(print (font-family-list))
 
@@ -83,7 +78,6 @@
 
 (defun init-my-color-themes ()
   (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
-
   (require 'color-theme)
 
   (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
@@ -103,9 +97,12 @@
   ;(set-frame-width (selected-frame) 150)
   ;(set-frame-height (selected-frame) 100)
 
-  (load-theme 'material t)
+  ;(abyss-theme)
+  (load-theme 'alect-black t)
+  ;(load-theme 'alect-light t)
+  ;(load-theme 'material t)
+  ;(init-my-color-themes)
   (init-my-font)
-  (init-my-color-themes)
 
   (defun toggle-fullscreen (&optional f)
     (interactive)
@@ -137,7 +134,7 @@
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages (quote (material-theme pdf-tools))))
+ '(package-selected-packages (quote (abyss-theme alect-themes material-theme pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -514,6 +511,15 @@
 ;(load-file "~/.emacs.d/smooth-scroll.el")
 ;(require 'smooth-scroll)
 ;(smooth-scroll-mode t)
+
+;;======================================
+;; Setting Startup Buffer and Directory
+;;======================================
+
+(switch-to-buffer "*Messages*")
+
+(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
+(message "default-directory: %s\n" default-directory)
 
 ;;===========================
 ;; Key Mapping Customiaztion
