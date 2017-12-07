@@ -211,10 +211,10 @@
 ;; neotree
 ;;=========
 
-;(load-file "~/.emacs.d/emacs-neotree-mod/neotree.el")
 (load-file "~/.emacs.d/emacs-neotree/neotree.el")
 (setq neo-window-width 30)
 ;(setq neo-window-position 'right)
+(setq neo-window-fixed-size nil)
 
 ;;=======
 ;; popup
