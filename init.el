@@ -507,6 +507,38 @@
 ;(require 'jabber-autoloads)
 
 ;;=================================================
+;; Window Resize
+;;
+;; https://www.emacswiki.org/emacs/WindowResize
+;;=================================================
+
+(defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
+  "*Resize window interactively."
+  (interactive "p")
+  (if (one-window-p) (error "Cannot resize sole window"))
+  (setq arg 4)
+  ;(or arg (setq arg 1))
+  (let (c)
+    (catch 'done
+      (while t
+        (message
+         "h=heighten, s=shrink, w=widen, n=narrow (by %d);  1-9=unit, q=quit"
+         arg)
+        (setq c (read-char))
+        (condition-case ()
+            (cond
+             ((= c ?h) (enlarge-window arg))
+             ((= c ?s) (shrink-window arg))
+             ((= c ?w) (enlarge-window-horizontally arg))
+             ((= c ?n) (shrink-window-horizontally arg))
+             ((= c ?\^G) (keyboard-quit))
+             ((= c ?q) (throw 'done t))
+             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+             (t (beep)))
+          (error (beep)))))
+    (message "Done.")))
+
+;;=================================================
 ;; Smooth Scrolling
 ;;
 ;; https://www.emacswiki.org/emacs/SmoothScrolling
@@ -555,11 +587,9 @@
 
 ;(global-set-key (kbd "C-s") 'isearch-forward-regexp)
 ;(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-;(global-set-key (kbd "C-M-s") 'isearch-forward)
-;(global-set-key (kbd "C-M-r") 'isearch-backward)
 
+(global-set-key (kbd "C-c d") 'desktop-read)
 (global-set-key (kbd "C-c \\") 'neotree-toggle)
-
 (global-set-key (kbd "C-c |") 'visit-tags-table)
 
 (global-set-key (kbd "C-c 1") 'shell)
@@ -590,3 +620,4 @@
 ;(global-set-key [f8] 'gud-finish)
 ;(global-set-key [f9] 'gud-break)
 (put 'erase-buffer 'disabled nil)
+
