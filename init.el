@@ -1,8 +1,8 @@
 ;; Editor: Richard Jaeho Hur
 
-;;===============
+;;==============================================================================
 ;; Info Messages
-;;===============
+;;==============================================================================
 
 (message "      _        __ _")
 (message "     | |      / _| |")
@@ -17,16 +17,16 @@
 (message "user-init-file: %s (last modified date: 2017-11-06)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 
-;;==================
+;;==============================================================================
 ;; Custom Variables
-;;==================
+;;==============================================================================
 (defvar my-initial-buffer nil)
 ;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
 (defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
 
-;;==========
+;;==============================================================================
 ;; Packages
-;;==========
+;;==============================================================================
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -40,12 +40,14 @@
 
 (message "package-archives: %s" package-archives)
 
-;;=====================
+;;==============================================================================
 ;; Basic Customization
-;;=====================
+;;==============================================================================
 
 (setq visible-bell t
-      make-backup-files nil)
+      make-backup-files nil
+      column-number-mode t)
+(put 'erase-buffer 'disabled nil)
 (setq-default truncate-lines t)
 (show-paren-mode t)
 (delete-selection-mode t)
@@ -131,9 +133,9 @@
     (startup-on-gui)
   (startup-on-cui))
 
-;;======================
+;;==============================================================================
 ;; Custom Set Variables
-;;======================
+;;==============================================================================
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -153,21 +155,21 @@
  ;; If there is more than one, they won't work right.
  )
 
-;;=============
+;;==============================================================================
 ;; Common Lisp
-;;=============
+;;==============================================================================
 
 (require 'cl)
 
-;;=======
+;;==============================================================================
 ;; CEDET
-;;=======
+;;==============================================================================
 
 (require 'cedet)
 
-;;==========
+;;==============================================================================
 ;; semantic
-;;==========
+;;==============================================================================
 
 (semantic-mode 1)
 
@@ -176,9 +178,9 @@
 (semantic-add-system-include "/usr/local/include" 'c-mode)
 ;(semantic-add-system-include "/usr/local/include" 'c++-mode)
 
-;;=========
+;;==============================================================================
 ;; eassist
-;;=========
+;;==============================================================================
 
 (load-file "~/.emacs.d/eassist-mod.el")
 
@@ -198,41 +200,42 @@
   (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
 (add-hook 'c-mode-common-hook 'my-eassist-keys)
 
-;;=======
+;;==============================================================================
 ;; ediff
-;;=======
+;;==============================================================================
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-;;;=============
-;;; sr-speedbar
-;;;=============
-;
+;;==============================================================================
+;; sr-speedbar
+;;==============================================================================
+
 ;(load-file "~/.emacs.d/sr-speedbar-mod.el")
 
-;;=========
+;;==============================================================================
 ;; neotree
-;;=========
+;;==============================================================================
 
 (load-file "~/.emacs.d/emacs-neotree/neotree.el")
 (setq neo-window-width 30)
 ;(setq neo-window-position 'right)
 (setq neo-window-fixed-size nil)
 
-;;=======
+;;==============================================================================
 ;; popup
-;;=======
+;;==============================================================================
+
 (load-file "~/.emacs.d/popup-el/popup.el")
 
-;;===============
+;;==============================================================================
 ;; auto-complete
-;;===============
+;;==============================================================================
 
 (load-file "~/.emacs.d/auto-complete/auto-complete.el")
 
-;;==========
+;;==============================================================================
 ;; ac-etags
-;;==========
+;;==============================================================================
 
 ;(load-file "~/.emacs.d/emacs-ac-etags/ac-etags.el")
 ;(custom-set-variables '(ac-etags-requires 1))
@@ -244,9 +247,9 @@
 ;(add-hook 'c-mode-common-hook 'ac-etags-ac-setup)
 ;(add-hook 'ruby-mode-common-hook 'ac-etags-ac-setup)
 
-;;=======
+;;==============================================================================
 ;; linum
-;;=======
+;;==============================================================================
 
 (load-file "~/.emacs.d/linum.el")
 (setq linum-format "%5d \u2502")
@@ -272,25 +275,26 @@
 	      )
     (linum-mode 1)))
 
-;;=============
+;;==============================================================================
 ;; buffer-move
-;;=============
+;;==============================================================================
 
 (load-file "~/.emacs.d/buffer-move.el")
 
-;;================================================
+;;==============================================================================
 ;; Killing Buffers
-;; https://www.emacswiki.org/emacs/KillingBuffers
-;;================================================
+;;
+;; Link - https://www.emacswiki.org/emacs/KillingBuffers
+;;==============================================================================
 
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
-;;=============
+;;==============================================================================
 ;; Indentation
-;;=============
+;;==============================================================================
 
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 4)
@@ -303,9 +307,9 @@
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
 
-;;==========================
+;;==============================================================================
 ;; Dim for #if 0 ... #endif
-;;==========================
+;;==============================================================================
 
 (defun cpp-highlight-if-0/1 ()
   "Modify the face of text in between #if 0 ... #endif."
@@ -331,10 +335,10 @@
   (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
 (add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
 
-;;;============================
-;;; GNU GLOBAL for source tags
-;;;============================
-;
+;;==============================================================================
+;; GNU GLOBAL for source tags
+;;==============================================================================
+
 ;(setq load-path (cons "~/.emacs.d/global" load-path)) ; "/usr/share/emacs/site-lisp/global/" load-path))
 ;
 ;(autoload 'gtags-mode "gtags"
@@ -390,11 +394,12 @@
 ;;  (define-key c-mode-base-map (kbd "C-?") 'gtags-find-rtag))
 ;;(add-hook 'c-mode-common-hook 'my-gtags-keys)
 
-;;=====================================
+;;==============================================================================
 ;; Asynchronous Shell Command Excution
-;;=====================================
-
-;; Reference - http://stackoverflow.com/questions/16815598/run-commands-in-emacs-asynchronously-but-display-output-incrementally
+;;
+;; Link - http://stackoverflow.com/questions/16815598/
+;;        run-commands-in-emacs-asynchronously-but-display-output-incrementally
+;;==============================================================================
 
 (defun execute-commands (buffer &rest commands)
   "Execute a list of shell commands sequentially"
@@ -420,9 +425,9 @@
         ;(insert (format "Command `%s' %s" p e) )
         (start-next-command)))))
 
-;;=======
+;;==============================================================================
 ;; etags
-;;=======
+;;==============================================================================
 
 (defun create-tags-c (dir-name)
   "Create TAGS file for C/C++."
@@ -442,15 +447,15 @@
                     (format "find -H %s -type f \\( -name \"*.[csSh]\" -o -name \"*.cc\" -o -name \"*.cpp\" -o -name \"*.m\" \\) | xargs etags -a -o %sTAGS" dir-name dir-name))
   )
 
-;;===================
+;;==============================================================================
 ;; find-file-in-tags
-;;===================
+;;==============================================================================
 
 (load-file "~/.emacs.d/find-file-in-tags.el")
 
-;;==================
+;;==============================================================================
 ;; my-semantic-jump
-;;==================
+;;==============================================================================
 
 (defvar my-semantic-jump-ring
   (make-ring 20)
@@ -483,34 +488,45 @@
       (pulse-momentary-highlight-one-line (point))
       (ring-remove my-semantic-jump-ring 0))))
 
-;;===========
+;;==============================================================================
 ;; exec-path
-;;===========
+;;==============================================================================
 
-(setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Library/Android/sdk/platform-tools"))
-(setq exec-path (append exec-path '("/Users/daftcoder/Library/Android/sdk/platform-tools")))
+(cond
+ ((string-equal system-type "darwin")
+  (progn
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Library/Android/sdk/platform-tools"))
+    (setq exec-path (append exec-path '("/Users/daftcoder/Library/Android/sdk/platform-tools")))
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
+    (setq exec-path (append exec-path '("/Users/daftcoder/Workspace/trtc/depot_tools")))
+    )
+  )
+ ((string-equal system-type "gnu/linux")
+  (progn
+    (setenv "PATH" (concat (getenv "PATH") ":/home/daftcoder/Workspace/depot_tools"))
+    (setq exec-path (append exec-path '("/home/daftcoder/Workspace/depot_tools")))
+    )
+  )
+ )
 
-(setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
-(setq exec-path (append exec-path '("/Users/daftcoder/Workspace/trtc/depot_tools")))
-
-;;=======
+;;==============================================================================
 ;; Magit
-;;=======
+;;==============================================================================
 
 (add-to-list 'load-path "~/.emacs.d/magit/lisp/")
 (require 'magit)
 
-;;========
+;;==============================================================================
 ;; Jabber
-;;========
+;;==============================================================================
 
 ;(require 'jabber-autoloads)
 
-;;=================================================
+;;==============================================================================
 ;; Window Resize
 ;;
-;; https://www.emacswiki.org/emacs/WindowResize
-;;=================================================
+;; Link - https://www.emacswiki.org/emacs/WindowResize
+;;==============================================================================
 
 (defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
   "*Resize window interactively."
@@ -538,11 +554,11 @@
           (error (beep)))))
     (message "Done.")))
 
-;;=================================================
+;;==============================================================================
 ;; Smooth Scrolling
 ;;
-;; https://www.emacswiki.org/emacs/SmoothScrolling
-;;=================================================
+;; Link - https://www.emacswiki.org/emacs/SmoothScrolling
+;;==============================================================================
 
 ;; scroll one line at a time (less "jumpy" than defaults)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
@@ -555,18 +571,18 @@
 ;(require 'smooth-scroll)
 ;(smooth-scroll-mode t)
 
-;;======================================
+;;==============================================================================
 ;; Setting Startup Buffer and Directory
-;;======================================
+;;==============================================================================
 
 (switch-to-buffer "*Messages*")
 
 (setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
 (message "default-directory: %s\n" default-directory)
 
-;;===========================
+;;==============================================================================
 ;; Key Mapping Customiaztion
-;;===========================
+;;==============================================================================
 
 (defun my-shell-hook ()
   (local-set-key "\C-cl" 'erase-buffer))
@@ -585,17 +601,18 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
-;(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-;(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-
 (global-set-key (kbd "C-c d") 'desktop-read)
 (global-set-key (kbd "C-c \\") 'neotree-toggle)
 (global-set-key (kbd "C-c |") 'visit-tags-table)
 
-(global-set-key (kbd "C-c 1") 'shell)
-(global-set-key (kbd "C-c 2") 'eshell)
+(global-set-key (kbd "C-c 1") 'eshell)
+;(global-set-key (kbd "C-c 1") 'shell)
+;(global-set-key (kbd "C-c 1") 'term)
 (global-set-key (kbd "C-c -") 'whitespace-mode)
 (global-set-key (kbd "C-c =") 'hexl-mode-toggle)
+
+(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
 (global-set-key (kbd "C-c <up>") 'buf-move-up)
 (global-set-key (kbd "C-c <down>") 'buf-move-down)
@@ -619,5 +636,3 @@
 ;(global-set-key [f7] 'gud-step)
 ;(global-set-key [f8] 'gud-finish)
 ;(global-set-key [f9] 'gud-break)
-(put 'erase-buffer 'disabled nil)
-
