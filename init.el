@@ -44,7 +44,8 @@
 ;; Basic Customization
 ;;=====================
 
-(setq make-backup-files nil)
+(setq visible-bell t
+      make-backup-files nil)
 (setq-default truncate-lines t)
 (show-paren-mode t)
 (delete-selection-mode t)
@@ -117,6 +118,8 @@
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
                            '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
     )
+
+  (setq desktop-save-mode t)
   )
 
 (defun startup-on-cui ()
@@ -550,10 +553,10 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
+;(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+;(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+;(global-set-key (kbd "C-M-s") 'isearch-forward)
+;(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 (global-set-key (kbd "C-c \\") 'neotree-toggle)
 
