@@ -28,6 +28,7 @@ fi
 if [ ! -d "magit" ]; then
     echo ">> Cloning 'magit'"
     git clone https://github.com/magit/magit.git
+    git clone https://github.com/magit/ghub.git
     cd magit
     make
 fi
