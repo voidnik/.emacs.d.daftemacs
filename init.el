@@ -147,7 +147,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (ample-theme afternoon-theme ahungry-theme abyss-theme alect-themes material-theme pdf-tools))))
+    (dark-souls haskell-mode ample-theme afternoon-theme ahungry-theme abyss-theme alect-themes material-theme pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
