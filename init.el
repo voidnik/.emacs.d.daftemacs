@@ -147,7 +147,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (dark-souls haskell-mode ample-theme afternoon-theme ahungry-theme abyss-theme alect-themes material-theme pdf-tools))))
+    (flx-isearch flx-ido flx projectile dark-souls haskell-mode ample-theme afternoon-theme ahungry-theme abyss-theme alect-themes material-theme pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -160,6 +160,26 @@
 ;;==============================================================================
 
 (require 'cl)
+
+;;==============================================================================
+;; Projectile
+;;==============================================================================
+
+(projectile-global-mode)
+(setq projectile-indexing-method 'native)
+(setq projectile-enable-caching t)
+
+;;==============================================================================
+;; flx-ido
+;;==============================================================================
+
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 ;;==============================================================================
 ;; CEDET
