@@ -4,8 +4,11 @@ emacs-ac-etags
 emacs-neotree
 popup-el
 magit
+ghub
 semanticdb
 url
 eshell
+ido.last
 projectile-bookmarks.eld
 projectile.cache
+.emacs.desktop
