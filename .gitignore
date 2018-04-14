@@ -12,3 +12,4 @@ ido.last
 projectile-bookmarks.eld
 projectile.cache
 .emacs.desktop
+elpa/pdf-tools-*/epdfinfo
