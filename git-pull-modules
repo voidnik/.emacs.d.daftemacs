@@ -20,3 +20,8 @@ cd magit
 git pull
 make
 cd ..
+
+cd ghub
+git pull
+make
+cd ..
