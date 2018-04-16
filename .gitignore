@@ -8,8 +8,10 @@ ghub
 semanticdb
 url
 eshell
+games
 ido.last
 projectile-bookmarks.eld
 projectile.cache
 .emacs.desktop
+.emacs.desktop.lock
 elpa/pdf-tools-*/epdfinfo
