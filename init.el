@@ -60,9 +60,54 @@
   (find-file user-init-file)
   )
 
-(defun init-my-font ()
-  ;(print (font-family-list))
+(defun init-doom-theme ()
+  (require 'doom-themes)
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
+  ;; may have their own settings.
+  (load-theme 'doom-one t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme
+  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  )
 
+(defun init-zerodark-theme ()
+  (load-theme 'zerodark t)
+  ;; Optionally setup the modeline
+  (zerodark-setup-modeline-format)
+  )
+
+(defun init-color-theme ()
+  (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
+  (require 'color-theme)
+  (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
+  ;(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       (color-theme-sunburst)))
+  )
+
+(defun init-custom-theme ()
+  (doom-themes-neotree-config)
+  (init-zerodark-theme)
+  )
+
+(defun init-themes ()
+  ;(load-theme 'base16-default-dark t)
+  ;(init-doom-theme)
+  ;(init-zerodark-theme)
+  ;(init-color-theme)
+  (init-custom-theme)
+  )
+
+(defun init-font ()
+  ;(print (font-family-list))
   (cond
    ((string-equal system-type "darwin")
     (progn
@@ -79,19 +124,6 @@
    )
   )
 
-(defun init-my-color-themes ()
-  (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
-  (require 'color-theme)
-
-  (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
-  ;(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
-
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)
-       (color-theme-sunburst)))
-  )
-
 (defun startup-on-gui ()
   (tool-bar-mode -1) ; hide tool bar
   ;(menu-bar-mode -1) ; hide menu bar
@@ -100,18 +132,10 @@
   ;(set-frame-width (selected-frame) 150)
   ;(set-frame-height (selected-frame) 100)
 
-  ;; themes
-  (ample-theme)
-  ;(ample-light-theme)
-  ;(ample-flat-theme)
-  ;(load-theme 'afternoon t)
-  ;(load-theme 'ahungry t)
-  ;(abyss-theme)
-  ;(load-theme 'alect-black t)
-  ;(load-theme 'alect-light t)
-  ;(load-theme 'material t)
-  ;(init-my-color-themes)
-  (init-my-font)
+  (require 'all-the-icons)
+
+  (init-themes)
+  (init-font)
 
   (defun toggle-fullscreen (&optional f)
     (interactive)
@@ -142,12 +166,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" default)))
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (flx-isearch flx-ido flx projectile dark-souls haskell-mode ample-theme afternoon-theme ahungry-theme abyss-theme alect-themes material-theme pdf-tools))))
+    (zerodark-theme base16-theme doom-themes flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
