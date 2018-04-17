@@ -174,7 +174,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (zerodark-theme base16-theme doom-themes flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (vlf zerodark-theme base16-theme doom-themes flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -207,6 +207,13 @@
 ;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
+
+;;==============================================================================
+;; vlf
+;; https://github.com/m00natic/vlfi
+;;==============================================================================
+
+(require 'vlf-setup)
 
 ;;==============================================================================
 ;; CEDET
