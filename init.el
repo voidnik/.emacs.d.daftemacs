@@ -67,7 +67,16 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
   ;; may have their own settings.
-  (load-theme 'doom-one t)
+  ;(load-theme 'doom-one t)
+  (load-theme 'doom-city-lights t)
+  ;(load-theme 'doom-molokai t)
+  ;(load-theme 'doom-nord t)
+  ;(load-theme 'doom-nova t)
+  ;(load-theme 'doom-peacock t)
+  ;(load-theme 'doom-solarized-light t)
+  ;(load-theme 'doom-spacegrey t)
+  ;(load-theme 'doom-tomorrow-night t)
+  ;(load-theme 'doom-tomorrow-day t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme
@@ -100,10 +109,10 @@
 
 (defun init-themes ()
   ;(load-theme 'base16-default-dark t)
-  ;(init-doom-theme)
+  (init-doom-theme)
   ;(init-zerodark-theme)
   ;(init-color-theme)
-  (init-custom-theme)
+  ;(init-custom-theme)
   )
 
 (defun init-font ()
@@ -271,7 +280,7 @@
 ;;==============================================================================
 
 (load-file "~/.emacs.d/emacs-neotree/neotree.el")
-(setq neo-window-width 30)
+(setq neo-window-width (/ (display-pixel-height) 25))
 ;(setq neo-window-position 'right)
 (setq neo-window-fixed-size nil)
 
