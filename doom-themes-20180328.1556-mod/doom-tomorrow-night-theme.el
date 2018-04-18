@@ -42,6 +42,16 @@ determine the exact padding."
    (cyan       '("#8abeb7" "#8abeb7" "cyan"))
    (dark-cyan  (doom-darken cyan 0.4))
 
+   (diff-default                 '("#abb2bf" "#afafaf" "brightblack"))
+   (diff-background              '("#282c34" "#333333" "brightblack"))
+   (diff-background-red          '("#4c3840" "#5f5f5f" "red"))
+   (diff-background-green        '("#3d4a41" "#5f5f5f" "green"))
+   (diff-background-blue         '("#38394c" "#444444" "blue"))
+   (diff-bright-background-red   '("#744a5b" "#744a5b" "brightred"))
+   (diff-bright-background-green '("#3f6d54" "#3f6d54" "brightgreen"))
+   (diff-bright-background-blue  '("#4e5079" "#4e5079" "brightblue"))
+   (diff-highlight               '("#2a2b2a" "#2a2a2a" "brightblack"))
+
    ;; face categories
    (highlight      dark-blue)
    (vertical-bar   base0)
@@ -98,7 +108,31 @@ determine the exact padding."
     :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
    (mode-line-inactive
     :background modeline-bg-alt :foreground modeline-fg-alt
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-alt))))
+    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-alt)))
+
+   ;; diff
+   (diff-removed :background diff-background-red :foreground red)
+   (diff-added :background diff-background-green :foreground green)
+   (diff-hunk-header :background diff-background-blue :bold bold :foreground blue)
+   (diff-file-header :bold bold)
+   (diff-header :background diff-background :foreground blue)
+   (diff-context :foreground diff-default)
+   (diff-refine-added :foreground green :background diff-bright-background-green)
+   (diff-refine-removed :background diff-bright-background-red :foreground red)
+
+   ;; ediff
+   (ediff-fine-diff-B :inherit 'diff-refine-added)
+   (ediff-current-diff-B :inherit 'diff-added)
+   (ediff-fine-diff-A :inherit 'diff-refine-removed)
+   (ediff-current-diff-A :inherit 'diff-removed)
+   (ediff-fine-diff-C :foreground blue :background diff-bright-background-blue)
+   (ediff-current-diff-C :background diff-background-blue :foreground blue)
+   (ediff-even-diff-A :background diff-highlight)
+   (ediff-even-diff-B :background diff-highlight)
+   (ediff-even-diff-C :background diff-highlight)
+   (ediff-odd-diff-A :background diff-highlight)
+   (ediff-odd-diff-B :background diff-highlight)
+   (ediff-odd-diff-C :background diff-highlight))
 
   ;; --- variables --------------------------
   ;; ()
