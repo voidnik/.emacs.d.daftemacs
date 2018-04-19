@@ -14,5 +14,6 @@ projectile-bookmarks.eld
 projectile.cache
 .emacs.desktop
 .emacs.desktop.lock
+elpa/archives
 elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
