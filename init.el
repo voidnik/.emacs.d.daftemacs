@@ -690,6 +690,7 @@
 (global-set-key (kbd "C-c d") 'desktop-read)
 (global-set-key (kbd "C-c \\") 'neotree-toggle)
 (global-set-key (kbd "C-c |") 'visit-tags-table)
+(global-set-key (kbd "C-c m") 'magit-status)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 ;(global-set-key (kbd "C-c 1") 'shell)
