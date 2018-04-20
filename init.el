@@ -182,6 +182,7 @@
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(ediff-split-window-function (quote split-window-horizontally))
  '(package-selected-packages
    (quote
     (vlf zerodark-theme base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
