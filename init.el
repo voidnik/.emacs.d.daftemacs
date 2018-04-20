@@ -316,7 +316,7 @@
 ;; linum
 ;;==============================================================================
 
-(load-file "~/.emacs.d/linum.el")
+(load-file "~/.emacs.d/linum.elc")
 (setq linum-format "%5d \u2502")
 (setq linum-delay t)
 (global-linum-mode)
@@ -344,7 +344,7 @@
 ;; buffer-move
 ;;==============================================================================
 
-(load-file "~/.emacs.d/buffer-move.el")
+(load-file "~/.emacs.d/buffer-move.elc")
 
 ;;==============================================================================
 ;; Killing Buffers
