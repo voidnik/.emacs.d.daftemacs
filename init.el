@@ -535,9 +535,9 @@
 (defun my-semantic-jump-to ()
   (interactive)
   (let* ((item (my-make-ring-item)))
-    (if (buffer-file-name (current-buffer)) 
+    (if (buffer-file-name (current-buffer))
         ;; if it's not an internal buffer
-        (progn         
+        (progn
           ;; insert the info before jump
           (ring-insert my-semantic-jump-ring item)
           (semantic-ia-fast-jump (point))))))
@@ -587,6 +587,20 @@
 ;;==============================================================================
 
 (pdf-tools-install)
+
+;;==============================================================================
+;; Dos To Unix
+;;
+;; Link - https://www.emacswiki.org/emacs/DosToUnix
+;;==============================================================================
+
+(defun dos2unix (buffer)
+  "Automate M-% C-q C-m RET C-q C-j RET"
+  (interactive "*b")
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward (string ?\C-m) nil t)
+      (replace-match (string ?\C-j) nil t))))
 
 ;;==============================================================================
 ;; Jabber
