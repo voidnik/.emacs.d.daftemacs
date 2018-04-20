@@ -53,7 +53,6 @@
 (delete-selection-mode t)
 (setq gdb-many-windows t)
 (setq split-height-threshold nil) ; not to split this way.
-(setq window-min-width (/ (display-pixel-height) 22))
 
 (defun open-user-init-file ()
   (interactive)
@@ -142,10 +141,9 @@
   ;(set-frame-width (selected-frame) 150)
   ;(set-frame-height (selected-frame) 100)
 
+  (setq window-min-width (/ (display-pixel-height) 22))
+  
   (require 'all-the-icons)
-
-  (init-themes)
-  (init-font)
 
   (defun toggle-fullscreen (&optional f)
     (interactive)
@@ -159,13 +157,15 @@
   )
 
 (defun startup-on-cui ()
-  (setq window-min-width 20)
-  (init-my-color-themes)
+  (setq window-min-width (/ (display-pixel-width) 5))
   )
 
 (if (display-graphic-p)
     (startup-on-gui)
   (startup-on-cui))
+
+(init-themes)
+(init-font)
 
 ;;==============================================================================
 ;; Custom Set Variables
