@@ -52,8 +52,8 @@
 (show-paren-mode t)
 (delete-selection-mode t)
 (setq gdb-many-windows t)
-;(setq split-width-threshold nil)
-(setq split-height-threshold nil)
+(setq split-height-threshold nil) ; not to split this way.
+(setq window-min-width (/ (display-pixel-height) 22))
 
 (defun open-user-init-file ()
   (interactive)
@@ -282,7 +282,7 @@
 ;;==============================================================================
 
 (load-file "~/.emacs.d/emacs-neotree/neotree.el")
-(setq neo-window-width (/ (display-pixel-height) 22))
+(setq neo-window-width window-min-width)
 ;(setq neo-window-position 'right)
 (setq neo-window-fixed-size nil)
 
