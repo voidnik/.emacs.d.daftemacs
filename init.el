@@ -18,13 +18,6 @@
 (message "user-emacs-directory: %s" user-emacs-directory)
 
 ;;==============================================================================
-;; Custom Variables
-;;==============================================================================
-(defvar my-initial-buffer nil)
-;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
-(defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
-
-;;==============================================================================
 ;; Packages
 ;;==============================================================================
 
@@ -41,23 +34,31 @@
 (message "package-archives: %s" package-archives)
 
 ;;==============================================================================
+;; Custom Variables
+;;==============================================================================
+
+(defvar my-initial-buffer nil)
+;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
+(defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
+
+;;==============================================================================
 ;; Basic Customization
 ;;==============================================================================
 
 (setq visible-bell t
       make-backup-files nil
-      column-number-mode t)
-(put 'erase-buffer 'disabled nil)
+      column-number-mode t
+      split-height-threshold nil ; not to split this way.
+      gdb-many-windows t)
 (setq-default truncate-lines t)
+(put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
 (delete-selection-mode t)
-(setq gdb-many-windows t)
-(setq split-height-threshold nil) ; not to split this way.
+(require 'cl) ; Common Lisp
 
 (defun open-user-init-file ()
   (interactive)
-  (find-file user-init-file)
-  )
+  (find-file user-init-file))
 
 (defun init-doom-theme ()
   (add-to-list 'load-path "~/.emacs.d/doom-themes-20180328.1556-mod/")
@@ -82,14 +83,12 @@
   ;; Enable custom neotree theme
   (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  )
+  (doom-themes-org-config))
 
 (defun init-zerodark-theme ()
   (load-theme 'zerodark t)
   ;; Optionally setup the modeline
-  (zerodark-setup-modeline-format)
-  )
+  (zerodark-setup-modeline-format))
 
 (defun init-color-theme ()
   (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
@@ -99,13 +98,11 @@
   (eval-after-load "color-theme"
     '(progn
        (color-theme-initialize)
-       (color-theme-sunburst)))
-  )
+       (color-theme-sunburst))))
 
 (defun init-custom-theme ()
   (doom-themes-neotree-config)
-  (init-zerodark-theme)
-  )
+  (init-zerodark-theme))
 
 (defun init-themes ()
   ;(load-theme 'base16-default-dark t)
@@ -120,20 +117,16 @@
   (cond
    ((string-equal system-type "darwin")
     (progn
-      (set-face-attribute 'default nil :height 115 :family "monospace")
-      )
-    )
+      (set-face-attribute 'default nil :height 115 :family "monospace")))
    ((string-equal system-type "gnu/linux")
     (progn
       ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;(set-face-attribute 'default nil :height 90 :family "monospace")
-      (set-face-attribute 'default nil :height 98 :family "Ubuntu Mono")
-      )
-    )
-   )
-  )
+      (set-face-attribute 'default nil :height 98 :family "Ubuntu Mono")))))
 
 (defun startup-on-gui ()
+  (init-font)
+  
   (tool-bar-mode -1) ; hide tool bar
   ;(menu-bar-mode -1) ; hide menu bar
 
@@ -150,22 +143,17 @@
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
                            '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-    )
+                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
 
-  (setq desktop-save-mode t)
-  )
+  (setq desktop-save-mode t))
 
 (defun startup-on-cui ()
-  (setq window-min-width (/ (display-pixel-width) 5))
-  )
+  (setq window-min-width (/ (display-pixel-width) 5)))
 
+(init-themes)
 (if (display-graphic-p)
     (startup-on-gui)
   (startup-on-cui))
-
-(init-themes)
-(init-font)
 
 ;;==============================================================================
 ;; Custom Set Variables
@@ -182,10 +170,9 @@
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(ediff-split-window-function (quote split-window-horizontally))
  '(package-selected-packages
    (quote
-    (vlf zerodark-theme base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (company-irony company-c-headers vlf zerodark-theme base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -194,13 +181,23 @@
  )
 
 ;;==============================================================================
-;; Common Lisp
+;; exec-path
 ;;==============================================================================
 
-(require 'cl)
+(cond
+ ((string-equal system-type "darwin")
+  (progn
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Library/Android/sdk/platform-tools"))
+    (setq exec-path (append exec-path '("/Users/daftcoder/Library/Android/sdk/platform-tools")))
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
+    (setq exec-path (append exec-path '("/Users/daftcoder/Workspace/trtc/depot_tools")))))
+ ((string-equal system-type "gnu/linux")
+  (progn
+    (setenv "PATH" (concat (getenv "PATH") ":/home/daftcoder/Workspace/depot_tools"))
+    (setq exec-path (append exec-path '("/home/daftcoder/Workspace/depot_tools"))))))
 
 ;;==============================================================================
-;; Projectile
+;; projectile
 ;;==============================================================================
 
 (projectile-global-mode)
@@ -227,55 +224,26 @@
 (require 'vlf-setup)
 
 ;;==============================================================================
-;; CEDET
+;; irony
 ;;==============================================================================
 
-(require 'cedet)
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 ;;==============================================================================
-;; semantic
+;; company
 ;;==============================================================================
 
-(semantic-mode 1)
-
-(semantic-add-system-include "/usr/include" 'c-mode)
-;(semantic-add-system-include "/usr/include" 'c++-mode)
-(semantic-add-system-include "/usr/local/include" 'c-mode)
-;(semantic-add-system-include "/usr/local/include" 'c++-mode)
-
-;;==============================================================================
-;; eassist
-;;==============================================================================
-
-(load-file "~/.emacs.d/eassist-mod.el")
-
-(setq eassist-header-switches
-      '(("h" . ("cpp" "cc" "c" "m"))
-        ("hpp" . ("cpp" "cc"))
-        ("cpp" . ("h" "hpp"))
-        ("c" . ("h"))
-        ("m" . ("h"))
-        ("C" . ("H"))
-        ("H" . ("C" "CPP" "CC"))
-        ("cc" . ("h" "hpp")))
-      )
-
-(defun my-eassist-keys ()
-  (define-key c-mode-base-map (kbd "M-o") 'eassist-switch-h-cpp)
-  (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
-(add-hook 'c-mode-common-hook 'my-eassist-keys)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;;==============================================================================
 ;; ediff
 ;;==============================================================================
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;;==============================================================================
-;; sr-speedbar
-;;==============================================================================
-
-;(load-file "~/.emacs.d/sr-speedbar-mod.el")
 
 ;;==============================================================================
 ;; neotree
@@ -287,21 +255,59 @@
 (setq neo-window-fixed-size nil)
 
 ;;==============================================================================
-;; popup
+;; pdf-tools
 ;;==============================================================================
 
-(load-file "~/.emacs.d/popup-el/popup.el")
+(pdf-tools-install)
 
 ;;==============================================================================
-;; auto-complete
+;; Magit
 ;;==============================================================================
 
-(load-file "~/.emacs.d/auto-complete/auto-complete.el")
+(add-to-list 'load-path "~/.emacs.d/magit/lisp/")
+(add-to-list 'load-path "~/.emacs.d/ghub/")
+(require 'magit)
 
 ;;==============================================================================
-;; ac-etags
+;; Dos To Unix
+;;
+;; Link - https://www.emacswiki.org/emacs/DosToUnix
 ;;==============================================================================
 
+(defun dos2unix (buffer)
+  "Automate M-% C-q C-m RET C-q C-j RET"
+  (interactive "*b")
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward (string ?\C-m) nil t)
+      (replace-match (string ?\C-j) nil t))))
+
+;;;==============================================================================
+;;; eassist
+;;;==============================================================================
+;
+;(load-file "~/.emacs.d/eassist-mod.el")
+;
+;(setq eassist-header-switches
+;      '(("h" . ("cpp" "cc" "c" "m"))
+;        ("hpp" . ("cpp" "cc"))
+;        ("cpp" . ("h" "hpp"))
+;        ("c" . ("h"))
+;        ("m" . ("h"))
+;        ("C" . ("H"))
+;        ("H" . ("C" "CPP" "CC"))
+;        ("cc" . ("h" "hpp")))
+;      )
+;
+;(defun my-eassist-keys ()
+;  (define-key c-mode-base-map (kbd "M-o") 'eassist-switch-h-cpp)
+;  (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
+;(add-hook 'c-mode-common-hook 'my-eassist-keys)
+
+;;;==============================================================================
+;;; ac-etags
+;;;==============================================================================
+;
 ;(load-file "~/.emacs.d/emacs-ac-etags/ac-etags.el")
 ;(custom-set-variables '(ac-etags-requires 1))
 ;
@@ -368,6 +374,10 @@
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
 (add-hook 'c++-mode-hook
+          (lambda()
+            (setq c-basic-offset 2)
+            (c-set-offset 'substatement-open 0)))
+(add-hook 'java-mode-hook
           (lambda()
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
@@ -494,23 +504,34 @@
 ;; etags
 ;;==============================================================================
 
-(defun create-tags-c (dir-name)
-  "Create TAGS file for C/C++."
+(defun create-tags (dir-name)
+  "Create a TAGS file."
   (interactive "DDirectory: ")
-  (setq prefix "/usr")
-  (setq prefix-local "/usr/local")
+  (setq c-headers-path "/usr/include/c++/5")
   (cond
    ((string-equal system-type "darwin")
     (progn
-      (setq prefix "/usr")
-      (setq prefix-local "/opt/local")))
-   )
+      (setq c-headers-path "/usr/include") ;TODO
+      )))
   (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
   (execute-commands "*etags-output*"
-                    (format "find -H %s/include -name \"*.h\" | xargs etags -o %sTAGS" prefix dir-name)
-                    (format "find -H %s/include -name \"*.h\" | xargs etags -a -o %sTAGS" prefix-local dir-name)
-                    (format "find -H %s -type f \\( -name \"*.[csSh]\" -o -name \"*.cc\" -o -name \"*.cpp\" -o -name \"*.m\" \\) | xargs etags -a -o %sTAGS" dir-name dir-name))
-  )
+                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c-headers-path dir-name)
+                    (format "find -H %s -type f \\( \
+-name \"*.[csSh]\" \
+-o \
+-name \"*.cc\" \
+-o \
+-name \"*.cpp\"\
+-o \
+-name \"*.m\" \
+-o \
+-name \"*.java\" \
+-o \
+-name \"*.py\" \
+-o \
+-name \"*.pl\" \
+\\) | \
+xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 ;;==============================================================================
 ;; find-file-in-tags
@@ -518,94 +539,45 @@
 
 (load-file "~/.emacs.d/find-file-in-tags.el")
 
-;;==============================================================================
-;; my-semantic-jump
-;;==============================================================================
-
-(defvar my-semantic-jump-ring
-  (make-ring 20)
-  "ring buffer that used to store code jump information")
-
-(defun my-make-ring-item ()
-  (let* ((buffer (current-buffer))
-         (filename (buffer-file-name buffer))
-         (offset (point)))
-    (cons filename offset)))
-
-(defun my-semantic-jump-to ()
-  (interactive)
-  (let* ((item (my-make-ring-item)))
-    (if (buffer-file-name (current-buffer))
-        ;; if it's not an internal buffer
-        (progn
-          ;; insert the info before jump
-          (ring-insert my-semantic-jump-ring item)
-          (semantic-ia-fast-jump (point))))))
-
-(defun my-semantic-jump-prev ()
-  (interactive)
-  (let* (item)
-    (if (eq 0 (ring-length my-semantic-jump-ring))
-        (error "No history jump info")
-      (setq item (ring-ref my-semantic-jump-ring 0))
-      (find-file (car item))
-      (goto-char (cdr item))
-      (pulse-momentary-highlight-one-line (point))
-      (ring-remove my-semantic-jump-ring 0))))
-
-;;==============================================================================
-;; exec-path
-;;==============================================================================
-
-(cond
- ((string-equal system-type "darwin")
-  (progn
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Library/Android/sdk/platform-tools"))
-    (setq exec-path (append exec-path '("/Users/daftcoder/Library/Android/sdk/platform-tools")))
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
-    (setq exec-path (append exec-path '("/Users/daftcoder/Workspace/trtc/depot_tools")))
-    )
-  )
- ((string-equal system-type "gnu/linux")
-  (progn
-    (setenv "PATH" (concat (getenv "PATH") ":/home/daftcoder/Workspace/depot_tools"))
-    (setq exec-path (append exec-path '("/home/daftcoder/Workspace/depot_tools")))
-    )
-  )
- )
-
-;;==============================================================================
-;; Magit
-;;==============================================================================
-
-(add-to-list 'load-path "~/.emacs.d/magit/lisp/")
-(add-to-list 'load-path "~/.emacs.d/ghub/")
-(require 'magit)
-
-;;==============================================================================
-;; pdf-tools
-;;==============================================================================
-
-(pdf-tools-install)
-
-;;==============================================================================
-;; Dos To Unix
+;;;;==============================================================================
+;;;; my-semantic-jump
+;;;;==============================================================================
 ;;
-;; Link - https://www.emacswiki.org/emacs/DosToUnix
-;;==============================================================================
+;;(defvar my-semantic-jump-ring
+;;  (make-ring 20)
+;;  "ring buffer that used to store code jump information")
+;;
+;;(defun my-make-ring-item ()
+;;  (let* ((buffer (current-buffer))
+;;         (filename (buffer-file-name buffer))
+;;         (offset (point)))
+;;    (cons filename offset)))
+;;
+;;(defun my-semantic-jump-to ()
+;;  (interactive)
+;;  (let* ((item (my-make-ring-item)))
+;;    (if (buffer-file-name (current-buffer))
+;;        ;; if it's not an internal buffer
+;;        (progn
+;;          ;; insert the info before jump
+;;          (ring-insert my-semantic-jump-ring item)
+;;          (semantic-ia-fast-jump (point))))))
+;;
+;;(defun my-semantic-jump-prev ()
+;;  (interactive)
+;;  (let* (item)
+;;    (if (eq 0 (ring-length my-semantic-jump-ring))
+;;        (error "No history jump info")
+;;      (setq item (ring-ref my-semantic-jump-ring 0))
+;;      (find-file (car item))
+;;      (goto-char (cdr item))
+;;      (pulse-momentary-highlight-one-line (point))
+;;      (ring-remove my-semantic-jump-ring 0))))
 
-(defun dos2unix (buffer)
-  "Automate M-% C-q C-m RET C-q C-j RET"
-  (interactive "*b")
-  (save-excursion
-    (goto-char (point-min))
-    (while (search-forward (string ?\C-m) nil t)
-      (replace-match (string ?\C-j) nil t))))
-
-;;==============================================================================
-;; Jabber
-;;==============================================================================
-
+;;;==============================================================================
+;;; Jabber
+;;;==============================================================================
+;
 ;(require 'jabber-autoloads)
 
 ;;==============================================================================
@@ -691,6 +663,8 @@
 (global-set-key (kbd "C-c \\") 'neotree-toggle)
 (global-set-key (kbd "C-c |") 'visit-tags-table)
 (global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c r") 'resize-window)
+(global-set-key (kbd "C-c f") 'find-file-in-tags)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 ;(global-set-key (kbd "C-c 1") 'shell)
@@ -706,13 +680,11 @@
 (global-set-key (kbd "C-c <left>") 'buf-move-left)
 (global-set-key (kbd "C-c <right>") 'buf-move-right)
 
-(global-set-key (kbd "C-c f") 'find-file-in-tags)
-
-(global-set-key (kbd "C-c RET") 'semantic-ia-complete-symbol-menu)
-(global-set-key (kbd "C-c SPC") 'semantic-ia-show-variants)
-;(global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
-(global-set-key (kbd "C-c ]") 'my-semantic-jump-to)
-(global-set-key (kbd "C-c [") 'my-semantic-jump-prev)
+;(global-set-key (kbd "C-c RET") 'semantic-ia-complete-symbol-menu)
+;(global-set-key (kbd "C-c SPC") 'semantic-ia-show-variants)
+;;(global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
+;(global-set-key (kbd "C-c ]") 'my-semantic-jump-to)
+;(global-set-key (kbd "C-c [") 'my-semantic-jump-prev)
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()

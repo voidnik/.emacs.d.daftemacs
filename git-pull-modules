@@ -1,27 +1,21 @@
 #!/bin/bash
 
+# neotree (https://github.com/jaypei/emacs-neotree)
 cd emacs-neotree
 git pull
 cd ..
 
-cd popup-el
-git pull
-cd ..
-
-cd auto-complete
-git pull
-cd ..
-
+# emacs-ac-etags (https://github.com/syohex/emacs-ac-etags)
 cd emacs-ac-etags
 git pull
 cd ..
 
-cd magit
+# magit (https://github.com/magit/magit.git)
+cd ghub
 git pull
 make
 cd ..
-
-cd ghub
+cd magit
 git pull
 make
 cd ..
