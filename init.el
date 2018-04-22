@@ -187,6 +187,8 @@
 (cond
  ((string-equal system-type "darwin")
   (progn
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+    (setq exec-path (append exec-path '("/usr/local/bin")))
     (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Library/Android/sdk/platform-tools"))
     (setq exec-path (append exec-path '("/Users/daftcoder/Library/Android/sdk/platform-tools")))
     (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
