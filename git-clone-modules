@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# neotree (https://github.com/jaypei/emacs-neotree)
-if [ ! -d "emacs-neotree" ]; then
-    echo ">> Cloning 'emacs-neotree'"
-    git clone https://github.com/jaypei/emacs-neotree.git
-fi

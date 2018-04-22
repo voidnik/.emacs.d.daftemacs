@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# neotree (https://github.com/jaypei/emacs-neotree)
-cd emacs-neotree
-git pull
-cd ..

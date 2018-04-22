@@ -172,7 +172,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -236,16 +236,9 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;;==============================================================================
-;; ediff
-;;==============================================================================
-
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;;==============================================================================
 ;; neotree
 ;;==============================================================================
 
-(load-file "~/.emacs.d/emacs-neotree/neotree.el")
 (setq neo-window-width window-min-width)
 ;(setq neo-window-position 'right)
 (setq neo-window-fixed-size nil)
@@ -257,9 +250,14 @@
 (pdf-tools-install)
 
 ;;==============================================================================
+;; ediff
+;;==============================================================================
+
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;;==============================================================================
 ;; Dos To Unix
-;;
-;; Link - https://www.emacswiki.org/emacs/DosToUnix
+;; https://www.emacswiki.org/emacs/DosToUnix
 ;;==============================================================================
 
 (defun dos2unix (buffer)
@@ -556,8 +554,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 ;;==============================================================================
 ;; Window Resize
-;;
-;; Link - https://www.emacswiki.org/emacs/WindowResize
+;; https://www.emacswiki.org/emacs/WindowResize
 ;;==============================================================================
 
 (defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
@@ -588,8 +585,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 ;;==============================================================================
 ;; Smooth Scrolling
-;;
-;; Link - https://www.emacswiki.org/emacs/SmoothScrolling
+;; https://www.emacswiki.org/emacs/SmoothScrolling
 ;;==============================================================================
 
 ;; scroll one line at a time (less "jumpy" than defaults)
