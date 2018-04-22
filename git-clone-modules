@@ -5,25 +5,3 @@ if [ ! -d "emacs-neotree" ]; then
     echo ">> Cloning 'emacs-neotree'"
     git clone https://github.com/jaypei/emacs-neotree.git
 fi
-
-# emacs-ac-etags (https://github.com/syohex/emacs-ac-etags)
-if [ ! -d "emacs-ac-etags" ]; then
-    echo ">> Cloning 'emacs-ac-etags'"
-    git clone https://github.com/syohex/emacs-ac-etags.git
-fi
-
-# magit (https://github.com/magit/magit.git)
-if [ ! -d "ghub" ]; then
-    echo ">> Cloning 'ghub'"
-    git clone https://github.com/magit/ghub.git
-    cd ghub
-    make
-    cd ..
-fi
-if [ ! -d "magit" ]; then
-    echo ">> Cloning 'magit'"
-    git clone https://github.com/magit/magit.git
-    cd magit
-    make
-    cd ..
-fi

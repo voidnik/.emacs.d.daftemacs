@@ -172,7 +172,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (company-c-headers vlf zerodark-theme base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -224,6 +224,12 @@
 (require 'vlf-setup)
 
 ;;==============================================================================
+;; flycheck
+;;==============================================================================
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;;==============================================================================
 ;; company
 ;;==============================================================================
 
@@ -249,14 +255,6 @@
 ;;==============================================================================
 
 (pdf-tools-install)
-
-;;==============================================================================
-;; Magit
-;;==============================================================================
-
-(add-to-list 'load-path "~/.emacs.d/magit/lisp/")
-(add-to-list 'load-path "~/.emacs.d/ghub/")
-(require 'magit)
 
 ;;==============================================================================
 ;; Dos To Unix
@@ -293,20 +291,6 @@
 ;  (define-key c-mode-base-map (kbd "M-o") 'eassist-switch-h-cpp)
 ;  (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
 ;(add-hook 'c-mode-common-hook 'my-eassist-keys)
-
-;;;==============================================================================
-;;; ac-etags
-;;;==============================================================================
-;
-;(load-file "~/.emacs.d/emacs-ac-etags/ac-etags.el")
-;(custom-set-variables '(ac-etags-requires 1))
-;
-;(eval-after-load "etags"
-;  '(progn
-;     (ac-etags-setup)))
-;
-;(add-hook 'c-mode-common-hook 'ac-etags-ac-setup)
-;(add-hook 'ruby-mode-common-hook 'ac-etags-ac-setup)
 
 ;;==============================================================================
 ;; linum

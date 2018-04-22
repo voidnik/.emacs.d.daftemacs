@@ -4,18 +4,3 @@
 cd emacs-neotree
 git pull
 cd ..
-
-# emacs-ac-etags (https://github.com/syohex/emacs-ac-etags)
-cd emacs-ac-etags
-git pull
-cd ..
-
-# magit (https://github.com/magit/magit.git)
-cd ghub
-git pull
-make
-cd ..
-cd magit
-git pull
-make
-cd ..
