@@ -481,15 +481,10 @@
 (defun create-tags (dir-name)
   "Create a TAGS file."
   (interactive "DDirectory: ")
-  (setq c-headers-path "/usr/include/c++/5")
-  (cond
-   ((string-equal system-type "darwin")
-    (progn
-      (setq c-headers-path "/usr/include") ;TODO
-      )))
+  (setq c++-headers-path "/usr/include/c++")
   (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
   (execute-commands "*etags-output*"
-                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c-headers-path dir-name)
+                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c++-headers-path dir-name)
                     (format "find -H %s -type f \\( \
 -name \"*.[csSh]\" \
 -o \
