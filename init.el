@@ -172,7 +172,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (company-irony company-c-headers vlf zerodark-theme base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (company-c-headers vlf zerodark-theme base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -222,16 +222,6 @@
 ;;==============================================================================
 
 (require 'vlf-setup)
-
-;;==============================================================================
-;; irony
-;;==============================================================================
-
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
-
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 ;;==============================================================================
 ;; company
