@@ -60,7 +60,7 @@
   (interactive)
   (find-file user-init-file))
 
-(defun init-doom-theme ()
+(defun init-doom-theme-mod ()
   (add-to-list 'load-path "~/.emacs.d/doom-themes-20180328.1556-mod/")
   (require 'doom-themes)
   ;; Global settings (defaults)
@@ -100,16 +100,11 @@
        (color-theme-initialize)
        (color-theme-sunburst))))
 
-(defun init-custom-theme ()
-  (doom-themes-neotree-config)
-  (init-zerodark-theme))
-
 (defun init-themes ()
   ;(load-theme 'base16-default-dark t)
-  (init-doom-theme)
+  (init-doom-theme-mod)
   ;(init-zerodark-theme)
   ;(init-color-theme)
-  ;(init-custom-theme)
   )
 
 (defun init-font ()
@@ -150,10 +145,20 @@
 (defun startup-on-cui ()
   (setq window-min-width (/ (display-pixel-width) 5)))
 
+;;==============================================================================
+;; Startup
+;;==============================================================================
+
 (init-themes)
+
 (if (display-graphic-p)
     (startup-on-gui)
   (startup-on-cui))
+
+(switch-to-buffer "*Messages*")
+
+(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
+(message "default-directory: %s\n" default-directory)
 
 ;;==============================================================================
 ;; Custom Set Variables
@@ -220,6 +225,7 @@
 
 ;;==============================================================================
 ;; vlf
+;;
 ;; https://github.com/m00natic/vlfi
 ;;==============================================================================
 
@@ -309,7 +315,7 @@
 ;;==============================================================================
 ;; Killing Buffers
 ;;
-;; Link - https://www.emacswiki.org/emacs/KillingBuffers
+;; https://www.emacswiki.org/emacs/KillingBuffers
 ;;==============================================================================
 
 (defun kill-other-buffers ()
@@ -365,69 +371,10 @@
 (add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
 
 ;;==============================================================================
-;; GNU GLOBAL for source tags
-;;==============================================================================
-
-;(setq load-path (cons "~/.emacs.d/global" load-path)) ; "/usr/share/emacs/site-lisp/global/" load-path))
-;
-;(autoload 'gtags-mode "gtags"
-;  "Minor mode for browsing source code using GLOBAL" t)
-;(add-hook 'c-mode-common-hook
-;          (lambda ()
-;            (gtags-mode 1)))
-;
-;;(defun gtags-create-or-update ()
-;;  "create or update the gnu global tag file"
-;;  (interactive)
-;;  (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
-;;      (let ((olddir default-directory)
-;;            (topdir (read-directory-name
-;;                     "gtags: top of source tree:" default-directory)))
-;;        (cd topdir)
-;;        (shell-command "gtags && echo 'created tagfile'")
-;;        (cd olddir)) ; restore
-;;    ;;  tagfile already exists; update it
-;;    (shell-command "global -u && echo 'updated tagfile'")))
-;;
-;;(add-hook 'c-mode-common-hook
-;;          (lambda ()
-;;            (gtags-create-or-update)))
-;
-;(defun gtags-update-single (filename)
-;  "Update Gtags database for changes in a single file"
-;  (interactive)
-;  (start-process "update-gtags" "update-gtags" "bash" "-c" (concat "cd " (gtags-root-dir) " ; gtags --single-update " filename )))
-;
-;(defun gtags-update-current-file()
-;  (interactive)
-;  (defvar filename)
-;  (setq filename (replace-regexp-in-string (gtags-root-dir) "." (buffer-file-name (current-buffer))))
-;  (gtags-update-single filename)
-;  (message "Gtags updated for %s" filename))
-;
-;(defun gtags-update-hook()
-;  "Update GTAGS file incrementally upon saving a file"
-;  (when gtags-mode
-;    (when (gtags-root-dir)
-;      (gtags-update-current-file))))
-;
-;(add-hook 'after-save-hook 'gtags-update-hook)
-;
-;(add-hook 'gtags-mode-hook
-;          (lambda ()
-;            (local-set-key (kbd "M-.") 'gtags-find-tag)
-;            (local-set-key (kbd "M-,") 'gtags-find-rtag)))
-;
-;;(defun my-gtags-keys ()
-;;  (define-key c-mode-base-map (kbd "C-.") 'gtags-find-tag)
-;;  (define-key c-mode-base-map (kbd "C-?") 'gtags-find-rtag))
-;;(add-hook 'c-mode-common-hook 'my-gtags-keys)
-
-;;==============================================================================
 ;; Asynchronous Shell Command Excution
 ;;
-;; Link - http://stackoverflow.com/questions/16815598/
-;;        run-commands-in-emacs-asynchronously-but-display-output-incrementally
+;; http://stackoverflow.com/questions/16815598/
+;; run-commands-in-emacs-asynchronously-but-display-output-incrementally
 ;;==============================================================================
 
 (defun execute-commands (buffer &rest commands)
@@ -488,49 +435,9 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 (load-file "~/.emacs.d/find-file-in-tags.el")
 
-;;;;==============================================================================
-;;;; my-semantic-jump
-;;;;==============================================================================
-;;
-;;(defvar my-semantic-jump-ring
-;;  (make-ring 20)
-;;  "ring buffer that used to store code jump information")
-;;
-;;(defun my-make-ring-item ()
-;;  (let* ((buffer (current-buffer))
-;;         (filename (buffer-file-name buffer))
-;;         (offset (point)))
-;;    (cons filename offset)))
-;;
-;;(defun my-semantic-jump-to ()
-;;  (interactive)
-;;  (let* ((item (my-make-ring-item)))
-;;    (if (buffer-file-name (current-buffer))
-;;        ;; if it's not an internal buffer
-;;        (progn
-;;          ;; insert the info before jump
-;;          (ring-insert my-semantic-jump-ring item)
-;;          (semantic-ia-fast-jump (point))))))
-;;
-;;(defun my-semantic-jump-prev ()
-;;  (interactive)
-;;  (let* (item)
-;;    (if (eq 0 (ring-length my-semantic-jump-ring))
-;;        (error "No history jump info")
-;;      (setq item (ring-ref my-semantic-jump-ring 0))
-;;      (find-file (car item))
-;;      (goto-char (cdr item))
-;;      (pulse-momentary-highlight-one-line (point))
-;;      (ring-remove my-semantic-jump-ring 0))))
-
-;;;==============================================================================
-;;; Jabber
-;;;==============================================================================
-;
-;(require 'jabber-autoloads)
-
 ;;==============================================================================
 ;; Window Resize
+;;
 ;; https://www.emacswiki.org/emacs/WindowResize
 ;;==============================================================================
 
@@ -562,6 +469,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 ;;==============================================================================
 ;; Smooth Scrolling
+;;
 ;; https://www.emacswiki.org/emacs/SmoothScrolling
 ;;==============================================================================
 
@@ -578,6 +486,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 ;;==============================================================================
 ;; Dos To Unix
+;;
 ;; https://www.emacswiki.org/emacs/DosToUnix
 ;;==============================================================================
 
@@ -588,15 +497,6 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
     (goto-char (point-min))
     (while (search-forward (string ?\C-m) nil t)
       (replace-match (string ?\C-j) nil t))))
-
-;;==============================================================================
-;; Setting Startup Buffer and Directory
-;;==============================================================================
-
-(switch-to-buffer "*Messages*")
-
-(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
-(message "default-directory: %s\n" default-directory)
 
 ;;==============================================================================
 ;; Key Mapping Customiaztion
@@ -657,3 +557,106 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 ;(global-set-key [f7] 'gud-step)
 ;(global-set-key [f8] 'gud-finish)
 ;(global-set-key [f9] 'gud-break)
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO: The following lines will be removed. ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;==============================================================================
+;; GNU GLOBAL for source tags
+;;==============================================================================
+
+;(setq load-path (cons "~/.emacs.d/global" load-path)) ; "/usr/share/emacs/site-lisp/global/" load-path))
+;
+;(autoload 'gtags-mode "gtags"
+;  "Minor mode for browsing source code using GLOBAL" t)
+;(add-hook 'c-mode-common-hook
+;          (lambda ()
+;            (gtags-mode 1)))
+;
+;;(defun gtags-create-or-update ()
+;;  "create or update the gnu global tag file"
+;;  (interactive)
+;;  (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
+;;      (let ((olddir default-directory)
+;;            (topdir (read-directory-name
+;;                     "gtags: top of source tree:" default-directory)))
+;;        (cd topdir)
+;;        (shell-command "gtags && echo 'created tagfile'")
+;;        (cd olddir)) ; restore
+;;    ;;  tagfile already exists; update it
+;;    (shell-command "global -u && echo 'updated tagfile'")))
+;;
+;;(add-hook 'c-mode-common-hook
+;;          (lambda ()
+;;            (gtags-create-or-update)))
+;
+;(defun gtags-update-single (filename)
+;  "Update Gtags database for changes in a single file"
+;  (interactive)
+;  (start-process "update-gtags" "update-gtags" "bash" "-c" (concat "cd " (gtags-root-dir) " ; gtags --single-update " filename )))
+;
+;(defun gtags-update-current-file()
+;  (interactive)
+;  (defvar filename)
+;  (setq filename (replace-regexp-in-string (gtags-root-dir) "." (buffer-file-name (current-buffer))))
+;  (gtags-update-single filename)
+;  (message "Gtags updated for %s" filename))
+;
+;(defun gtags-update-hook()
+;  "Update GTAGS file incrementally upon saving a file"
+;  (when gtags-mode
+;    (when (gtags-root-dir)
+;      (gtags-update-current-file))))
+;
+;(add-hook 'after-save-hook 'gtags-update-hook)
+;
+;(add-hook 'gtags-mode-hook
+;          (lambda ()
+;            (local-set-key (kbd "M-.") 'gtags-find-tag)
+;            (local-set-key (kbd "M-,") 'gtags-find-rtag)))
+;
+;;(defun my-gtags-keys ()
+;;  (define-key c-mode-base-map (kbd "C-.") 'gtags-find-tag)
+;;  (define-key c-mode-base-map (kbd "C-?") 'gtags-find-rtag))
+;;(add-hook 'c-mode-common-hook 'my-gtags-keys)
+
+;;;;==============================================================================
+;;;; my-semantic-jump
+;;;;==============================================================================
+;;
+;;(defvar my-semantic-jump-ring
+;;  (make-ring 20)
+;;  "ring buffer that used to store code jump information")
+;;
+;;(defun my-make-ring-item ()
+;;  (let* ((buffer (current-buffer))
+;;         (filename (buffer-file-name buffer))
+;;         (offset (point)))
+;;    (cons filename offset)))
+;;
+;;(defun my-semantic-jump-to ()
+;;  (interactive)
+;;  (let* ((item (my-make-ring-item)))
+;;    (if (buffer-file-name (current-buffer))
+;;        ;; if it's not an internal buffer
+;;        (progn
+;;          ;; insert the info before jump
+;;          (ring-insert my-semantic-jump-ring item)
+;;          (semantic-ia-fast-jump (point))))))
+;;
+;;(defun my-semantic-jump-prev ()
+;;  (interactive)
+;;  (let* (item)
+;;    (if (eq 0 (ring-length my-semantic-jump-ring))
+;;        (error "No history jump info")
+;;      (setq item (ring-ref my-semantic-jump-ring 0))
+;;      (find-file (car item))
+;;      (goto-char (cdr item))
+;;      (pulse-momentary-highlight-one-line (point))
+;;      (ring-remove my-semantic-jump-ring 0))))
