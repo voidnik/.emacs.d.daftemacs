@@ -273,41 +273,6 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;;==============================================================================
-;; Dos To Unix
-;; https://www.emacswiki.org/emacs/DosToUnix
-;;==============================================================================
-
-(defun dos2unix (buffer)
-  "Automate M-% C-q C-m RET C-q C-j RET"
-  (interactive "*b")
-  (save-excursion
-    (goto-char (point-min))
-    (while (search-forward (string ?\C-m) nil t)
-      (replace-match (string ?\C-j) nil t))))
-
-;;;==============================================================================
-;;; eassist
-;;;==============================================================================
-;
-;(load-file "~/.emacs.d/eassist-mod.el")
-;
-;(setq eassist-header-switches
-;      '(("h" . ("cpp" "cc" "c" "m"))
-;        ("hpp" . ("cpp" "cc"))
-;        ("cpp" . ("h" "hpp"))
-;        ("c" . ("h"))
-;        ("m" . ("h"))
-;        ("C" . ("H"))
-;        ("H" . ("C" "CPP" "CC"))
-;        ("cc" . ("h" "hpp")))
-;      )
-;
-;(defun my-eassist-keys ()
-;  (define-key c-mode-base-map (kbd "M-o") 'eassist-switch-h-cpp)
-;  (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
-;(add-hook 'c-mode-common-hook 'my-eassist-keys)
-
-;;==============================================================================
 ;; linum
 ;;==============================================================================
 
@@ -612,6 +577,19 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 ;(smooth-scroll-mode t)
 
 ;;==============================================================================
+;; Dos To Unix
+;; https://www.emacswiki.org/emacs/DosToUnix
+;;==============================================================================
+
+(defun dos2unix (buffer)
+  "Automate M-% C-q C-m RET C-q C-j RET"
+  (interactive "*b")
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward (string ?\C-m) nil t)
+      (replace-match (string ?\C-j) nil t))))
+
+;;==============================================================================
 ;; Setting Startup Buffer and Directory
 ;;==============================================================================
 
@@ -661,6 +639,8 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-c <down>") 'buf-move-down)
 (global-set-key (kbd "C-c <left>") 'buf-move-left)
 (global-set-key (kbd "C-c <right>") 'buf-move-right)
+
+(global-set-key (kbd "M-o") 'ff-find-other-file)
 
 ;(global-set-key (kbd "C-c RET") 'semantic-ia-complete-symbol-menu)
 ;(global-set-key (kbd "C-c SPC") 'semantic-ia-show-variants)
