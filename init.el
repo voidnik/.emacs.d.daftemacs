@@ -247,17 +247,17 @@
 (setq neo-smart-open t)
 (setq projectile-switch-project-action 'neotree-projectile-action)
 
-(defun neotree-project-dir ()
-  "Open NeoTree using the git root."
+(defun neotree-show-project-dir ()
+  "Show NeoTree using the project root."
   (interactive)
   (let ((project-dir (projectile-project-root))
         (file-name (buffer-file-name)))
-    (neotree-toggle)
     (if project-dir
         (if (neo-global--window-exists-p)
             (progn
               (neotree-dir project-dir)
-              (neotree-find file-name)))
+              (neotree-find file-name))
+          (neotree-show))
       (message "Could not find git project root."))))
 
 ;;==============================================================================
@@ -620,8 +620,8 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
 (global-set-key (kbd "C-c d") 'desktop-read)
-(global-set-key (kbd "C-c \\") 'neotree-project-dir)
-(global-set-key (kbd "C-c |") 'neotree-toggle)
+(global-set-key (kbd "C-c \\") 'neotree-show-project-dir)
+(global-set-key (kbd "C-c |") 'neotree-hide)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c r") 'resize-window)
 (global-set-key (kbd "C-c f") 'find-file-in-tags)
