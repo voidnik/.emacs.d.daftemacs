@@ -247,24 +247,37 @@
 ;; neotree
 ;;==============================================================================
 
+(require 'neotree)
 (setq neo-window-width window-min-width)
 ;(setq neo-window-position 'right)
 (setq neo-window-fixed-size nil)
 (setq neo-smart-open t)
 (setq projectile-switch-project-action 'neotree-projectile-action)
 
-(defun neotree-show-project-dir ()
-  "Show NeoTree using the project root."
+(defun neotree-toggle-project-root-dir-or-current-dir ()
+  "Open NeoTree using the project root, using projectile, or the current buffer directory."
+  (interactive)
+  (let ((project-dir (ignore-errors (projectile-project-root)))
+        (file-name (buffer-file-name)))
+    (if (neo-global--window-exists-p)
+        (neotree-hide)
+      (progn
+        (neotree-show)
+        (if project-dir
+            (neotree-dir project-dir))
+        (if file-name
+            (neotree-find file-name))))))
+
+(defun neotree-show-project-root-dir ()
+  "Show NeoTree using the project root using projectile."
   (interactive)
   (let ((project-dir (projectile-project-root))
         (file-name (buffer-file-name)))
-    (if project-dir
-        (if (neo-global--window-exists-p)
-            (progn
-              (neotree-dir project-dir)
-              (neotree-find file-name))
-          (neotree-show))
-      (message "Could not find git project root."))))
+    (progn
+      (if project-dir
+          (neotree-dir project-dir))
+      (if file-name
+          (neotree-find file-name)))))
 
 ;;==============================================================================
 ;; pdf-tools
@@ -520,8 +533,8 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
 (global-set-key (kbd "C-c d") 'desktop-read)
-(global-set-key (kbd "C-c \\") 'neotree-show-project-dir)
-(global-set-key (kbd "C-c |") 'neotree-hide)
+(global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
+(global-set-key (kbd "C-c |") 'neotree-show-project-root-dir)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c r") 'resize-window)
 (global-set-key (kbd "C-c f") 'find-file-in-tags)
