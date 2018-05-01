@@ -177,7 +177,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (rtags neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -194,14 +194,17 @@
   (progn
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
     (setq exec-path (append exec-path '("/usr/local/bin")))
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Library/Android/sdk/platform-tools"))
-    (setq exec-path (append exec-path '("/Users/daftcoder/Library/Android/sdk/platform-tools")))
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/daftcoder/Workspace/trtc/depot_tools"))
-    (setq exec-path (append exec-path '("/Users/daftcoder/Workspace/trtc/depot_tools")))))
+    (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Library/Android/sdk/platform-tools")))
+    (setq exec-path (append exec-path '((expand-file-name "~/Library/Android/sdk/platform-tools"))))
+    (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/trtc/depot_tools")))
+    (setq exec-path (append exec-path '((expand-file-name "~/Workspace/trtc/depot_tools"))))))
  ((string-equal system-type "gnu/linux")
   (progn
-    (setenv "PATH" (concat (getenv "PATH") ":/home/daftcoder/Workspace/depot_tools"))
-    (setq exec-path (append exec-path '("/home/daftcoder/Workspace/depot_tools"))))))
+    (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/depot_tools")))
+    (setq exec-path (append exec-path '((expand-file-name "~/Workspace/depot_tools")))))))
+
+(setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/.emacs.d/rtags/bin")))
+(setq exec-path (append exec-path '(expand-file-name "~/.emacs.d/rtags/bin")))
 
 ;;==============================================================================
 ;; projectile
@@ -252,7 +255,7 @@
 ;(setq neo-window-position 'right)
 (setq neo-window-fixed-size nil)
 (setq neo-smart-open t)
-(setq projectile-switch-project-action 'neotree-projectile-action)
+(setq projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
 
 (defun neotree-toggle-project-root-dir-or-current-dir ()
   "Open NeoTree using the project root, using projectile, or the current buffer directory."

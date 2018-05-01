@@ -1,4 +1,5 @@
 auto-save-list
+bookmarks
 semanticdb
 url
 eshell
@@ -11,3 +12,4 @@ projectile.cache
 elpa/archives
 elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
+rtags
