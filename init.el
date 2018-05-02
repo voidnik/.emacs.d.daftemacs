@@ -418,6 +418,16 @@
         (start-next-command)))))
 
 ;;==============================================================================
+;; rtags
+;;==============================================================================
+
+(defun run-rdm ()
+  "Run rdm for rtags"
+  (interactive)
+  (with-current-buffer (get-buffer-create "*rdm-output*") (erase-buffer))
+  (execute-commands "*rdm-output*" "rdm"))
+
+;;==============================================================================
 ;; etags
 ;;==============================================================================
 
@@ -457,7 +467,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 ;; https://www.emacswiki.org/emacs/WindowResize
 ;;==============================================================================
 
-(defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
+(defun resize-window (&optional arg)
   "*Resize window interactively."
   (interactive "p")
   (if (one-window-p) (error "Cannot resize sole window"))
@@ -539,8 +549,8 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
 (global-set-key (kbd "C-c |") 'neotree-show-project-root-dir)
 (global-set-key (kbd "C-c m") 'magit-status)
-(global-set-key (kbd "C-c r") 'resize-window)
 (global-set-key (kbd "C-c f") 'find-file-in-tags)
+(global-set-key (kbd "C-c w") 'resize-window)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 ;(global-set-key (kbd "C-c 1") 'shell)
@@ -558,11 +568,39 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 (global-set-key (kbd "M-o") 'ff-find-other-file)
 
-;(global-set-key (kbd "C-c RET") 'semantic-ia-complete-symbol-menu)
-;(global-set-key (kbd "C-c SPC") 'semantic-ia-show-variants)
-;;(global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
-;(global-set-key (kbd "C-c ]") 'my-semantic-jump-to)
-;(global-set-key (kbd "C-c [") 'my-semantic-jump-prev)
+;; rtags
+(eval-after-load 'cc-mode
+  '(progn
+     (require 'rtags)
+     (mapc (lambda (x)
+             (define-key c-mode-base-map
+               (kbd (concat "C-c r " (car x))) (cdr x)))
+           '(("." . rtags-find-symbol-at-point)
+             ("," . rtags-find-references-at-point)
+             ("v" . rtags-find-virtuals-at-point)
+             ("V" . rtags-print-enum-value-at-point)
+             ("/" . rtags-find-all-references-at-point)
+             ("Y" . rtags-cycle-overlays-on-screen)
+             (">" . rtags-find-symbol)
+             ("<" . rtags-find-references)
+             ("-" . rtags-location-stack-back)
+             ("+" . rtags-location-stack-forward)
+             ("D" . rtags-diagnostics)
+             ("G" . rtags-guess-function-at-point)
+             ("p" . rtags-set-current-project)
+             ("P" . rtags-print-dependencies)
+             ("e" . rtags-reparse-file)
+             ("E" . rtags-preprocess-file)
+             ("R" . rtags-rename-symbol)
+             ("M" . rtags-symbol-info)
+             ("S" . rtags-display-summary)
+             ("O" . rtags-goto-offset)
+             (";" . rtags-find-file)
+             ("F" . rtags-fixit)
+             ("X" . rtags-fix-fixit-at-point)
+             ("B" . rtags-show-rtags-buffer)
+             ("I" . rtags-imenu)
+             ("T" . rtags-taglist)))))
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()
@@ -577,11 +615,15 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 
 
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TODO: The following lines will be removed. ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;(global-set-key (kbd "C-c RET") 'semantic-ia-complete-symbol-menu)
+;(global-set-key (kbd "C-c SPC") 'semantic-ia-show-variants)
+;;(global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
+;(global-set-key (kbd "C-c ]") 'my-semantic-jump-to)
+;(global-set-key (kbd "C-c [") 'my-semantic-jump-prev)
 
 ;;==============================================================================
 ;; GNU GLOBAL for source tags
