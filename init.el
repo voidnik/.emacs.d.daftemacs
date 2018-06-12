@@ -177,7 +177,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (rtags neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (objc-font-lock flycheck-objc-clang rtags neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -340,53 +340,6 @@
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;;==============================================================================
-;; Indentation
-;;==============================================================================
-
-(setq-default indent-tabs-mode nil)
-(setq default-tab-width 4)
-(add-hook 'c-mode-hook
-          (lambda()
-            (setq c-basic-offset 2)
-            (c-set-offset 'substatement-open 0)))
-(add-hook 'c++-mode-hook
-          (lambda()
-            (setq c-basic-offset 2)
-            (c-set-offset 'substatement-open 0)))
-(add-hook 'java-mode-hook
-          (lambda()
-            (setq c-basic-offset 2)
-            (c-set-offset 'substatement-open 0)))
-
-;;==============================================================================
-;; Dim for #if 0 ... #endif
-;;==============================================================================
-
-(defun cpp-highlight-if-0/1 ()
-  "Modify the face of text in between #if 0 ... #endif."
-  (setq cpp-known-face '(background-color . "gray15"))
-  (setq cpp-unknown-face 'default)
-  (setq cpp-face-type 'dark)
-  (setq cpp-known-writable 't)
-  (setq cpp-unknown-writable 't)
-  (setq cpp-edit-list
-        '((#("1" 0 1
-             (fontified nil))
-           nil
-           (background-color . "gray15")
-           both nil)
-          (#("0" 0 1
-             (fontified nil))
-           (background-color . "gray15")
-           nil
-           both nil)))
-  (cpp-highlight-buffer t))
-(defun jpk/c-mode-hook ()
-  (cpp-highlight-if-0/1)
-  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
-(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
-
-;;==============================================================================
 ;; Asynchronous Shell Command Excution
 ;;
 ;; http://stackoverflow.com/questions/16815598/
@@ -523,6 +476,91 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
     (goto-char (point-min))
     (while (search-forward (string ?\C-m) nil t)
       (replace-match (string ?\C-j) nil t))))
+
+;;==============================================================================
+;; Indentation
+;;==============================================================================
+
+(setq-default indent-tabs-mode nil)
+(setq default-tab-width 4)
+(add-hook 'c-mode-hook
+          (lambda()
+            (setq c-basic-offset 2)
+            (c-set-offset 'substatement-open 0)))
+(add-hook 'c++-mode-hook
+          (lambda()
+            (setq c-basic-offset 2)
+            (c-set-offset 'substatement-open 0)))
+(add-hook 'java-mode-hook
+          (lambda()
+            (setq c-basic-offset 2)
+            (c-set-offset 'substatement-open 0)))
+
+;;==============================================================================
+;; Dim for #if 0 ... #endif
+;;==============================================================================
+
+(defun cpp-highlight-if-0/1 ()
+  "Modify the face of text in between #if 0 ... #endif."
+  (setq cpp-known-face '(background-color . "gray15"))
+  (setq cpp-unknown-face 'default)
+  (setq cpp-face-type 'dark)
+  (setq cpp-known-writable 't)
+  (setq cpp-unknown-writable 't)
+  (setq cpp-edit-list
+        '((#("1" 0 1
+             (fontified nil))
+           nil
+           (background-color . "gray15")
+           both nil)
+          (#("0" 0 1
+             (fontified nil))
+           (background-color . "gray15")
+           nil
+           both nil)))
+  (cpp-highlight-buffer t))
+(defun jpk/c-mode-hook ()
+  (cpp-highlight-if-0/1)
+  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
+(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
+
+;;==============================================================================
+;; Objective C
+;;==============================================================================
+
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+
+(add-to-list 'magic-mode-alist
+             `(,(lambda ()
+                  (and (string= (file-name-extension buffer-file-name) "h")
+                       (re-search-forward "@\\<interface\\>"
+                                          magic-mode-regexp-match-limit t)))
+               . objc-mode))
+
+(require 'find-file) ;; for the "cc-other-file-alist" variable
+(nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
+
+(defadvice ff-get-file-name (around ff-get-file-name-framework
+                                    (search-dirs
+                                     fname-stub
+                                     &optional suffix-list))
+  "Search for Mac framework headers as well as POSIX headers."
+  (or
+   (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
+       (let* ((framework (match-string 1 fname-stub))
+              (header (match-string 2 fname-stub))
+              (fname-stub (concat framework ".framework/Headers/" header)))
+         ad-do-it))
+   ad-do-it))
+(ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
+(ad-activate 'ff-get-file-name)
+
+;;==============================================================================
+;; cc-search-directories
+;;==============================================================================
+
+(setq cc-search-directories '("." "../include" "/usr/include" "/usr/local/include/*"
+                              "/System/Library/Frameworks" "/Library/Frameworks"))
 
 ;;==============================================================================
 ;; Key Mapping Customiaztion
