@@ -177,7 +177,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (objc-font-lock flycheck-objc-clang rtags neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (rtags objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

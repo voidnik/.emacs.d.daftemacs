@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "rtags" "rtags.el" (23268 28767 458222 915000))
+;;;### (autoloads nil "rtags" "rtags.el" (23402 16645 178774 910000))
 ;;; Generated autoloads from rtags.el
 
 (autoload 'rtags-set-periodic-reparse-timeout "rtags" "\
@@ -243,11 +243,6 @@ can be specified with a prefix argument.
 
 \(fn)" t nil)
 
-(autoload 'rtags-apply-fixit-at-point "rtags" "\
-
-
-\(fn)" t nil)
-
 (autoload 'rtags-clear-diagnostics-overlays "rtags" "\
 
 
@@ -264,7 +259,7 @@ can be specified with a prefix argument.
 \(fn)" t nil)
 
 (autoload 'rtags-fix-fixit-at-point "rtags" "\
-
+Apply compiler fix-it at point.
 
 \(fn)" t nil)
 

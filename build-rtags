@@ -1,6 +1,12 @@
 #!/bin/bash
 
-git clone --recursive https://github.com/Andersbakken/rtags.git
-cd rtags
+if [ -d "rtags" ]; then
+    cd rtags
+    git pull
+else
+    git clone --recursive https://github.com/Andersbakken/rtags.git
+    cd rtags
+fi
+
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .
 make
