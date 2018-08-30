@@ -177,7 +177,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (rtags objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (imenu-list rtags objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -589,6 +589,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c f") 'find-file-in-tags)
 (global-set-key (kbd "C-c w") 'resize-window)
+(global-set-key (kbd "C-c k") 'erase-buffer)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 ;(global-set-key (kbd "C-c 1") 'shell)
