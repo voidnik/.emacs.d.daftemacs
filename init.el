@@ -17,6 +17,9 @@
 (message "user-init-file: %s (last modified date: 2017-11-06)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 
+(setq gc-cons-threshold (* 100 1024 1024))
+(message "gc-cons-threshold: %d" gc-cons-threshold)
+
 ;;==============================================================================
 ;; Packages
 ;;==============================================================================
