@@ -177,7 +177,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (imenu-list rtags objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (helm-gtags imenu-list rtags objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -371,14 +371,67 @@
         (start-next-command)))))
 
 ;;==============================================================================
+;; gtags
+;;==============================================================================
+
+;; Enable helm-gtags-mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+(add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+;; Set key bindings
+(eval-after-load "helm-gtags"
+  '(progn
+     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+
+;;==============================================================================
 ;; rtags
 ;;==============================================================================
 
-(defun run-rdm ()
-  "Run rdm for rtags"
-  (interactive)
-  (with-current-buffer (get-buffer-create "*rdm-output*") (erase-buffer))
-  (execute-commands "*rdm-output*" "rdm"))
+;(defun run-rdm ()
+;  "Run rdm for rtags"
+;  (interactive)
+;  (with-current-buffer (get-buffer-create "*rdm-output*") (erase-buffer))
+;  (execute-commands "*rdm-output*" "rdm"))
+;
+;(eval-after-load 'cc-mode
+;  '(progn
+;     (require 'rtags)
+;     (mapc (lambda (x)
+;             (define-key c-mode-base-map
+;               (kbd (concat "C-c r " (car x))) (cdr x)))
+;           '(("." . rtags-find-symbol-at-point)
+;             ("," . rtags-find-references-at-point)
+;             ("v" . rtags-find-virtuals-at-point)
+;             ("V" . rtags-print-enum-value-at-point)
+;             ("/" . rtags-find-all-references-at-point)
+;             ("Y" . rtags-cycle-overlays-on-screen)
+;             (">" . rtags-find-symbol)
+;             ("<" . rtags-find-references)
+;             ("-" . rtags-location-stack-back)
+;             ("+" . rtags-location-stack-forward)
+;             ("D" . rtags-diagnostics)
+;             ("G" . rtags-guess-function-at-point)
+;             ("p" . rtags-set-current-project)
+;             ("P" . rtags-print-dependencies)
+;             ("e" . rtags-reparse-file)
+;             ("E" . rtags-preprocess-file)
+;             ("R" . rtags-rename-symbol)
+;             ("M" . rtags-symbol-info)
+;             ("S" . rtags-display-summary)
+;             ("O" . rtags-goto-offset)
+;             (";" . rtags-find-file)
+;             ("F" . rtags-fixit)
+;             ("X" . rtags-fix-fixit-at-point)
+;             ("B" . rtags-show-rtags-buffer)
+;             ("I" . rtags-imenu)
+;             ("T" . rtags-taglist)))))
 
 ;;==============================================================================
 ;; etags
@@ -606,40 +659,6 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-c <right>") 'buf-move-right)
 
 (global-set-key (kbd "M-o") 'ff-find-other-file)
-
-;; rtags
-(eval-after-load 'cc-mode
-  '(progn
-     (require 'rtags)
-     (mapc (lambda (x)
-             (define-key c-mode-base-map
-               (kbd (concat "C-c r " (car x))) (cdr x)))
-           '(("." . rtags-find-symbol-at-point)
-             ("," . rtags-find-references-at-point)
-             ("v" . rtags-find-virtuals-at-point)
-             ("V" . rtags-print-enum-value-at-point)
-             ("/" . rtags-find-all-references-at-point)
-             ("Y" . rtags-cycle-overlays-on-screen)
-             (">" . rtags-find-symbol)
-             ("<" . rtags-find-references)
-             ("-" . rtags-location-stack-back)
-             ("+" . rtags-location-stack-forward)
-             ("D" . rtags-diagnostics)
-             ("G" . rtags-guess-function-at-point)
-             ("p" . rtags-set-current-project)
-             ("P" . rtags-print-dependencies)
-             ("e" . rtags-reparse-file)
-             ("E" . rtags-preprocess-file)
-             ("R" . rtags-rename-symbol)
-             ("M" . rtags-symbol-info)
-             ("S" . rtags-display-summary)
-             ("O" . rtags-goto-offset)
-             (";" . rtags-find-file)
-             ("F" . rtags-fixit)
-             ("X" . rtags-fix-fixit-at-point)
-             ("B" . rtags-show-rtags-buffer)
-             ("I" . rtags-imenu)
-             ("T" . rtags-taglist)))))
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()
