@@ -152,6 +152,8 @@
 ;; Startup
 ;;==============================================================================
 
+(blink-cursor-mode 0)
+
 (init-themes)
 
 (if (display-graphic-p)
