@@ -118,9 +118,13 @@
       (set-face-attribute 'default nil :height 115 :family "monospace")))
    ((string-equal system-type "gnu/linux")
     (progn
+      (set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1") ; IBM 3270 (https://github.com/rbanffy/3270font)
+      ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
+      ;(set-face-attribute 'default nil :height 90 :family "Hack")
       ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
-      ;(set-face-attribute 'default nil :height 90 :family "monospace")
-      (set-face-attribute 'default nil :height 98 :family "Ubuntu Mono")))))
+      ;(set-face-attribute 'default nil :height 100 :family "monospace")
+      ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+      ))))
 
 (defun startup-on-gui ()
   (init-font)
