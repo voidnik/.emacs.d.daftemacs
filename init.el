@@ -538,7 +538,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 ;;==============================================================================
 
 (setq-default indent-tabs-mode nil)
-(setq default-tab-width 4)
+(setq default-tab-width 2)
 (add-hook 'c-mode-hook
           (lambda()
             (setq c-basic-offset 2)
@@ -551,6 +551,9 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
           (lambda()
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
+(add-hook 'js-mode-hook
+          (lambda()
+            (setq js-indent-level 2)))
 
 ;;==============================================================================
 ;; Dim for #if 0 ... #endif
