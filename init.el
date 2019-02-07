@@ -115,7 +115,9 @@
   (cond
    ((string-equal system-type "darwin")
     (progn
-      (set-face-attribute 'default nil :height 115 :family "monospace")))
+      (set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1") ; IBM 3270 (https://github.com/rbanffy/3270font)
+      ;(set-face-attribute 'default nil :height 115 :family "monospace")
+      ))
    ((string-equal system-type "gnu/linux")
     (progn
       (set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1") ; IBM 3270 (https://github.com/rbanffy/3270font)
