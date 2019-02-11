@@ -5,7 +5,7 @@
 ;; Author: Andreas Politz <politza@fh-trier.de>
 ;; Keywords: files, multimedia
 ;; Package: pdf-tools
-;; Version: 0.90
+;; Version: 1.0
 ;; Package-Requires: ((emacs "24.3") (tablist "0.70") (let-alist "1.0.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -263,11 +263,11 @@ Returns always nil, unless `system-type' equals windows-nt."
 
 (defun pdf-tools-find-bourne-shell ()
   "Locate a usable sh."
-  (or (executable-find "sh")
-      (and (eq system-type 'windows-nt)
+  (or (and (eq system-type 'windows-nt)
            (let* ((directory (pdf-tools-msys2-directory)))
              (when directory
-               (expand-file-name "usr/bin/bash.exe" directory))))))
+               (expand-file-name "usr/bin/bash.exe" directory))))
+      (executable-find "sh")))
 
 (defun pdf-tools-build-server (target-directory
                                &optional

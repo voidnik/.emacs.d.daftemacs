@@ -32,6 +32,8 @@
 (require 'bookmark)
 (require 'password-cache)
 
+(declare-function cua-copy-region "cua-base")
+
 
 ;; * ================================================================== *
 ;; * Customizations
@@ -331,6 +333,10 @@ PNG images in Emacs buffers."
                              "-"))))
       (write-region nil nil tempfile nil 'no-message)
       (setq-local pdf-view--buffer-file-name tempfile)))
+  ;; Decryption needs to be done before any other function calls into
+  ;; pdf-info.el (e.g. from the mode-line during redisplay during
+  ;; waiting for process output).
+  (pdf-view-decrypt-document)
 
   ;; Setup scroll functions
   (if (boundp 'mwheel-scroll-up-function) ; not --without-x build
@@ -350,7 +356,10 @@ PNG images in Emacs buffers."
   ;; Setup other local variables.
   (setq-local mode-line-position
               '(" P" (:eval (number-to-string (pdf-view-current-page)))
-                "/" (:eval (number-to-string (pdf-cache-number-of-pages)))))
+                ;; Avoid errors during redisplay.
+                "/" (:eval (or (ignore-errors
+                                 (number-to-string (pdf-cache-number-of-pages)))
+                               "???"))))
   (setq-local auto-hscroll-mode nil)
   (setq-local pdf-view--server-file-name (pdf-view-buffer-file-name))
   ;; High values of scroll-conservatively seem to trigger
@@ -364,12 +373,23 @@ PNG images in Emacs buffers."
   (setq-local revert-buffer-function #'pdf-view-revert-buffer)
   ;; No auto-save at the moment.
   (setq-local buffer-auto-save-file-name nil)
+  ;; Disable image rescaling.
+  (when (boundp 'image-scaling-factor)
+    (setq-local image-scaling-factor 1))
   ;; No undo at the moment.
   (unless buffer-undo-list
     (buffer-disable-undo))
   ;; Enable transient-mark-mode, so region deactivation when quitting
   ;; will work.
   (setq-local transient-mark-mode t)
+  ;; In Emacs >= 24.4, `cua-copy-region' should have been advised when
+  ;; loading pdf-view.el so as to make it work with
+  ;; pdf-view-mode. Disable cua-mode if that is not the case.
+  ;; FIXME: cua-mode is a global minor-mode, but setting cua-mode to
+  ;; nil seems to do the trick.
+  (when (and (bound-and-true-p cua-mode)
+             (version< emacs-version "24.4"))
+    (setq-local cua-mode nil))
 
   (add-hook 'window-configuration-change-hook
             'pdf-view-maybe-redisplay-resized-windows nil t)
@@ -385,14 +405,25 @@ PNG images in Emacs buffers."
             'pdf-view-new-window-function nil t)
   (image-mode-setup-winprops)
 
-  ;; Decryption needs to be done before any other function calls into
-  ;; pdf-info.el .
-  (pdf-view-decrypt-document)
   ;; Issue a warning in the future about incompatible modes.
-  (run-with-timer 1 nil #'pdf-view-check-incompatible-modes
+  (run-with-timer 1 nil (lambda (buffer)
+                          (when (buffer-live-p buffer)
+                            (pdf-view-check-incompatible-modes buffer)))
 		  (current-buffer))
   ;; Setup initial page and start display
   (pdf-view-goto-page (or (pdf-view-current-page) 1)))
+
+(unless (version< emacs-version "24.4")
+  (defun cua-copy-region--pdf-view-advice (&rest _)
+    "If the current buffer is in `pdf-view' mode, call
+`pdf-view-kill-ring-save'."
+    (when (eq major-mode 'pdf-view-mode)
+      (pdf-view-kill-ring-save)
+      t))
+
+  (advice-add 'cua-copy-region
+	      :before-until
+	      #'cua-copy-region--pdf-view-advice))
 
 (defun pdf-view-check-incompatible-modes (&optional buffer)
   "Check BUFFER for incompatible modes, maybe issue a warning."
@@ -485,10 +516,12 @@ Optional parameters IGNORE-AUTO and NOCONFIRM are defined as in
 (defun pdf-view-close-document ()
   "Return immediately after closing document.
 
-See also `pdf-info-close', which does not return immediately."
+This function always suceeds.  See also `pdf-info-close', which
+does not return immediately."
   (when (pdf-info-running-p)
     (let ((pdf-info-asynchronous 'ignore))
-      (pdf-info-close))))
+      (ignore-errors
+        (pdf-info-close)))))
 
 
 ;; * ================================================================== *
@@ -1256,7 +1289,7 @@ Stores the region in `pdf-view-active-region'."
          (abs-begin (posn-x-y pos))
          pdf-view-continuous
          region)
-    (when (pdf-util-track-mouse-dragging (event 0.15)
+    (when (pdf-util-track-mouse-dragging (event 0.05)
             (let* ((pos (event-start event))
                    (end (posn-object-x-y pos))
                    (end-inside-image-p

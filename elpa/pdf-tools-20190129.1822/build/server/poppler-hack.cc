@@ -18,6 +18,7 @@
 #include <Annot.h>
 #include <glib.h>
 #include <glib-object.h>
+#include <poppler-features.h>
 
 extern "C"
 {
@@ -31,6 +32,12 @@ GType poppler_annot_markup_get_type (void) G_GNUC_CONST;
 #define POPPLER_IS_ANNOT_MARKUP(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), POPPLER_TYPE_ANNOT_MARKUP))
 #define POPPLER_TYPE_ANNOT_MARKUP (poppler_annot_markup_get_type ())
+
+#if POPPLER_CHECK_VERSION(0,72,0)
+#define GET_CSTR c_str
+#else
+#define GET_CSTR getCString
+#endif
 
   struct PopplerAnnot
   {
@@ -51,7 +58,10 @@ GType poppler_annot_markup_get_type (void) G_GNUC_CONST;
     double y2;
   };
 
-  char *_xpoppler_goo_string_to_utf8(GooString *s)
+  // This function does not modify its argument s, but for
+  // compatibility reasons (e.g. getLength in GooString.h before 2015)
+  // with older poppler code, it can't be declared as such.
+  char *_xpoppler_goo_string_to_utf8(/* const */ GooString *s)
   {
     char *result;
 
@@ -59,7 +69,7 @@ GType poppler_annot_markup_get_type (void) G_GNUC_CONST;
       return NULL;
 
     if (s->hasUnicodeMarker()) {
-      result = g_convert (s->getCString () + 2,
+      result = g_convert (s->GET_CSTR () + 2,
                           s->getLength () - 2,
                           "UTF-8", "UTF-16BE", NULL, NULL, NULL);
     } else {
@@ -85,7 +95,7 @@ GType poppler_annot_markup_get_type (void) G_GNUC_CONST;
   // Set the rectangle of an annotation.  It was first added in v0.26.
   void xpoppler_annot_set_rectangle (PopplerAnnot *a, PopplerRectangle *rectangle)
   {
-    GooString *state = a->annot->getAppearState ();
+    GooString *state = (GooString*) a->annot->getAppearState ();
     char *ustate = _xpoppler_goo_string_to_utf8 (state);
 
     a->annot->setRect (rectangle->x1, rectangle->y1,
@@ -105,7 +115,7 @@ GType poppler_annot_markup_get_type (void) G_GNUC_CONST;
     g_return_val_if_fail (POPPLER_IS_ANNOT_MARKUP (poppler_annot), NULL);
 
     annot = static_cast<AnnotMarkup *>(POPPLER_ANNOT (poppler_annot)->annot);
-    text = annot->getDate ();
+    text = (GooString*) annot->getDate ();
 
     return text ? _xpoppler_goo_string_to_utf8 (text) : NULL;
   }

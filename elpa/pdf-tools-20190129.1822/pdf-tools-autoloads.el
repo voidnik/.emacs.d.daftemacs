@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "pdf-annot" "pdf-annot.el" (23249 53896 863605
-;;;;;;  499000))
+;;;### (autoloads nil "pdf-annot" "pdf-annot.el" (23649 932 305458
+;;;;;;  717000))
 ;;; Generated autoloads from pdf-annot.el
 
 (autoload 'pdf-annot-minor-mode "pdf-annot" "\
@@ -16,8 +16,8 @@ Support for PDF Annotations.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-history" "pdf-history.el" (23249 53896
-;;;;;;  831605 473000))
+;;;### (autoloads nil "pdf-history" "pdf-history.el" (23649 932 304008
+;;;;;;  706000))
 ;;; Generated autoloads from pdf-history.el
 
 (autoload 'pdf-history-minor-mode "pdf-history" "\
@@ -33,8 +33,8 @@ may be navigated with the following keys.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-isearch" "pdf-isearch.el" (23249 53897
-;;;;;;  247605 813000))
+;;;### (autoloads nil "pdf-isearch" "pdf-isearch.el" (23649 932 290001
+;;;;;;  715000))
 ;;; Generated autoloads from pdf-isearch.el
 
 (autoload 'pdf-isearch-minor-mode "pdf-isearch" "\
@@ -72,8 +72,8 @@ that not every isearch command work as expected.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-links" "pdf-links.el" (23249 53896 919605
-;;;;;;  545000))
+;;;### (autoloads nil "pdf-links" "pdf-links.el" (23649 932 292898
+;;;;;;  582000))
 ;;; Generated autoloads from pdf-links.el
 
 (autoload 'pdf-links-minor-mode "pdf-links" "\
@@ -105,8 +105,26 @@ scroll the current page.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-misc" "pdf-misc.el" (23249 53896 843605
-;;;;;;  483000))
+;;;### (autoloads nil "pdf-loader" "pdf-loader.el" (23649 932 302771
+;;;;;;  323000))
+;;; Generated autoloads from pdf-loader.el
+
+(autoload 'pdf-loader-install "pdf-loader" "\
+Prepare Emacs for using PDF Tools.
+
+This function acts as a replacement for `pdf-tools-install' and
+makes Emacs load and use PDF Tools as soon as a PDF file is
+opened, but not sooner.
+
+The arguments are passed verbatim to `pdf-tools-install', which
+see.
+
+\(fn &optional NO-QUERY-P SKIP-DEPENDENCIES-P NO-ERROR-P FORCE-DEPENDENCIES-P)" nil nil)
+
+;;;***
+
+;;;### (autoloads nil "pdf-misc" "pdf-misc.el" (23649 932 296158
+;;;;;;  238000))
 ;;; Generated autoloads from pdf-misc.el
 
 (autoload 'pdf-misc-minor-mode "pdf-misc" "\
@@ -133,8 +151,8 @@ Provide a right-click context menu in PDF buffers.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-occur" "pdf-occur.el" (23249 53896 891605
-;;;;;;  522000))
+;;;### (autoloads nil "pdf-occur" "pdf-occur.el" (23649 932 288720
+;;;;;;  172000))
 ;;; Generated autoloads from pdf-occur.el
 
 (autoload 'pdf-occur "pdf-occur" "\
@@ -197,8 +215,8 @@ and otherwise fallback to `dired-do-search'.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-outline" "pdf-outline.el" (23249 53897
-;;;;;;  239605 807000))
+;;;### (autoloads nil "pdf-outline" "pdf-outline.el" (23649 932 306785
+;;;;;;  468000))
 ;;; Generated autoloads from pdf-outline.el
 
 (autoload 'pdf-outline-minor-mode "pdf-outline" "\
@@ -227,8 +245,8 @@ Enable imenu in the current PDF buffer.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-sync" "pdf-sync.el" (23249 53896 927605
-;;;;;;  551000))
+;;;### (autoloads nil "pdf-sync" "pdf-sync.el" (23649 932 308216
+;;;;;;  199000))
 ;;; Generated autoloads from pdf-sync.el
 
 (autoload 'pdf-sync-minor-mode "pdf-sync" "\
@@ -251,18 +269,10 @@ with AUCTeX.
 
 \(fn &optional ARG)" t nil)
 
-(define-obsolete-variable-alias 'pdf-sync-tex-display-pdf-key 'pdf-sync-forward-display-pdf-key nil)
-
-(define-obsolete-variable-alias 'pdf-sync-goto-tex-hook 'pdf-sync-backward-hook nil)
-
-(define-obsolete-variable-alias 'pdf-sync-display-pdf-hook 'pdf-sync-forward-hook nil)
-
-(define-obsolete-variable-alias 'pdf-sync-display-pdf-action 'pdf-sync-forward-display-action nil)
-
 ;;;***
 
-;;;### (autoloads nil "pdf-tools" "pdf-tools.el" (23249 53896 943605
-;;;;;;  565000))
+;;;### (autoloads nil "pdf-tools" "pdf-tools.el" (23649 932 287198
+;;;;;;  501000))
 ;;; Generated autoloads from pdf-tools.el
 
 (defvar pdf-tools-handle-upgrades t "\
@@ -315,8 +325,8 @@ MODES defaults to `pdf-tools-enabled-modes'.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-view" "pdf-view.el" (23249 53896 935605
-;;;;;;  558000))
+;;;### (autoloads nil "pdf-view" "pdf-view.el" (23649 932 291241
+;;;;;;  497000))
 ;;; Generated autoloads from pdf-view.el
 
 (autoload 'pdf-view-bookmark-jump-handler "pdf-view" "\
@@ -328,8 +338,8 @@ See also `pdf-view-bookmark-make-record'.
 
 ;;;***
 
-;;;### (autoloads nil "pdf-virtual" "pdf-virtual.el" (23249 53896
-;;;;;;  911605 538000))
+;;;### (autoloads nil "pdf-virtual" "pdf-virtual.el" (23649 932 300371
+;;;;;;  30000))
 ;;; Generated autoloads from pdf-virtual.el
 
 (autoload 'pdf-virtual-edit-mode "pdf-virtual" "\
@@ -365,7 +375,7 @@ Enable recognition and handling of VPDF files.
 ;;;***
 
 ;;;### (autoloads nil nil ("pdf-cache.el" "pdf-dev.el" "pdf-info.el"
-;;;;;;  "pdf-tools-pkg.el" "pdf-util.el") (23249 53897 231605 800000))
+;;;;;;  "pdf-tools-pkg.el" "pdf-util.el") (23649 932 301631 825000))
 
 ;;;***
 
