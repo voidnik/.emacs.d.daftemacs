@@ -14,7 +14,7 @@
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2017-11-06)" user-init-file)
+(message "user-init-file: %s (last modified date: 2019-02-11)" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 
 (setq gc-cons-threshold (* 100 1024 1024))
@@ -53,6 +53,7 @@
       column-number-mode t
       split-height-threshold nil ; not to split this way.
       gdb-many-windows t)
+(blink-cursor-mode 0)
 (setq-default truncate-lines t)
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
@@ -156,8 +157,6 @@
 ;; Startup
 ;;==============================================================================
 
-(blink-cursor-mode 0)
-
 (init-themes)
 
 (if (display-graphic-p)
@@ -186,7 +185,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (helm-gtags imenu-list rtags objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
+    (company-lsp lsp-ui helm-gtags imenu-list objc-font-lock flycheck-objc-clang neotree zerodark-theme company flycheck magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode pdf-tools))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -379,30 +378,30 @@
         ;(insert (format "Command `%s' %s" p e) )
         (start-next-command)))))
 
-;;==============================================================================
-;; gtags
-;;==============================================================================
+;;;==============================================================================
+;;; gtags (OBSOLETE)
+;;;==============================================================================
+;
+;;; Enable helm-gtags-mode
+;(add-hook 'c-mode-hook 'helm-gtags-mode)
+;(add-hook 'c++-mode-hook 'helm-gtags-mode)
+;(add-hook 'asm-mode-hook 'helm-gtags-mode)
+;
+;;; Set key bindings
+;(eval-after-load "helm-gtags"
+;  '(progn
+;     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+;     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+;     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+;     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+;     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+;     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+;     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
 
-;; Enable helm-gtags-mode
-(add-hook 'c-mode-hook 'helm-gtags-mode)
-(add-hook 'c++-mode-hook 'helm-gtags-mode)
-(add-hook 'asm-mode-hook 'helm-gtags-mode)
-
-;; Set key bindings
-(eval-after-load "helm-gtags"
-  '(progn
-     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
-     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
-
-;;==============================================================================
-;; rtags
-;;==============================================================================
-
+;;;==============================================================================
+;;; rtags (OBSOLETE)
+;;;==============================================================================
+;
 ;(defun run-rdm ()
 ;  "Run rdm for rtags"
 ;  (interactive)
@@ -442,39 +441,39 @@
 ;             ("I" . rtags-imenu)
 ;             ("T" . rtags-taglist)))))
 
+;;;==============================================================================
+;;; etags (OBSOLETE)
+;;;==============================================================================
+;
+;(defun create-tags (dir-name)
+;  "Create a TAGS file."
+;  (interactive "DDirectory: ")
+;  (setq c++-headers-path "/usr/include/c++")
+;  (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
+;  (execute-commands "*etags-output*"
+;                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c++-headers-path dir-name)
+;                    (format "find -H %s -type f \\( \
+;-name \"*.[csSh]\" \
+;-o \
+;-name \"*.cc\" \
+;-o \
+;-name \"*.cpp\"\
+;-o \
+;-name \"*.m\" \
+;-o \
+;-name \"*.java\" \
+;-o \
+;-name \"*.py\" \
+;-o \
+;-name \"*.pl\" \
+;\\) | \
+;xargs etags -a -o %sTAGS" dir-name dir-name)))
+
 ;;==============================================================================
-;; etags
+;; find-file-in-tags (OBSOLETE)
 ;;==============================================================================
 
-(defun create-tags (dir-name)
-  "Create a TAGS file."
-  (interactive "DDirectory: ")
-  (setq c++-headers-path "/usr/include/c++")
-  (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
-  (execute-commands "*etags-output*"
-                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c++-headers-path dir-name)
-                    (format "find -H %s -type f \\( \
--name \"*.[csSh]\" \
--o \
--name \"*.cc\" \
--o \
--name \"*.cpp\"\
--o \
--name \"*.m\" \
--o \
--name \"*.java\" \
--o \
--name \"*.py\" \
--o \
--name \"*.pl\" \
-\\) | \
-xargs etags -a -o %sTAGS" dir-name dir-name)))
-
-;;==============================================================================
-;; find-file-in-tags
-;;==============================================================================
-
-(load-file "~/.emacs.d/find-file-in-tags.el")
+;(load-file "~/.emacs.d/find-file-in-tags.el")
 
 ;;==============================================================================
 ;; Window Resize
@@ -628,6 +627,23 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
                               "/System/Library/Frameworks" "/Library/Frameworks"))
 
 ;;==============================================================================
+;; Language Server Protocol (LSP)
+;;
+;; https://github.com/emacs-lsp/lsp-mode
+;; https://github.com/MaskRay/ccls
+;; https://github.com/MaskRay/emacs-ccls
+;;==============================================================================
+
+(use-package lsp-mode :commands lsp)
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
+(setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
+
+;;==============================================================================
 ;; Key Mapping Customiaztion
 ;;==============================================================================
 
@@ -652,7 +668,7 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 (global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
 (global-set-key (kbd "C-c |") 'neotree-show-project-root-dir)
 (global-set-key (kbd "C-c m") 'magit-status)
-(global-set-key (kbd "C-c f") 'find-file-in-tags)
+;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
 (global-set-key (kbd "C-c w") 'resize-window)
 (global-set-key (kbd "C-c k") 'erase-buffer)
 
@@ -681,110 +697,3 @@ xargs etags -a -o %sTAGS" dir-name dir-name)))
 ;(global-set-key [f7] 'gud-step)
 ;(global-set-key [f8] 'gud-finish)
 ;(global-set-key [f9] 'gud-break)
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; TODO: The following lines will be removed. ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;(global-set-key (kbd "C-c RET") 'semantic-ia-complete-symbol-menu)
-;(global-set-key (kbd "C-c SPC") 'semantic-ia-show-variants)
-;;(global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
-;(global-set-key (kbd "C-c ]") 'my-semantic-jump-to)
-;(global-set-key (kbd "C-c [") 'my-semantic-jump-prev)
-
-;;==============================================================================
-;; GNU GLOBAL for source tags
-;;==============================================================================
-
-;(setq load-path (cons "~/.emacs.d/global" load-path)) ; "/usr/share/emacs/site-lisp/global/" load-path))
-;
-;(autoload 'gtags-mode "gtags"
-;  "Minor mode for browsing source code using GLOBAL" t)
-;(add-hook 'c-mode-common-hook
-;          (lambda ()
-;            (gtags-mode 1)))
-;
-;;(defun gtags-create-or-update ()
-;;  "create or update the gnu global tag file"
-;;  (interactive)
-;;  (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
-;;      (let ((olddir default-directory)
-;;            (topdir (read-directory-name
-;;                     "gtags: top of source tree:" default-directory)))
-;;        (cd topdir)
-;;        (shell-command "gtags && echo 'created tagfile'")
-;;        (cd olddir)) ; restore
-;;    ;;  tagfile already exists; update it
-;;    (shell-command "global -u && echo 'updated tagfile'")))
-;;
-;;(add-hook 'c-mode-common-hook
-;;          (lambda ()
-;;            (gtags-create-or-update)))
-;
-;(defun gtags-update-single (filename)
-;  "Update Gtags database for changes in a single file"
-;  (interactive)
-;  (start-process "update-gtags" "update-gtags" "bash" "-c" (concat "cd " (gtags-root-dir) " ; gtags --single-update " filename )))
-;
-;(defun gtags-update-current-file()
-;  (interactive)
-;  (defvar filename)
-;  (setq filename (replace-regexp-in-string (gtags-root-dir) "." (buffer-file-name (current-buffer))))
-;  (gtags-update-single filename)
-;  (message "Gtags updated for %s" filename))
-;
-;(defun gtags-update-hook()
-;  "Update GTAGS file incrementally upon saving a file"
-;  (when gtags-mode
-;    (when (gtags-root-dir)
-;      (gtags-update-current-file))))
-;
-;(add-hook 'after-save-hook 'gtags-update-hook)
-;
-;(add-hook 'gtags-mode-hook
-;          (lambda ()
-;            (local-set-key (kbd "M-.") 'gtags-find-tag)
-;            (local-set-key (kbd "M-,") 'gtags-find-rtag)))
-;
-;;(defun my-gtags-keys ()
-;;  (define-key c-mode-base-map (kbd "C-.") 'gtags-find-tag)
-;;  (define-key c-mode-base-map (kbd "C-?") 'gtags-find-rtag))
-;;(add-hook 'c-mode-common-hook 'my-gtags-keys)
-
-;;;;==============================================================================
-;;;; my-semantic-jump
-;;;;==============================================================================
-;;
-;;(defvar my-semantic-jump-ring
-;;  (make-ring 20)
-;;  "ring buffer that used to store code jump information")
-;;
-;;(defun my-make-ring-item ()
-;;  (let* ((buffer (current-buffer))
-;;         (filename (buffer-file-name buffer))
-;;         (offset (point)))
-;;    (cons filename offset)))
-;;
-;;(defun my-semantic-jump-to ()
-;;  (interactive)
-;;  (let* ((item (my-make-ring-item)))
-;;    (if (buffer-file-name (current-buffer))
-;;        ;; if it's not an internal buffer
-;;        (progn
-;;          ;; insert the info before jump
-;;          (ring-insert my-semantic-jump-ring item)
-;;          (semantic-ia-fast-jump (point))))))
-;;
-;;(defun my-semantic-jump-prev ()
-;;  (interactive)
-;;  (let* (item)
-;;    (if (eq 0 (ring-length my-semantic-jump-ring))
-;;        (error "No history jump info")
-;;      (setq item (ring-ref my-semantic-jump-ring 0))
-;;      (find-file (car item))
-;;      (goto-char (cdr item))
-;;      (pulse-momentary-highlight-one-line (point))
-;;      (ring-remove my-semantic-jump-ring 0))))

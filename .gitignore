@@ -12,4 +12,6 @@ projectile.cache
 elpa/archives
 elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
-rtags
+.cask
+.lsp-session-v1
+ccls
