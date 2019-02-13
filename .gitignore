@@ -12,6 +12,7 @@ projectile.cache
 elpa/archives
 elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
+elpa/treemacs-*
 .cask
 .cache
 .lsp-session-v1
