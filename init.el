@@ -24,17 +24,22 @@
 ;; Packages
 ;;==============================================================================
 
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
-
 (message "package-archives: %s" package-archives)
+
+;; Install use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;;==============================================================================
 ;; Custom Variables
@@ -217,9 +222,14 @@
 ;; projectile
 ;;==============================================================================
 
-(projectile-global-mode)
-(setq projectile-indexing-method 'native)
-(setq projectile-enable-caching t)
+(use-package projectile
+  :ensure t
+  :config
+  (setq projectile-indexing-method 'native
+        projectile-enable-caching t)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
 
 ;;==============================================================================
 ;; flx-ido
@@ -598,33 +608,33 @@
           (lambda()
             (setq js-indent-level 2)))
 
-;;==============================================================================
-;; Dim for #if 0 ... #endif
-;;==============================================================================
-
-(defun cpp-highlight-if-0/1 ()
-  "Modify the face of text in between #if 0 ... #endif."
-  (setq cpp-known-face '(background-color . "gray15"))
-  (setq cpp-unknown-face 'default)
-  (setq cpp-face-type 'dark)
-  (setq cpp-known-writable 't)
-  (setq cpp-unknown-writable 't)
-  (setq cpp-edit-list
-        '((#("1" 0 1
-             (fontified nil))
-           nil
-           (background-color . "gray15")
-           both nil)
-          (#("0" 0 1
-             (fontified nil))
-           (background-color . "gray15")
-           nil
-           both nil)))
-  (cpp-highlight-buffer t))
-(defun jpk/c-mode-hook ()
-  (cpp-highlight-if-0/1)
-  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
-(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
+;;;==============================================================================
+;;; Dim for #if 0 ... #endif
+;;;==============================================================================
+;
+;(defun cpp-highlight-if-0/1 ()
+;  "Modify the face of text in between #if 0 ... #endif."
+;  (setq cpp-known-face '(background-color . "gray15"))
+;  (setq cpp-unknown-face 'default)
+;  (setq cpp-face-type 'dark)
+;  (setq cpp-known-writable 't)
+;  (setq cpp-unknown-writable 't)
+;  (setq cpp-edit-list
+;        '((#("1" 0 1
+;             (fontified nil))
+;           nil
+;           (background-color . "gray15")
+;           both nil)
+;          (#("0" 0 1
+;             (fontified nil))
+;           (background-color . "gray15")
+;           nil
+;           both nil)))
+;  (cpp-highlight-buffer t))
+;(defun jpk/c-mode-hook ()
+;  (cpp-highlight-if-0/1)
+;  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
+;(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
 
 ;;==============================================================================
 ;; Objective C
@@ -680,6 +690,10 @@
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
 (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
+
+;(setq
+; ccls-initialization-options
+; `(:index (:multiVersion 1 :trackDependency 1)))
 
 ;;==============================================================================
 ;; Key Mapping Customiaztion
