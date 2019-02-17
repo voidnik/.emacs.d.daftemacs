@@ -307,8 +307,9 @@
   :ensure t
   :defer t
   :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+;  (with-eval-after-load 'winum
+;    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  (global-set-key (kbd "C-c \\") 'treemacs-select-window)
   :config
   (progn
     (setq treemacs-collapse-dirs                 (if (executable-find "python") 3 0)
@@ -717,7 +718,7 @@
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
 (global-set-key (kbd "C-c d") 'desktop-read)
-(global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
+;(global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
 (global-set-key (kbd "C-c |") 'neotree-show-project-root-dir)
 (global-set-key (kbd "C-c m") 'magit-status)
 ;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
