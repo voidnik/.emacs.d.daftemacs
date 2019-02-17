@@ -17,3 +17,4 @@ elpa/treemacs-*
 .cache
 .lsp-session-v1
 ccls
+transient
