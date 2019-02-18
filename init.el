@@ -690,8 +690,11 @@
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
-(setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
-
+(cond
+ ((string-equal system-type "darwin")
+  (setq ccls-executable "/usr/local/Cellar/ccls/0.20180924/bin/ccls"))
+ (setq ccls-executable "~/.emacs.d/ccls/Release/ccls"))
+;TODO
 ;(setq
 ; ccls-initialization-options
 ; `(:index (:multiVersion 1 :trackDependency 1)))
