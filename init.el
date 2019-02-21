@@ -701,9 +701,8 @@
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
-(cond
- ((string-equal system-type "darwin")
-  (setq ccls-executable "/usr/local/opt/ccls/bin/ccls"))
+(if (string-equal system-type "darwin")
+  (setq ccls-executable "/usr/local/opt/ccls/bin/ccls")
  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls"))
 ;TODO
 ;(setq
