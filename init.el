@@ -760,6 +760,7 @@
 
 (global-set-key (kbd "M-o") 'projectile-find-other-file)
 ;(global-set-key (kbd "M-o") 'ff-find-other-file)
+(global-set-key (kbd "M-m") 'lsp-ui-imenu)
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()
