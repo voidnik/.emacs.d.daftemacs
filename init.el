@@ -222,14 +222,9 @@
 ;; projectile
 ;;==============================================================================
 
-(use-package projectile
-  :ensure t
-  :config
-  (setq projectile-indexing-method 'native
-        projectile-enable-caching t)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;;==============================================================================
 ;; flx-ido
@@ -252,10 +247,19 @@
 (require 'vlf-setup)
 
 ;;==============================================================================
-;; flycheck
+;; flymake
 ;;==============================================================================
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(defun flymake-refresh ()
+  "Refresh flymake."
+  (interactive)
+  (flymake-mode)(flymake-mode))
+
+;;;==============================================================================
+;;; flycheck
+;;;==============================================================================
+;
+;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
 ;; company
@@ -639,6 +643,7 @@
 
 ;;==============================================================================
 ;; Objective C
+;; https://www.emacswiki.org/emacs/ObjectiveCMode
 ;;==============================================================================
 
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
@@ -752,7 +757,9 @@
 (global-set-key (kbd "C-c <left>") 'buf-move-left)
 (global-set-key (kbd "C-c <right>") 'buf-move-right)
 
-(global-set-key (kbd "M-o") 'ff-find-other-file)
+(global-set-key (kbd "M-o") 'projectile-find-other-file)
+;(global-set-key (kbd "M-o") 'ff-find-other-file)
+(global-set-key (kbd "M-m") 'lsp-ui-imenu)
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()
