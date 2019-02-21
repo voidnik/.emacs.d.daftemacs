@@ -643,6 +643,7 @@
 
 ;;==============================================================================
 ;; Objective C
+;; https://www.emacswiki.org/emacs/ObjectiveCMode
 ;;==============================================================================
 
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
@@ -757,7 +758,8 @@
 (global-set-key (kbd "C-c <left>") 'buf-move-left)
 (global-set-key (kbd "C-c <right>") 'buf-move-right)
 
-(global-set-key (kbd "M-o") 'ff-find-other-file)
+(global-set-key (kbd "M-o") 'projectile-find-other-file)
+;(global-set-key (kbd "M-o") 'ff-find-other-file)
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()
