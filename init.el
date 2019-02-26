@@ -694,10 +694,13 @@
 (use-package company-lsp :commands company-lsp)
 
 ;;
-;; - Building ccls on Ubuntu
+;; - Building ccls
 ;; $ git clone --depth=1 --recursive https://github.com/MaskRay/ccls
 ;; $ cd ccls
+;; On Ubuntu
 ;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-7
+;; On MacOS brew llvm
+;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
 ;; $ cmake --build Release
 ;;
 ;; - Installing ccls on MacOS brew (https://github.com/twlz0ne/homebrew-ccls)
@@ -707,9 +710,7 @@
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
-(if (string-equal system-type "darwin")
-  (setq ccls-executable "/usr/local/opt/ccls/bin/ccls")
- (setq ccls-executable "~/.emacs.d/ccls/Release/ccls"))
+(setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
 ;TODO
 ;(setq
 ; ccls-initialization-options
