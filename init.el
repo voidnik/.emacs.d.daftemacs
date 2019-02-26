@@ -716,6 +716,8 @@
 ; ccls-initialization-options
 ; `(:index (:multiVersion 1 :trackDependency 1)))
 
+(add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+
 ;;==============================================================================
 ;; Key Mapping Customiaztion
 ;;==============================================================================
