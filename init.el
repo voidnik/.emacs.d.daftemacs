@@ -111,9 +111,10 @@
 
 (defun init-themes ()
   ;(load-theme 'base16-default-dark t)
-  (init-doom-theme-mod)
+  ;(init-doom-theme-mod)
   ;(init-zerodark-theme)
   ;(init-color-theme)
+  (load-theme 'dracula t) ; https://draculatheme.com/emacs/
   )
 
 (defun init-font ()
@@ -192,7 +193,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
