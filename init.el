@@ -193,7 +193,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -593,23 +593,29 @@
       (replace-match (string ?\C-j) nil t))))
 
 ;;==============================================================================
-;; Indentation
+;; Code Style
 ;;==============================================================================
 
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)
-(add-hook 'c-mode-hook
-          (lambda()
-            (setq c-basic-offset 2)
-            (c-set-offset 'substatement-open 0)))
-(add-hook 'c++-mode-hook
-          (lambda()
-            (setq c-basic-offset 2)
-            (c-set-offset 'substatement-open 0)))
+
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
+;(add-hook 'c-mode-hook
+;          (lambda()
+;            (setq c-basic-offset 2)
+;            (c-set-offset 'substatement-open 0)))
+;(add-hook 'c++-mode-hook
+;          (lambda()
+;            (setq c-basic-offset 2)
+;            (c-set-offset 'substatement-open 0)))
+
 (add-hook 'java-mode-hook
           (lambda()
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
+
 (add-hook 'js-mode-hook
           (lambda()
             (setq js-indent-level 2)))
