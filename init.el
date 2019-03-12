@@ -111,14 +111,14 @@
 (defun init-font ()
   ;(print (font-family-list))
   (cond
-   ((string-equal system-type "darwin")
+   ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
     (progn
       ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
       (set-face-attribute 'default nil :height 115 :family "Hack")
       ;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Menlo")
       ))
-   ((string-equal system-type "gnu/linux")
+   ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
     (progn
       ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
       (set-face-attribute 'default nil :height 95 :family "Hack")
