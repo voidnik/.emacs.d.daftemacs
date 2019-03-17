@@ -87,7 +87,30 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-(defun init-doom-modeline ()
+(defun init-zerodark-theme ()
+  (load-theme 'zerodark t)
+  ;; Optionally setup the modeline
+  (zerodark-setup-modeline-format))
+
+(defun init-color-theme ()
+  (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
+  (require 'color-theme)
+  (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
+  ;(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       (color-theme-sunburst))))
+
+(defun init-themes ()
+  ;(load-theme 'base16-default-dark t)
+  ;(init-doom-theme)
+  ;(init-zerodark-theme)
+  ;(init-color-theme)
+  (load-theme 'dracula t) ; https://draculatheme.com/emacs/
+  )
+
+(defun init-doom-mode-line ()
   (use-package doom-modeline
     :ensure t
     :hook (after-init . doom-modeline-mode))
@@ -174,28 +197,11 @@
   ;; Function to stylize the irc buffer names.
   (setq doom-modeline-irc-stylize 'identity))
 
-(defun init-zerodark-theme ()
-  (load-theme 'zerodark t)
-  ;; Optionally setup the modeline
-  (zerodark-setup-modeline-format))
-
-(defun init-color-theme ()
-  (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
-  (require 'color-theme)
-  (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
-  ;(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)
-       (color-theme-sunburst))))
-
-(defun init-themes ()
-  ;(load-theme 'base16-default-dark t)
-  ;(init-doom-theme)
-  ;(init-zerodark-theme)
-  ;(init-color-theme)
-  (load-theme 'dracula t) ; https://draculatheme.com/emacs/
-  (init-doom-modeline)
+(defun init-mode-line ()
+  ;(init-doom-mode-line)
+  (setq sml/theme 'respectful)
+  (setq sml/no-confirm-load-theme t)
+  (sml/setup)
   )
 
 ;** Font Repositories **
@@ -264,6 +270,7 @@
 (require 'cl) ; Common Lisp
 
 (init-themes)
+(init-mode-line)
 
 (if (display-graphic-p)
     (startup-on-gui)
@@ -285,13 +292,13 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" default)))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" default)))
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
