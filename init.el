@@ -198,11 +198,11 @@
   (setq doom-modeline-irc-stylize 'identity))
 
 (defun init-mode-line ()
-  (init-doom-mode-line)
+  ;(init-doom-mode-line)
 
-  ;(setq sml/theme 'respectful)
-  ;(setq sml/no-confirm-load-theme t)
-  ;(sml/setup)
+  (setq sml/theme 'respectful)
+  (setq sml/no-confirm-load-theme t)
+  (sml/setup)
   )
 
 ;** Font Repositories **
