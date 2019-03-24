@@ -49,6 +49,11 @@
 ;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
 (defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
 
+(defmacro csetq (variable value)
+  `(funcall (or (get ',variable 'custom-set)
+                'set-default)
+            ',variable ,value))
+
 ;;==============================================================================
 ;; Basic Customization
 ;;==============================================================================
@@ -500,9 +505,43 @@
 
 ;;==============================================================================
 ;; ediff
+;;
+;; https://oremacs.com/2015/01/17/setting-up-ediff/
 ;;==============================================================================
 
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(csetq ediff-window-setup-function 'ediff-setup-windows-plain)
+(csetq ediff-split-window-function 'split-window-horizontally)
+(csetq ediff-diff-options "-w")
+(winner-mode)
+(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+
+(custom-set-faces
+ '(ediff-current-diff-A ((t (:background "#7F3C63")))))
+(custom-set-faces
+ '(ediff-fine-diff-A ((t (:foreground "#282a36" :background "#FF79C6")))))
+
+(custom-set-faces
+ '(ediff-current-diff-B ((t (:background "#287D3D")))))
+(custom-set-faces
+ '(ediff-fine-diff-B ((t (:foreground "#282a36" :background "#50FA7B")))))
+
+(custom-set-faces
+ '(ediff-current-diff-C ((t (:background "#45747E")))))
+(custom-set-faces
+ '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8BE9FD")))))
+
+(custom-set-faces
+ '(ediff-even-diff-A ((t (:background "#464752")))))
+(custom-set-faces
+ '(ediff-even-diff-B ((t (:background "#464752")))))
+(custom-set-faces
+ '(ediff-even-diff-C ((t (:background "#464752")))))
+(custom-set-faces
+ '(ediff-odd-diff-A ((t (:background "#464752")))))
+(custom-set-faces
+ '(ediff-odd-diff-B ((t (:background "#464752")))))
+(custom-set-faces
+ '(ediff-odd-diff-C ((t (:background "#464752")))))
 
 ;;==============================================================================
 ;; linum
