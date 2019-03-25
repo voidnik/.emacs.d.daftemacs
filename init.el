@@ -26,7 +26,7 @@
 
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -162,7 +162,7 @@
 
   ;; If non-nil, only display one number for checker information if applicable.
   (setq doom-modeline-checker-simple-format t)
-  
+
   ;; Whether display perspective name or not. Non-nil to display in mode-line.
   (setq doom-modeline-persp-name t)
 
@@ -235,7 +235,7 @@
 
 (defun startup-on-gui ()
   (init-font)
-  
+
   (tool-bar-mode -1) ; hide tool bar
   ;(menu-bar-mode -1) ; hide menu bar
 
@@ -244,7 +244,7 @@
   ;(set-frame-height (selected-frame) 100)
 
   (setq window-min-width (/ (display-pixel-height) 22))
-  
+
   (require 'all-the-icons)
 
   (defun toggle-fullscreen (&optional f)
@@ -310,7 +310,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ediff-current-diff-A ((t (:background "#7F3C63"))))
+ '(ediff-current-diff-B ((t (:background "#287D3D"))))
+ '(ediff-current-diff-C ((t (:background "#45747E"))))
+ '(ediff-even-diff-A ((t (:background "#464752"))))
+ '(ediff-even-diff-B ((t (:background "#464752"))))
+ '(ediff-even-diff-C ((t (:background "#464752"))))
+ '(ediff-fine-diff-A ((t (:foreground "#282a36" :background "#FF79C6"))))
+ '(ediff-fine-diff-B ((t (:foreground "#282a36" :background "#50FA7B"))))
+ '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8BE9FD"))))
+ '(ediff-odd-diff-A ((t (:background "#464752"))))
+ '(ediff-odd-diff-B ((t (:background "#464752"))))
+ '(ediff-odd-diff-C ((t (:background "#464752")))))
 
 ;;==============================================================================
 ;; exec-path
@@ -515,33 +526,21 @@
 (winner-mode)
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 
-(custom-set-faces
- '(ediff-current-diff-A ((t (:background "#7F3C63")))))
-(custom-set-faces
- '(ediff-fine-diff-A ((t (:foreground "#282a36" :background "#FF79C6")))))
 
-(custom-set-faces
- '(ediff-current-diff-B ((t (:background "#287D3D")))))
-(custom-set-faces
- '(ediff-fine-diff-B ((t (:foreground "#282a36" :background "#50FA7B")))))
 
-(custom-set-faces
- '(ediff-current-diff-C ((t (:background "#45747E")))))
-(custom-set-faces
- '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8BE9FD")))))
 
-(custom-set-faces
- '(ediff-even-diff-A ((t (:background "#464752")))))
-(custom-set-faces
- '(ediff-even-diff-B ((t (:background "#464752")))))
-(custom-set-faces
- '(ediff-even-diff-C ((t (:background "#464752")))))
-(custom-set-faces
- '(ediff-odd-diff-A ((t (:background "#464752")))))
-(custom-set-faces
- '(ediff-odd-diff-B ((t (:background "#464752")))))
-(custom-set-faces
- '(ediff-odd-diff-C ((t (:background "#464752")))))
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;;==============================================================================
 ;; linum
@@ -556,8 +555,7 @@
   "* List of modes disabled when global linum mode is on"
   :type '(repeat (sexp :tag "Major mode"))
   :tag " Major modes where linum is disabled: "
-  :group 'linum
-  )
+  :group 'linum)
 (defcustom linum-disable-starred-buffers 't
   "* Disable buffers that have stars in them like *Gnu Emacs*"
   :type 'boolean
@@ -565,10 +563,8 @@
 
 (defun linum-on ()
   "* When linum is running globally, disable line number in modes defined in `linum-disabled-modes-list'. Changed by linum-off. Also turns off numbering in starred modes like *scratch*"
-
   (unless (or (minibufferp) (member major-mode linum-disabled-modes-list)
-	      (and linum-disable-starred-buffers (string-match "*" (buffer-name)))
-	      )
+              (and linum-disable-starred-buffers (string-match "*" (buffer-name))))
     (linum-mode 1)))
 
 ;;==============================================================================
