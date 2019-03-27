@@ -42,17 +42,12 @@
   (package-install 'use-package))
 
 ;;==============================================================================
-;; Custom Variables
+;; My Variables
 ;;==============================================================================
 
 (defvar my-initial-buffer nil)
 ;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
 (defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
-
-(defmacro csetq (variable value)
-  `(funcall (or (get ',variable 'custom-set)
-                'set-default)
-            ',variable ,value))
 
 ;;==============================================================================
 ;; Basic Customization
@@ -61,6 +56,11 @@
 (defun open-user-init-file ()
   (interactive)
   (find-file user-init-file))
+
+(defmacro csetq (variable value)
+  `(funcall (or (get ',variable 'custom-set)
+                'set-default)
+            ',variable ,value))
 
 (defun init-doom-theme ()
   (require 'doom-themes)
@@ -525,22 +525,6 @@
 (csetq ediff-diff-options "-w")
 (winner-mode)
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ;;==============================================================================
 ;; linum
