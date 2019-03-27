@@ -222,6 +222,7 @@
       (set-face-attribute 'default nil :height 115 :family "Hack")
       ;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Menlo")
+      (set-fontset-font t 'hangul (font-spec :name "NanumGothic"))
       ))
    ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
     (progn
@@ -231,6 +232,7 @@
       ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;(set-face-attribute 'default nil :height 100 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+      (set-fontset-font t 'hangul (font-spec :name "NanumGothic"))
       ))))
 
 (defun startup-on-gui ()
