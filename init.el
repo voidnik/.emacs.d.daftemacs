@@ -536,6 +536,14 @@
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 
 ;;==============================================================================
+;; Undo Tree
+;;
+;; https://www.emacswiki.org/emacs/UndoTree
+;;==============================================================================
+
+(global-undo-tree-mode)
+
+;;==============================================================================
 ;; linum
 ;;==============================================================================
 
@@ -885,6 +893,7 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
+(global-set-key (kbd "C-c /") 'undo-tree-visualize)
 (global-set-key (kbd "C-c d") 'desktop-read)
 (global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
 (global-set-key (kbd "C-c |") 'neotree-show-project-root-dir)
