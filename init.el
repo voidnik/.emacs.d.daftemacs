@@ -341,6 +341,8 @@
   (progn
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
     (setq exec-path (append exec-path '("/usr/local/bin")))
+    (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
+    (setq exec-path (append exec-path '("/Library/TeX/texbin")))
     (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Library/Android/sdk/platform-tools")))
     (setq exec-path (append exec-path '((expand-file-name "~/Library/Android/sdk/platform-tools"))))
     (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/trtc/depot_tools")))
