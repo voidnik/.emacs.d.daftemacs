@@ -306,7 +306,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -742,7 +742,6 @@
 
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
-
 ;(add-hook 'c-mode-hook
 ;          (lambda()
 ;            (setq c-basic-offset 2)
@@ -871,6 +870,43 @@
 
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;;==============================================================================
+;; Python
+;;
+;; elpy (https://github.com/jorgenschaefer/elpy)
+;; # Completion and code navigation
+;; pip install jedi
+;; # Code checks
+;; pip install flake8
+;; # Automatic formatting (PEP8, Yapf or Black)
+;; pip install autopep8
+;; pip install yapf
+;; pip install black (only available on Python 3)
+;;==============================================================================
+
+(use-package python
+  :mode ("\\.py" . python-mode)
+  :config
+  (use-package elpy
+    :init
+    (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+    :config
+    (setq elpy-rpc-backend "jedi")
+    ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+    ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
+    :bind (:map elpy-mode-map
+	      ("M-." . elpy-goto-definition)
+	      ("M-," . pop-tag-mark)))
+  (elpy-enable))
+
+(use-package pip-requirements
+  :config
+  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+
+(use-package py-autopep8)
+
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;;==============================================================================
 ;; Key Mapping Customiaztion
