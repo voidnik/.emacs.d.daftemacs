@@ -213,6 +213,7 @@
 ;** Font Repositories **
 ;IBM 3270 (https://github.com/rbanffy/3270font)
 ;Hack (https://github.com/source-foundry/Hack)
+;NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
 (defun init-font ()
   ;(print (font-family-list))
   (cond
@@ -222,7 +223,10 @@
       (set-face-attribute 'default nil :height 115 :family "Hack")
       ;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Menlo")
-      (set-fontset-font t 'hangul (font-spec :name "NanumGothic"))
+      (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+      (setq face-font-rescale-alist
+      '((".*hiragino.*" . 1.2)
+        ("NanumGothicCoding" . 1.2307692307692308)))
       ))
    ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
     (progn
@@ -232,7 +236,10 @@
       ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;(set-face-attribute 'default nil :height 100 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
-      (set-fontset-font t 'hangul (font-spec :name "NanumGothic"))
+      (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+      (setq face-font-rescale-alist
+      '((".*hiragino.*" . 1.2)
+        ("NanumGothicCoding" . 1.2307692307692308)))
       ))))
 
 (defun startup-on-gui ()
