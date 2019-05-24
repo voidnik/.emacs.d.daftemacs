@@ -313,7 +313,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -891,8 +891,14 @@
 ;; # Automatic formatting (PEP8, Yapf or Black)
 ;; pip install autopep8
 ;; pip install yapf
-;; pip install black (only available on Python 3)
+;; pip3 install black (only available on Python 3)
+;;
+;; importmagic (https://github.com/anachronic/importmagic.el)
+;; pip install importmagic epc
 ;;==============================================================================
+
+(setq python-shell-interpreter "python3")
+(setq python-shell-completion-native-enable nil)
 
 (use-package python
   :mode ("\\.py" . python-mode)
@@ -902,20 +908,24 @@
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
     :config
     (setq elpy-rpc-backend "jedi")
-    ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-    ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
+    (setq elpy-rpc-python-command "python3")
     :bind (:map elpy-mode-map
-	      ("M-." . elpy-goto-definition)
-	      ("M-," . pop-tag-mark)))
+                ("M-." . elpy-goto-definition)
+                ("M-," . pop-tag-mark)))
   (elpy-enable))
 
 (use-package pip-requirements
   :config
   (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 
-(use-package py-autopep8)
+(use-package py-autopep8
+  :config
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(use-package importmagic
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'importmagic-mode))
 
 ;;==============================================================================
 ;; Key Mapping Customiaztion
