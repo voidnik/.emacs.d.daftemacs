@@ -885,20 +885,22 @@
 ;;
 ;; elpy (https://github.com/jorgenschaefer/elpy)
 ;; # Completion and code navigation
-;; pip install jedi
+;; pip3 install jedi
 ;; # Code checks
-;; pip install flake8
+;; pip3 install flake8
+;; # Refactoring
+;; pip3 install rope
 ;; # Automatic formatting (PEP8, Yapf or Black)
-;; pip install autopep8
-;; pip install yapf
+;; pip3 install autopep8
+;; pip3 install yapf
 ;; pip3 install black (only available on Python 3)
 ;;
 ;; importmagic (https://github.com/anachronic/importmagic.el)
-;; pip install importmagic epc
+;; pip3 install importmagic epc
 ;;==============================================================================
 
-(setq python-shell-interpreter "python3")
-(setq python-shell-completion-native-enable nil)
+(setq python-shell-interpreter "python3"
+      python-shell-completion-native-enable nil)
 
 (use-package python
   :mode ("\\.py" . python-mode)
@@ -907,8 +909,17 @@
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
     :config
-    (setq elpy-rpc-backend "jedi")
     (setq elpy-rpc-python-command "python3")
+    (setq elpy-rpc-backend "jedi")
+    (defun python-send-buffer-with-args (args)
+      (interactive "sPython arguments: ")
+      (let ((source-buffer (current-buffer))
+            (current-buffer-name (buffer-name)))
+        (with-temp-buffer
+          (insert "import sys; sys.argv = '''" current-buffer-name " " args "'''.split()\n")
+          (insert-buffer-substring source-buffer)
+          (elpy-shell-send-buffer))))
+    (define-key elpy-mode-map (kbd "C-c C-a") 'python-send-buffer-with-args)
     :bind (:map elpy-mode-map
                 ("M-." . elpy-goto-definition)
                 ("M-," . pop-tag-mark)))
