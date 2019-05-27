@@ -18,3 +18,4 @@ elpa/treemacs-*
 .lsp-session-v1
 ccls
 transient
+__pycache__
