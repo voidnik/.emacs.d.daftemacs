@@ -388,15 +388,6 @@
 
 (require 'vlf-setup)
 
-;;==============================================================================
-;; flymake
-;;==============================================================================
-
-(defun flymake-refresh ()
-  "Refresh flymake."
-  (interactive)
-  (flymake-mode)(flymake-mode))
-
 ;;;==============================================================================
 ;;; flycheck
 ;;;==============================================================================
@@ -848,6 +839,8 @@
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package company-lsp :commands company-lsp)
+
+(setq lsp-prefer-flymake nil)
 
 ;;
 ;; - Building ccls
