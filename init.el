@@ -223,10 +223,6 @@
       (set-face-attribute 'default nil :height 115 :family "Hack")
       ;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Menlo")
-      (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
-      (setq face-font-rescale-alist
-      '((".*hiragino.*" . 1.2)
-        ("NanumGothicCoding" . 1.2307692307692308)))
       ))
    ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
     (progn
@@ -236,11 +232,13 @@
       ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;(set-face-attribute 'default nil :height 100 :family "monospace")
       ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
-      (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
-      (setq face-font-rescale-alist
+      ))))
+;To resolve the problem that cells of a table on Org mode containing Hangul are broken
+;https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
+(set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+(setq face-font-rescale-alist
       '((".*hiragino.*" . 1.2)
         ("NanumGothicCoding" . 1.2307692307692308)))
-      ))))
 
 (defun startup-on-gui ()
   (init-font)
