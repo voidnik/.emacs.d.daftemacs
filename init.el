@@ -955,10 +955,12 @@
 (global-set-key (kbd "C-c d") 'desktop-read)
 (global-set-key (kbd "C-c \\") 'neotree-toggle-project-root-dir-or-current-dir)
 (global-set-key (kbd "C-c |") 'neotree-show-project-root-dir)
-(global-set-key (kbd "C-c m") 'magit-status)
 ;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
-(global-set-key (kbd "C-c w") 'resize-window)
+(global-set-key (kbd "C-c r") 'resize-window)
 (global-set-key (kbd "C-c k") 'erase-buffer)
+
+(global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 ;(global-set-key (kbd "C-c 1") 'shell)
@@ -976,7 +978,7 @@
 (global-set-key (kbd "C-c <right>") 'buf-move-right)
 
 (global-set-key (kbd "M-o") 'projectile-find-other-file)
-;(global-set-key (kbd "M-o") 'ff-find-other-file)
+;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
 (global-set-key (kbd "M-m") 'imenu-list)
 
 ;; GUD
