@@ -55,7 +55,15 @@
 
 (defun open-user-init-file ()
   (interactive)
-  (find-file user-init-file))
+  (find-file-read-only user-init-file))
+
+(defun open-zshrc-file ()
+  (interactive)
+  (find-file-read-only "~/.zshrc"))
+
+(defun open-i3-config-file ()
+  (interactive)
+  (find-file-read-only "~/.config/i3/config"))
 
 (defmacro csetq (variable value)
   `(funcall (or (get ',variable 'custom-set)
