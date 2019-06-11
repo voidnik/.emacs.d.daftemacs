@@ -394,6 +394,25 @@
 
 (require 'vlf-setup)
 
+;;==============================================================================
+;; find-file-hook for handling the very large file
+;;
+;; https://stackoverflow.com/questions/18316665/
+;; how-to-improve-emacs-performance-when-view-large-file
+;;==============================================================================
+
+(defun my-find-file-check-if-very-large-file-hook ()
+  "If a file is over 5MB, turn off modes of the buffer that make it slow."
+  (when (> (buffer-size) (* 5 1024 1024))
+    ;(setq buffer-read-only t)
+    (setq bidi-display-reordering nil)
+    (buffer-disable-undo)
+    (jit-lock-mode nil)
+    (set (make-variable-buffer-local 'font-lock-mode) nil)
+    (set (make-variable-buffer-local 'linum-mode) nil)
+    (set (make-variable-buffer-local 'hl-line-mode) nil)))
+(add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
+
 ;;;==============================================================================
 ;;; flycheck
 ;;;==============================================================================
