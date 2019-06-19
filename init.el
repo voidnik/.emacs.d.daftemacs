@@ -284,6 +284,7 @@
       split-height-threshold nil ; not to split this way.
       gdb-many-windows t)
 (blink-cursor-mode 0)
+(global-hl-line-mode)
 (setq-default truncate-lines t)
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
@@ -410,7 +411,7 @@
     (jit-lock-mode nil)
     (set (make-variable-buffer-local 'font-lock-mode) nil)
     (set (make-variable-buffer-local 'linum-mode) nil)
-    (set (make-variable-buffer-local 'hl-line-mode) nil)))
+    (set (make-variable-buffer-local 'global-hl-line-mode) nil)))
 (add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
 
 ;;;==============================================================================
@@ -750,6 +751,7 @@
 ;;==============================================================================
 
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+(setq magit-gitflow-popup-key "~")
 
 ;;==============================================================================
 ;; Dos To Unix
@@ -1006,7 +1008,9 @@
 ;(global-set-key (kbd "C-c 1") 'shell)
 ;(global-set-key (kbd "C-c 1") 'term)
 (global-set-key (kbd "C-c 2") 'neato-graph-bar)
-(global-set-key (kbd "C-c _") 'whitespace-mode)
+
+(global-set-key (kbd "C-c -") 'global-hl-line-mode)
+(global-set-key (kbd "C-c .") 'whitespace-mode)
 (global-set-key (kbd "C-c =") 'hexl-mode-toggle)
 
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
