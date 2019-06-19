@@ -284,6 +284,7 @@
       split-height-threshold nil ; not to split this way.
       gdb-many-windows t)
 (blink-cursor-mode 0)
+(global-hl-line-mode)
 (setq-default truncate-lines t)
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
@@ -410,7 +411,7 @@
     (jit-lock-mode nil)
     (set (make-variable-buffer-local 'font-lock-mode) nil)
     (set (make-variable-buffer-local 'linum-mode) nil)
-    (set (make-variable-buffer-local 'hl-line-mode) nil)))
+    (set (make-variable-buffer-local 'global-hl-line-mode) nil)))
 (add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
 
 ;;;==============================================================================
