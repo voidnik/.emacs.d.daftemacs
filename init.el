@@ -14,7 +14,7 @@
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
 (message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s (last modified date: 2019-03-12)" user-init-file)
+(message "user-init-file: %s" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
 
 (setq gc-cons-threshold (* 100 1024 1024))
@@ -319,7 +319,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (ztree neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -746,6 +746,12 @@
 ;(smooth-scroll-mode t)
 
 ;;==============================================================================
+;; magit
+;;==============================================================================
+
+(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+
+;;==============================================================================
 ;; Dos To Unix
 ;;
 ;; https://www.emacswiki.org/emacs/DosToUnix
@@ -758,6 +764,13 @@
     (goto-char (point-min))
     (while (search-forward (string ?\C-m) nil t)
       (replace-match (string ?\C-j) nil t))))
+
+;;==============================================================================
+;; keyfreq
+;;==============================================================================
+
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
 
 ;;==============================================================================
 ;; Code Style
