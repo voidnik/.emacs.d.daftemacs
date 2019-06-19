@@ -751,6 +751,7 @@
 ;;==============================================================================
 
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+(setq magit-gitflow-popup-key "~")
 
 ;;==============================================================================
 ;; Dos To Unix
@@ -1007,7 +1008,9 @@
 ;(global-set-key (kbd "C-c 1") 'shell)
 ;(global-set-key (kbd "C-c 1") 'term)
 (global-set-key (kbd "C-c 2") 'neato-graph-bar)
-(global-set-key (kbd "C-c _") 'whitespace-mode)
+
+(global-set-key (kbd "C-c -") 'global-hl-line-mode)
+(global-set-key (kbd "C-c .") 'whitespace-mode)
 (global-set-key (kbd "C-c =") 'hexl-mode-toggle)
 
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
