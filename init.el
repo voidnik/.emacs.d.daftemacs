@@ -320,7 +320,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
+    (counsel magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style dracula-theme ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -367,10 +367,12 @@
     (setq exec-path (append exec-path '((expand-file-name "~/Workspace/depot_tools")))))))
 
 ;;==============================================================================
-;; Ivy
+;; ivy
 ;;==============================================================================
 
 (ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
 
 ;;==============================================================================
 ;; projectile
@@ -996,6 +998,9 @@
   (interactive)
   (other-window -1))
 
+
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 
@@ -1015,10 +1020,10 @@
 ;(global-set-key (kbd "C-c 1") 'term)
 (global-set-key (kbd "C-c 2") 'neato-graph-bar)
 
-(global-set-key (kbd "C-c -") 'global-hl-line-mode)
-(global-set-key (kbd "C-c .") 'whitespace-mode)
+(global-set-key (kbd "C-c _") 'whitespace-mode)
 (global-set-key (kbd "C-c =") 'hexl-mode-toggle)
 
+(global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
