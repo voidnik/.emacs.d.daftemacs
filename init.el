@@ -410,16 +410,18 @@
 ;; how-to-improve-emacs-performance-when-view-large-file
 ;;==============================================================================
 
+(defun disable-slow-modes ()
+  (interactive)
+  (setq bidi-display-reordering nil)
+  (jit-lock-mode nil)
+  (set (make-variable-buffer-local 'font-lock-mode) nil)
+  (set (make-variable-buffer-local 'linum-mode) nil)
+  (set (make-variable-buffer-local 'global-hl-line-mode) nil))
+
 (defun my-find-file-check-if-very-large-file-hook ()
   "If a file is over 5MB, turn off modes of the buffer that make it slow."
   (when (> (buffer-size) (* 5 1024 1024))
-    ;(setq buffer-read-only t)
-    (setq bidi-display-reordering nil)
-    (buffer-disable-undo)
-    (jit-lock-mode nil)
-    (set (make-variable-buffer-local 'font-lock-mode) nil)
-    (set (make-variable-buffer-local 'linum-mode) nil)
-    (set (make-variable-buffer-local 'global-hl-line-mode) nil)))
+    (disable-slow-modes)))
 (add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
 
 ;;;==============================================================================
