@@ -619,6 +619,20 @@
     (global-set-key (kbd "C-c l") 'display-line-numbers-mode)))
 
 ;;==============================================================================
+;; Hide Show
+;;
+;; https://www.emacswiki.org/emacs/HideShow
+;;==============================================================================
+
+(defun my-hs-minor-mode ()
+  (hs-minor-mode)
+  (local-set-key (kbd "C-c +") 'hs-show-all)
+  (local-set-key (kbd "C-c _") 'hs-hide-level)
+  (local-set-key (kbd "C-c =") 'hs-show-block)
+  (local-set-key (kbd "C-c -") 'hs-hide-block))
+(add-hook 'prog-mode-hook 'my-hs-minor-mode)
+
+;;==============================================================================
 ;; buffer-move
 ;;==============================================================================
 
