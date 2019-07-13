@@ -422,7 +422,9 @@
   (setq bidi-display-reordering nil)
   (jit-lock-mode nil)
   (set (make-variable-buffer-local 'font-lock-mode) nil)
-  (set (make-variable-buffer-local 'linum-mode) nil)
+  (if (version< emacs-version "26")
+      (set (make-variable-buffer-local 'linum-mode) nil)
+    (set (make-variable-buffer-local 'display-line-numbers) nil))
   (set (make-variable-buffer-local 'global-hl-line-mode) nil))
 
 (defun my-find-file-check-if-very-large-file-hook ()
@@ -588,29 +590,33 @@
 (global-undo-tree-mode)
 
 ;;==============================================================================
-;; linum
+;; Line Numbers
 ;;==============================================================================
 
-(load-file "~/.emacs.d/linum.elc")
-(setq linum-format "%5d \u2502")
-(setq linum-delay t)
-(global-linum-mode)
-
-(defcustom linum-disabled-modes-list '(eshell-mode wl-summary-mode compilation-mode org-mode text-mode dired-mode doc-view-mode pdf-view-mode)
-  "* List of modes disabled when global linum mode is on"
-  :type '(repeat (sexp :tag "Major mode"))
-  :tag " Major modes where linum is disabled: "
-  :group 'linum)
-(defcustom linum-disable-starred-buffers 't
-  "* Disable buffers that have stars in them like *Gnu Emacs*"
-  :type 'boolean
-  :group 'linum)
-
-(defun linum-on ()
-  "* When linum is running globally, disable line number in modes defined in `linum-disabled-modes-list'. Changed by linum-off. Also turns off numbering in starred modes like *scratch*"
-  (unless (or (minibufferp) (member major-mode linum-disabled-modes-list)
-              (and linum-disable-starred-buffers (string-match "*" (buffer-name))))
-    (linum-mode 1)))
+(if (version< emacs-version "26")
+    (progn
+      (load-file "~/.emacs.d/linum.elc")
+      (setq linum-format "%5d \u2502")
+      (setq linum-delay t)
+      (global-linum-mode)
+      (defcustom linum-disabled-modes-list '(eshell-mode wl-summary-mode compilation-mode org-mode text-mode dired-mode doc-view-mode pdf-view-mode)
+        "* List of modes disabled when global linum mode is on"
+        :type '(repeat (sexp :tag "Major mode"))
+        :tag " Major modes where linum is disabled: "
+        :group 'linum)
+      (defcustom linum-disable-starred-buffers 't
+        "* Disable buffers that have stars in them like *Gnu Emacs*"
+        :type 'boolean
+        :group 'linum)
+      (defun linum-on ()
+        "* When linum is running globally, disable line number in modes defined in `linum-disabled-modes-list'. Changed by linum-off. Also turns off numbering in starred modes like *scratch*"
+        (unless (or (minibufferp) (member major-mode linum-disabled-modes-list)
+                    (and linum-disable-starred-buffers (string-match "*" (buffer-name))))
+          (linum-mode 1)))
+      (global-set-key (kbd "C-c l") 'linum-mode))
+  (progn
+    (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+    (global-set-key (kbd "C-c l") 'display-line-numbers-mode)))
 
 ;;==============================================================================
 ;; buffer-move
