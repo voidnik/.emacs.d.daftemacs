@@ -1045,8 +1045,8 @@
 ;(global-set-key (kbd "C-c 1") 'term)
 (global-set-key (kbd "C-c 2") 'neato-graph-bar)
 
-(global-set-key (kbd "C-c _") 'whitespace-mode)
-(global-set-key (kbd "C-c =") 'hexl-mode-toggle)
+(global-set-key (kbd "C-c .") 'whitespace-mode)
+(global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
