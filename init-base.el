@@ -14,12 +14,23 @@
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
 
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 (defun other-window-reverse ()
   (interactive)
   (other-window -1))
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
+
+(defun my-shell-hook ()
+  (local-set-key "\C-ck" 'erase-buffer))
+(add-hook 'shell-mode-hook 'my-shell-hook)
+
+(defun hexl-mode-toggle ()
+  (interactive)
+  (if (string= "hexl-mode" major-mode)
+      (hexl-mode-exit)
+    (hexl-mode)))
+(global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 
 ;;==============================================================================
 ;; exec-path

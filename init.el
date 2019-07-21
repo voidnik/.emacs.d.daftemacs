@@ -140,6 +140,8 @@
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
+(global-set-key (kbd "M-o") 'projectile-find-other-file)
+
 ;;==============================================================================
 ;; company
 ;;==============================================================================
@@ -184,6 +186,11 @@
 ;;==============================================================================
 
 (load-file "~/.emacs.d/buffer-move.elc")
+
+(global-set-key (kbd "C-c <up>") 'buf-move-up)
+(global-set-key (kbd "C-c <down>") 'buf-move-down)
+(global-set-key (kbd "C-c <left>") 'buf-move-left)
+(global-set-key (kbd "C-c <right>") 'buf-move-right)
 
 ;;==============================================================================
 ;; Killing Buffers
@@ -259,6 +266,8 @@
           (error (beep)))))
     (message "Done.")))
 
+(global-set-key (kbd "C-c r") 'resize-window)
+
 ;;==============================================================================
 ;; find-file-hook for handling the very large file
 ;;
@@ -333,34 +342,20 @@
 (keyfreq-autosave-mode 1)
 
 ;;==============================================================================
-;; Key Mapping Customiaztion
+;; Custom Keys
 ;;==============================================================================
-
-(defun my-shell-hook ()
-  (local-set-key "\C-cl" 'erase-buffer))
-(add-hook 'shell-mode-hook 'my-shell-hook)
-
-(defun hexl-mode-toggle ()
-  (interactive)
-  (if (string= "hexl-mode" major-mode)
-      (hexl-mode-exit)
-    (hexl-mode)))
-(global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 
 (global-set-key (kbd "C-c d") 'desktop-read)
 
-(global-set-key (kbd "C-c r") 'resize-window)
-(global-set-key (kbd "C-c k") 'erase-buffer)
-
 (global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
 
 (global-set-key (kbd "C-c 1") 'eshell)
-;(global-set-key (kbd "C-c 1") 'shell)
-;(global-set-key (kbd "C-c 1") 'term)
-(global-set-key (kbd "C-c 2") 'neato-graph-bar)
+(global-set-key (kbd "C-c 2") 'shell)
+(global-set-key (kbd "C-c 3") 'term)
+(global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
 (global-set-key (kbd "C-c .") 'whitespace-mode)
 
@@ -368,13 +363,6 @@
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
-(global-set-key (kbd "C-c <up>") 'buf-move-up)
-(global-set-key (kbd "C-c <down>") 'buf-move-down)
-(global-set-key (kbd "C-c <left>") 'buf-move-left)
-(global-set-key (kbd "C-c <right>") 'buf-move-right)
-
-(global-set-key (kbd "M-o") 'projectile-find-other-file)
-;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
 (global-set-key (kbd "M-m") 'imenu-list)
 
 ;; GUD
