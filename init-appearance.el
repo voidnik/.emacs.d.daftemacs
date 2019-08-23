@@ -37,21 +37,10 @@
   ;; Optionally setup the modeline
   (zerodark-setup-modeline-format))
 
-(defun init-color-theme ()
-  (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el/")
-  (require 'color-theme)
-  (load-file "~/.emacs.d/color-theme/color-theme-sunburst.el")
-  ;(load-file "~/.emacs.d/color-theme/color-theme-tangotango.el")
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)
-       (color-theme-sunburst))))
-
 (defun init-themes ()
   ;(load-theme 'base16-default-dark t)
   ;(init-doom-theme)
   ;(init-zerodark-theme)
-  ;(init-color-theme)
   (load-theme 'dracula t) ; https://draculatheme.com/emacs/
   )
 
