@@ -111,7 +111,7 @@
 (defconst smooth-scroll/version "1.1")
 
 (eval-when-compile
-  (require 'cl)
+  (require 'cl-lib)
   (require 'easy-mmode))
 
  

@@ -9,7 +9,7 @@
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
 (delete-selection-mode t)
-(require 'cl) ; Common Lisp
+(require 'cl-lib) ; Common Lisp
 
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
