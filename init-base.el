@@ -107,10 +107,6 @@
 (setq mouse-wheel-follow-mouse t) ; scroll window under mouse
 (setq scroll-step 1) ; keyboard scroll one line at a time
 (setq scroll-conservatively 10000)
-;; alternative
-;(load-file "~/.emacs.d/smooth-scroll.el")
-;(require 'smooth-scroll)
-;(smooth-scroll-mode t)
 
 
 (provide 'init-base)
