@@ -357,7 +357,7 @@
 (global-set-key (kbd "C-c 3") 'term)
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
-(global-set-key (kbd "C-c .") 'whitespace-mode)
+(global-set-key (kbd "C-c C-.") 'whitespace-mode)
 
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
