@@ -39,9 +39,14 @@
 
 (defun init-themes ()
   ;(load-theme 'base16-default-dark t)
+
   ;(init-doom-theme)
+
   ;(init-zerodark-theme)
-  (load-theme 'dracula t) ; https://draculatheme.com/emacs/
+
+  ;; https://draculatheme.com/emacs/
+  (load-file "~/.emacs.d/dracula-theme.el")
+  (load-theme 'dracula t)
   )
 
 ;;==============================================================================
