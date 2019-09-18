@@ -87,6 +87,7 @@
 (use-package company-lsp :commands company-lsp)
 
 (setq lsp-prefer-flymake nil)
+(setq lsp-file-watch-threshold 2000)
 
 ;;
 ;; - Building ccls
@@ -110,6 +111,12 @@
 ;(setq
 ; ccls-initialization-options
 ; `(:index (:multiVersion 1 :trackDependency 1)))
+
+(setq lsp-file-watch-ignored
+      (append lsp-file-watch-ignored
+              '("[/\\\\]\\.ccls-cache$"
+                "[/\\\\]\\.deps$"
+                "[/\\\\]\\.libs$")))
 
 (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
 
