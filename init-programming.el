@@ -146,6 +146,7 @@
   :mode ("\\.py" . python-mode)
   :config
   (use-package elpy
+    :ensure t
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
     :config

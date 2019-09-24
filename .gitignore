@@ -17,6 +17,7 @@ elpa/archives
 elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
 elpa/treemacs-*
+elpa/elpy-*
 .cask
 .cache
 .lsp-session-v1
