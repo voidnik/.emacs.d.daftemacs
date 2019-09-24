@@ -44,13 +44,15 @@
     (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
     (setq exec-path (append exec-path '("/Library/TeX/texbin")))
     (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Library/Android/sdk/platform-tools")))
-    (setq exec-path (append exec-path '((expand-file-name "~/Library/Android/sdk/platform-tools"))))
-    (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/trtc/depot_tools")))
-    (setq exec-path (append exec-path '((expand-file-name "~/Workspace/trtc/depot_tools"))))))
+    (setq exec-path (append exec-path (list (expand-file-name "~/Library/Android/sdk/platform-tools"))))
+    ))
  ((string-equal system-type "gnu/linux")
   (progn
-    (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/depot_tools")))
-    (setq exec-path (append exec-path '((expand-file-name "~/Workspace/depot_tools")))))))
+    ;reserved
+    )))
+
+(setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/depot_tools")))
+(setq exec-path (append exec-path (list (expand-file-name "~/Workspace/depot_tools"))))
 
 ;;==============================================================================
 ;; Line Numbers
