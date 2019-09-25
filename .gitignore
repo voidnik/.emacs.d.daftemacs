@@ -18,6 +18,10 @@ elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
 elpa/treemacs-*
 elpa/elpy-*
+elpa/pip-requirements-*
+elpa/importmagic-*
+elpa/py-autopep8-*
+elpa/pyvenv-*
 .cask
 .cache
 .lsp-session-v1
