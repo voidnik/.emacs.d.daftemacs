@@ -27,4 +27,5 @@ elpa/pyvenv-*
 .lsp-session-v1
 ccls
 transient
+elpy
 __pycache__
