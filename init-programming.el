@@ -123,7 +123,10 @@
 ;;==============================================================================
 ;; Python
 ;;
-;; elpy (https://github.com/jorgenschaefer/elpy)
+;; - elpy (https://github.com/jorgenschaefer/elpy)
+;; # virtualenv
+;; sudo apt install python3-venv
+;; pip3 install virtualenv
 ;; # Completion and code navigation
 ;; pip3 install jedi
 ;; # Code checks
@@ -135,7 +138,7 @@
 ;; pip3 install yapf
 ;; pip3 install black (only available on Python 3)
 ;;
-;; importmagic (https://github.com/anachronic/importmagic.el)
+;; - importmagic (https://github.com/anachronic/importmagic.el)
 ;; pip3 install importmagic epc
 ;;==============================================================================
 
