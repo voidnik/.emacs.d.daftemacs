@@ -150,7 +150,7 @@
   :ensure t
   :diminish company-mode
   :commands (company-complete company-mode)
-  :bind (([remap dabbrev-expand] . company-complete)
+  :bind (;([remap dabbrev-expand] . company-complete)
          :map prog-mode-map
          ([tab] . company-indent-or-complete-common))
   :init (if (fboundp 'evil-declare-change-repeat)
