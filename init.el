@@ -122,7 +122,8 @@
 ;;==============================================================================
 
 (global-undo-tree-mode)
-(global-set-key (kbd "C-c /") 'undo-tree-visualize)
+(setq undo-tree-visualizer-timestamps t)
+(setq undo-tree-visualizer-diff t)
 
 ;;==============================================================================
 ;; Hangul Input Method
