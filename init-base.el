@@ -1,3 +1,10 @@
+(setq gc-cons-threshold (* 256 1024 1024))
+(add-hook #'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 128 1024 1024))
+            (message "gc-cons-threshold: %d" gc-cons-threshold)))
+(add-hook 'focus-out-hook #'garbage-collect)
+
 (setq visible-bell t
       make-backup-files nil
       column-number-mode t

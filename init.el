@@ -1,10 +1,16 @@
 ;; Editor: Richard Jaeho Hur
 
 ;;==============================================================================
+;; init-base
+;;==============================================================================
+
+(load-file "~/.emacs.d/init-base.el")
+(require 'init-base)
+
+;;==============================================================================
 ;; Info Messages
 ;;==============================================================================
 
-(setq gc-cons-threshold (* 128 1024 1024))
 (defvar my-initial-buffer nil)
 ;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
 (defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
@@ -91,13 +97,6 @@
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
  '(ediff-odd-diff-C ((t (:background "#464752")))))
-
-;;==============================================================================
-;; init-base
-;;==============================================================================
-
-(load-file "~/.emacs.d/init-base.el")
-(require 'init-base)
 
 ;;==============================================================================
 ;; init-appearance
