@@ -1,13 +1,6 @@
 ;; Editor: Richard Jaeho Hur
 
 ;;==============================================================================
-;; init-base
-;;==============================================================================
-
-(load-file "~/.emacs.d/init-base.el")
-(require 'init-base)
-
-;;==============================================================================
 ;; Info Messages
 ;;==============================================================================
 
@@ -27,21 +20,15 @@
 (message "user-login-name: %s" user-login-name)
 (message "user-init-file: %s" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
-(message "gc-cons-threshold: %d" gc-cons-threshold)
 (message "my-initial-buffer: %s" my-initial-buffer)
 (message "my-default-directory: %s" my-default-directory)
 
-(defun open-user-init-file ()
-  (interactive)
-  (find-file-read-only user-init-file))
+;;==============================================================================
+;; init-base
+;;==============================================================================
 
-(defun open-zshrc-file ()
-  (interactive)
-  (find-file-read-only "~/.zshrc"))
-
-(defun open-i3-config-file ()
-  (interactive)
-  (find-file-read-only "~/.config/i3/config"))
+(load-file "~/.emacs.d/init-base.el")
+(require 'init-base)
 
 ;;==============================================================================
 ;; Packages

@@ -1,8 +1,9 @@
 (setq gc-cons-threshold (* 256 1024 1024))
+(message "init-gc-cons-threshold: %d" gc-cons-threshold)
 (add-hook #'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (* 128 1024 1024))
-            (message "gc-cons-threshold: %d" gc-cons-threshold)))
+            (message "normal-gc-cons-threshold: %d" gc-cons-threshold)))
 (add-hook 'focus-out-hook #'garbage-collect)
 
 (setq visible-bell t
@@ -38,6 +39,19 @@
       (hexl-mode-exit)
     (hexl-mode)))
 (global-set-key (kbd "C-c x") 'hexl-mode-toggle)
+
+(defun open-user-init-file ()
+  (interactive)
+  (find-file-read-only user-init-file))
+
+(defun open-zshrc-file ()
+  (interactive)
+  (find-file-read-only "~/.zshrc"))
+
+(defun open-i3-config-file ()
+  (interactive)
+  (find-file-read-only "~/.config/i3/config")
+  (find-file-read-only "~/.config/i3status/config"))
 
 ;;==============================================================================
 ;; exec-path
