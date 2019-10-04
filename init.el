@@ -115,6 +115,8 @@
 (switch-to-buffer "*Messages*")
 (setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
 
+(setenv "MANWIDTH" "72")
+
 ;;==============================================================================
 ;; undo-tree
 ;;
