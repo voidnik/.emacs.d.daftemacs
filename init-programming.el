@@ -87,7 +87,7 @@
 (use-package company-lsp :commands company-lsp)
 
 (setq lsp-prefer-flymake nil)
-(setq lsp-file-watch-threshold 2000)
+(setq lsp-file-watch-threshold nil)
 
 ;;
 ;; - Building ccls
