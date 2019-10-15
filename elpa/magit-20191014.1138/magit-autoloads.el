@@ -1254,6 +1254,11 @@ Show log for all branches matching PATTERN and `HEAD'.
 
 \(fn PATTERN &optional ARGS FILES)" t nil)
 
+(autoload 'magit-log-matching-tags "magit-log" "\
+Show log for all tags matching PATTERN and `HEAD'.
+
+\(fn PATTERN &optional ARGS FILES)" t nil)
+
 (autoload 'magit-log-all-branches "magit-log" "\
 Show log for all local and remote branches and `HEAD'.
 
