@@ -144,7 +144,7 @@
 (defun init-mode-line ()
   ;(init-doom-mode-line)
 
-  ;(zerodark-setup-modeline-format)
+  (zerodark-setup-modeline-format)
 
   (setq sml/theme 'respectful)
   (setq sml/no-confirm-load-theme t)
