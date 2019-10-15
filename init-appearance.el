@@ -3,50 +3,51 @@
 ;;==============================================================================
 
 (defun init-doom-theme ()
-  (require 'doom-themes)
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
+    ;; theme may have their own settings.
+    (load-theme 'doom-one t)
+    ;(load-theme 'doom-dracula t)
+    ;(load-theme 'doom-city-lights t)
+    ;(load-theme 'doom-molokai t)
+    ;(load-theme 'doom-nord t)
+    ;(load-theme 'doom-nova t)
+    ;(load-theme 'doom-peacock t)
+    ;(load-theme 'doom-solarized-light t)
+    ;(load-theme 'doom-spacegrey t)
+    ;(load-theme 'doom-tomorrow-night t)
+    ;(load-theme 'doom-tomorrow-day t)
 
-  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
-  ;; theme may have their own settings.
-  ;(load-theme 'doom-one t)
-  ;(load-theme 'doom-dracula t)
-  ;(load-theme 'doom-city-lights t)
-  ;(load-theme 'doom-molokai t)
-  ;(load-theme 'doom-nord t)
-  ;(load-theme 'doom-nova t)
-  ;(load-theme 'doom-peacock t)
-  ;(load-theme 'doom-solarized-light t)
-  ;(load-theme 'doom-spacegrey t)
-  ;(load-theme 'doom-tomorrow-night t)
-  ;(load-theme 'doom-tomorrow-day t)
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme
+    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
 
-  ;; Enable custom neotree theme
-  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
-
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
-
-(defun init-zerodark-theme ()
-  (load-theme 'zerodark t)
-  ;; Optionally setup the modeline
-  (zerodark-setup-modeline-format))
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config)))
 
 (defun init-themes ()
-  ;(load-theme 'base16-default-dark t)
-
   ;(init-doom-theme)
 
-  ;(init-zerodark-theme)
+  ;(load-theme 'zerodark t)
+
+  ;(load-theme 'base16-default-dark t)
 
   ;; https://draculatheme.com/emacs/
   (load-file "~/.emacs.d/dracula-theme.el")
   (load-theme 'dracula t)
+
+;  (use-package dracula-theme
+;    :ensure t
+;    :config
+;    (load-theme 'dracula t))
   )
 
 ;;==============================================================================
@@ -142,6 +143,8 @@
 
 (defun init-mode-line ()
   ;(init-doom-mode-line)
+
+  ;(zerodark-setup-modeline-format)
 
   (setq sml/theme 'respectful)
   (setq sml/no-confirm-load-theme t)
