@@ -22,6 +22,7 @@ elpa/pip-requirements-*
 elpa/importmagic-*
 elpa/py-autopep8-*
 elpa/pyvenv-*
+elpa/diff-hl-*
 .cask
 .cache
 .lsp-session-v1

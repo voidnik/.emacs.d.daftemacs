@@ -29,5 +29,14 @@
 (winner-mode)
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 
+;;==============================================================================
+;; diff-hl
+;;==============================================================================
+
+(use-package diff-hl
+    :ensure t
+    :config
+    (global-diff-hl-mode))
+
 
 (provide 'init-tools)
