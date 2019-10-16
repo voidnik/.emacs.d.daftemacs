@@ -444,6 +444,220 @@
                                  (t
                                   ,(expand-for-tty spec)))))))))
 
+
+;; mode-line
+
+(defcustom dracula-use-paddings-in-mode-line t
+  "When non-nil, use top and bottom paddings in the mode-line."
+  :type 'boolean)
+
+(defface dracula-ro-face
+  '((t :foreground "#0088CC" :weight bold))
+  "Face for read-only buffer in the mode-line.")
+
+(defface dracula-modified-face
+  '((t :foreground "#ff6c6b" :height 0.9))
+  "Face for modified buffers in the mode-line.")
+
+(defface dracula-not-modified-face
+  '((t :foreground "#98be65" :height 0.9))
+  "Face for not modified buffers in the mode-line.")
+
+(defface dracula-buffer-position-face
+  '((t :height 0.9))
+  "Face for line/column numbers in the mode-line.")
+
+(defface dracula-ok-face
+  '((t :foreground "#61afef"))
+  "Face for ok status in the mode-line.")
+
+(defface dracula-warning-face
+  '((t :foreground "#da8548"))
+  "Face for warning status in the mode-line.")
+
+(defface dracula-error-face
+  '((t :foreground "#ff6c6b"))
+  "Face for error status in the mode-line.")
+
+;; So the mode-line can keep track of "the current window"
+(defvar dracula-selected-window nil
+  "Selected window.")
+
+(defun true-color-p ()
+  "Return non-nil on displays that support 256 colors."
+  (or
+   (display-graphic-p)
+   (= (tty-display-color-cells) 16777216)))
+
+(defmacro cached-for (secs &rest body)
+  "Cache for SECS the result of the evaluation of BODY."
+  (declare (debug t))
+  (let ((cache (make-symbol "cache"))
+        (last-run (make-symbol "last-run")))
+    `(let (,cache ,last-run)
+       (lambda ()
+         (when (or (null ,last-run)
+                   (> (- (time-to-seconds (current-time)) ,last-run)
+                      ,secs))
+           (setf ,cache (progn ,@body))
+           (setf ,last-run (time-to-seconds (current-time))))
+         ,cache))))
+
+(defun dracula--active-window-p ()
+  "Return non-nil if the current window is active."
+  (eq (selected-window) dracula-selected-window))
+
+(defvar dracula-modeline-ro '(:eval (if buffer-read-only
+                                         (if (dracula--active-window-p)
+                                             (progn
+                                               (propertize "RO " 'face 'dracula-ro-face))
+                                           (propertize "RO " 'face 'bold))
+                                       "")))
+
+(defvar dracula-buffer-coding '(:eval (unless (eq buffer-file-coding-system (default-value 'buffer-file-coding-system))
+                                         mode-line-mule-info)))
+
+(defvar dracula-modeline-modified '(:eval (if (buffer-modified-p (current-buffer))
+                                               (all-the-icons-faicon "floppy-o"
+                                                                     :height 0.9
+                                                                     :v-adjust 0
+                                                                     :face (if (dracula--active-window-p)
+                                                                               'dracula-modified-face
+                                                                             'mode-line-inactive))
+                                             (all-the-icons-faicon "check"
+                                                                   :height 0.9
+                                                                   :v-adjust 0
+                                                                   :face (if (dracula--active-window-p)
+                                                                             'dracula-not-modified-face
+                                                                           'mode-line-inactive)))))
+
+(defvar dracula-modeline-buffer-identification '(:eval (propertize "%b" 'face 'bold))
+  "Mode line construct for displaying the position in the buffer.")
+
+(defvar dracula-modeline-position '(:eval (propertize ":%l:%c %p " 'face (if (dracula--active-window-p)
+                                                                              'dracula-buffer-position-face
+                                                                            'mode-line-inactive)))
+  "Mode line construct for displaying the position in the buffer.")
+
+(defcustom dracula-theme-display-vc-status 'full
+  "Control how version control information is displayed."
+  :type '(choice (const :tag "Display fork symbol and branch name" 'full)
+                 (const :tag "Display fork symbol only" t)
+                 (const :tag "Do not display any version control information" nil)))
+
+(defvar dracula--git-face-cached (cached-for 1 (dracula--git-face-intern)))
+
+(defun dracula--git-face-intern ()
+  "Return the face to use based on the current repository status."
+  (if (magit-git-success "diff" "--quiet")
+      ;; nothing to commit because nothing changed
+      (if (zerop (length (magit-git-string
+                          "rev-list" (concat "origin/"
+                                             (magit-get-current-branch)
+                                             ".."
+                                             (magit-get-current-branch)))))
+          ;; nothing to push as well
+          'dracula-ok-face
+        ;; nothing to commit, but some commits must be pushed
+        'dracula-warning-face)
+    'dracula-error-face))
+
+(defun dracula-git-face ()
+  "Return the face to use based on the current repository status.
+The result is cached for one second to avoid hiccups."
+  (funcall dracula--git-face-cached))
+
+(defvar dracula-modeline-vc '(vc-mode ("   "
+                                        (:eval (all-the-icons-faicon "code-fork"
+                                                                     :height 0.9
+                                                                     :v-adjust 0
+                                                                     :face (when (dracula--active-window-p)
+                                                                             (dracula-git-face))))
+                                        (:eval (when (eq dracula-theme-display-vc-status 'full)
+                                                 (propertize (truncate-string-to-width vc-mode 25 nil nil "...")
+                                                             'face (when (dracula--active-window-p)
+                                                                     (dracula-git-face))))))))
+
+(defun dracula-face-when-active (face)
+  "Return FACE if the window is active."
+  (when (dracula--active-window-p)
+    face))
+
+(defun dracula-modeline-flycheck-status ()
+  "Return the status of flycheck to be displayed in the mode-line."
+  (when flycheck-mode
+    (let* ((text (pcase flycheck-last-status-change
+                   (`finished (if flycheck-current-errors
+                                  (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
+                                                 (+ (or .warning 0) (or .error 0)))))
+                                    (propertize (format "✖ %s Issue%s" count (if (eq 1 count) "" "s"))
+                                                'face (dracula-face-when-active 'dracula-error-face)))
+                                (propertize "✔ No Issues"
+                                            'face (dracula-face-when-active 'dracula-ok-face))))
+                   (`running     (propertize "⟲ Running"
+                                             'face (dracula-face-when-active 'dracula-warning-face)))
+                   (`no-checker  (propertize "⚠ No Checker"
+                                             'face (dracula-face-when-active 'dracula-warning-face)))
+                   (`not-checked "✖ Disabled")
+                   (`errored     (propertize "⚠ Error"
+                                             'face (dracula-face-when-active 'dracula-error-face)))
+                   (`interrupted (propertize "⛔ Interrupted"
+                                             'face (dracula-face-when-active 'dracula-error-face)))
+                   (`suspicious  ""))))
+      (propertize text
+                  'help-echo "Show Flycheck Errors"
+                  'local-map (make-mode-line-mouse-map
+                              'mouse-1 #'flycheck-list-errors)))))
+
+;;;###autoload
+(defun dracula-setup-modeline-format ()
+  "Setup the mode-line format for dracula."
+  (interactive)
+  (require 'flycheck)
+  (require 'magit)
+  (require 'all-the-icons)
+  (let ((class '((class color) (min-colors 89)))
+        (light (if (true-color-p) "#ccd4e3" "#d7d7d7"))
+        (comment (if (true-color-p) "#687080" "#707070"))
+        (purple "#c678dd")
+        (mode-line (if "#1c2129" "#222222")))
+    (custom-theme-set-faces
+     'dracula
+
+     ;; Mode line faces
+     `(mode-line ((,class (:background ,mode-line
+                                       :height 0.9
+                                       :foreground ,light
+                                       :box ,(when dracula-use-paddings-in-mode-line
+                                               (list :line-width 6 :color mode-line))))))
+     `(mode-line-inactive ((,class (:background ,mode-line
+                                                :height 0.9
+                                                :foreground ,comment
+                                                :box ,(when dracula-use-paddings-in-mode-line
+                                                        (list :line-width 6 :color mode-line))))))
+     `(anzu-mode-line ((,class :inherit mode-line :foreground ,purple :weight bold)))
+     )
+    )
+
+  (setq-default mode-line-format
+                `("%e"
+                  " "
+                  ,dracula-modeline-ro " "
+                  ,dracula-buffer-coding
+                  mode-line-frame-identification " "
+                  " "
+                  ,dracula-modeline-modified
+                  " "
+                  ,dracula-modeline-buffer-identification
+                  ,dracula-modeline-position
+                  ,(if dracula-theme-display-vc-status
+                       dracula-modeline-vc
+                     "")
+                  "  "
+                  (:eval (dracula-modeline-flycheck-status))
+                  "  " mode-line-modes mode-line-misc-info mode-line-end-spaces
+                  )))
+
 ;;;###autoload
 (when load-file-name
   (add-to-list 'custom-theme-load-path

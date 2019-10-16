@@ -34,20 +34,15 @@
     (doom-themes-org-config)))
 
 (defun init-themes ()
+  ;; https://draculatheme.com/emacs/
+  (load-file "~/.emacs.d/dracula-theme.el")
+  (load-theme 'dracula t)
+
   ;(init-doom-theme)
 
   ;(load-theme 'zerodark t)
 
   ;(load-theme 'base16-default-dark t)
-
-  ;; https://draculatheme.com/emacs/
-  (load-file "~/.emacs.d/dracula-theme.el")
-  (load-theme 'dracula t)
-
-;  (use-package dracula-theme
-;    :ensure t
-;    :config
-;    (load-theme 'dracula t))
   )
 
 ;;==============================================================================
@@ -142,13 +137,15 @@
   (setq doom-modeline-irc-stylize 'identity))
 
 (defun init-mode-line ()
+  (dracula-setup-modeline-format)
+
   ;(init-doom-mode-line)
 
-  (zerodark-setup-modeline-format)
+  ;(zerodark-setup-modeline-format)
 
-  (setq sml/theme 'respectful)
-  (setq sml/no-confirm-load-theme t)
-  (sml/setup)
+  ;(setq sml/theme 'respectful)
+  ;(setq sml/no-confirm-load-theme t)
+  ;(sml/setup)
   )
 
 ;;==============================================================================
@@ -183,6 +180,10 @@
 (setq face-font-rescale-alist
       '((".*hiragino.*" . 1.2)
         ("NanumGothicCoding" . 1.2307692307692308)))
+
+;;==============================================================================
+;; Main Flow
+;;==============================================================================
 
 (init-themes)
 (init-mode-line)
