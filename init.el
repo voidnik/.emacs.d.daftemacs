@@ -61,12 +61,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" default))
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" default)))
  '(inhibit-startup-screen t)
  '(initial-buffer-choice my-initial-buffer)
- '(initial-frame-alist '((fullscreen . maximized)))
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(org-file-apps
+   (quote
+    ((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf\\'" . emacs))))
  '(package-selected-packages
-   '(diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs counsel magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist swiper spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist ivy hydra ht highlight-indentation helm-core helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window)))
+   (quote
+    (diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs counsel magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist swiper spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist ivy hydra ht highlight-indentation helm-core helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
