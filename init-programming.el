@@ -84,7 +84,13 @@
 
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui :commands lsp-ui-mode)
-(use-package company-lsp :commands company-lsp)
+(use-package company-lsp
+  :config
+  (setq company-lsp-cache-candidates 'auto)
+  (setq company-lsp-async t)
+  (setq company-lsp-enable-snippet t)
+  (setq company-lsp-enable-recompletion t)
+  :commands company-lsp)
 
 (setq lsp-prefer-flymake nil)
 (setq lsp-file-watch-threshold nil)
