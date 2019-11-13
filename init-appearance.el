@@ -185,6 +185,23 @@
 ;; Main Flow
 ;;==============================================================================
 
+;; https://github.com/emacs-helm/helm/issues/2213
+;; Fix issue with the new :extend face attribute in emacs-27
+;; Prefer to extend to EOL as in previous emacs.
+(defun tv/extend-faces-matching (regexp)
+  (cl-loop for f in (face-list)
+           for face = (symbol-name f)
+           when (and (string-match regexp face)
+                     (eq (face-attribute f :extend t 'default)
+                         'unspecified))
+           do (set-face-attribute f nil :extend t)))
+
+(when (fboundp 'set-face-extend)
+  (with-eval-after-load "magit"
+    (tv/extend-faces-matching "\\`magit"))
+  (with-eval-after-load "helm"
+    (tv/extend-faces-matching "\\`helm")))
+
 (init-themes)
 (init-mode-line)
 
