@@ -49,7 +49,8 @@
                 (rainbow-9    "#ff5555")
                 (rainbow-10   "#a0522d")
                 (eph-verbatim "#f1fa8c")
-                (eph-code     "#ff79c6")))
+                (eph-code     "#ff79c6")
+                (hl           "#262626")))
       (faces '(;; default
                (cursor :background ,fg3)
                (default :background ,bg1 :foreground ,fg1)
@@ -57,7 +58,7 @@
                (ffap :foreground ,fg4)
                (fringe :background ,bg1 :foreground ,fg4)
                (highlight :foreground ,fg3 :background ,bg3)
-               (hl-line :background ,bg5 :extend t)
+               (hl-line :background ,hl :extend t)
                (info-quoted-name :foreground ,builtin)
                (info-string :foreground ,str)
                (lazy-highlight :foreground ,fg2 :background ,bg3)
@@ -455,18 +456,6 @@
   '((t :foreground "#0088CC" :weight bold))
   "Face for read-only buffer in the mode-line.")
 
-(defface dracula-modified-face
-  '((t :foreground "#ff6c6b" :height 0.9))
-  "Face for modified buffers in the mode-line.")
-
-(defface dracula-not-modified-face
-  '((t :foreground "#98be65" :height 0.9))
-  "Face for not modified buffers in the mode-line.")
-
-(defface dracula-buffer-position-face
-  '((t :height 0.9))
-  "Face for line/column numbers in the mode-line.")
-
 (defface dracula-ok-face
   '((t :foreground "#61afef"))
   "Face for ok status in the mode-line.")
@@ -518,25 +507,21 @@
                                          mode-line-mule-info)))
 
 (defvar dracula-modeline-modified '(:eval (if (buffer-modified-p (current-buffer))
-                                               (all-the-icons-faicon "floppy-o"
-                                                                     :height 0.9
-                                                                     :v-adjust 0
-                                                                     :face (if (dracula--active-window-p)
-                                                                               'dracula-modified-face
-                                                                             'mode-line-inactive))
-                                             (all-the-icons-faicon "check"
-                                                                   :height 0.9
-                                                                   :v-adjust 0
-                                                                   :face (if (dracula--active-window-p)
-                                                                             'dracula-not-modified-face
-                                                                           'mode-line-inactive)))))
+                                              (if (display-graphic-p)
+                                                  (all-the-icons-faicon "floppy-o"
+                                                                        :height 0.9
+                                                                        :v-adjust 0)
+                                                "*")
+                                            (if (display-graphic-p)
+                                                (all-the-icons-faicon "check"
+                                                                      :height 0.9
+                                                                      :v-adjust 0)
+                                              ""))))
 
 (defvar dracula-modeline-buffer-identification '(:eval (propertize "%b" 'face 'bold))
   "Mode line construct for displaying the position in the buffer.")
 
-(defvar dracula-modeline-position '(:eval (propertize ":%l:%c %p " 'face (if (dracula--active-window-p)
-                                                                              'dracula-buffer-position-face
-                                                                            'mode-line-inactive)))
+(defvar dracula-modeline-position '(:eval (propertize " %l:%c %p "))
   "Mode line construct for displaying the position in the buffer.")
 
 (defcustom dracula-theme-display-vc-status 'full
@@ -568,15 +553,17 @@ The result is cached for one second to avoid hiccups."
   (funcall dracula--git-face-cached))
 
 (defvar dracula-modeline-vc '(vc-mode ("   "
-                                        (:eval (all-the-icons-faicon "code-fork"
-                                                                     :height 0.9
-                                                                     :v-adjust 0
-                                                                     :face (when (dracula--active-window-p)
-                                                                             (dracula-git-face))))
-                                        (:eval (when (eq dracula-theme-display-vc-status 'full)
-                                                 (propertize (truncate-string-to-width vc-mode 25 nil nil "...")
-                                                             'face (when (dracula--active-window-p)
-                                                                     (dracula-git-face))))))))
+                                       (:eval (if (display-graphic-p)
+                                                  (all-the-icons-faicon "code-fork"
+                                                                        :height 0.9
+                                                                        :v-adjust 0
+                                                                        :face (when (dracula--active-window-p)
+                                                                                (dracula-git-face)))
+                                                ""))
+                                       (:eval (when (eq dracula-theme-display-vc-status 'full)
+                                                (propertize (truncate-string-to-width vc-mode 25 nil nil "...")
+                                                            'face (when (dracula--active-window-p)
+                                                                    (dracula-git-face))))))))
 
 (defun dracula-face-when-active (face)
   "Return FACE if the window is active."
@@ -615,29 +602,8 @@ The result is cached for one second to avoid hiccups."
   (interactive)
   (require 'flycheck)
   (require 'magit)
-  (require 'all-the-icons)
-  (let ((class '((class color) (min-colors 89)))
-        (light (if (true-color-p) "#ccd4e3" "#d7d7d7"))
-        (comment (if (true-color-p) "#687080" "#707070"))
-        (purple "#c678dd")
-        (mode-line (if "#1c2129" "#222222")))
-    (custom-theme-set-faces
-     'dracula
-
-     ;; Mode line faces
-     `(mode-line ((,class (:background ,mode-line
-                                       :height 0.9
-                                       :foreground ,light
-                                       :box ,(when dracula-use-paddings-in-mode-line
-                                               (list :line-width 6 :color mode-line))))))
-     `(mode-line-inactive ((,class (:background ,mode-line
-                                                :height 0.9
-                                                :foreground ,comment
-                                                :box ,(when dracula-use-paddings-in-mode-line
-                                                        (list :line-width 6 :color mode-line))))))
-     `(anzu-mode-line ((,class :inherit mode-line :foreground ,purple :weight bold)))
-     )
-    )
+  (if (display-graphic-p)
+      (require 'all-the-icons))
 
   (setq-default mode-line-format
                 `("%e"
@@ -655,7 +621,10 @@ The result is cached for one second to avoid hiccups."
                      "")
                   "  "
                   (:eval (dracula-modeline-flycheck-status))
-                  "  " mode-line-modes mode-line-misc-info mode-line-end-spaces
+                  "  "
+                  mode-line-modes
+                  mode-line-misc-info
+                  ;mode-line-end-spaces
                   )))
 
 ;;;###autoload
