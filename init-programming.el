@@ -82,15 +82,26 @@
 ;; https://github.com/MaskRay/emacs-ccls
 ;;==============================================================================
 
-(use-package lsp-mode :commands lsp)
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-mode
+  :ensure t
+  :commands lsp)
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
 (use-package company-lsp
+  :ensure t
   :config
   (setq company-lsp-cache-candidates 'auto)
   (setq company-lsp-async t)
   (setq company-lsp-enable-snippet t)
   (setq company-lsp-enable-recompletion t)
   :commands company-lsp)
+
+(use-package lsp-treemacs
+  :ensure t
+  :after lsp-mode)
 
 (setq lsp-prefer-flymake nil)
 (setq lsp-file-watch-threshold nil)
@@ -110,6 +121,7 @@
 ;; $ brew install ccls
 ;;
 (use-package ccls
+  :ensure t
   :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp))))
 (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
