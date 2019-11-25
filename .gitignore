@@ -16,6 +16,11 @@ company-statistics-cache.el
 elpa/archives
 elpa/*.txt
 elpa/pdf-tools-*/epdfinfo
+elpa/lsp-mode-*
+elpa/lsp-ui-*
+elpa/company-lsp-*
+elpa/lsp-treemacs-*
+elpa/ccls-*
 elpa/treemacs-*
 elpa/elpy-*
 elpa/pip-requirements-*
