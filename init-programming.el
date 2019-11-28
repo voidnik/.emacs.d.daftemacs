@@ -104,7 +104,8 @@
   :after lsp-mode)
 
 (setq lsp-prefer-flymake nil)
-(setq lsp-file-watch-threshold nil)
+;(setq lsp-enable-file-watchers nil)
+(setq lsp-file-watch-threshold 2000)
 
 ;;
 ;; - Building ccls
