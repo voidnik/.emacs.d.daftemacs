@@ -14,6 +14,7 @@
 (blink-cursor-mode 0)
 (global-hl-line-mode)
 (setq-default truncate-lines t)
+(setq-default tab-width 4)
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
 (delete-selection-mode t)
