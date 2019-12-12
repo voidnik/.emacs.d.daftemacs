@@ -15,6 +15,7 @@
           treemacs-display-in-side-window        t
           treemacs-eldoc-display                 t
           treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
           treemacs-file-follow-delay             0.2
           treemacs-follow-after-init             t
           treemacs-git-command-pipe              ""
@@ -38,7 +39,7 @@
           treemacs-show-hidden-files             t
           treemacs-silent-filewatch              nil
           treemacs-silent-refresh                nil
-          treemacs-sorting                       'alphabetic-desc
+          treemacs-sorting                       'alphabetic-asc
           treemacs-space-between-root-nodes      t
           treemacs-tag-follow-cleanup            t
           treemacs-tag-follow-delay              1.5
