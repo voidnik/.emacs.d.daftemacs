@@ -205,10 +205,10 @@
 
 (load-file "~/.emacs.d/buffer-move.elc")
 
-(global-set-key (kbd "C-c <up>") 'buf-move-up)
-(global-set-key (kbd "C-c <down>") 'buf-move-down)
-(global-set-key (kbd "C-c <left>") 'buf-move-left)
-(global-set-key (kbd "C-c <right>") 'buf-move-right)
+(global-set-key (kbd "<C-S-up>")     'buf-move-up)
+(global-set-key (kbd "<C-S-down>")   'buf-move-down)
+(global-set-key (kbd "<C-S-left>")   'buf-move-left)
+(global-set-key (kbd "<C-S-right>")  'buf-move-right)
 
 ;;==============================================================================
 ;; Killing Buffers
