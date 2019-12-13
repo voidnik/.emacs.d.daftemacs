@@ -103,6 +103,10 @@
   :ensure t
   :after lsp-mode)
 
+(use-package lsp-ivy
+  :ensure t
+  :after lsp-mode)
+
 (setq lsp-prefer-flymake nil)
 ;(setq lsp-enable-file-watchers nil)
 (setq lsp-file-watch-threshold 2000)

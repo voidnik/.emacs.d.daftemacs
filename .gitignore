@@ -27,6 +27,7 @@ elpa/lsp-mode-*
 elpa/lsp-ui-*
 elpa/company-lsp-*
 elpa/lsp-treemacs-*
+elpa/lsp-ivy-*
 elpa/ccls-*
 elpa/elpy-*
 elpa/pip-requirements-*
