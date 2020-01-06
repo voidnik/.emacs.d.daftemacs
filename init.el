@@ -71,7 +71,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs counsel magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree zerodark-theme company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist swiper spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist ivy hydra ht highlight-indentation helm-core helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window)))
+   '(ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist hydra ht highlight-indentation helm-core helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -171,12 +171,103 @@
 (yas-global-mode 1)
 
 ;;==============================================================================
-;; ivy
+;; ivy, counsel, swiper
 ;;==============================================================================
 
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
+(use-package ivy
+  :ensure t
+  :diminish
+  :hook (after-init . ivy-mode)
+  :config
+  (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+  (define-key ivy-minibuffer-map (kbd "<escape>") #'minibuffer-keyboard-quit)
+  (setq ivy-re-builders-alist
+        '((counsel-rg . ivy--regex-plus)
+          (counsel-projectile-rg . ivy--regex-plus)
+          (counsel-ag . ivy--regex-plus)
+          (counsel-projectile-ag . ivy--regex-plus)
+          (swiper . ivy--regex-plus)
+          (t . ivy--regex-fuzzy)))
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "[%d/%d] "
+        ivy-initial-inputs-alist nil))
+
+(use-package counsel
+  :ensure t
+  :diminish
+  :hook (ivy-mode . counsel-mode)
+  :config
+  (setq counsel-rg-base-command "rg --vimgrep %s"))
+
+(use-package counsel-projectile
+  :ensure t
+  :config (counsel-projectile-mode +1))
+
+(use-package swiper
+  :ensure t
+  :after ivy
+  :config
+  (setq swiper-action-recenter t)
+  (setq swiper-goto-start-of-match t))
+
+(use-package ivy-posframe
+  :ensure t
+  :after ivy
+  :diminish
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+        ivy-posframe-height-alist '((t . 30))
+        ivy-posframe-parameters '((internal-border-width . 10)))
+  (setq ivy-posframe-width 100)
+  (ivy-posframe-mode +1))
+
+(use-package ivy-rich
+  :ensure t
+  :preface
+  (defun ivy-rich-switch-buffer-icon (candidate)
+    (with-current-buffer
+        (get-buffer candidate)
+      (all-the-icons-icon-for-mode major-mode)))
+  :init
+  (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-posframe-width - 1)
+        '(ivy-switch-buffer
+          (:columns
+           ((ivy-rich-switch-buffer-icon (:width 2))
+            (ivy-rich-candidate (:width 35))
+            (ivy-rich-switch-buffer-project (:width 15 :face success))
+            (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
+           :predicate
+           #'(lambda (cand) (get-buffer cand)))
+          counsel-M-x
+          (:columns
+           ((counsel-M-x-transformer (:width 35))
+            (ivy-rich-counsel-function-docstring (:width 64 :face font-lock-doc-face))))
+          counsel-describe-function
+          (:columns
+           ((counsel-describe-function-transformer (:width 35))
+            (ivy-rich-counsel-function-docstring (:width 64 :face font-lock-doc-face))))
+          counsel-describe-variable
+          (:columns
+           ((counsel-describe-variable-transformer (:width 35))
+            (ivy-rich-counsel-variable-docstring (:width 64 :face font-lock-doc-face))))
+          package-install
+          (:columns
+           ((ivy-rich-candidate (:width 25))
+            (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
+            (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
+            (ivy-rich-package-install-summary (:width 53 :face font-lock-doc-face))))))
+  :config
+  (ivy-rich-mode +1)
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+
+;;==============================================================================
+;; find-file-in-project
+;;
+;; https://github.com/technomancy/find-file-in-project
+;;==============================================================================
+
+(use-package find-file-in-project
+  :ensure t)
 
 ;;==============================================================================
 ;; flx-ido
@@ -362,6 +453,8 @@
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-c s") 'swiper)
+(global-set-key (kbd "C-c b") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-c d") 'desktop-read)
 
@@ -374,7 +467,6 @@
 
 (global-set-key (kbd "C-c C-.") 'whitespace-mode)
 
-(global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 

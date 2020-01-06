@@ -40,8 +40,6 @@
 
   ;(init-doom-theme)
 
-  ;(load-theme 'zerodark t)
-
   ;(load-theme 'base16-default-dark t)
   )
 
@@ -141,8 +139,6 @@
 
   ;(init-doom-mode-line)
 
-  ;(zerodark-setup-modeline-format)
-
   ;(setq sml/theme 'respectful)
   ;(setq sml/no-confirm-load-theme t)
   ;(sml/setup)
@@ -185,6 +181,14 @@
 ;; Main Flow
 ;;==============================================================================
 
+(use-package all-the-icons
+  :ensure t
+  :config (setq all-the-icons-scale-factor 1.0))
+
+(use-package all-the-icons-ivy
+  :ensure t
+  :hook (after-init . all-the-icons-ivy-setup))
+
 ;; https://github.com/emacs-helm/helm/issues/2213
 ;; Fix issue with the new :extend face attribute in emacs-27
 ;; Prefer to extend to EOL as in previous emacs.
@@ -216,8 +220,6 @@
   ;(set-frame-height (selected-frame) 100)
 
   (setq window-min-width (/ (display-pixel-height) 22))
-
-  (require 'all-the-icons)
 
   (defun toggle-fullscreen (&optional f)
     (interactive)

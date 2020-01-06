@@ -50,7 +50,8 @@
                 (rainbow-10   "#a0522d")
                 (eph-verbatim "#f1fa8c")
                 (eph-code     "#ff79c6")
-                (hl           "#262626")))
+                (hl           "#262626")
+                (ivy-posframe-bg "#202020")))
       (faces '(;; default
                (cursor :background ,fg3)
                (default :background ,bg1 :foreground ,fg1)
@@ -354,6 +355,8 @@
                (web-mode-string-face :foreground ,str)
                (web-mode-type-face :inherit ,font-lock-type-face)
                (web-mode-warning-face :inherit ,font-lock-warning-face)
+               ;; ivy-posframe
+               (ivy-posframe :foreground ,fg1 :background ,ivy-posframe-bg)
                ;; which-func
                (which-func :inherit ,font-lock-function-name-face)
                (dired-directory :foreground ,func :weight normal)
