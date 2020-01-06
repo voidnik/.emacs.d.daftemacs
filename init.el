@@ -199,9 +199,9 @@
   :config
   (setq counsel-rg-base-command "rg --vimgrep %s"))
 
-(use-package counsel-projectile
-  :ensure t
-  :config (counsel-projectile-mode +1))
+;(use-package counsel-projectile
+;  :ensure t
+;  :config (counsel-projectile-mode +1))
 
 (use-package swiper
   :ensure t
