@@ -1,0 +1,27 @@
+#!/bin/bash
+rm -rf elpa/archives
+rm -rf elpa/*.txt
+rm -rf elpa/all-the-icons-ivy-*
+rm -rf elpa/all-the-icons-*
+rm -rf elpa/treemacs-*
+rm -rf elpa/counsel-projectile-*
+rm -rf elpa/counsel-*
+rm -rf elpa/find-file-in-project-*
+rm -rf elpa/ivy-posframe-*
+rm -rf elpa/ivy-rich-*
+rm -rf elpa/ivy-*
+rm -rf elpa/posframe-*
+rm -rf elpa/swiper-*
+rm -rf elpa/lsp-mode-*
+rm -rf elpa/lsp-ui-*
+rm -rf elpa/company-lsp-*
+rm -rf elpa/lsp-treemacs-*
+rm -rf elpa/lsp-ivy-*
+rm -rf elpa/ccls-*
+rm -rf elpa/elpy-*
+rm -rf elpa/pip-requirements-*
+rm -rf elpa/importmagic-*
+rm -rf elpa/py-autopep8-*
+rm -rf elpa/pyvenv-*
+rm -rf elpa/diff-hl-*
+rm -rf elpa/pdf-tools-*

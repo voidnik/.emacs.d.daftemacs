@@ -4,6 +4,7 @@ semanticdb
 tramp
 url
 eshell
+recentf
 games
 ido.last
 image-dired
@@ -22,7 +23,17 @@ elpy
 __pycache__
 elpa/archives
 elpa/*.txt
+elpa/all-the-icons-ivy-*
+elpa/all-the-icons-*
 elpa/treemacs-*
+elpa/counsel-projectile-*
+elpa/counsel-*
+elpa/find-file-in-project-*
+elpa/ivy-posframe-*
+elpa/ivy-rich-*
+elpa/ivy-*
+elpa/posframe-*
+elpa/swiper-*
 elpa/lsp-mode-*
 elpa/lsp-ui-*
 elpa/company-lsp-*
@@ -35,4 +46,4 @@ elpa/importmagic-*
 elpa/py-autopep8-*
 elpa/pyvenv-*
 elpa/diff-hl-*
-elpa/pdf-tools-*/epdfinfo
+elpa/pdf-tools-*
