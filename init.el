@@ -101,28 +101,13 @@
 ;; startup
 ;;==============================================================================
 
+(setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
 
 (switch-to-buffer "*Messages*")
 (setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
 
 (setenv "MANWIDTH" "72")
-
-;;==============================================================================
-;; undo-tree
-;;
-;; https://www.emacswiki.org/emacs/UndoTree
-;;==============================================================================
-
-(global-undo-tree-mode)
-(setq undo-tree-visualizer-timestamps t)
-(setq undo-tree-visualizer-diff t)
-
-;;==============================================================================
-;; Hangul Input Method
-;;==============================================================================
-
-(setq default-input-method "korean-hangul")
 
 ;;==============================================================================
 ;; projectile
@@ -284,117 +269,6 @@
 ;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
-;; buffer-move
-;;==============================================================================
-
-(load-file "~/.emacs.d/buffer-move.elc")
-
-;;==============================================================================
-;; Killing Buffers
-;;
-;; https://www.emacswiki.org/emacs/KillingBuffers
-;;==============================================================================
-
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-;;==============================================================================
-;; Asynchronous Shell Command Excution
-;;
-;; http://stackoverflow.com/questions/16815598/
-;; run-commands-in-emacs-asynchronously-but-display-output-incrementally
-;;==============================================================================
-
-(defun execute-commands (buffer &rest commands)
-  "Execute a list of shell commands sequentially"
-  (with-current-buffer buffer
-    (set (make-local-variable 'commands-list) commands)
-    (start-next-command)))
-
-(defun start-next-command ()
-  "Run the first command in the list"
-  (if (null commands-list)
-      (insert "\nDone.")
-    (let ((command  (car commands-list)))
-      (setq commands-list (cdr commands-list))
-      (insert (format ">> %s\n" command))
-      (let ((process (start-process-shell-command command (current-buffer) command)))
-        (set-process-sentinel process 'sentinel)))))
-
-(defun sentinel (p e)
-  "After a process exited, call `start-next-command' again"
-  (let ((buffer (process-buffer p)))
-    (when (not (null buffer))
-      (with-current-buffer buffer
-        ;(insert (format "Command `%s' %s" p e) )
-        (start-next-command)))))
-
-;;==============================================================================
-;; Window Resize
-;;
-;; https://www.emacswiki.org/emacs/WindowResize
-;;==============================================================================
-
-(defun resize-window (&optional arg)
-  "*Resize window interactively."
-  (interactive "p")
-  (if (one-window-p) (error "Cannot resize sole window"))
-  (setq arg 4)
-  ;(or arg (setq arg 1))
-  (let (c)
-    (catch 'done
-      (while t
-        (message
-         "h=heighten, s=shrink, w=widen, n=narrow (by %d);  1-9=unit, q=quit"
-         arg)
-        (setq c (read-char))
-        (condition-case ()
-            (cond
-             ((= c ?h) (enlarge-window arg))
-             ((= c ?s) (shrink-window arg))
-             ((= c ?w) (enlarge-window-horizontally arg))
-             ((= c ?n) (shrink-window-horizontally arg))
-             ((= c ?\^G) (keyboard-quit))
-             ((= c ?q) (throw 'done t))
-             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
-             (t (beep)))
-          (error (beep)))))
-    (message "Done.")))
-
-;;==============================================================================
-;; find-file-hook for handling the very large file
-;;
-;; https://stackoverflow.com/questions/18316665/
-;; how-to-improve-emacs-performance-when-view-large-file
-;;==============================================================================
-
-(defun disable-slow-modes ()
-  (interactive)
-  (setq bidi-display-reordering nil)
-  (jit-lock-mode nil)
-  (set (make-variable-buffer-local 'font-lock-mode) nil)
-  (if (version< emacs-version "26")
-      (set (make-variable-buffer-local 'linum-mode) nil)
-    (set (make-variable-buffer-local 'display-line-numbers) nil))
-  (set (make-variable-buffer-local 'global-hl-line-mode) nil))
-
-(defun my-find-file-check-if-very-large-file-hook ()
-  "If a file is over 5MB, turn off modes of the buffer that make it slow."
-  (when (> (buffer-size) (* 5 1024 1024))
-    (disable-slow-modes)))
-(add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
-
-;;==============================================================================
-;; vlf
-;;
-;; https://github.com/m00natic/vlfi
-;;==============================================================================
-
-(require 'vlf-setup)
-
-;;==============================================================================
 ;; init-tree-buffer
 ;;==============================================================================
 
@@ -416,75 +290,15 @@
 (require 'init-tools)
 
 ;;==============================================================================
-;; Dos To Unix
-;;
-;; https://www.emacswiki.org/emacs/DosToUnix
+;; init-misc
 ;;==============================================================================
 
-(defun dos2unix (buffer)
-  "Automate M-% C-q C-m RET C-q C-j RET"
-  (interactive "*b")
-  (save-excursion
-    (goto-char (point-min))
-    (while (search-forward (string ?\C-m) nil t)
-      (replace-match (string ?\C-j) nil t))))
+(load-file "~/.emacs.d/init-misc.el")
+(require 'init-misc)
 
 ;;==============================================================================
-;; keyfreq
+;; init-keys
 ;;==============================================================================
 
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
-
-;;==============================================================================
-;; Global Keys
-;;==============================================================================
-
-(global-set-key (kbd "S-SPC") 'toggle-input-method)
-
-(global-set-key (kbd "M-m") 'imenu-list)
-(global-set-key (kbd "M-o") 'projectile-find-other-file)
-
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-
-(global-set-key (kbd "C-c s") 'swiper)
-(global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
-(global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
-(global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
-(global-set-key (kbd "C-c r") 'counsel-projectile-rg)
-(global-set-key (kbd "C-c p") 'counsel-projectile-switch-project)
-
-(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
-
-(global-set-key (kbd "C-c g") 'magit-status)
-(global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
-
-(global-set-key (kbd "C-c .") 'whitespace-mode)
-
-(global-set-key (kbd "C-c 1") 'eshell)
-(global-set-key (kbd "C-c 2") 'shell)
-(global-set-key (kbd "C-c 3") 'term)
-(global-set-key (kbd "C-c 0") 'neato-graph-bar)
-
-(global-set-key (kbd "s-r") 'resize-window)
-
-(global-set-key (kbd "<C-S-up>")    'buf-move-up)
-(global-set-key (kbd "<C-S-down>")  'buf-move-down)
-(global-set-key (kbd "<C-S-left>")  'buf-move-left)
-(global-set-key (kbd "<C-S-right>") 'buf-move-right)
-
-;; GUD
-;(global-set-key [f5] '(lambda ()
-;                        (interactive)
-;                        (call-interactively 'gud-tbreak)
-;                        (call-interactively 'gud-cont)))
-;(global-set-key [f6] 'gud-next)
-;(global-set-key [f7] 'gud-step)
-;(global-set-key [f8] 'gud-finish)
-;(global-set-key [f9] 'gud-break)
-
-;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
-;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
+(load-file "~/.emacs.d/init-keys.el")
+(require 'init-keys)
