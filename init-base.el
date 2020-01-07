@@ -23,12 +23,9 @@
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
 (defun other-window-reverse ()
   (interactive)
   (other-window -1))
-(global-set-key (kbd "C-x p") 'other-window-reverse)
 
 (defun my-shell-hook ()
   (local-set-key "\C-ck" 'erase-buffer))
@@ -39,7 +36,6 @@
   (if (string= "hexl-mode" major-mode)
       (hexl-mode-exit)
     (hexl-mode)))
-(global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 
 (defun open-user-init-file ()
   (interactive)
@@ -99,11 +95,9 @@
         "* When linum is running globally, disable line number in modes defined in `linum-disabled-modes-list'. Changed by linum-off. Also turns off numbering in starred modes like *scratch*"
         (unless (or (minibufferp) (member major-mode linum-disabled-modes-list)
                     (and linum-disable-starred-buffers (string-match "*" (buffer-name))))
-          (linum-mode 1)))
-      (global-set-key (kbd "C-c l") 'linum-mode))
+          (linum-mode 1))))
   (progn
-    (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-    (global-set-key (kbd "C-c l") 'display-line-numbers-mode)))
+    (add-hook 'prog-mode-hook #'display-line-numbers-mode)))
 
 ;;==============================================================================
 ;; Hide Show
@@ -131,6 +125,17 @@
 (setq mouse-wheel-follow-mouse t) ; scroll window under mouse
 (setq scroll-step 1) ; keyboard scroll one line at a time
 (setq scroll-conservatively 10000)
+
+;;==============================================================================
+;; Global Keys
+;;==============================================================================
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x p") 'other-window-reverse)
+(global-set-key (kbd "C-c x") 'hexl-mode-toggle)
+(if (version< emacs-version "26")
+    (global-set-key (kbd "C-c l") 'linum-mode)
+  (global-set-key (kbd "C-c l") 'display-line-numbers-mode))
 
 
 (provide 'init-base)

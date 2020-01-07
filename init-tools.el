@@ -5,8 +5,6 @@
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 (setq magit-gitflow-popup-key "~")
 
-(global-set-key (kbd "C-c m") 'magit-status)
-
 ;;==============================================================================
 ;; pdf-tools
 ;;==============================================================================

@@ -267,8 +267,6 @@
 ;;;==============================================================================
 ;
 ;(load-file "~/.emacs.d/find-file-in-tags.el"
-;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
-;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
 
 ;;;==============================================================================
 ;;; Dim for #if 0 ... #endif (OBSOLETE)

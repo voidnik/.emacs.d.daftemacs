@@ -123,7 +123,6 @@
 ;;==============================================================================
 
 (setq default-input-method "korean-hangul")
-(global-set-key (kbd "S-SPC") 'toggle-input-method)
 
 ;;==============================================================================
 ;; projectile
@@ -132,9 +131,7 @@
 (projectile-mode +1)
 (setq projectile-enable-caching t)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-(global-set-key (kbd "M-o") 'projectile-find-other-file)
+(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
 
 ;;==============================================================================
 ;; company
@@ -199,9 +196,8 @@
   :config
   (setq counsel-rg-base-command "rg --vimgrep %s"))
 
-;(use-package counsel-projectile
-;  :ensure t
-;  :config (counsel-projectile-mode +1))
+(use-package counsel-projectile
+  :ensure t)
 
 (use-package swiper
   :ensure t
@@ -293,11 +289,6 @@
 
 (load-file "~/.emacs.d/buffer-move.elc")
 
-(global-set-key (kbd "<C-S-up>")     'buf-move-up)
-(global-set-key (kbd "<C-S-down>")   'buf-move-down)
-(global-set-key (kbd "<C-S-left>")   'buf-move-left)
-(global-set-key (kbd "<C-S-right>")  'buf-move-right)
-
 ;;==============================================================================
 ;; Killing Buffers
 ;;
@@ -371,8 +362,6 @@
              (t (beep)))
           (error (beep)))))
     (message "Done.")))
-
-(global-set-key (kbd "C-c r") 'resize-window)
 
 ;;==============================================================================
 ;; find-file-hook for handling the very large file
@@ -448,29 +437,44 @@
 (keyfreq-autosave-mode 1)
 
 ;;==============================================================================
-;; Custom Keys
+;; Global Keys
 ;;==============================================================================
+
+(global-set-key (kbd "S-SPC") 'toggle-input-method)
+
+(global-set-key (kbd "M-m") 'imenu-list)
+(global-set-key (kbd "M-o") 'projectile-find-other-file)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+
 (global-set-key (kbd "C-c s") 'swiper)
-(global-set-key (kbd "C-c b") 'ivy-switch-buffer)
+(global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
+(global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
+(global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
+(global-set-key (kbd "C-c r") 'counsel-projectile-rg)
+(global-set-key (kbd "C-c p") 'counsel-projectile-switch-project)
 
-(global-set-key (kbd "C-c d") 'desktop-read)
+(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
+(global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
+
+(global-set-key (kbd "C-c .") 'whitespace-mode)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") 'shell)
 (global-set-key (kbd "C-c 3") 'term)
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
-(global-set-key (kbd "C-c C-.") 'whitespace-mode)
+(global-set-key (kbd "s-r") 'resize-window)
 
-(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
-
-(global-set-key (kbd "M-m") 'imenu-list)
+(global-set-key (kbd "<C-S-up>")    'buf-move-up)
+(global-set-key (kbd "<C-S-down>")  'buf-move-down)
+(global-set-key (kbd "<C-S-left>")  'buf-move-left)
+(global-set-key (kbd "<C-S-right>") 'buf-move-right)
 
 ;; GUD
 ;(global-set-key [f5] '(lambda ()
@@ -481,3 +485,6 @@
 ;(global-set-key [f7] 'gud-step)
 ;(global-set-key [f8] 'gud-finish)
 ;(global-set-key [f9] 'gud-break)
+
+;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
+;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
