@@ -50,7 +50,7 @@
                 (rainbow-10   "#a0522d")
                 (eph-verbatim "#f1fa8c")
                 (eph-code     "#ff79c6")
-                (hl           "#2e2e38")
+                (hl           "#2e2e38" "#2e2e2e")
                 (ivy-posframe-bg "#202027")))
       (faces '(;; default
                (cursor :background ,fg3)
