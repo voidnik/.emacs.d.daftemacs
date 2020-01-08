@@ -9,6 +9,14 @@
 (setq undo-tree-visualizer-diff t)
 
 ;;==============================================================================
+;; Eshell
+;;==============================================================================
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c k") (lambda () (interactive) (eshell/clear 1)))))
+
+;;==============================================================================
 ;; Asynchronous Shell Command Excution
 ;;
 ;; http://stackoverflow.com/questions/16815598/
