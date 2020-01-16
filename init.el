@@ -182,7 +182,8 @@
   (setq counsel-rg-base-command "rg --vimgrep %s"))
 
 (use-package counsel-projectile
-  :ensure t)
+  :ensure t
+  :config (counsel-projectile-mode +1))
 
 (use-package swiper
   :ensure t
@@ -204,21 +205,28 @@
 
 (use-package ivy-rich
   :ensure t
+  :hook counsel-mode
   :preface
   (defun ivy-rich-switch-buffer-icon (candidate)
     (with-current-buffer
-        (get-buffer candidate)
-      (all-the-icons-icon-for-mode major-mode)))
+   	    (get-buffer candidate)
+	  (let ((icon (all-the-icons-icon-for-mode major-mode)))
+	    (if (symbolp icon)
+	        (all-the-icons-icon-for-mode 'fundamental-mode)
+	      icon))))
   :init
   (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-posframe-width - 1)
         '(ivy-switch-buffer
           (:columns
            ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate (:width 35))
-            (ivy-rich-switch-buffer-project (:width 15 :face success))
-            (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
+            (ivy-rich-candidate (:width 48))
+            (ivy-rich-switch-buffer-size (:width 7))
+            (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+            (ivy-rich-switch-buffer-major-mode (:width 16 :face warning))
+            (ivy-rich-switch-buffer-project (:width 16 :face success))
+            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))
            :predicate
-           #'(lambda (cand) (get-buffer cand)))
+           (lambda (cand) (get-buffer cand)))
           counsel-M-x
           (:columns
            ((counsel-M-x-transformer (:width 35))
@@ -236,7 +244,8 @@
            ((ivy-rich-candidate (:width 25))
             (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
             (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
-            (ivy-rich-package-install-summary (:width 53 :face font-lock-doc-face))))))
+            (ivy-rich-package-install-summary (:width 55 :face font-lock-doc-face))))))
+  (setq ivy-rich-path-style 'abbrev)
   :config
   (ivy-rich-mode +1)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
