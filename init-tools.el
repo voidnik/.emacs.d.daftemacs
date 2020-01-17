@@ -35,10 +35,15 @@
 ;;==============================================================================
 
 (use-package diff-hl
-    :ensure t
-    :config
-    (global-diff-hl-mode)
-    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  :ensure t
+  :custom-face
+  (diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
+  (diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
+  (diff-hl-change ((t (:foreground "#8be9fd" :background "#8be9fd"))))
+  :config
+  (global-diff-hl-mode +1)
+  (diff-hl-flydiff-mode +1)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
 
 
 (provide 'init-tools)
