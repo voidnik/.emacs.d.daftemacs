@@ -357,6 +357,7 @@
                (web-mode-warning-face :inherit ,font-lock-warning-face)
                ;; ivy-posframe
                (ivy-posframe :foreground ,fg1 :background ,ivy-posframe-bg)
+               (ivy-posframe-border :foreground ,fg1 :background ,ivy-posframe-bg)
                ;; which-func
                (which-func :inherit ,font-lock-function-name-face)
                (dired-directory :foreground ,func :weight normal)
