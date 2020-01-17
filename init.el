@@ -239,6 +239,10 @@
           (:columns
            ((counsel-describe-variable-transformer (:width 35))
             (ivy-rich-counsel-variable-docstring (:width 64 :face font-lock-doc-face))))
+          counsel-recentf
+          (:columns
+           ((ivy-rich-candidate (:width 80))
+            (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))
           package-install
           (:columns
            ((ivy-rich-candidate (:width 25))

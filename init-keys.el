@@ -12,16 +12,17 @@
 (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-c s") 'swiper)
+(global-set-key (kbd "C-c r") 'counsel-recentf)
 (global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
 (global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
 (global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
-(global-set-key (kbd "C-c r") 'counsel-projectile-rg)
+(global-set-key (kbd "C-c g") 'counsel-projectile-rg)
 (global-set-key (kbd "C-c p") 'counsel-projectile-switch-project)
 
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
-(global-set-key (kbd "C-c g") 'magit-status)
+(global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
 
 (global-set-key (kbd "C-c .") 'whitespace-mode)
