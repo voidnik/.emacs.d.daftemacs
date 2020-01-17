@@ -200,7 +200,7 @@
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
         ivy-posframe-height-alist '((t . 30))
         ivy-posframe-parameters '((internal-border-width . 10)))
-  (setq ivy-posframe-width 100)
+  (setq ivy-posframe-width 150)
   (ivy-posframe-mode +1))
 
 (use-package ivy-rich
@@ -219,7 +219,7 @@
         '(ivy-switch-buffer
           (:columns
            ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate (:width 48))
+            (ivy-rich-candidate (:width 35))
             (ivy-rich-switch-buffer-size (:width 7))
             (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
             (ivy-rich-switch-buffer-major-mode (:width 16 :face warning))
@@ -230,19 +230,24 @@
           counsel-M-x
           (:columns
            ((counsel-M-x-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:width 64 :face font-lock-doc-face))))
+            (ivy-rich-counsel-function-docstring (:width 114 :face font-lock-doc-face))))
           counsel-describe-function
           (:columns
            ((counsel-describe-function-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:width 64 :face font-lock-doc-face))))
+            (ivy-rich-counsel-function-docstring (:width 114 :face font-lock-doc-face))))
           counsel-describe-variable
           (:columns
            ((counsel-describe-variable-transformer (:width 35))
-            (ivy-rich-counsel-variable-docstring (:width 64 :face font-lock-doc-face))))
+            (ivy-rich-counsel-variable-docstring (:width 114 :face font-lock-doc-face))))
           counsel-recentf
           (:columns
-           ((ivy-rich-candidate (:width 80))
+           ((ivy-rich-candidate (:width 130))
             (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))
+          counsel-bookmark
+          (:columns
+           ((ivy-rich-bookmark-type (:width 8))
+            (ivy-rich-candidate (:width 50))
+            (ivy-rich-bookmark-info)))
           package-install
           (:columns
            ((ivy-rich-candidate (:width 25))
