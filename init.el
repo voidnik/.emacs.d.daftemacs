@@ -206,7 +206,6 @@
 
 (use-package ivy-rich
   :ensure t
-  :hook counsel-mode
   :preface
   (defun ivy-rich-switch-buffer-icon (candidate)
     (with-current-buffer
@@ -268,7 +267,10 @@
   (setq ivy-rich-path-style 'abbrev)
   :config
   (ivy-rich-mode +1)
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  ;; In order to make the changes of ivy-rich-display-transformers-list take effect,
+  ;; ivy-rich-reload is needed after emacs-startup.
+  (add-hook 'emacs-startup-hook (lambda () (ivy-rich-reload))))
 
 ;;==============================================================================
 ;; find-file-in-project
