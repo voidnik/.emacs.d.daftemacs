@@ -183,7 +183,8 @@
 
 (use-package counsel-projectile
   :ensure t
-  :config (counsel-projectile-mode +1))
+  ;;:config (counsel-projectile-mode +1) ;; This is commented to prevent that the original shortcuts for projectile are overrided.
+  )
 
 (use-package swiper
   :ensure t
