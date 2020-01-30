@@ -358,6 +358,13 @@
                ;; ivy-posframe
                (ivy-posframe :foreground ,fg1 :background ,ivy-posframe-bg)
                (ivy-posframe-border :foreground ,fg1 :background ,ivy-posframe-bg)
+               ;; treemacs
+               (treemacs-git-modified-face :foreground ,rainbow-3)
+               (treemacs-git-renamed-face :foreground ,rainbow-4)
+               (treemacs-git-ignored-face :foreground ,comment)
+               (treemacs-git-untracked-face :foreground ,rainbow-7)
+               (treemacs-git-added-face :foreground ,rainbow-5)
+               (treemacs-git-conflict-face :foreground ,rainbow-9)
                ;; which-func
                (which-func :inherit ,font-lock-function-name-face)
                (dired-directory :foreground ,func :weight normal)
