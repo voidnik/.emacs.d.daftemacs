@@ -112,7 +112,7 @@
 (setq lsp-file-watch-threshold 2000)
 
 ;;
-;; - Building ccls
+;; # Building ccls
 ;; $ git clone --depth=1 --recursive https://github.com/MaskRay/ccls
 ;; $ cd ccls
 ;; On Ubuntu
@@ -121,7 +121,7 @@
 ;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
 ;; $ cmake --build Release
 ;;
-;; - Installing ccls on MacOS brew (https://github.com/twlz0ne/homebrew-ccls)
+;; # Installing ccls on MacOS brew (https://github.com/twlz0ne/homebrew-ccls)
 ;; $ brew tap twlz0ne/homebrew-ccls
 ;; $ brew install ccls
 ;;
@@ -148,21 +148,25 @@
 ;;
 ;; - elpy (https://github.com/jorgenschaefer/elpy)
 ;; # virtualenv
-;; sudo apt install python3-venv
-;; pip3 install virtualenv
+;; $ sudo apt install python3-venv
+;; $ pip3 install virtualenv
 ;; # Completion and code navigation
-;; pip3 install jedi
+;; $ pip3 install jedi
 ;; # Code checks
-;; pip3 install flake8
+;; $ pip3 install flake8
 ;; # Refactoring
-;; pip3 install rope
+;; $ pip3 install rope
 ;; # Automatic formatting (PEP8, Yapf or Black)
-;; pip3 install autopep8
-;; pip3 install yapf
-;; pip3 install black (only available on Python 3)
+;; $ pip3 install autopep8
+;; $ pip3 install yapf
+;; $ pip3 install black (only available on Python 3)
 ;;
 ;; - importmagic (https://github.com/anachronic/importmagic.el)
-;; pip3 install importmagic epc
+;; $ pip3 install importmagic epc
+;;
+;; - Install Python Dependencies
+;; (setq elpy-rpc-python-command "python3")
+;; M-x elpy-rpc-reinstall-virtualenv
 ;;==============================================================================
 
 (setq python-shell-interpreter "python3"
