@@ -148,5 +148,68 @@
     (while (search-forward (string ?\C-m) nil t)
       (replace-match (string ?\C-j) nil t))))
 
+;;==============================================================================
+;; Syntax Color Hex/HSL Color Strings
+;;
+;; http://ergoemacs.org/emacs/emacs_CSS_colors.html
+;;==============================================================================
+
+(defun syntax-color-hex ()
+  "Syntax color text of the form 「#ff1100」 and 「#abc」 in current buffer."
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("#[[:xdigit:]]\\{3\\}"
+      (0 (put-text-property
+          (match-beginning 0)
+          (match-end 0)
+          'face (list :background
+                      (let* (
+                             (ms (match-string-no-properties 0))
+                             (r (substring ms 1 2))
+                             (g (substring ms 2 3))
+                             (b (substring ms 3 4)))
+                        (concat "#" r r g g b b))))))
+     ("#[[:xdigit:]]\\{6\\}"
+      (0 (put-text-property
+          (match-beginning 0)
+          (match-end 0)
+          'face (list :background (match-string-no-properties 0)))))))
+  (font-lock-flush))
+
+(defun syntax-color-hsl ()
+  "Syntax color CSS's HSL color spec eg 「hsl(0,90%,41%)」 in current buffer."
+  (interactive)
+  (require 'color)
+  (font-lock-add-keywords
+   nil
+   '(("hsl( *\\([0-9]\\{1,3\\}\\) *, *\\([0-9]\\{1,3\\}\\)% *, *\\([0-9]\\{1,3\\}\\)% *)"
+      (0 (put-text-property
+          (+ (match-beginning 0) 3)
+          (match-end 0)
+          'face
+          (list
+           :background
+           (concat
+            "#"
+            (mapconcat
+             'identity
+             (mapcar
+              (lambda (x) (format "%02x" (round (* x 255))))
+              (color-hsl-to-rgb
+               (/ (string-to-number (match-string-no-properties 1)) 360.0)
+               (/ (string-to-number (match-string-no-properties 2)) 100.0)
+               (/ (string-to-number (match-string-no-properties 3)) 100.0)))
+             "" )) ;  "#00aa00"
+           ))))))
+  (font-lock-flush))
+
+(add-hook 'css-mode-hook 'syntax-color-hex)
+(add-hook 'css-mode-hook 'xah-syntax-color-hsl)
+(add-hook 'php-mode-hook 'syntax-color-hex)
+(add-hook 'php-mode-hook 'xah-syntax-color-hsl)
+(add-hook 'html-mode-hook 'syntax-color-hex)
+(add-hook 'html-mode-hook 'xah-syntax-color-hsl)
+
 
 (provide 'init-misc)
