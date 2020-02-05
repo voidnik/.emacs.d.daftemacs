@@ -10,9 +10,20 @@
 ;;==============================================================================
 
 (use-package pdf-tools
-    :ensure t
-    :config
-    (pdf-tools-install))
+  :ensure t
+  :config
+  (pdf-tools-install))
+
+;;==============================================================================
+;; graphviz
+;;==============================================================================
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :config
+  (setq graphviz-dot-indent-width 4))
+
+(use-package company-graphviz-dot)
 
 ;;==============================================================================
 ;; ediff
