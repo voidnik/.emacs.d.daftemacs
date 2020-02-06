@@ -10,6 +10,7 @@
       make-backup-files nil
       column-number-mode t
       split-height-threshold nil ; not to split this way.
+      register-preview-delay 0
       gdb-many-windows t)
 (blink-cursor-mode 0)
 (global-hl-line-mode)
