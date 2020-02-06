@@ -12,7 +12,8 @@
 (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-c s") 'swiper)
-(global-set-key (kbd "C-c r") 'counsel-recentf)
+(global-set-key (kbd "C-c r") 'counsel-register)
+(global-set-key (kbd "C-c t") 'counsel-recentf)
 (global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
 (global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
 (global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
