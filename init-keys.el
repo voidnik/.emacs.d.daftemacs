@@ -29,8 +29,7 @@
 (global-set-key (kbd "C-c .") 'whitespace-mode)
 
 (global-set-key (kbd "C-c 1") 'eshell)
-(global-set-key (kbd "C-c 2") 'shell)
-(global-set-key (kbd "C-c 3") 'term)
+(global-set-key (kbd "C-c 2") 'ansi-term) ; or 'shell' or 'term'
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
 (global-set-key (kbd "s-r") 'resize-window)
