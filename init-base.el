@@ -13,13 +13,18 @@
       register-preview-delay 0
       gdb-many-windows t)
 (blink-cursor-mode 0)
-(global-hl-line-mode)
 (setq-default truncate-lines t)
 (setq-default tab-width 4)
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
 (delete-selection-mode t)
 (require 'cl-lib) ; Common Lisp
+
+(global-hl-line-mode)
+(add-hook 'eshell-mode-hook (lambda ()
+                              (setq-local global-hl-line-mode nil)))
+(add-hook 'term-mode-hook (lambda ()
+                            (setq-local global-hl-line-mode nil)))
 
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
