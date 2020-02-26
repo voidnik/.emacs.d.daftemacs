@@ -212,6 +212,12 @@
   :config
   (add-hook 'python-mode-hook 'importmagic-mode))
 
+(use-package pyvenv
+  :ensure t
+  :config
+  (setenv "WORKON_HOME" "~/anaconda3/envs")
+  (pyvenv-mode 1))
+
 ;;==============================================================================
 ;; qml-mode
 ;;==============================================================================
