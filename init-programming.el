@@ -204,7 +204,8 @@
 (use-package py-autopep8
   :ensure t
   :config
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
+  ;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  )
 
 (use-package importmagic
   :ensure t
