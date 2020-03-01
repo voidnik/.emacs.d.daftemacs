@@ -205,8 +205,7 @@
         ivy-posframe-height-alist '((t . 30))
         ivy-posframe-parameters '((internal-border-width . 10)))
   (setq ivy-posframe-width 150)
-  ;(ivy-posframe-mode +1)
-  )
+  (ivy-posframe-mode +1))
 
 (use-package ivy-rich
   :ensure t
