@@ -32,7 +32,7 @@
 (global-set-key (kbd "C-c 2") 'ansi-term) ; or 'shell' or 'term'
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
-(global-set-key (kbd "s-r") 'resize-window)
+(global-set-key (kbd "C-c z") 'resize-window)
 
 (global-set-key (kbd "<C-S-up>")    'buf-move-up)
 (global-set-key (kbd "<C-S-down>")  'buf-move-down)
