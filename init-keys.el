@@ -29,7 +29,7 @@
 (global-set-key (kbd "C-c .") 'whitespace-mode)
 
 (global-set-key (kbd "C-c 1") 'eshell)
-(global-set-key (kbd "C-c 2") '(lambda () (interactive) (ansi-term "/usr/bin/zsh"))) ; or 'shell' or 'term'
+(global-set-key (kbd "C-c 2") '(lambda () (interactive) (ansi-term explicit-shell-file-name)))
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
 (global-set-key (kbd "C-c z") 'resize-window)

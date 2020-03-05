@@ -63,6 +63,12 @@
 ;; https://oremacs.com/2015/01/01/three-ansi-term-tips/
 ;;==============================================================================
 
+(cond
+ ((string-equal system-type "darwin")
+  (setq explicit-shell-file-name "/bin/zsh"))
+ ((string-equal system-type "gnu/linux")
+  (setq explicit-shell-file-name "/usr/bin/zsh")))
+
 (defun oleh-term-exec-hook ()
   (let* ((buff (current-buffer))
          (proc (get-buffer-process buff)))
