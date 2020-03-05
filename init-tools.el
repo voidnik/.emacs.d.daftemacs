@@ -83,17 +83,6 @@
 (eval-after-load "term"
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
 
-;;==============================================================================
-;; grip-mode
-;;
-;; https://github.com/seagle0128/grip-mode
-;; https://github.com/joeyespo/grip
-;;==============================================================================
-
-(use-package grip-mode
-  :ensure t
-  :bind (:map markdown-mode-command-map
-         ("g" . grip-mode)))
 
 
 (provide 'init-tools)

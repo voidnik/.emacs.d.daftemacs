@@ -26,4 +26,3 @@ rm -rf elpa/pyvenv-*
 rm -rf elpa/diff-hl-*
 rm -rf elpa/pdf-tools-*
 rm -rf elpa/graphviz-dot-mode-*
-rm -rf elpa/grip-mode-*
