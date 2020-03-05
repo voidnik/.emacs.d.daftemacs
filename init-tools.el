@@ -83,6 +83,11 @@
 (eval-after-load "term"
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
 
+;;==============================================================================
+;; markdown-mode
+;;==============================================================================
+
+(setq markdown-command "pandoc")
 
 
 (provide 'init-tools)
