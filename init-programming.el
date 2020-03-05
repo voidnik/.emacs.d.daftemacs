@@ -51,7 +51,8 @@
 
 (add-to-list 'magic-mode-alist
              `(,(lambda ()
-                  (and (string= (file-name-extension buffer-file-name) "h")
+                  (and (buffer-file-name)
+                       (string= (file-name-extension buffer-file-name) "h")
                        (re-search-forward "@\\<interface\\>"
                                           magic-mode-regexp-match-limit t)))
                . objc-mode))
