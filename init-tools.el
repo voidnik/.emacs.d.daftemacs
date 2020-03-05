@@ -57,5 +57,24 @@
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
 
+;;==============================================================================
+;; ansi-term
+;;
+;; https://oremacs.com/2015/01/01/three-ansi-term-tips/
+;;==============================================================================
+
+(defun oleh-term-exec-hook ()
+  (let* ((buff (current-buffer))
+         (proc (get-buffer-process buff)))
+    (set-process-sentinel
+     proc
+     `(lambda (process event)
+        (if (string= event "finished\n")
+            (kill-buffer ,buff))))))
+
+(add-hook 'term-exec-hook 'oleh-term-exec-hook)
+
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
 
 (provide 'init-tools)
