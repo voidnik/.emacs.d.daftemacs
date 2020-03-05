@@ -33,15 +33,13 @@
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config)))
 
-(defun init-themes ()
-  ;; https://draculatheme.com/emacs/
-  (load-file "~/.emacs.d/dracula-theme.el")
-  (load-theme 'dracula t)
-
-  ;(init-doom-theme)
-
-  ;(load-theme 'base16-default-dark t)
-  )
+;; https://draculatheme.com/emacs/
+(load-file "~/.emacs.d/dracula-theme.el")
+(load-theme 'dracula t)
+;; or
+;;(init-doom-theme)
+;; or
+;;(load-theme 'base16-default-dark t)
 
 ;;==============================================================================
 ;; Mode Line
@@ -134,15 +132,13 @@
   ;; Function to stylize the irc buffer names.
   (setq doom-modeline-irc-stylize 'identity))
 
-(defun init-mode-line ()
-  (dracula-setup-modeline-format)
-
-  ;(init-doom-mode-line)
-
-  ;(setq sml/theme 'respectful)
-  ;(setq sml/no-confirm-load-theme t)
-  ;(sml/setup)
-  )
+(dracula-setup-modeline-format)
+;; or
+;;(init-doom-mode-line)
+;; or
+;;(setq sml/theme 'respectful)
+;;(setq sml/no-confirm-load-theme t)
+;;(sml/setup)
 
 ;;==============================================================================
 ;; Font
@@ -178,7 +174,7 @@
         ("NanumGothicCoding" . 1.2307692307692308)))
 
 ;;==============================================================================
-;; Main Flow
+;; all-the-icons
 ;;==============================================================================
 
 (use-package all-the-icons
@@ -189,9 +185,26 @@
   :ensure t
   :hook (after-init . all-the-icons-ivy-setup))
 
+;;==============================================================================
+;; fill-column-indicator
+;;
+;; https://www.emacswiki.org/emacs/FillColumnIndicator
+;;==============================================================================
+
+(load-file "~/.emacs.d/fill-column-indicator.el")
+(require 'fill-column-indicator)
+(setq fci-rule-column 79)
+(setq fci-rule-width 1)
+(setq fci-rule-color "#303030")
+(add-hook 'prog-mode-hook 'fci-mode)
+(add-hook 'org-mode-hook 'fci-mode)
+
+;;==============================================================================
 ;; https://github.com/emacs-helm/helm/issues/2213
 ;; Fix issue with the new :extend face attribute in emacs-27
 ;; Prefer to extend to EOL as in previous emacs.
+;;==============================================================================
+
 (defun tv/extend-faces-matching (regexp)
   (cl-loop for f in (face-list)
            for face = (symbol-name f)
@@ -206,8 +219,9 @@
   (with-eval-after-load "helm"
     (tv/extend-faces-matching "\\`helm")))
 
-(init-themes)
-(init-mode-line)
+;;==============================================================================
+;; GUI/CUI Flow Control
+;;==============================================================================
 
 (defun startup-on-gui ()
   (init-font)
