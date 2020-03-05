@@ -205,11 +205,11 @@
   (font-lock-flush))
 
 (add-hook 'css-mode-hook 'syntax-color-hex)
-(add-hook 'css-mode-hook 'xah-syntax-color-hsl)
+(add-hook 'css-mode-hook 'syntax-color-hsl)
 (add-hook 'php-mode-hook 'syntax-color-hex)
-(add-hook 'php-mode-hook 'xah-syntax-color-hsl)
+(add-hook 'php-mode-hook 'syntax-color-hsl)
 (add-hook 'html-mode-hook 'syntax-color-hex)
-(add-hook 'html-mode-hook 'xah-syntax-color-hsl)
+(add-hook 'html-mode-hook 'syntax-color-hsl)
 
 
 (provide 'init-misc)
