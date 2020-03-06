@@ -94,7 +94,7 @@
 (use-package markdown-preview-mode
   :ensure t
   :config
-  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github.css"))
+  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
   (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
 
