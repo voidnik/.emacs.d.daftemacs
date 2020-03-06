@@ -84,10 +84,18 @@
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
 
 ;;==============================================================================
-;; markdown-mode
+;; markdown
 ;;==============================================================================
 
 (setq markdown-command "pandoc")
+
+;; markdown-preview-mode
+;; https://github.com/ancane/markdown-preview-mode
+(use-package markdown-preview-mode
+  :ensure t
+  :config
+  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github.css"))
+  (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
 
 (provide 'init-tools)
