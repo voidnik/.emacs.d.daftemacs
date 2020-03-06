@@ -97,5 +97,17 @@
   (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
   (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
+;;==============================================================================
+;; org-re-reveal
+;;
+;; https://gitlab.com/oer/org-re-reveal
+;; https://github.com/hakimel/reveal.js
+;;==============================================================================
+
+(use-package org-re-reveal
+  :ensure t
+  :config
+  (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
+
 
 (provide 'init-tools)

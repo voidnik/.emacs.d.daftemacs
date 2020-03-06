@@ -18,6 +18,7 @@ company-statistics-cache.el
 .cache
 .lsp-session-v1
 ccls
+reveal.js
 transient
 elpy
 __pycache__
@@ -51,3 +52,5 @@ elpa/graphviz-dot-mode-*
 elpa/markdown-preview-mode-*
 elpa/web-server-*
 elpa/websocket-*
+elpa/org-re-reveal-*
+elpa/htmlize-*
