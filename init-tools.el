@@ -109,5 +109,28 @@
   :config
   (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
 
+;;==============================================================================
+;; Google Translate (version): 0.11.18
+;;
+;; https://github.com/atykhonov/google-translate
+;;
+;; NOTE: Since the version 0.11.8 has a bug about error of "(args-out-of-range
+;; [] 1)", I use the source code which has been customized to fix the bug.
+;; The original source code is from 'dc118de511c433750d4c98b9dd67350118c04fd6'
+;; on Jun 20, 2019
+;;
+;; https://github.com/atykhonov/google-translate/issues/98
+;; https://qiita.com/akicho8/items/cae976cb3286f51e4632
+;;==============================================================================
+
+(add-to-list 'load-path "~/.emacs.d/google-translate-custom-dc118de-20190620/")
+(require 'google-translate)
+(require 'google-translate-smooth-ui)
+(require 'google-translate-default-ui)
+(setq google-translate-translation-directions-alist
+      '(("auto" . "ko") ("auto" . "en")))
+(setq google-translate-output-destination nil)
+(setq google-translate-pop-up-buffer-set-focus t)
+
 
 (provide 'init-tools)

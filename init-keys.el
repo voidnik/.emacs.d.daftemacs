@@ -34,6 +34,9 @@
 
 (global-set-key (kbd "C-c z") 'resize-window)
 
+(global-set-key "\C-ct" 'google-translate-smooth-translate)
+(global-set-key "\C-cT" 'google-translate-query-translate)
+
 (global-set-key (kbd "<C-S-up>")    'buf-move-up)
 (global-set-key (kbd "<C-S-down>")  'buf-move-down)
 (global-set-key (kbd "<C-S-left>")  'buf-move-left)
