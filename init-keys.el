@@ -55,5 +55,11 @@
 ;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
 ;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
 
+;;==============================================================================
+;; Local Keys
+;;==============================================================================
+
+(define-key python-mode-map "\C-cv" 'pyvenv-workon)
+
 
 (provide 'init-keys)
