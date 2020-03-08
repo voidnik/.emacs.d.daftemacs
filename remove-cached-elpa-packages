@@ -6,6 +6,11 @@ rm -rf elpa/all-the-icons-*
 rm -rf elpa/ag-*
 rm -rf elpa/rg-*
 rm -rf elpa/dumb-jump-*
+rm -rf elpa/helm-core-*
+rm -rf elpa/helm-gtags-*
+rm -rf elpa/helm-ag-*
+rm -rf elpa/helm-rg-*
+rm -rf elpa/helm-*
 rm -rf elpa/evil-*
 rm -rf elpa/hydra-*
 rm -rf elpa/ace-window-*
