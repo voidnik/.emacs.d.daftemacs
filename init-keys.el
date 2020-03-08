@@ -59,6 +59,9 @@
 ;; Local Keys
 ;;==============================================================================
 
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
+
 (define-key python-mode-map "\C-cv" 'pyvenv-workon)
 
 

@@ -174,18 +174,6 @@
         ("NanumGothicCoding" . 1.2307692307692308)))
 
 ;;==============================================================================
-;; all-the-icons
-;;==============================================================================
-
-(use-package all-the-icons
-  :ensure t
-  :config (setq all-the-icons-scale-factor 1.0))
-
-(use-package all-the-icons-ivy
-  :ensure t
-  :hook (after-init . all-the-icons-ivy-setup))
-
-;;==============================================================================
 ;; fill-column-indicator
 ;;
 ;; https://www.emacswiki.org/emacs/FillColumnIndicator

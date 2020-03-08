@@ -3,6 +3,13 @@ rm -rf elpa/archives
 rm -rf elpa/*.txt
 rm -rf elpa/all-the-icons-ivy-*
 rm -rf elpa/all-the-icons-*
+rm -rf elpa/magit-popup-*
+rm -rf elpa/magit-*
+rm -rf elpa/ag-*
+rm -rf elpa/rg-*
+rm -rf elpa/dumb-jump-*
+rm -rf elpa/projectile-*
+rm -rf elpa/yasnippet-*
 rm -rf elpa/treemacs-*
 rm -rf elpa/counsel-projectile-*
 rm -rf elpa/counsel-*

@@ -26,6 +26,13 @@ elpa/archives
 elpa/*.txt
 elpa/all-the-icons-ivy-*
 elpa/all-the-icons-*
+elpa/magit-popup-*
+elpa/magit-*
+elpa/ag-*
+elpa/rg-*
+elpa/dumb-jump-*
+elpa/projectile-*
+elpa/yasnippet-*
 elpa/treemacs-*
 elpa/counsel-projectile-*
 elpa/counsel-*

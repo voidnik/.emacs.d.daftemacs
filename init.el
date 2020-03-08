@@ -71,7 +71,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs magit-gitflow keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist hydra ht highlight-indentation helm-core helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window)))
+   '(org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf base16-theme flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist hydra ht highlight-indentation helm-core helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -94,13 +94,6 @@
  '(ediff-odd-diff-C ((t (:background "#464752")))))
 
 ;;==============================================================================
-;; init-appearance
-;;==============================================================================
-
-(load-file "~/.emacs.d/init-appearance.el")
-(require 'init-appearance)
-
-;;==============================================================================
 ;; startup
 ;;==============================================================================
 
@@ -113,13 +106,49 @@
 (setenv "MANWIDTH" "72")
 
 ;;==============================================================================
+;; all-the-icons
+;;==============================================================================
+
+(use-package all-the-icons
+  :ensure t
+  :config (setq all-the-icons-scale-factor 1.0))
+
+(use-package all-the-icons-ivy
+  :ensure t
+  :hook (after-init . all-the-icons-ivy-setup))
+
+;;==============================================================================
+;; ag, rg, dumb-jump
+;;==============================================================================
+
+(use-package ag
+  :ensure t)
+
+(use-package rg
+  :ensure t)
+
+(use-package dumb-jump
+  :ensure t)
+
+;;==============================================================================
+;; magit
+;;==============================================================================
+
+(use-package magit
+  :ensure t)
+
+(use-package magit-popup
+  :ensure t)
+
+;;==============================================================================
 ;; projectile
 ;;==============================================================================
 
-(projectile-mode +1)
-(setq projectile-enable-caching t)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
+  (setq projectile-enable-caching t))
 
 ;;==============================================================================
 ;; company
@@ -152,8 +181,10 @@
 ;; yasnippet
 ;;==============================================================================
 
-(require 'yasnippet)
-(yas-global-mode 1)
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
 
 ;;==============================================================================
 ;; ivy, counsel, swiper
@@ -302,6 +333,13 @@
 ;;;==============================================================================
 ;
 ;(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;;==============================================================================
+;; init-appearance
+;;==============================================================================
+
+(load-file "~/.emacs.d/init-appearance.el")
+(require 'init-appearance)
 
 ;;==============================================================================
 ;; init-tree-buffer
