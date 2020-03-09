@@ -26,7 +26,6 @@
                 (bg3          "#464752")
                 (bg4          "#565761")
                 (bg5          "#44475a")
-                (bg6          "#b45bcf")
                 (key2         "#0189cc")
                 (key3         "#ff79c6")
                 (builtin      "#ffb86c")
@@ -51,6 +50,9 @@
                 (eph-verbatim "#f1fa8c")
                 (eph-code     "#ff79c6")
                 (hl           "#2e2e38" "#2e2e2e")
+                (ml-i-fg      "#838381")
+                (ml-i-bg      "#23252f")
+                (pl-bg        "#b45bcf")
                 (ivy-posframe-bg "#202027")))
       (faces '(;; default
                (cursor :background ,fg3)
@@ -238,7 +240,7 @@
                (magit-section-highlight :background ,bg2)
                ;; mode-line
                (mode-line :foreground nil :background ,bg5 :box ,bg5)
-               (mode-line-inactive :foreground ,fg1 :background ,bg2 :box ,bg2)
+               (mode-line-inactive :foreground ,ml-i-fg :background ,ml-i-bg :box ,ml-i-bg)
                ;; mu4e
                (mu4e-cited-1-face :foreground ,fg2)
                (mu4e-cited-7-face :foreground ,fg3)
@@ -299,8 +301,8 @@
                (powerline-evil-operator-face :inherit powerline-evil-base-face :background ,rainbow-4)
                (powerline-evil-replace-face :inherit powerline-evil-base-face :background ,rainbow-9)
                (powerline-evil-visual-face :inherit powerline-evil-base-face :background ,rainbow-5)
-               (powerline-active1 :background ,bg6 :foreground ,fg1)
-               (powerline-active2 :background ,bg6 :foreground ,fg1)
+               (powerline-active1 :background ,pl-bg :foreground ,fg1)
+               (powerline-active2 :background ,pl-bg :foreground ,fg1)
                (powerline-inactive2 :background ,bg3 :foreground ,fg1)
                (powerline-inactive2 :background ,bg3 :foreground ,fg1)
                ;; rainbow-delimiters
