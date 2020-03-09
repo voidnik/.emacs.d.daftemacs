@@ -30,6 +30,7 @@
 
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") '(lambda () (interactive) (ansi-term explicit-shell-file-name)))
+(global-set-key (kbd "C-c 9") 'calculator)
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
 
 (global-set-key (kbd "C-c z") 'resize-window)
