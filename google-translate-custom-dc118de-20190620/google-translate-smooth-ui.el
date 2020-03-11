@@ -300,11 +300,14 @@ changing to the next translation direction and to the previous
 one respectively."
   (interactive)  
 
-  (setq google-translate-translation-direction-query
-        (if (use-region-p)
-            (google-translate--strip-string
-             (buffer-substring-no-properties (region-beginning) (region-end)))
-          (current-word t t)))
+  (let ((text (current-word t t)))
+    (if (string-equal text "%PDF")
+        (setq text nil))
+    (setq google-translate-translation-direction-query
+          (if (use-region-p)
+              (google-translate--strip-string
+               (buffer-substring-no-properties (region-beginning) (region-end)))
+            text)))
 
   (setq google-translate-current-translation-direction 0)
 
