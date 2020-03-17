@@ -48,6 +48,6 @@ rm -rf elpa/web-server-*
 rm -rf elpa/websocket-*
 rm -rf elpa/org-re-reveal-*
 rm -rf elpa/htmlize-*
-rm -rf elpa/elpa/avy-*
-rm -rf elpa/elpa/flycheck-*
-rm -rf elpa/elpa/haskell-mode-*
+rm -rf elpa/avy-*
+rm -rf elpa/flycheck-*
+rm -rf elpa/haskell-mode-*
