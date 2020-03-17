@@ -43,3 +43,11 @@ rm -rf elpa/pyvenv-*
 rm -rf elpa/diff-hl-*
 rm -rf elpa/pdf-tools-*
 rm -rf elpa/graphviz-dot-mode-*
+rm -rf elpa/markdown-preview-mode-*
+rm -rf elpa/web-server-*
+rm -rf elpa/websocket-*
+rm -rf elpa/org-re-reveal-*
+rm -rf elpa/htmlize-*
+rm -rf elpa/elpa/avy-*
+rm -rf elpa/elpa/flycheck-*
+rm -rf elpa/elpa/haskell-mode-*

@@ -71,3 +71,6 @@ elpa/web-server-*
 elpa/websocket-*
 elpa/org-re-reveal-*
 elpa/htmlize-*
+elpa/avy-*
+elpa/flycheck-*
+elpa/haskell-mode-*
