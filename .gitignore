@@ -24,6 +24,7 @@ elpy
 __pycache__
 elpa/archives
 elpa/*.txt
+elpa/use-package-*
 elpa/all-the-icons-ivy-*
 elpa/all-the-icons-*
 elpa/ag-*
