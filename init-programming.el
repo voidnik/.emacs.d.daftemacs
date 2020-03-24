@@ -128,21 +128,21 @@
 ;;
 (use-package ccls
   :ensure t
+  :after lsp-mode
   :hook ((c-mode c++-mode objc-mode) .
-         (lambda () (require 'ccls) (lsp))))
-(setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
-;TODO
-;(setq
-; ccls-initialization-options
-; `(:index (:multiVersion 1 :trackDependency 1)))
-
-(setq lsp-file-watch-ignored
-      (append lsp-file-watch-ignored
-              '("[/\\\\]\\.ccls-cache$"
-                "[/\\\\]\\.deps$"
-                "[/\\\\]\\.libs$")))
-
-(add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+         (lambda () (require 'ccls) (lsp)))
+  :config
+  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
+  ;;TODO
+  ;;(setq
+  ;; ccls-initialization-options
+  ;; `(:index (:multiVersion 1 :trackDependency 1)))
+  (setq lsp-file-watch-ignored
+        (append lsp-file-watch-ignored
+                '("[/\\\\]\\.ccls-cache$"
+                  "[/\\\\]\\.deps$"
+                  "[/\\\\]\\.libs$")))
+  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
 ;;==============================================================================
 ;; Python
