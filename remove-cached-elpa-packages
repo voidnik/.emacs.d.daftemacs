@@ -22,6 +22,7 @@ rm -rf elpa/company-lsp-*
 rm -rf elpa/company-*
 rm -rf elpa/yasnippet-*
 rm -rf elpa/treemacs-*
+rm -rf elpa/neotree-*
 rm -rf elpa/counsel-projectile-*
 rm -rf elpa/counsel-*
 rm -rf elpa/find-file-in-project-*

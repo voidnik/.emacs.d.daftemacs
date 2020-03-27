@@ -89,6 +89,7 @@
 ;;==============================================================================
 
 (use-package neotree
+  :ensure t
   :config
   (progn
     (setq neo-window-width window-min-width
