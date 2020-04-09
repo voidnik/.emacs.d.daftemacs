@@ -136,7 +136,6 @@
 ;; Global Keys
 ;;==============================================================================
 
-(global-set-key (kbd "C-x C-b") 'bufler)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 (global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 (if (version< emacs-version "26")

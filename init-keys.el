@@ -9,6 +9,7 @@
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-b") 'bufler)
 (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-c s") 'swiper)
