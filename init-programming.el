@@ -31,9 +31,19 @@
 ;; https://github.com/DarthFennec/highlight-indent-guides
 ;;==============================================================================
 
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character)
-(setq highlight-indent-guides-responsive 'top)
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-responsive 'top))
+
+;;==============================================================================
+;; highlight-indentation
+;;==============================================================================
+
+(use-package highlight-indentation
+  :ensure t)
 
 ;;==============================================================================
 ;; cc-search-directories

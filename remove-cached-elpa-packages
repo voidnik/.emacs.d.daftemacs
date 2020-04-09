@@ -6,10 +6,9 @@ rm -rf elpa/all-the-icons-*
 rm -rf elpa/ag-*
 rm -rf elpa/rg-*
 rm -rf elpa/dumb-jump-*
-rm -rf elpa/helm-core-*
-rm -rf elpa/helm-gtags-*
-rm -rf elpa/helm-ag-*
-rm -rf elpa/helm-rg-*
+rm -rf elpa/deadgrep-*
+rm -rf elpa/highlight-indent-guides-*
+rm -rf elpa/highlight-indentation-*
 rm -rf elpa/helm-*
 rm -rf elpa/evil-*
 rm -rf elpa/hydra-*
@@ -52,3 +51,5 @@ rm -rf elpa/htmlize-*
 rm -rf elpa/avy-*
 rm -rf elpa/flycheck-*
 rm -rf elpa/haskell-mode-*
+rm -rf elpa/bufler-*
+rm -rf elpa/pretty-hydra-*

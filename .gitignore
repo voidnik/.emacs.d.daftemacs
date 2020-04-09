@@ -30,6 +30,9 @@ elpa/all-the-icons-*
 elpa/ag-*
 elpa/rg-*
 elpa/dumb-jump-*
+elpa/deadgrep-*
+elpa/highlight-indent-guides-*
+elpa/highlight-indentation-*
 elpa/helm-*
 elpa/evil-*
 elpa/hydra-*
