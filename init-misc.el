@@ -56,9 +56,6 @@
 (use-package bufler
   :ensure t)
 
-(use-package helm-bufler
-  :ensure t)
-
 ;;==============================================================================
 ;; Killing Buffers
 ;;
