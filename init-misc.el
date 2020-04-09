@@ -48,6 +48,18 @@
         (start-next-command)))))
 
 ;;==============================================================================
+;; Bufler
+;;
+;; https://github.com/alphapapa/bufler.el
+;;==============================================================================
+
+(use-package bufler
+  :ensure t)
+
+(use-package helm-bufler
+  :ensure t)
+
+;;==============================================================================
 ;; Killing Buffers
 ;;
 ;; https://www.emacswiki.org/emacs/KillingBuffers

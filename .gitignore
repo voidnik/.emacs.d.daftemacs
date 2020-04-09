@@ -30,10 +30,6 @@ elpa/all-the-icons-*
 elpa/ag-*
 elpa/rg-*
 elpa/dumb-jump-*
-elpa/helm-core-*
-elpa/helm-gtags-*
-elpa/helm-ag-*
-elpa/helm-rg-*
 elpa/helm-*
 elpa/evil-*
 elpa/hydra-*
@@ -76,3 +72,5 @@ elpa/htmlize-*
 elpa/avy-*
 elpa/flycheck-*
 elpa/haskell-mode-*
+elpa/bufler-*
+elpa/pretty-hydra-*
