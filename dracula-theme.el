@@ -50,9 +50,12 @@
                 (eph-verbatim "#f1fa8c")
                 (eph-code     "#ff79c6")
                 (hl           "#2e2e38" "#2e2e2e")
+                (ml-a-fg      "#ffffff")
+                (ml-a-bg      "#0177b2")
                 (ml-i-fg      "#838381")
                 (ml-i-bg      "#23252f")
                 (pl-bg        "#b45bcf")
+                (md-hl        "#22242a")
                 (ivy-posframe-bg "#202027")))
       (faces '(;; default
                (cursor :background ,fg3)
@@ -225,8 +228,12 @@
                (js3-warning-face :underline ,keyword)
                ;; magit
                (magit-branch :foreground ,const :weight bold)
-               (magit-diff-context-highlight :background ,bg3 :foreground ,fg3)
                (magit-diff-file-header :foreground ,fg2 :background ,bg3)
+               (magit-diff-context-highlight :foreground ,fg3 :background ,md-hl)
+               (magit-diff-added-highlight :foreground ,rainbow-6 :background ,md-hl)
+               (magit-diff-removed-highlight :foreground ,rainbow-9 :background ,md-hl)
+               (magit-diff-added :foreground ,rainbow-6 :background ,bg1)
+               (magit-diff-removed :foreground ,rainbow-9 :background ,bg1)
                (magit-diffstat-added :foreground ,type)
                (magit-diffstat-removed :foreground ,var)
                (magit-hash :foreground ,fg2)
@@ -239,7 +246,7 @@
                (magit-section-heading :foreground ,keyword :weight bold)
                (magit-section-highlight :background ,bg2)
                ;; mode-line
-               (mode-line :foreground nil :background ,bg5 :box ,bg5)
+               (mode-line :foreground ,ml-a-fg :background ,ml-a-bg :box ,ml-a-bg)
                (mode-line-inactive :foreground ,ml-i-fg :background ,ml-i-bg :box ,ml-i-bg)
                ;; mu4e
                (mu4e-cited-1-face :foreground ,fg2)
