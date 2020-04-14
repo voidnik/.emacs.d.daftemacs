@@ -194,8 +194,8 @@
 (defun startup-on-gui ()
   (init-font)
 
+  (menu-bar-mode -1) ; hide menu bar
   (tool-bar-mode -1) ; hide tool bar
-  ;(menu-bar-mode -1) ; hide menu bar
 
   (set-frame-position (selected-frame) 0 0)
   ;(set-frame-width (selected-frame) 150)
