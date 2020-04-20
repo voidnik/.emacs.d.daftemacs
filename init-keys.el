@@ -27,7 +27,7 @@
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
 
-(global-set-key (kbd "C-c .") 'whitespace-mode)
+(global-set-key (kbd "s-_") 'whitespace-mode)
 
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") '(lambda () (interactive) (ansi-term explicit-shell-file-name)))
