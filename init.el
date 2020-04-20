@@ -118,6 +118,30 @@
   :hook (after-init . all-the-icons-ivy-setup))
 
 ;;==============================================================================
+;; org
+;;==============================================================================
+
+;; Hide the markup for /italic/, *bold*, _underline_
+(setq org-hide-emphasis-markers t)
+
+;; Better Bullets
+(font-lock-add-keywords 'org-mode
+                        '(("^ +\\([-*]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+;; Better Header Bullets
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;; Line and Indentation Mode
+(add-hook 'org-mode-hook
+          (lambda ()
+            (visual-line-mode t)
+            (org-indent-mode t)))
+
+;;==============================================================================
 ;; ag, rg, dumb-jump
 ;;==============================================================================
 
