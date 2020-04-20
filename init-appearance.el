@@ -38,8 +38,6 @@
 (load-theme 'dracula t)
 ;; or
 ;;(init-doom-theme)
-;; or
-;;(load-theme 'base16-default-dark t)
 
 ;;==============================================================================
 ;; Mode Line
@@ -135,10 +133,6 @@
 (dracula-setup-modeline-format)
 ;; or
 ;;(init-doom-mode-line)
-;; or
-;;(setq sml/theme 'respectful)
-;;(setq sml/no-confirm-load-theme t)
-;;(sml/setup)
 
 ;;==============================================================================
 ;; Font
