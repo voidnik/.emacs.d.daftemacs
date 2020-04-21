@@ -94,219 +94,6 @@
  '(ediff-odd-diff-C ((t (:background "#464752")))))
 
 ;;==============================================================================
-;; Theme
-;;==============================================================================
-
-(defun init-doom-theme ()
-  (use-package doom-themes
-    :ensure t
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-    ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
-    ;; theme may have their own settings.
-    (load-theme 'doom-one t)
-    ;(load-theme 'doom-dracula t)
-    ;(load-theme 'doom-city-lights t)
-    ;(load-theme 'doom-molokai t)
-    ;(load-theme 'doom-nord t)
-    ;(load-theme 'doom-nova t)
-    ;(load-theme 'doom-peacock t)
-    ;(load-theme 'doom-solarized-light t)
-    ;(load-theme 'doom-spacegrey t)
-    ;(load-theme 'doom-tomorrow-night t)
-    ;(load-theme 'doom-tomorrow-day t)
-
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-config)
-
-    ;; Enable custom neotree theme
-    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
-
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config))
-
-  (use-package doom-modeline
-    :ensure t
-    :hook (after-init . doom-modeline-mode))
-
-  ;; How tall the mode-line should be (only respected in GUI Emacs).
-  (setq doom-modeline-height 25)
-
-  ;; How wide the mode-line bar should be (only respected in GUI Emacs).
-  (setq doom-modeline-bar-width 3)
-
-  ;; Determines the style used by `doom-modeline-buffer-file-name'.
-  ;;
-  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el
-  ;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
-  ;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
-  ;;   truncate-with-project => emacs/l/comint.el
-  ;;   truncate-except-project => ~/P/F/emacs/l/comint.el
-  ;;   truncate-upto-root => ~/P/F/e/lisp/comint.el
-  ;;   truncate-all => ~/P/F/e/l/comint.el
-  ;;   relative-from-project => emacs/lisp/comint.el
-  ;;   relative-to-project => lisp/comint.el
-  ;;   file-name => comint.el
-  ;;   buffer-name => comint.el<2> (uniquify buffer name)
-  ;;
-  ;; If you are expereicing the laggy issue, especially while editing remote files
-  ;; with tramp, please try `file-name' style.
-  ;; Please refer to https://github.com/bbatsov/projectile/issues/657.
-  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-
-  ;; Whether show `all-the-icons' or not (if nil nothing will be showed).
-  (setq doom-modeline-icon t)
-
-  ;; Whether show the icon for major mode. It respects `doom-modeline-icon'.
-  (setq doom-modeline-major-mode-icon t)
-
-  ;; Display color icons for `major-mode'. It respects `all-the-icons-color-icons'.
-  (setq doom-modeline-major-mode-color-icon nil)
-
-  ;; Whether display minor modes or not. Non-nil to display in mode-line.
-  (setq doom-modeline-minor-modes nil)
-
-  ;; If non-nil, a word count will be added to the selection-info modeline segment.
-  (setq doom-modeline-enable-word-count nil)
-
-  ;; If non-nil, only display one number for checker information if applicable.
-  (setq doom-modeline-checker-simple-format t)
-
-  ;; Whether display perspective name or not. Non-nil to display in mode-line.
-  (setq doom-modeline-persp-name t)
-
-  ;; Whether display `lsp' state or not. Non-nil to display in mode-line.
-  (setq doom-modeline-lsp t)
-
-  ;; Whether display github notifications or not. Requires `ghub` package.
-  (setq doom-modeline-github nil)
-
-  ;; The interval of checking github.
-  (setq doom-modeline-github-interval (* 30 60))
-
-  ;; Whether display environment version or not
-  (setq doom-modeline-env-version t)
-  ;; Or for individual languages
-  (setq doom-modeline-env-enable-python t)
-  (setq doom-modeline-env-enable-ruby t)
-  (setq doom-modeline-env-enable-perl t)
-  (setq doom-modeline-env-enable-go t)
-  (setq doom-modeline-env-enable-elixir t)
-  (setq doom-modeline-env-enable-rust t)
-
-  ;; Change the executables to use for the language version string
-  (setq doom-modeline-env-python-executable "python")
-  (setq doom-modeline-env-ruby-executable "ruby")
-  (setq doom-modeline-env-perl-executable "perl")
-  (setq doom-modeline-env-go-executable "go")
-  (setq doom-modeline-env-elixir-executable "iex")
-  (setq doom-modeline-env-rust-executable "rustc")
-
-  ;; Whether display mu4e notifications or not. Requires `mu4e-alert' package.
-  (setq doom-modeline-mu4e t)
-
-  ;; Whether display irc notifications or not. Requires `circe' package.
-  (setq doom-modeline-irc t)
-
-  ;; Function to stylize the irc buffer names.
-  (setq doom-modeline-irc-stylize 'identity))
-
-;;==============================================================================
-;; Font
-;;==============================================================================
-
-;IBM 3270 (https://github.com/rbanffy/3270font)
-;Hack (https://github.com/source-foundry/Hack)
-;NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
-(defun init-font ()
-  ;(print (font-family-list))
-  (cond
-   ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
-    (progn
-      ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
-      (set-face-attribute 'default nil :height 115 :family "Hack")
-      ;(set-face-attribute 'default nil :height 115 :family "monospace")
-      ;(set-face-attribute 'default nil :height 115 :family "Menlo")
-      ))
-   ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
-    (progn
-      ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
-      (set-face-attribute 'default nil :height 95 :family "Hack")
-      ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
-      ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
-      ;(set-face-attribute 'default nil :height 100 :family "monospace")
-      ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
-      ))))
-;To resolve the problem that cells of a table on Org mode containing Hangul are broken
-;https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
-(set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
-(setq face-font-rescale-alist
-      '((".*hiragino.*" . 1.2)
-        ("NanumGothicCoding" . 1.2307692307692308)))
-
-;;==============================================================================
-;; fill-column-indicator
-;;
-;; https://www.emacswiki.org/emacs/FillColumnIndicator
-;;==============================================================================
-
-(load-file "~/.emacs.d/fill-column-indicator.el")
-(require 'fill-column-indicator)
-(setq fci-rule-column 79)
-(setq fci-rule-width 1)
-(setq fci-rule-color "#303030")
-(add-hook 'prog-mode-hook 'fci-mode)
-(add-hook 'org-mode-hook 'fci-mode)
-
-;;==============================================================================
-;; startup
-;;==============================================================================
-
-(setq default-input-method "korean-hangul")
-(setq desktop-save-mode t)
-
-(switch-to-buffer "*Messages*")
-(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
-
-(setenv "MANWIDTH" "72")
-
-;; https://draculatheme.com/emacs/
-(load-file "~/.emacs.d/dracula-theme.el")
-(load-theme 'dracula t)
-(dracula-setup-modeline-format)
-;; or
-;;(init-doom-theme)
-
-(defun startup-on-gui ()
-  (init-font)
-
-  (menu-bar-mode -1) ; hide menu bar
-  (tool-bar-mode -1) ; hide tool bar
-
-  (set-frame-position (selected-frame) 0 0)
-  ;(set-frame-width (selected-frame) 150)
-  ;(set-frame-height (selected-frame) 100)
-
-  (setq window-min-width (/ (display-pixel-height) 22))
-
-  (defun toggle-fullscreen (&optional f)
-    (interactive)
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
-
-(defun startup-on-cui ()
-  (setq window-min-width (/ (display-pixel-width) 5)))
-
-(if (display-graphic-p)
-    (startup-on-gui)
-  (startup-on-cui))
-
-;;==============================================================================
 ;; all-the-icons
 ;;==============================================================================
 
@@ -618,36 +405,1089 @@
 ;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
-;; init-tree-buffer
+;; Theme
 ;;==============================================================================
 
-(load-file "~/.emacs.d/init-tree-buffer.el")
-(require 'init-tree-buffer)
+(defun init-doom-theme ()
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+    ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
+    ;; theme may have their own settings.
+    (load-theme 'doom-one t)
+    ;(load-theme 'doom-dracula t)
+    ;(load-theme 'doom-city-lights t)
+    ;(load-theme 'doom-molokai t)
+    ;(load-theme 'doom-nord t)
+    ;(load-theme 'doom-nova t)
+    ;(load-theme 'doom-peacock t)
+    ;(load-theme 'doom-solarized-light t)
+    ;(load-theme 'doom-spacegrey t)
+    ;(load-theme 'doom-tomorrow-night t)
+    ;(load-theme 'doom-tomorrow-day t)
+
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+
+    ;; Enable custom neotree theme
+    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+
+  (use-package doom-modeline
+    :ensure t
+    :hook (after-init . doom-modeline-mode))
+
+  ;; How tall the mode-line should be (only respected in GUI Emacs).
+  (setq doom-modeline-height 25)
+
+  ;; How wide the mode-line bar should be (only respected in GUI Emacs).
+  (setq doom-modeline-bar-width 3)
+
+  ;; Determines the style used by `doom-modeline-buffer-file-name'.
+  ;;
+  ;; Given ~/Projects/FOSS/emacs/lisp/comint.el
+  ;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
+  ;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
+  ;;   truncate-with-project => emacs/l/comint.el
+  ;;   truncate-except-project => ~/P/F/emacs/l/comint.el
+  ;;   truncate-upto-root => ~/P/F/e/lisp/comint.el
+  ;;   truncate-all => ~/P/F/e/l/comint.el
+  ;;   relative-from-project => emacs/lisp/comint.el
+  ;;   relative-to-project => lisp/comint.el
+  ;;   file-name => comint.el
+  ;;   buffer-name => comint.el<2> (uniquify buffer name)
+  ;;
+  ;; If you are expereicing the laggy issue, especially while editing remote files
+  ;; with tramp, please try `file-name' style.
+  ;; Please refer to https://github.com/bbatsov/projectile/issues/657.
+  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+
+  ;; Whether show `all-the-icons' or not (if nil nothing will be showed).
+  (setq doom-modeline-icon t)
+
+  ;; Whether show the icon for major mode. It respects `doom-modeline-icon'.
+  (setq doom-modeline-major-mode-icon t)
+
+  ;; Display color icons for `major-mode'. It respects `all-the-icons-color-icons'.
+  (setq doom-modeline-major-mode-color-icon nil)
+
+  ;; Whether display minor modes or not. Non-nil to display in mode-line.
+  (setq doom-modeline-minor-modes nil)
+
+  ;; If non-nil, a word count will be added to the selection-info modeline segment.
+  (setq doom-modeline-enable-word-count nil)
+
+  ;; If non-nil, only display one number for checker information if applicable.
+  (setq doom-modeline-checker-simple-format t)
+
+  ;; Whether display perspective name or not. Non-nil to display in mode-line.
+  (setq doom-modeline-persp-name t)
+
+  ;; Whether display `lsp' state or not. Non-nil to display in mode-line.
+  (setq doom-modeline-lsp t)
+
+  ;; Whether display github notifications or not. Requires `ghub` package.
+  (setq doom-modeline-github nil)
+
+  ;; The interval of checking github.
+  (setq doom-modeline-github-interval (* 30 60))
+
+  ;; Whether display environment version or not
+  (setq doom-modeline-env-version t)
+  ;; Or for individual languages
+  (setq doom-modeline-env-enable-python t)
+  (setq doom-modeline-env-enable-ruby t)
+  (setq doom-modeline-env-enable-perl t)
+  (setq doom-modeline-env-enable-go t)
+  (setq doom-modeline-env-enable-elixir t)
+  (setq doom-modeline-env-enable-rust t)
+
+  ;; Change the executables to use for the language version string
+  (setq doom-modeline-env-python-executable "python")
+  (setq doom-modeline-env-ruby-executable "ruby")
+  (setq doom-modeline-env-perl-executable "perl")
+  (setq doom-modeline-env-go-executable "go")
+  (setq doom-modeline-env-elixir-executable "iex")
+  (setq doom-modeline-env-rust-executable "rustc")
+
+  ;; Whether display mu4e notifications or not. Requires `mu4e-alert' package.
+  (setq doom-modeline-mu4e t)
+
+  ;; Whether display irc notifications or not. Requires `circe' package.
+  (setq doom-modeline-irc t)
+
+  ;; Function to stylize the irc buffer names.
+  (setq doom-modeline-irc-stylize 'identity))
 
 ;;==============================================================================
-;; init-programming
+;; Font
 ;;==============================================================================
 
-(load-file "~/.emacs.d/init-programming.el")
-(require 'init-programming)
+;IBM 3270 (https://github.com/rbanffy/3270font)
+;Hack (https://github.com/source-foundry/Hack)
+;NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
+(defun init-font ()
+  ;(print (font-family-list))
+  (cond
+   ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
+    (progn
+      ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
+      (set-face-attribute 'default nil :height 115 :family "Hack")
+      ;(set-face-attribute 'default nil :height 115 :family "monospace")
+      ;(set-face-attribute 'default nil :height 115 :family "Menlo")
+      ))
+   ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
+    (progn
+      ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
+      (set-face-attribute 'default nil :height 95 :family "Hack")
+      ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
+      ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
+      ;(set-face-attribute 'default nil :height 100 :family "monospace")
+      ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+      ))))
+;To resolve the problem that cells of a table on Org mode containing Hangul are broken
+;https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
+(set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+(setq face-font-rescale-alist
+      '((".*hiragino.*" . 1.2)
+        ("NanumGothicCoding" . 1.2307692307692308)))
 
 ;;==============================================================================
-;; init-tools
+;; fill-column-indicator
+;;
+;; https://www.emacswiki.org/emacs/FillColumnIndicator
 ;;==============================================================================
 
-(load-file "~/.emacs.d/init-tools.el")
-(require 'init-tools)
+(load-file "~/.emacs.d/fill-column-indicator.el")
+(require 'fill-column-indicator)
+(setq fci-rule-column 79)
+(setq fci-rule-width 1)
+(setq fci-rule-color "#303030")
+(add-hook 'prog-mode-hook 'fci-mode)
+(add-hook 'org-mode-hook 'fci-mode)
 
 ;;==============================================================================
-;; init-misc
+;; treemacs
 ;;==============================================================================
 
-(load-file "~/.emacs.d/init-misc.el")
-(require 'init-misc)
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      t
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-width                         35)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-evil
+  :after treemacs evil
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after treemacs magit
+  :ensure t)
 
 ;;==============================================================================
-;; init-keys
+;; neotree
 ;;==============================================================================
 
-(load-file "~/.emacs.d/init-keys.el")
-(require 'init-keys)
+(use-package neotree
+  :ensure t
+  :config
+  (progn
+    (setq neo-window-width window-min-width
+          neo-window-fixed-size nil
+          neo-smart-open t
+          projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
+    (defun neotree-toggle-project-root-dir-or-current-dir ()
+      "Open NeoTree using the project root, using projectile, or the current buffer directory."
+      (interactive)
+      (let ((project-dir (ignore-errors (projectile-project-root)))
+            (file-name (buffer-file-name)))
+        (if (neo-global--window-exists-p)
+            (neotree-hide)
+	  (progn
+            (neotree-show)
+            (if project-dir
+                (neotree-dir project-dir))
+            (if file-name
+                (neotree-find file-name))))))
+    (defun neotree-show-project-root-dir ()
+      "Show NeoTree using the project root using projectile."
+      (interactive)
+      (let ((project-dir (projectile-project-root))
+            (file-name (buffer-file-name)))
+        (progn
+          (neotree-show)
+	  (if project-dir
+              (neotree-dir project-dir))
+	  (if file-name
+              (neotree-find file-name))))))
+  :bind
+  (:map global-map
+        ("M-9"     . neotree-show-project-root-dir)
+        ("C-x t n" . neotree-toggle-project-root-dir-or-current-dir)))
+
+;;==============================================================================
+;; Code Style
+;;==============================================================================
+
+(setq-default indent-tabs-mode nil)
+(setq default-tab-width 2)
+
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+;(add-hook 'c-mode-hook
+;          (lambda()
+;            (setq c-basic-offset 2)
+;            (c-set-offset 'substatement-open 0)))
+;(add-hook 'c++-mode-hook
+;          (lambda()
+;            (setq c-basic-offset 2)
+;            (c-set-offset 'substatement-open 0)))
+
+(add-hook 'java-mode-hook
+          (lambda()
+            (setq c-basic-offset 2)
+            (c-set-offset 'substatement-open 0)))
+
+(add-hook 'js-mode-hook
+          (lambda()
+            (setq js-indent-level 2)))
+
+;;==============================================================================
+;; highlight-indent-guides
+;;
+;; https://github.com/DarthFennec/highlight-indent-guides
+;;==============================================================================
+
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-responsive 'top))
+
+;;==============================================================================
+;; highlight-indentation
+;;==============================================================================
+
+(use-package highlight-indentation
+  :ensure t)
+
+;;==============================================================================
+;; cc-search-directories
+;;==============================================================================
+
+(setq cc-search-directories '("." "../include" "/usr/include" "/usr/local/include/*"
+                              "/System/Library/Frameworks" "/Library/Frameworks"))
+
+;;==============================================================================
+;; Objective C
+;; https://www.emacswiki.org/emacs/ObjectiveCMode
+;;==============================================================================
+
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+
+(add-to-list 'magic-mode-alist
+             `(,(lambda ()
+                  (and (buffer-file-name)
+                       (string= (file-name-extension buffer-file-name) "h")
+                       (re-search-forward "@\\<interface\\>"
+                                          magic-mode-regexp-match-limit t)))
+               . objc-mode))
+
+(require 'find-file) ;; for the "cc-other-file-alist" variable
+(nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
+
+(defadvice ff-get-file-name (around ff-get-file-name-framework
+                                    (search-dirs
+                                     fname-stub
+                                     &optional suffix-list))
+  "Search for Mac framework headers as well as POSIX headers."
+  (or
+   (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
+       (let* ((framework (match-string 1 fname-stub))
+              (header (match-string 2 fname-stub))
+              (fname-stub (concat framework ".framework/Headers/" header)))
+         ad-do-it))
+   ad-do-it))
+(ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
+(ad-activate 'ff-get-file-name)
+
+;;==============================================================================
+;; Language Server Protocol (LSP)
+;;
+;; https://github.com/emacs-lsp/lsp-mode
+;; https://github.com/MaskRay/ccls
+;; https://github.com/MaskRay/emacs-ccls
+;;==============================================================================
+
+(use-package lsp-mode
+  :ensure t
+  :commands lsp)
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :ensure t
+  :config
+  (setq company-lsp-cache-candidates 'auto)
+  (setq company-lsp-async t)
+  (setq company-lsp-enable-snippet t)
+  (setq company-lsp-enable-recompletion t)
+  :commands company-lsp)
+
+(use-package lsp-treemacs
+  :ensure t
+  :after lsp-mode)
+
+(use-package lsp-ivy
+  :ensure t
+  :after lsp-mode)
+
+(setq lsp-prefer-flymake nil)
+;(setq lsp-enable-file-watchers nil)
+(setq lsp-file-watch-threshold 2000)
+
+;;
+;; # Building ccls
+;; $ git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+;; $ cd ccls
+;; On Ubuntu
+;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-7
+;; On MacOS brew llvm
+;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
+;; $ cmake --build Release
+;;
+;; # Installing ccls on MacOS brew (https://github.com/twlz0ne/homebrew-ccls)
+;; $ brew tap twlz0ne/homebrew-ccls
+;; $ brew install ccls
+;;
+(use-package ccls
+  :ensure t
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
+(setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
+;TODO
+;(setq
+; ccls-initialization-options
+; `(:index (:multiVersion 1 :trackDependency 1)))
+
+(setq lsp-file-watch-ignored
+      (append lsp-file-watch-ignored
+              '("[/\\\\]\\.ccls-cache$"
+                "[/\\\\]\\.deps$"
+                "[/\\\\]\\.libs$")))
+
+(add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+
+;;==============================================================================
+;; Python
+;;
+;; - elpy (https://github.com/jorgenschaefer/elpy)
+;; # virtualenv
+;; $ sudo apt install python3-venv
+;; $ pip3 install virtualenv
+;; # Completion and code navigation
+;; $ pip3 install jedi
+;; # Code checks
+;; $ pip3 install flake8
+;; # Refactoring
+;; $ pip3 install rope
+;; # Automatic formatting (PEP8, Yapf or Black)
+;; $ pip3 install autopep8
+;; $ pip3 install yapf
+;; $ pip3 install black (only available on Python 3)
+;;
+;; - importmagic (https://github.com/anachronic/importmagic.el)
+;; $ pip3 install importmagic epc
+;;
+;; - Install Python Dependencies
+;; (setq elpy-rpc-python-command "python3")
+;; M-x elpy-rpc-reinstall-virtualenv
+;;==============================================================================
+
+(setq python-shell-interpreter "python3"
+      python-shell-completion-native-enable nil)
+
+(use-package python
+  :mode ("\\.py" . python-mode))
+
+(use-package elpy
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+  :config
+  (setq elpy-rpc-python-command "python3")
+  (setq elpy-rpc-backend "jedi")
+  (defun python-send-buffer-with-args (args)
+    (interactive "sPython arguments: ")
+    (let ((source-buffer (current-buffer))
+          (current-buffer-name (buffer-name)))
+      (with-temp-buffer
+        (insert "import sys; sys.argv = '''" current-buffer-name " " args "'''.split()\n")
+        (insert-buffer-substring source-buffer)
+        (elpy-shell-send-buffer))))
+  (define-key elpy-mode-map (kbd "C-c C-a") 'python-send-buffer-with-args)
+  :bind (:map elpy-mode-map
+              ("M-." . elpy-goto-definition)
+              ("M-," . pop-tag-mark)))
+(elpy-enable)
+
+(use-package pip-requirements
+  :ensure t
+  :config
+  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+
+(use-package py-autopep8
+  :ensure t
+  :config
+  ;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  )
+
+(use-package importmagic
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'importmagic-mode))
+
+(use-package pyvenv
+  :ensure t
+  :config
+  (setenv "WORKON_HOME" "~/anaconda3/envs")
+  (pyvenv-mode 1))
+
+;;==============================================================================
+;; haskell-mode
+;;==============================================================================
+
+(use-package haskell-mode
+  :ensure t)
+
+;;==============================================================================
+;; qml-mode
+;;==============================================================================
+
+(autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
+(add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
+
+;;;==============================================================================
+;;; gtags (OBSOLETE)
+;;;==============================================================================
+;
+;;; Enable helm-gtags-mode
+;(add-hook 'c-mode-hook 'helm-gtags-mode)
+;(add-hook 'c++-mode-hook 'helm-gtags-mode)
+;(add-hook 'asm-mode-hook 'helm-gtags-mode)
+;
+;;; Set key bindings
+;(eval-after-load "helm-gtags"
+;  '(progn
+;     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+;     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+;     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+;     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+;     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+;     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+;     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+
+;;;==============================================================================
+;;; etags (OBSOLETE)
+;;;==============================================================================
+;
+;(defun create-tags (dir-name)
+;  "Create a TAGS file."
+;  (interactive "DDirectory: ")
+;  (setq c++-headers-path "/usr/include/c++")
+;  (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
+;  (execute-commands "*etags-output*"
+;                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c++-headers-path dir-name)
+;                    (format "find -H %s -type f \\( \
+;-name \"*.[csSh]\" \
+;-o \
+;-name \"*.cc\" \
+;-o \
+;-name \"*.cpp\"\
+;-o \
+;-name \"*.m\" \
+;-o \
+;-name \"*.java\" \
+;-o \
+;-name \"*.py\" \
+;-o \
+;-name \"*.pl\" \
+;\\) | \
+;xargs etags -a -o %sTAGS" dir-name dir-name)))
+
+;;;==============================================================================
+;;; find-file-in-tags (OBSOLETE)
+;;;==============================================================================
+;
+;(load-file "~/.emacs.d/find-file-in-tags.el"
+
+;;;==============================================================================
+;;; Dim for #if 0 ... #endif (OBSOLETE)
+;;;==============================================================================
+;
+;(defun cpp-highlight-if-0/1 ()
+;  "Modify the face of text in between #if 0 ... #endif."
+;  (setq cpp-known-face '(background-color . "gray15"))
+;  (setq cpp-unknown-face 'default)
+;  (setq cpp-face-type 'dark)
+;  (setq cpp-known-writable 't)
+;  (setq cpp-unknown-writable 't)
+;  (setq cpp-edit-list
+;        '((#("1" 0 1
+;             (fontified nil))
+;           nil
+;           (background-color . "gray15")
+;           both nil)
+;          (#("0" 0 1
+;             (fontified nil))
+;           (background-color . "gray15")
+;           nil
+;           both nil)))
+;  (cpp-highlight-buffer t))
+;(defun jpk/c-mode-hook ()
+;  (cpp-highlight-if-0/1)
+;  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
+;(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
+
+;;==============================================================================
+;; pdf-tools
+;;==============================================================================
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install))
+
+;;==============================================================================
+;; graphviz
+;;==============================================================================
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :config
+  (setq graphviz-dot-indent-width 4))
+
+(use-package company-graphviz-dot)
+
+;;==============================================================================
+;; ediff
+;;
+;; https://oremacs.com/2015/01/17/setting-up-ediff/
+;;==============================================================================
+
+(defmacro csetq (variable value)
+  `(funcall (or (get ',variable 'custom-set)
+                'set-default)
+            ',variable ,value))
+(csetq ediff-window-setup-function 'ediff-setup-windows-plain)
+(csetq ediff-split-window-function 'split-window-horizontally)
+(csetq ediff-diff-options "-w")
+(winner-mode)
+(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+
+;;==============================================================================
+;; diff-hl
+;;==============================================================================
+
+(use-package diff-hl
+  :ensure t
+  :custom-face
+  (diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
+  (diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
+  (diff-hl-change ((t (:foreground "#8be9fd" :background "#8be9fd"))))
+  :config
+  (global-diff-hl-mode +1)
+  (diff-hl-flydiff-mode +1)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
+
+;;==============================================================================
+;; ansi-term
+;;
+;; https://oremacs.com/2015/01/01/three-ansi-term-tips/
+;;==============================================================================
+
+(cond
+ ((string-equal system-type "darwin")
+  (setq explicit-shell-file-name "/bin/zsh"))
+ ((string-equal system-type "gnu/linux")
+  (setq explicit-shell-file-name "/usr/bin/zsh")))
+
+(defun oleh-term-exec-hook ()
+  (let* ((buff (current-buffer))
+         (proc (get-buffer-process buff)))
+    (set-process-sentinel
+     proc
+     `(lambda (process event)
+        (if (string= event "finished\n")
+            (kill-buffer ,buff))))))
+
+(add-hook 'term-exec-hook 'oleh-term-exec-hook)
+
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
+
+;;==============================================================================
+;; markdown
+;;==============================================================================
+
+(setq markdown-command "pandoc")
+
+;; markdown-preview-mode
+;; https://github.com/ancane/markdown-preview-mode
+(use-package markdown-preview-mode
+  :ensure t
+  :config
+  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
+  (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
+
+;;==============================================================================
+;; org-re-reveal
+;;
+;; https://gitlab.com/oer/org-re-reveal
+;; https://github.com/hakimel/reveal.js
+;;==============================================================================
+
+(use-package org-re-reveal
+  :ensure t
+  :config
+  (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
+
+;;==============================================================================
+;; Google Translate (version): 0.11.18
+;;
+;; https://github.com/atykhonov/google-translate
+;;
+;; NOTE: Since the version 0.11.8 has a bug about error of "(args-out-of-range
+;; [] 1)", I use the source code which has been customized to fix the bug.
+;; The original source code is from 'dc118de511c433750d4c98b9dd67350118c04fd6'
+;; on Jun 20, 2019
+;;
+;; https://github.com/atykhonov/google-translate/issues/98
+;; https://qiita.com/akicho8/items/cae976cb3286f51e4632
+;;==============================================================================
+
+(add-to-list 'load-path "~/.emacs.d/google-translate-custom-dc118de-20190620/")
+(require 'google-translate)
+(require 'google-translate-smooth-ui)
+(require 'google-translate-default-ui)
+(setq google-translate-translation-directions-alist
+      '(("auto" . "ko") ("auto" . "en")))
+(setq google-translate-output-destination nil)
+(setq google-translate-pop-up-buffer-set-focus t)
+
+;;==============================================================================
+;; undo-tree
+;;
+;; https://www.emacswiki.org/emacs/UndoTree
+;;==============================================================================
+
+(global-undo-tree-mode)
+(setq undo-tree-visualizer-timestamps t)
+(setq undo-tree-visualizer-diff t)
+
+;;==============================================================================
+;; Eshell
+;;==============================================================================
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c k") (lambda () (interactive) (eshell/clear 1)))))
+
+;;==============================================================================
+;; Asynchronous Shell Command Excution
+;;
+;; http://stackoverflow.com/questions/16815598/
+;; run-commands-in-emacs-asynchronously-but-display-output-incrementally
+;;==============================================================================
+
+(defun execute-commands (buffer &rest commands)
+  "Execute a list of shell commands sequentially"
+  (with-current-buffer buffer
+    (set (make-local-variable 'commands-list) commands)
+    (start-next-command)))
+
+(defun start-next-command ()
+  "Run the first command in the list"
+  (if (null commands-list)
+      (insert "\nDone.")
+    (let ((command  (car commands-list)))
+      (setq commands-list (cdr commands-list))
+      (insert (format ">> %s\n" command))
+      (let ((process (start-process-shell-command command (current-buffer) command)))
+        (set-process-sentinel process 'sentinel)))))
+
+(defun sentinel (p e)
+  "After a process exited, call `start-next-command' again"
+  (let ((buffer (process-buffer p)))
+    (when (not (null buffer))
+      (with-current-buffer buffer
+        ;(insert (format "Command `%s' %s" p e) )
+        (start-next-command)))))
+
+;;==============================================================================
+;; Bufler
+;;
+;; https://github.com/alphapapa/bufler.el
+;;==============================================================================
+
+(use-package bufler
+  :ensure t)
+
+;;==============================================================================
+;; Killing Buffers
+;;
+;; https://www.emacswiki.org/emacs/KillingBuffers
+;;==============================================================================
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+;;==============================================================================
+;; Window Resize
+;;
+;; https://www.emacswiki.org/emacs/WindowResize
+;;==============================================================================
+
+(defun resize-window (&optional arg)
+  "*Resize window interactively."
+  (interactive "p")
+  (if (one-window-p) (error "Cannot resize sole window"))
+  (setq arg 4)
+  ;(or arg (setq arg 1))
+  (let (c)
+    (catch 'done
+      (while t
+        (message
+         "h=heighten, s=shrink, w=widen, n=narrow (by %d);  1-9=unit, q=quit"
+         arg)
+        (setq c (read-char))
+        (condition-case ()
+            (cond
+             ((= c ?h) (enlarge-window arg))
+             ((= c ?s) (shrink-window arg))
+             ((= c ?w) (enlarge-window-horizontally arg))
+             ((= c ?n) (shrink-window-horizontally arg))
+             ((= c ?\^G) (keyboard-quit))
+             ((= c ?q) (throw 'done t))
+             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+             (t (beep)))
+          (error (beep)))))
+    (message "Done.")))
+
+;;==============================================================================
+;; buffer-move
+;;==============================================================================
+
+(load-file "~/.emacs.d/buffer-move.elc")
+
+;;==============================================================================
+;; find-file-hook for handling the very large file
+;;
+;; https://stackoverflow.com/questions/18316665/
+;; how-to-improve-emacs-performance-when-view-large-file
+;;==============================================================================
+
+(defun disable-slow-modes ()
+  (interactive)
+  (setq bidi-display-reordering nil)
+  (jit-lock-mode nil)
+  (set (make-variable-buffer-local 'font-lock-mode) nil)
+  (if (version< emacs-version "26")
+      (set (make-variable-buffer-local 'linum-mode) nil)
+    (set (make-variable-buffer-local 'display-line-numbers) nil))
+  (set (make-variable-buffer-local 'global-hl-line-mode) nil))
+
+(defun my-find-file-check-if-very-large-file-hook ()
+  "If a file is over 5MB, turn off modes of the buffer that make it slow."
+  (when (> (buffer-size) (* 5 1024 1024))
+    (disable-slow-modes)))
+(add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
+
+;;==============================================================================
+;; vlf
+;;
+;; https://github.com/m00natic/vlfi
+;;==============================================================================
+
+(require 'vlf-setup)
+
+;;==============================================================================
+;; keyfreq
+;;==============================================================================
+
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+
+;;==============================================================================
+;; Dos To Unix
+;;
+;; https://www.emacswiki.org/emacs/DosToUnix
+;;==============================================================================
+
+(defun dos2unix (buffer)
+  "Automate M-% C-q C-m RET C-q C-j RET"
+  (interactive "*b")
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward (string ?\C-m) nil t)
+      (replace-match (string ?\C-j) nil t))))
+
+;;==============================================================================
+;; Syntax Color Hex/HSL Color Strings
+;;
+;; http://ergoemacs.org/emacs/emacs_CSS_colors.html
+;;==============================================================================
+
+(defun syntax-color-hex ()
+  "Syntax color text of the form 「#ff1100」 and 「#abc」 in current buffer."
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("#[[:xdigit:]]\\{3\\}"
+      (0 (put-text-property
+          (match-beginning 0)
+          (match-end 0)
+          'face (list :background
+                      (let* (
+                             (ms (match-string-no-properties 0))
+                             (r (substring ms 1 2))
+                             (g (substring ms 2 3))
+                             (b (substring ms 3 4)))
+                        (concat "#" r r g g b b))))))
+     ("#[[:xdigit:]]\\{6\\}"
+      (0 (put-text-property
+          (match-beginning 0)
+          (match-end 0)
+          'face (list :background (match-string-no-properties 0)))))))
+  (font-lock-flush))
+
+(defun syntax-color-hsl ()
+  "Syntax color CSS's HSL color spec eg 「hsl(0,90%,41%)」 in current buffer."
+  (interactive)
+  (require 'color)
+  (font-lock-add-keywords
+   nil
+   '(("hsl( *\\([0-9]\\{1,3\\}\\) *, *\\([0-9]\\{1,3\\}\\)% *, *\\([0-9]\\{1,3\\}\\)% *)"
+      (0 (put-text-property
+          (+ (match-beginning 0) 3)
+          (match-end 0)
+          'face
+          (list
+           :background
+           (concat
+            "#"
+            (mapconcat
+             'identity
+             (mapcar
+              (lambda (x) (format "%02x" (round (* x 255))))
+              (color-hsl-to-rgb
+               (/ (string-to-number (match-string-no-properties 1)) 360.0)
+               (/ (string-to-number (match-string-no-properties 2)) 100.0)
+               (/ (string-to-number (match-string-no-properties 3)) 100.0)))
+             "" )) ;  "#00aa00"
+           ))))))
+  (font-lock-flush))
+
+(add-hook 'css-mode-hook 'syntax-color-hex)
+(add-hook 'css-mode-hook 'syntax-color-hsl)
+(add-hook 'php-mode-hook 'syntax-color-hex)
+(add-hook 'php-mode-hook 'syntax-color-hsl)
+(add-hook 'html-mode-hook 'syntax-color-hex)
+(add-hook 'html-mode-hook 'syntax-color-hsl)
+
+;;==============================================================================
+;; Startup
+;;==============================================================================
+
+(setq default-input-method "korean-hangul")
+(setq desktop-save-mode t)
+
+(switch-to-buffer "*Messages*")
+(setq default-directory my-default-directory) ; this line must be excuted after excuting '(switch-to-buffer "*Messages*")'.
+
+(setenv "MANWIDTH" "72")
+
+;; https://draculatheme.com/emacs/
+(load-file "~/.emacs.d/dracula-theme.el")
+(load-theme 'dracula t)
+(dracula-setup-modeline-format)
+;; or
+;;(init-doom-theme)
+
+(defun startup-on-gui ()
+  (init-font)
+
+  (menu-bar-mode -1) ; hide menu bar
+  (tool-bar-mode -1) ; hide tool bar
+
+  (set-frame-position (selected-frame) 0 0)
+  ;(set-frame-width (selected-frame) 150)
+  ;(set-frame-height (selected-frame) 100)
+
+  (setq window-min-width (/ (display-pixel-height) 22))
+
+  (defun toggle-fullscreen (&optional f)
+    (interactive)
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
+
+(defun startup-on-cui ()
+  (setq window-min-width (/ (display-pixel-width) 5)))
+
+(if (display-graphic-p)
+    (startup-on-gui)
+  (startup-on-cui))
+
+;;==============================================================================
+;; Global Keys
+;;==============================================================================
+
+(global-set-key (kbd "S-SPC") 'toggle-input-method)
+
+(global-set-key (kbd "M-m") 'imenu-list)
+(global-set-key (kbd "M-o") 'projectile-find-other-file)
+
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-b") 'bufler)
+(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+
+(global-set-key (kbd "C-c s") 'swiper)
+(global-set-key (kbd "C-c r") 'counsel-register)
+(global-set-key (kbd "C-c t") 'counsel-recentf)
+(global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
+(global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
+(global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
+(global-set-key (kbd "C-c g") 'counsel-projectile-rg)
+(global-set-key (kbd "C-c p") 'counsel-projectile-switch-project)
+
+(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
+
+(global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
+
+(global-set-key (kbd "s-_") 'whitespace-mode)
+
+(global-set-key (kbd "C-c 1") 'eshell)
+(global-set-key (kbd "C-c 2") '(lambda () (interactive) (ansi-term explicit-shell-file-name)))
+(global-set-key (kbd "C-c 9") 'calculator)
+(global-set-key (kbd "C-c 0") 'neato-graph-bar)
+
+(global-set-key (kbd "C-c z") 'resize-window)
+
+(global-set-key "\C-ct" 'google-translate-smooth-translate)
+(global-set-key "\C-cT" 'google-translate-query-translate)
+
+(global-set-key (kbd "<C-S-up>")    'buf-move-up)
+(global-set-key (kbd "<C-S-down>")  'buf-move-down)
+(global-set-key (kbd "<C-S-left>")  'buf-move-left)
+(global-set-key (kbd "<C-S-right>") 'buf-move-right)
+
+;; GUD
+(global-set-key [(shift f5)] 'gud-gdb)
+(global-set-key [f5] 'gud-run)
+(global-set-key [f6] 'gud-next)
+(global-set-key [f7] 'gud-step)
+(global-set-key [f8] '(lambda ()
+                        (interactive)
+                        (call-interactively 'gud-tbreak)
+                        (call-interactively 'gud-cont)))
+(global-set-key [f9] 'gud-break)
+(global-set-key [f10] 'gud-finish)
+(global-set-key [f11] 'gdb-many-windows)
+
+;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
+;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
+
+;;==============================================================================
+;; Local Keys
+;;==============================================================================
+
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
+
+(define-key python-mode-map "\C-ca" 'py-autopep8)
+(define-key python-mode-map "\C-cv" 'pyvenv-workon)
