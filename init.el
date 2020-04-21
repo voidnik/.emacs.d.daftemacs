@@ -1491,3 +1491,5 @@
 
 (define-key python-mode-map "\C-ca" 'py-autopep8)
 (define-key python-mode-map "\C-cv" 'pyvenv-workon)
+
+(define-key org-mode-map "\C-cv" 'visual-line-mode)
