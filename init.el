@@ -617,7 +617,7 @@
           treemacs-space-between-root-nodes      t
           treemacs-tag-follow-cleanup            t
           treemacs-tag-follow-delay              1.5
-          treemacs-width                         35)
+          treemacs-width                         40)
 
     ;; The default width and height of the icons is 22 pixels. If you are
     ;; using a Hi-DPI display, uncomment this to double the icon size.
@@ -666,8 +666,8 @@
   :ensure t
   :config
   (progn
-    (setq neo-window-width window-min-width
-          neo-window-fixed-size nil
+    (setq neo-window-width 40
+          neo-window-fixed-size t
           neo-smart-open t
           projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
     (defun neotree-toggle-project-root-dir-or-current-dir ()
@@ -1404,8 +1404,6 @@
   ;(set-frame-width (selected-frame) 150)
   ;(set-frame-height (selected-frame) 100)
 
-  (setq window-min-width (/ (display-pixel-height) 22))
-
   (defun toggle-fullscreen (&optional f)
     (interactive)
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
@@ -1413,12 +1411,8 @@
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
                            '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
 
-(defun startup-on-cui ()
-  (setq window-min-width (/ (display-pixel-width) 5)))
-
 (if (display-graphic-p)
-    (startup-on-gui)
-  (startup-on-cui))
+    (startup-on-gui))
 
 ;;==============================================================================
 ;; Global Keys
