@@ -55,3 +55,8 @@ rm -rf elpa/bufler-*
 rm -rf elpa/pretty-hydra-*
 rm -rf elpa/org-bullets-*
 rm -rf elpa/markdown-mode-*
+rm -rf elpa/dash-functional-*
+rm -rf elpa/dash-*
+rm -rf elpa/pfuture-*
+rm -rf elpa/tablist-*
+rm -rf elpa/transient-*

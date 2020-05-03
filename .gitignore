@@ -79,3 +79,8 @@ elpa/bufler-*
 elpa/pretty-hydra-*
 elpa/org-bullets-*
 elpa/markdown-mode-*
+elpa/dash-functional-*
+elpa/dash-*
+elpa/pfuture-*
+elpa/tablist-*
+elpa/transient-*
