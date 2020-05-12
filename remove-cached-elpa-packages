@@ -60,3 +60,4 @@ rm -rf elpa/dash-*
 rm -rf elpa/pfuture-*
 rm -rf elpa/tablist-*
 rm -rf elpa/transient-*
+rm -rf elpa/cuda-mode-*
