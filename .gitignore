@@ -85,3 +85,5 @@ elpa/pfuture-*
 elpa/tablist-*
 elpa/transient-*
 elpa/cuda-mode-*
+elpa/git-commit-*
+elpa/lv-*

@@ -61,3 +61,5 @@ rm -rf elpa/pfuture-*
 rm -rf elpa/tablist-*
 rm -rf elpa/transient-*
 rm -rf elpa/cuda-mode-*
+rm -rf elpa/git-commit-*
+rm -rf elpa/lv-*
