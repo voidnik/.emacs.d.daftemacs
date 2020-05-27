@@ -71,7 +71,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet elogcat rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump focus smart-mode-line google-c-style ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile dark-souls haskell-mode ztree with-editor wgrep use-package undo-tree transient tablist spinner shrink-path s rich-minority pyvenv popup pkg-info pfuture memoize markdown-mode magit-popup lv let-alist hydra ht highlight-indentation helm goto-chg git-commit find-file-in-project f evil epl epc doom-modeline deferred dash-functional dash ctable concurrent bind-key avy async all-the-icons ace-window)))
+   '(focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls company-lsp lsp-ui lsp-mode flycheck treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode ztree use-package undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -100,45 +100,6 @@
 (use-package all-the-icons
   :ensure t
   :config (setq all-the-icons-scale-factor 1.0))
-
-(use-package all-the-icons-ivy
-  :ensure t
-  :hook (after-init . all-the-icons-ivy-setup))
-
-;;==============================================================================
-;; dash-functional
-;;==============================================================================
-
-(use-package dash-functional
-  :ensure t)
-
-;;==============================================================================
-;; dash
-;;==============================================================================
-
-(use-package dash
-  :ensure t)
-
-;;==============================================================================
-;; pfuture
-;;==============================================================================
-
-(use-package pfuture
-  :ensure t)
-
-;;==============================================================================
-;; transient
-;;==============================================================================
-
-(use-package transient
-  :ensure t)
-
-;;==============================================================================
-;; tablist
-;;==============================================================================
-
-(use-package tablist
-  :ensure t)
 
 ;;==============================================================================
 ;; org
@@ -174,7 +135,7 @@
   :ensure t)
 
 ;;==============================================================================
-;; ag, rg, dumb-jump
+;; grep variants
 ;;==============================================================================
 
 (use-package ag
@@ -183,11 +144,16 @@
 (use-package rg
   :ensure t)
 
-(use-package dumb-jump
+(use-package ripgrep
   :ensure t)
 
 (use-package deadgrep
   :ensure t)
+
+(use-package dumb-jump
+  :ensure t
+  :config
+  (dumb-jump-mode))
 
 ;;==============================================================================
 ;; helm
@@ -213,31 +179,19 @@
   :ensure t)
 
 ;;==============================================================================
-;; hydra
-;;==============================================================================
-
-(use-package hydra
-  :ensure t)
-
-;;==============================================================================
 ;; ace-window
 ;;==============================================================================
 
 (use-package ace-window
-  :ensure t)
+  :ensure t
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 ;;==============================================================================
-;; lv-message
+;; ztree
 ;;==============================================================================
 
-(use-package lv
-  :ensure t)
-
-;;==============================================================================
-;; git-commit
-;;==============================================================================
-
-(use-package git-commit
+(use-package ztree
   :ensure t)
 
 ;;==============================================================================
@@ -411,11 +365,18 @@
             (ivy-rich-package-install-summary (:width 55 :face font-lock-doc-face))))))
   (setq ivy-rich-path-style 'abbrev)
   :config
-  (ivy-rich-mode +1)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   ;; In order to make the changes of ivy-rich-display-transformers-list take effect,
-  ;; ivy-rich-reload is needed after emacs-startup.
-  (add-hook 'emacs-startup-hook (lambda () (ivy-rich-reload))))
+  ;; ivy-rich-mode should be activated after emacs-startup.
+  (add-hook 'emacs-startup-hook (lambda () (ivy-rich-mode +1))))
+
+(use-package all-the-icons-ivy
+  :ensure t
+  :hook (after-init . all-the-icons-ivy-setup))
+
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
 
 ;;==============================================================================
 ;; avy
@@ -434,16 +395,32 @@
   :ensure t)
 
 ;;==============================================================================
+;; flx
+;;==============================================================================
+
+(use-package flx
+  :ensure t)
+
+;;==============================================================================
 ;; flx-ido
 ;;==============================================================================
 
-(require 'flx-ido)
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+(use-package flx-ido
+  :ensure t
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  ;; disable ido faces to see flx highlights.
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil))
+
+;;==============================================================================
+;; flx-isearch
+;;==============================================================================
+
+(use-package flx-isearch
+  :ensure t)
 
 ;;==============================================================================
 ;; flycheck
@@ -836,6 +813,13 @@
 (ad-activate 'ff-get-file-name)
 
 ;;==============================================================================
+;; objc-font-lock
+;;==============================================================================
+
+(use-package objc-font-lock
+  :ensure t)
+
+;;==============================================================================
 ;; Language Server Protocol (LSP)
 ;;
 ;; https://github.com/emacs-lsp/lsp-mode
@@ -968,6 +952,9 @@
   ;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   )
 
+(use-package epc
+  :ensure t)
+
 (use-package importmagic
   :ensure t
   :config
@@ -997,8 +984,25 @@
 ;; qml-mode
 ;;==============================================================================
 
-(autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
-(add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
+(use-package qml-mode
+  :ensure t
+  :config
+  (autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
+  (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+
+;;==============================================================================
+;; focus
+;;==============================================================================
+
+(use-package focus
+  :ensure t)
+
+;;==============================================================================
+;; rich-minority
+;;==============================================================================
+
+(use-package rich-minority
+  :ensure t)
 
 ;;;==============================================================================
 ;;; gtags (OBSOLETE)
@@ -1215,9 +1219,12 @@
 ;; https://www.emacswiki.org/emacs/UndoTree
 ;;==============================================================================
 
-(global-undo-tree-mode)
-(setq undo-tree-visualizer-timestamps t)
-(setq undo-tree-visualizer-diff t)
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t))
 
 ;;==============================================================================
 ;; Eshell
@@ -1345,14 +1352,39 @@
 ;; https://github.com/m00natic/vlfi
 ;;==============================================================================
 
-(require 'vlf-setup)
+(use-package vlf
+  :ensure t)
 
 ;;==============================================================================
 ;; keyfreq
 ;;==============================================================================
 
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+(use-package keyfreq
+  :ensure t
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
+;;==============================================================================
+;; imenu-list
+;;==============================================================================
+
+(use-package imenu-list
+  :ensure t)
+
+;;==============================================================================
+;; json-reformat
+;;==============================================================================
+
+(use-package json-reformat
+  :ensure t)
+
+;;==============================================================================
+;; shrink-path
+;;==============================================================================
+
+(use-package shrink-path
+  :ensure t)
 
 ;;==============================================================================
 ;; Dos To Unix
@@ -1432,6 +1464,13 @@
 (add-hook 'html-mode-hook 'syntax-color-hsl)
 
 ;;==============================================================================
+;; neato-graph-bar
+;;==============================================================================
+
+(use-package neato-graph-bar
+  :ensure t)
+
+;;==============================================================================
 ;; Startup
 ;;==============================================================================
 
@@ -1476,8 +1515,8 @@
 
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
 
+(global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-m") 'imenu-list)
-(global-set-key (kbd "M-o") 'projectile-find-other-file)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -1486,7 +1525,7 @@
 
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c r") 'counsel-register)
-(global-set-key (kbd "C-c t") 'counsel-recentf)
+(global-set-key (kbd "C-c e") 'counsel-recentf)
 (global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
 (global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
 (global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
