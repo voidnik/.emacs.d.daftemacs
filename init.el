@@ -892,6 +892,9 @@
 ;; Python
 ;;
 ;; - elpy (https://github.com/jorgenschaefer/elpy)
+;; # Python
+;; $ sudo apt install python3
+;; $ sudo apt install python
 ;; # virtualenv
 ;; $ sudo apt install python3-venv
 ;; $ pip3 install virtualenv
