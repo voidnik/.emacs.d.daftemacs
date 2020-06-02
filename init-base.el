@@ -53,8 +53,8 @@
 
 (defun open-i3-config-file ()
   (interactive)
-  (find-file-read-only "~/.config/i3/config")
-  (find-file-read-only "~/.config/i3status/config"))
+  (find-file-read-only "~/.config/i3status/config")
+  (find-file-read-only "~/.config/i3/config"))
 
 ;;==============================================================================
 ;; exec-path
