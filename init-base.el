@@ -11,7 +11,8 @@
       column-number-mode t
       split-height-threshold nil ; not to split this way.
       register-preview-delay 0
-      gdb-many-windows t)
+      gdb-many-windows t
+      large-file-warning-threshold 1000000)
 (blink-cursor-mode 0)
 (setq-default truncate-lines t)
 (setq-default tab-width 4)
