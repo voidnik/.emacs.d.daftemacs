@@ -892,6 +892,7 @@
 ;; Python
 ;;
 ;; - elpy (https://github.com/jorgenschaefer/elpy)
+;;   elpy docs (https://elpy.readthedocs.io/en/latest/index.html)
 ;; # Python
 ;; $ sudo apt install python3
 ;; $ sudo apt install python
@@ -911,6 +912,8 @@
 ;;
 ;; - importmagic (https://github.com/anachronic/importmagic.el)
 ;; $ pip3 install importmagic epc
+;; or
+;; $ sudo apt install python3-importmagic python3-epc
 ;;
 ;; - Install Python Dependencies
 ;; (setq elpy-rpc-python-command "python3")
@@ -929,7 +932,6 @@
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   :config
   (setq elpy-rpc-python-command "python3")
-  (setq elpy-rpc-backend "jedi")
   (defun python-send-buffer-with-args (args)
     (interactive "sPython arguments: ")
     (let ((source-buffer (current-buffer))
