@@ -431,6 +431,25 @@
 ;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
+;; spell-fu
+;;
+;; https://gitlab.com/ideasman42/emacs-spell-fu
+;;==============================================================================
+
+(use-package spell-fu
+  :ensure t
+  :config
+  ;(global-spell-fu-mode)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
+              (spell-fu-mode)))
+  ;(add-hook 'emacs-lisp-mode-hook
+  ;          (lambda ()
+  ;            (spell-fu-mode)))
+  )
+
+;;==============================================================================
 ;; Theme
 ;;==============================================================================
 
