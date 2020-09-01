@@ -22,6 +22,9 @@
 (message "user-emacs-directory: %s" user-emacs-directory)
 (message "my-initial-buffer: %s" my-initial-buffer)
 (message "my-default-directory: %s" my-default-directory)
+(if (functionp 'json-serialize)
+    (message "Native JSON: Enabled")
+  (message "Native JSON: Disabled"))
 
 ;;==============================================================================
 ;; init-base
