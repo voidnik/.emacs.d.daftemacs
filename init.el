@@ -1598,6 +1598,7 @@
 (global-set-key (kbd "M-SPC") 'toggle-input-method)
 
 (global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "M-s M-s") 'ace-swap-window)
 (global-set-key (kbd "M-m") 'imenu-list)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
