@@ -966,20 +966,34 @@
 ;(setq lsp-enable-file-watchers nil)
 (setq lsp-file-watch-threshold 2000)
 
-;;
-;; # Building ccls
+;; ------------
+;; Dependencies
+;; ------------
+;; RapidJSON: https://rapidjson.org/
+;; - On Ubuntu
+;; $ sudo apt install rapidjson-dev
+;; - On MacOS brew
+;; $ brew install rapidjson
+;; 
+;; -------------
+;; Building ccls
+;; -------------
 ;; $ git clone --depth=1 --recursive https://github.com/MaskRay/ccls
 ;; $ cd ccls
-;; On Ubuntu
+;;
+;; - On Ubuntu
 ;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-7
-;; On MacOS brew llvm
+;; - On MacOS brew
 ;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
+;;
 ;; $ cmake --build Release
 ;;
-;; # Installing ccls on MacOS brew (https://github.com/twlz0ne/homebrew-ccls)
+;; ----------------------------------------
+;; Installing ccls on MacOS brew
+;; https://github.com/twlz0ne/homebrew-ccls
+;; ----------------------------------------
 ;; $ brew tap twlz0ne/homebrew-ccls
 ;; $ brew install ccls
-;;
 (use-package ccls
   :ensure t
   :hook ((c-mode c++-mode objc-mode) .
