@@ -111,6 +111,7 @@
     (progn
       (set-face-attribute 'default nil :height 115 :family "Menlo")
       ;(set-face-attribute 'default nil :height 115 :family "Hack")
+      ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
       ;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
       ))
@@ -118,6 +119,7 @@
     (progn
       (set-face-attribute 'default nil :height 95 :family "Menlo")
       ;(set-face-attribute 'default nil :height 95 :family "Hack")
+      ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
       ;(set-face-attribute 'default nil :height 100 :family "monospace")
       ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
       ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
