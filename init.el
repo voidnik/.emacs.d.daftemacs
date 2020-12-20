@@ -453,6 +453,8 @@
   :diminish company-mode
   :commands (company-complete company-mode)
   :bind (;([remap dabbrev-expand] . company-complete)
+         ("C-." . company-complete)
+         ("C->" . counsel-company)
          :map prog-mode-map
          ([tab] . company-indent-or-complete-common))
   :init (if (fboundp 'evil-declare-change-repeat)
