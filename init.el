@@ -1,6 +1,29 @@
 ;; Editor: Richard Jaeho Hur
 
 ;;==============================================================================
+;; Setup GUI
+;;==============================================================================
+
+(defun setup-gui ()
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  (set-frame-position (selected-frame) 0 0)
+  ;(set-frame-width (selected-frame) 150)
+  ;(set-frame-height (selected-frame) 100)
+
+  (defun toggle-fullscreen (&optional f)
+    (interactive)
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
+
+(if (display-graphic-p)
+    (setup-gui))
+
+;;==============================================================================
 ;; Info Messages
 ;;==============================================================================
 
@@ -96,43 +119,71 @@
  '(ediff-odd-diff-B ((t (:background "#464752"))))
  '(ediff-odd-diff-C ((t (:background "#464752")))))
 
+(setq default-directory my-default-directory)
+(setq default-input-method "korean-hangul")
+(setq desktop-save-mode t)
+
+(setenv "MANWIDTH" "72")
+
+;;==============================================================================
+;; flycheck
+;;==============================================================================
+
+(use-package flycheck
+  :ensure t)
+;(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;;==============================================================================
+;; magit
+;;==============================================================================
+
+(use-package magit
+  :ensure t)
+
+(use-package magit-popup
+  :ensure t)
+
 ;;==============================================================================
 ;; Font
 ;;==============================================================================
 
-;; Menlo (https://github.com/hbin/top-programming-fonts
-;; IBM 3270 (https://github.com/rbanffy/3270font)
-;; Hack (https://github.com/source-foundry/Hack)
-;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
-(defun init-font ()
-  ;(print (font-family-list))
-  (cond
-   ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
-    (progn
-      (set-face-attribute 'default nil :height 115 :family "Menlo")
-      ;(set-face-attribute 'default nil :height 115 :family "Hack")
-      ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
-      ;(set-face-attribute 'default nil :height 115 :family "monospace")
-      ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
-      ))
-   ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
-    (progn
-      (set-face-attribute 'default nil :height 95 :family "Menlo")
-      ;(set-face-attribute 'default nil :height 95 :family "Hack")
-      ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
-      ;(set-face-attribute 'default nil :height 100 :family "monospace")
-      ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
-      ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
-      ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
-      ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
-      ))))
+(defun setup-font ()
+    ;; Menlo (https://github.com/hbin/top-programming-fonts
+    ;; IBM 3270 (https://github.com/rbanffy/3270font)
+    ;; Hack (https://github.com/source-foundry/Hack)
+    ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
+    ;(print (font-family-list))
+    (cond
+     ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
+      (progn
+        (set-face-attribute 'default nil :height 115 :family "Menlo")
+        ;(set-face-attribute 'default nil :height 115 :family "Hack")
+        ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
+        ;(set-face-attribute 'default nil :height 115 :family "monospace")
+        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
+        ))
+     ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
+      (progn
+        (set-face-attribute 'default nil :height 95 :family "Menlo")
+        ;(set-face-attribute 'default nil :height 95 :family "Hack")
+        ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
+        ;(set-face-attribute 'default nil :height 100 :family "monospace")
+        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
+        ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
+        ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
+        ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+        )))
 
-;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
-;; https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
-(set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
-(setq face-font-rescale-alist
-      '((".*hiragino.*" . 1.2)
-        ("NanumGothicCoding" . 1.2307692307692308)))
+  ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
+  ;; https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
+  (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+  (setq face-font-rescale-alist
+        '((".*hiragino.*" . 1.2)
+          ("NanumGothicCoding" . 1.2307692307692308))))
+
+(if (display-graphic-p)
+    (setup-font))
+
 
 ;;==============================================================================
 ;; Theme
@@ -255,24 +306,6 @@
   ;; Function to stylize the irc buffer names.
   (setq doom-modeline-irc-stylize 'identity))
 
-;;==============================================================================
-;; all-the-icons
-;;==============================================================================
-
-(use-package all-the-icons
-  :ensure t
-  :config (setq all-the-icons-scale-factor 1.0))
-
-;;==============================================================================
-;; Startup
-;;==============================================================================
-
-(setq default-input-method "korean-hangul")
-(setq desktop-save-mode t)
-(setq default-directory my-default-directory)
-
-(setenv "MANWIDTH" "72")
-
 ;; https://draculatheme.com/emacs/
 (load-file "~/.emacs.d/dracula-theme.el")
 (load-theme 'dracula t)
@@ -280,26 +313,13 @@
 ;; or
 ;;(init-doom-theme)
 
-(defun startup-on-gui ()
-  (init-font)
+;;==============================================================================
+;; all-the-icons
+;;==============================================================================
 
-  (menu-bar-mode -1) ; hide menu bar
-  (tool-bar-mode -1) ; hide tool bar
-  (scroll-bar-mode -1) ; hide scroll bar
-
-  (set-frame-position (selected-frame) 0 0)
-  ;(set-frame-width (selected-frame) 150)
-  ;(set-frame-height (selected-frame) 100)
-
-  (defun toggle-fullscreen (&optional f)
-    (interactive)
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
-
-(if (display-graphic-p)
-    (startup-on-gui))
+(use-package all-the-icons
+  :ensure t
+  :config (setq all-the-icons-scale-factor 1.0))
 
 ;;==============================================================================
 ;; dashboard
@@ -422,16 +442,6 @@
 ;;==============================================================================
 
 (use-package ztree
-  :ensure t)
-
-;;==============================================================================
-;; magit
-;;==============================================================================
-
-(use-package magit
-  :ensure t)
-
-(use-package magit-popup
   :ensure t)
 
 ;;==============================================================================
@@ -653,14 +663,6 @@
 
 (use-package flx-isearch
   :ensure t)
-
-;;==============================================================================
-;; flycheck
-;;==============================================================================
-
-(use-package flycheck
-  :ensure t)
-;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
 ;; spell-fu
