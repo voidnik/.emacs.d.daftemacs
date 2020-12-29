@@ -5,20 +5,15 @@
 ;;==============================================================================
 
 (defun setup-gui ()
+  ;; https://draculatheme.com/emacs/
+  (load-file "~/.emacs.d/dracula-theme.el")
+  (load-theme 'dracula t)
+
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
 
-  (set-frame-position (selected-frame) 0 0)
-  ;(set-frame-width (selected-frame) 150)
-  ;(set-frame-height (selected-frame) 100)
-
-  (defun toggle-fullscreen (&optional f)
-    (interactive)
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
+  (set-frame-position (selected-frame) 0 0))
 
 (if (display-graphic-p)
     (setup-gui))
@@ -126,6 +121,43 @@
 (setenv "MANWIDTH" "72")
 
 ;;==============================================================================
+;; doom-theme
+;;==============================================================================
+
+(defun setup-doom-theme ()
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+    ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
+    ;; theme may have their own settings.
+    ;(load-theme 'doom-one t)
+    (load-theme 'doom-dracula t)
+    ;(load-theme 'doom-city-lights t)
+    ;(load-theme 'doom-molokai t)
+    ;(load-theme 'doom-nord t)
+    ;(load-theme 'doom-nova t)
+    ;(load-theme 'doom-peacock t)
+    ;(load-theme 'doom-solarized-light t)
+    ;(load-theme 'doom-spacegrey t)
+    ;(load-theme 'doom-tomorrow-night t)
+    ;(load-theme 'doom-tomorrow-day t)
+
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+
+    ;; Enable custom neotree theme
+    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config)))
+
+;(setup-doom-theme)
+
+;;==============================================================================
 ;; flycheck
 ;;==============================================================================
 
@@ -144,88 +176,16 @@
   :ensure t)
 
 ;;==============================================================================
-;; Font
+;; Modeline
 ;;==============================================================================
 
-(defun setup-font ()
-    ;; Menlo (https://github.com/hbin/top-programming-fonts
-    ;; IBM 3270 (https://github.com/rbanffy/3270font)
-    ;; Hack (https://github.com/source-foundry/Hack)
-    ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
-    ;(print (font-family-list))
-    (cond
-     ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
-      (progn
-        (set-face-attribute 'default nil :height 115 :family "Menlo")
-        ;(set-face-attribute 'default nil :height 115 :family "Hack")
-        ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
-        ;(set-face-attribute 'default nil :height 115 :family "monospace")
-        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
-        ))
-     ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
-      (progn
-        (set-face-attribute 'default nil :height 95 :family "Menlo")
-        ;(set-face-attribute 'default nil :height 95 :family "Hack")
-        ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
-        ;(set-face-attribute 'default nil :height 100 :family "monospace")
-        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
-        ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
-        ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
-        ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
-        )))
-
-  ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
-  ;; https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
-  (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
-  (setq face-font-rescale-alist
-        '((".*hiragino.*" . 1.2)
-          ("NanumGothicCoding" . 1.2307692307692308))))
-
-(if (display-graphic-p)
-    (setup-font))
-
-
-;;==============================================================================
-;; Theme
-;;==============================================================================
-
-(defun init-doom-theme ()
-  (use-package doom-themes
-    :ensure t
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-    ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
-    ;; theme may have their own settings.
-    (load-theme 'doom-one t)
-    ;(load-theme 'doom-dracula t)
-    ;(load-theme 'doom-city-lights t)
-    ;(load-theme 'doom-molokai t)
-    ;(load-theme 'doom-nord t)
-    ;(load-theme 'doom-nova t)
-    ;(load-theme 'doom-peacock t)
-    ;(load-theme 'doom-solarized-light t)
-    ;(load-theme 'doom-spacegrey t)
-    ;(load-theme 'doom-tomorrow-night t)
-    ;(load-theme 'doom-tomorrow-day t)
-
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-config)
-
-    ;; Enable custom neotree theme
-    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
-
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config))
-
+(defun setup-doom-modeline ()
   (use-package doom-modeline
     :ensure t
     :hook (after-init . doom-modeline-mode))
 
   ;; How tall the mode-line should be (only respected in GUI Emacs).
-  (setq doom-modeline-height 25)
+  (setq doom-modeline-height 24)
 
   ;; How wide the mode-line bar should be (only respected in GUI Emacs).
   (setq doom-modeline-bar-width 3)
@@ -306,12 +266,49 @@
   ;; Function to stylize the irc buffer names.
   (setq doom-modeline-irc-stylize 'identity))
 
-;; https://draculatheme.com/emacs/
-(load-file "~/.emacs.d/dracula-theme.el")
-(load-theme 'dracula t)
-(dracula-setup-modeline-format)
-;; or
-;;(init-doom-theme)
+(setup-doom-modeline)
+;(dracula-setup-modeline-format)
+
+;;==============================================================================
+;; Font
+;;==============================================================================
+
+(defun setup-font ()
+    ;; Menlo (https://github.com/hbin/top-programming-fonts
+    ;; IBM 3270 (https://github.com/rbanffy/3270font)
+    ;; Hack (https://github.com/source-foundry/Hack)
+    ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
+    ;(print (font-family-list))
+    (cond
+     ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
+      (progn
+        (set-face-attribute 'default nil :height 115 :family "Menlo")
+        ;(set-face-attribute 'default nil :height 115 :family "Hack")
+        ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
+        ;(set-face-attribute 'default nil :height 115 :family "monospace")
+        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
+        ))
+     ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
+      (progn
+        (set-face-attribute 'default nil :height 95 :family "Menlo")
+        ;(set-face-attribute 'default nil :height 95 :family "Hack")
+        ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
+        ;(set-face-attribute 'default nil :height 100 :family "monospace")
+        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
+        ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
+        ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
+        ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+        )))
+
+  ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
+  ;; https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
+  (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+  (setq face-font-rescale-alist
+        '((".*hiragino.*" . 1.2)
+          ("NanumGothicCoding" . 1.2307692307692308))))
+
+(if (display-graphic-p)
+    (setup-font))
 
 ;;==============================================================================
 ;; all-the-icons
