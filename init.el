@@ -5,15 +5,16 @@
 ;;==============================================================================
 
 (defun setup-gui ()
-  ;; https://draculatheme.com/emacs/
-  (load-file "~/.emacs.d/dracula-theme.el")
-  (load-theme 'dracula t)
-
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
 
-  (set-frame-position (selected-frame) 0 0))
+  (set-frame-position (selected-frame) 0 0)
+
+  ;; https://draculatheme.com/emacs/
+  ;(load-file "~/.emacs.d/dracula-theme.el")
+  ;(load-theme 'dracula t)
+  )
 
 (if (display-graphic-p)
     (setup-gui))
@@ -92,7 +93,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(fcitx dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls company-lsp lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree use-package undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-modeline avy all-the-icons ace-window)))
+   '(use-package bind-key fcitx dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls company-lsp lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -121,10 +122,18 @@
 (setenv "MANWIDTH" "72")
 
 ;;==============================================================================
-;; doom-theme
+;; all-the-icons
 ;;==============================================================================
 
-(defun setup-doom-theme ()
+(use-package all-the-icons
+  :ensure t
+  :config (setq all-the-icons-scale-factor 1.0))
+
+;;==============================================================================
+;; doom-themes
+;;==============================================================================
+
+(defun setup-doom-themes ()
   (use-package doom-themes
     :ensure t
     :config
@@ -155,7 +164,7 @@
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config)))
 
-;(setup-doom-theme)
+(setup-doom-themes)
 
 ;;==============================================================================
 ;; flycheck
@@ -309,14 +318,6 @@
 
 (if (display-graphic-p)
     (setup-font))
-
-;;==============================================================================
-;; all-the-icons
-;;==============================================================================
-
-(use-package all-the-icons
-  :ensure t
-  :config (setq all-the-icons-scale-factor 1.0))
 
 ;;==============================================================================
 ;; dashboard
