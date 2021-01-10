@@ -155,11 +155,14 @@
     ;(load-theme 'doom-tomorrow-night t)
     ;(load-theme 'doom-tomorrow-day t)
 
+    (custom-set-faces
+     '(mode-line ((t (:background "#1E2029")))))
+
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
 
-    ;; Enable custom neotree theme
-    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (doom-themes-neotree-config)
 
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config)))
@@ -225,7 +228,7 @@
   (setq doom-modeline-major-mode-icon t)
 
   ;; Display color icons for `major-mode'. It respects `all-the-icons-color-icons'.
-  (setq doom-modeline-major-mode-color-icon nil)
+  (setq doom-modeline-major-mode-color-icon t)
 
   ;; Whether display minor modes or not. Non-nil to display in mode-line.
   (setq doom-modeline-minor-modes nil)
