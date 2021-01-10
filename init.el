@@ -1065,6 +1065,7 @@
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   :config
   (setq elpy-rpc-python-command "python3")
+  (setq eldoc-idle-delay 1)  ;; in second
   (defun python-send-buffer-with-args (args)
     (interactive "sPython arguments: ")
     (let ((source-buffer (current-buffer))
