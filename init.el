@@ -119,6 +119,9 @@
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
 
+(setq-default display-fill-column-indicator-column 79)
+(global-display-fill-column-indicator-mode 1)
+
 (setenv "MANWIDTH" "72")
 
 ;;==============================================================================
@@ -683,20 +686,6 @@
   ;          (lambda ()
   ;            (spell-fu-mode)))
   )
-
-;;==============================================================================
-;; fill-column-indicator
-;;
-;; https://www.emacswiki.org/emacs/FillColumnIndicator
-;;==============================================================================
-
-(load-file "~/.emacs.d/fill-column-indicator.el")
-(require 'fill-column-indicator)
-(setq fci-rule-column 79)
-(setq fci-rule-width 1)
-(setq fci-rule-color "#303030")
-(add-hook 'prog-mode-hook 'fci-mode)
-(add-hook 'org-mode-hook 'fci-mode)
 
 ;;==============================================================================
 ;; treemacs
