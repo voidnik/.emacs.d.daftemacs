@@ -359,7 +359,7 @@
 
   ;; Tab icons
   (setq centaur-tabs-style "bar"
-        centaur-tabs-show-navigation-buttons t
+        ;;centaur-tabs-show-navigation-buttons t
         centaur-tabs-set-bar 'left
         centaur-tabs-set-icons t
         centaur-tabs-set-modified-marker t
