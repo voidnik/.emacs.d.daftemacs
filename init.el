@@ -93,7 +93,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(use-package bind-key fcitx dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls company-lsp lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(centaur-tabs use-package bind-key fcitx dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls company-lsp lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -341,6 +341,117 @@
                           (projects . 10)
                           (agenda . 10)
                           (registers . 10))))
+
+;;==============================================================================
+;; centaur-tabs
+;;
+;; https://github.com/ema2159/centaur-tabs
+;;==============================================================================
+
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+
+  ;; Tab icons
+  (setq centaur-tabs-style "bar"
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-set-bar 'left
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-modified-marker "*"
+        centaur-tabs-set-close-button nil
+        centaur-tabs-gray-out-icons 'buffer
+        centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-mode t)
+
+  ;; Projectile integration
+  (centaur-tabs-group-by-projectile-project)
+
+  ;; Buffer groups
+  (defun centaur-tabs-buffer-groups ()
+    "`centaur-tabs-buffer-groups' control buffers' group rules.
+
+    Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+    All buffer name start with * will group to \"Emacs\".
+    Other buffer group by `centaur-tabs-get-group-name' with project name."
+    (list
+	 (cond
+	  ((or (string-equal "*" (substring (buffer-name) 0 1))
+	       (memq major-mode '(magit-process-mode
+				              magit-status-mode
+				              magit-diff-mode
+				              magit-log-mode
+				              magit-file-mode
+				              magit-blob-mode
+				              magit-blame-mode
+				              )))
+	   "Emacs")
+	  ((derived-mode-p 'prog-mode)
+	   "Editing")
+	  ((derived-mode-p 'dired-mode)
+	   "Dired")
+	  ((memq major-mode '(helpful-mode
+			              help-mode))
+	   "Help")
+	  ((memq major-mode '(org-mode
+			              org-agenda-clockreport-mode
+			              org-src-mode
+			              org-agenda-mode
+			              org-beamer-mode
+			              org-indent-mode
+			              org-bullets-mode
+			              org-cdlatex-mode
+			              org-agenda-log-mode
+			              diary-mode))
+	   "OrgMode")
+	  (t
+	   (centaur-tabs-get-group-name (current-buffer))))))
+
+  ;; Prevent the access to specified buffers
+  (defun centaur-tabs-hide-tab (x)
+    "Do no to show buffer X in tabs."
+    (let ((name (format "%s" x)))
+      (or
+       ;; Current window is not dedicated window.
+       (window-dedicated-p (selected-window))
+
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p "*epc" name)
+       (string-prefix-p "*helm" name)
+       (string-prefix-p "*Helm" name)
+       (string-prefix-p "*Compile-Log*" name)
+       (string-prefix-p "*lsp" name)
+       (string-prefix-p "*company" name)
+       (string-prefix-p "*Flycheck" name)
+       (string-prefix-p "*tramp" name)
+       (string-prefix-p " *Mini" name)
+       (string-prefix-p "*help" name)
+       (string-prefix-p "*straight" name)
+       (string-prefix-p " *temp" name)
+       (string-prefix-p "*Help" name)
+       ;(string-prefix-p "*Messages" name)
+       ;(string-prefix-p "*scratch" name)
+       ;(string-prefix-p "*dashboard" name)
+       (string-prefix-p "*Bufler" name)
+
+       ;; Is not magit buffer.
+       (and (string-prefix-p "magit" name)
+	        (not (file-name-extension name)))
+       )))
+  :hook
+  (dashboard-mode . centaur-tabs-local-mode)
+  (term-mode . centaur-tabs-local-mode)
+  (calendar-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  (helpful-mode . centaur-tabs-local-mode)  
+  :bind
+  ("C-{" . centaur-tabs-backward)
+  ("C-}" . centaur-tabs-forward)
+  ("C-c t s" . centaur-tabs-counsel-switch-group)
+  ("C-c t p" . centaur-tabs-group-by-projectile-project)
+  ("C-c t g" . centaur-tabs-group-buffer-groups))
 
 ;;==============================================================================
 ;; org
@@ -1279,6 +1390,11 @@
 
 ;;==============================================================================
 ;; diff-hl
+;;
+;; diff-hl-mode highlights uncommitted changes on the left side of the window,
+;; allows you to jump between and revert them selectively.
+;;
+;; https://github.com/dgutov/diff-hl
 ;;==============================================================================
 
 (use-package diff-hl
@@ -1655,13 +1771,10 @@
 
 (global-set-key (kbd "C-c z") 'resize-window)
 
-(global-set-key "\C-ct" 'google-translate-smooth-translate)
-(global-set-key "\C-cT" 'google-translate-query-translate)
-
-(global-set-key (kbd "<C-S-up>")    'buf-move-up)
-(global-set-key (kbd "<C-S-down>")  'buf-move-down)
-(global-set-key (kbd "<C-S-left>")  'buf-move-left)
-(global-set-key (kbd "<C-S-right>") 'buf-move-right)
+(global-set-key (kbd "C-c o <up>")    'buf-move-up)
+(global-set-key (kbd "C-c o <down>")  'buf-move-down)
+(global-set-key (kbd "C-c o <left>")  'buf-move-left)
+(global-set-key (kbd "C-c o <right>") 'buf-move-right)
 
 ;; GUD
 (global-set-key [(shift f5)] 'gud-gdb)
