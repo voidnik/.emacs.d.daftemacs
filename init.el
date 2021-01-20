@@ -356,10 +356,7 @@
   :ensure t
   :demand
   :config
-
-  ;; Tab icons
   (setq centaur-tabs-style "bar"
-        ;;centaur-tabs-show-navigation-buttons t
         centaur-tabs-set-bar 'left
         centaur-tabs-set-icons t
         centaur-tabs-set-modified-marker t
@@ -435,9 +432,6 @@
        (string-prefix-p "*straight" name)
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
-       ;(string-prefix-p "*Messages" name)
-       ;(string-prefix-p "*scratch" name)
-       ;(string-prefix-p "*dashboard" name)
        (string-prefix-p "*Bufler" name)
 
        ;; Is not magit buffer.
@@ -445,7 +439,6 @@
 	        (not (file-name-extension name)))
        )))
   :hook
-  (dashboard-mode . centaur-tabs-local-mode)
   (term-mode . centaur-tabs-local-mode)
   (calendar-mode . centaur-tabs-local-mode)
   (org-agenda-mode . centaur-tabs-local-mode)
