@@ -113,7 +113,8 @@
  '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8BE9FD"))))
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
- '(ediff-odd-diff-C ((t (:background "#464752")))))
+ '(ediff-odd-diff-C ((t (:background "#464752"))))
+ '(mode-line ((t (:background "#1E2029")))))
 
 (setq default-directory my-default-directory)
 (setq default-input-method "korean-hangul")
@@ -157,9 +158,6 @@
     ;(load-theme 'doom-spacegrey t)
     ;(load-theme 'doom-tomorrow-night t)
     ;(load-theme 'doom-tomorrow-day t)
-
-    (custom-set-faces
-     '(mode-line ((t (:background "#1E2029")))))
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
