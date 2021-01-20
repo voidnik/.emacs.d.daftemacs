@@ -123,6 +123,10 @@
 (setq-default display-fill-column-indicator-column 79)
 (global-display-fill-column-indicator-mode 1)
 
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
+;;(setq uniquify-separator "/")
+(setq uniquify-buffer-name-style 'post-forward)
+
 (setenv "MANWIDTH" "72")
 
 ;;==============================================================================
