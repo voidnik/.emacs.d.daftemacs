@@ -450,7 +450,8 @@
   ("C-M-}" . centaur-tabs-move-current-tab-to-right)
   ("C-c t s" . centaur-tabs-counsel-switch-group)
   ("C-c t p" . centaur-tabs-group-by-projectile-project)
-  ("C-c t g" . centaur-tabs-group-buffer-groups))
+  ("C-c t g" . centaur-tabs-group-buffer-groups)
+  ("C-c t k" . centaur-tabs-kill-all-buffers-in-current-group))
 
 ;;==============================================================================
 ;; org
