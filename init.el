@@ -627,6 +627,10 @@
         ivy-count-format "[%d/%d] "
         ivy-initial-inputs-alist nil))
 
+(use-package all-the-icons-ivy
+  :ensure t
+  :hook (after-init . all-the-icons-ivy-setup))
+
 (use-package counsel
   :ensure t
   :diminish
@@ -646,18 +650,6 @@
   (setq swiper-action-recenter t)
   (setq swiper-goto-start-of-match t))
 
-(use-package ivy-posframe
-  :ensure t
-  :after ivy
-  :diminish
-  :config
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
-        ivy-posframe-height-alist '((t . 30))
-        ivy-posframe-parameters '((internal-border-width . 10)))
-  (setq ivy-posframe-width 150)
-  ;(ivy-posframe-mode +1)
-  )
-
 (use-package ivy-rich
   :ensure t
   :preface
@@ -669,6 +661,9 @@
 	        (all-the-icons-icon-for-mode 'fundamental-mode)
 	      icon))))
   :init
+  (use-package all-the-icons-ivy-rich
+    :ensure t
+    :init (all-the-icons-ivy-rich-mode 1))
   (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-posframe-width - 1)
         '(ivy-switch-buffer
           (:columns
@@ -693,16 +688,16 @@
            (lambda (cand) (get-buffer cand)))
           counsel-M-x
           (:columns
-           ((counsel-M-x-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:width 114 :face font-lock-doc-face))))
+           ((counsel-M-x-transformer (:width 60))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
           counsel-describe-function
           (:columns
-           ((counsel-describe-function-transformer (:width 35))
-            (ivy-rich-counsel-function-docstring (:width 114 :face font-lock-doc-face))))
+           ((counsel-describe-function-transformer (:width 60))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
           counsel-describe-variable
           (:columns
-           ((counsel-describe-variable-transformer (:width 35))
-            (ivy-rich-counsel-variable-docstring (:width 114 :face font-lock-doc-face))))
+           ((counsel-describe-variable-transformer (:width 60))
+            (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
           counsel-recentf
           (:columns
            ((ivy-rich-candidate (:width 130))
@@ -725,13 +720,16 @@
   ;; ivy-rich-mode should be activated after emacs-startup.
   (add-hook 'emacs-startup-hook (lambda () (ivy-rich-mode +1))))
 
-(use-package all-the-icons-ivy
-  :ensure t
-  :hook (after-init . all-the-icons-ivy-setup))
-
-(use-package all-the-icons-ivy-rich
-  :ensure t
-  :init (all-the-icons-ivy-rich-mode 1))
+;;(use-package ivy-posframe
+;;  :ensure t
+;;  :after ivy
+;;  :diminish
+;;  :config
+;;  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+;;        ivy-posframe-height-alist '((t . 30))
+;;        ivy-posframe-parameters '((internal-border-width . 10)))
+;;  (setq ivy-posframe-width 150)
+;;  (ivy-posframe-mode +1))
 
 ;;==============================================================================
 ;; avy
