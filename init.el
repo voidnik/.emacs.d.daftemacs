@@ -297,17 +297,19 @@
     ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
     ;(print (font-family-list))
     (cond
-     ((string-equal system-type "darwin") ; Font path: ~/Library/Fonts
+     ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
       (progn
-        (set-face-attribute 'default nil :height 115 :family "Menlo")
+        (set-face-attribute 'default nil :height 115 :family "Source Code Pro")
+        ;(set-face-attribute 'default nil :height 115 :family "Menlo")
         ;(set-face-attribute 'default nil :height 115 :family "Hack")
         ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
         ;(set-face-attribute 'default nil :height 115 :family "monospace")
         ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
         ))
-     ((string-equal system-type "gnu/linux") ; Font path: ~/.local/share/fonts
+     ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
       (progn
-        (set-face-attribute 'default nil :height 95 :family "Menlo")
+        (set-face-attribute 'default nil :height 95 :family "Source Code Pro")
+        ;(set-face-attribute 'default nil :height 95 :family "Menlo")
         ;(set-face-attribute 'default nil :height 95 :family "Hack")
         ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
         ;(set-face-attribute 'default nil :height 100 :family "monospace")
