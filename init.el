@@ -358,8 +358,10 @@
   :ensure t
   :demand
   :config
-  (setq centaur-tabs-style "bar"
-        centaur-tabs-set-bar 'left
+  (setq centaur-tabs-style "box"
+        centaur-tabs-height 32
+        centaur-tabs-set-bar 'under
+        x-underline-at-descent-line t
         centaur-tabs-set-icons t
         centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "*"
