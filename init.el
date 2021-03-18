@@ -359,7 +359,9 @@
   :demand
   :config
   (setq centaur-tabs-style "bar"
-        centaur-tabs-height 32
+        centaur-tabs-height (cond
+                             ((string-equal system-type "darwin") 30)
+                             ((string-equal system-type "gnu/linux") 60))
         centaur-tabs-set-bar 'under
         x-underline-at-descent-line t
         centaur-tabs-set-icons t
