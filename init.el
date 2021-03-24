@@ -291,33 +291,40 @@
 ;;==============================================================================
 
 (defun setup-font ()
-    ;; Menlo (https://github.com/hbin/top-programming-fonts
-    ;; IBM 3270 (https://github.com/rbanffy/3270font)
-    ;; Hack (https://github.com/source-foundry/Hack)
-    ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
-    ;(print (font-family-list))
-    (cond
-     ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
-      (progn
-        (set-face-attribute 'default nil :height 115 :family "Source Code Pro")
-        ;(set-face-attribute 'default nil :height 115 :family "Menlo")
-        ;(set-face-attribute 'default nil :height 115 :family "Hack")
-        ;(set-face-attribute 'default nil :height 115 :family "FiraCode")
-        ;(set-face-attribute 'default nil :height 115 :family "monospace")
-        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
-        ))
-     ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
-      (progn
-        (set-face-attribute 'default nil :height 95 :family "Source Code Pro")
-        ;(set-face-attribute 'default nil :height 95 :family "Menlo")
-        ;(set-face-attribute 'default nil :height 95 :family "Hack")
-        ;(set-face-attribute 'default nil :height 95 :family "FiraCode")
-        ;(set-face-attribute 'default nil :height 100 :family "monospace")
-        ;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
-        ;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
-        ;(set-face-attribute 'default nil :height 95 :family "FreeMono")
-        ;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
-        )))
+  ;; Office Code Pro (https://github.com/nathco/Office-Code-Pro)
+  ;; Source Code Pro (https://github.com/adobe-fonts/source-code-pro)
+  ;; Menlo (https://github.com/hbin/top-programming-fonts
+  ;; IBM 3270 (https://github.com/rbanffy/3270font)
+  ;; Hack (https://github.com/source-foundry/Hack)
+  ;; D2Coding (https://github.com/naver/d2codingfont)
+  ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
+  ;;(print (font-family-list))
+  (cond
+   ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
+    (progn
+      (set-face-attribute 'default nil :height 115 :family "Office Code Pro")
+      ;;(set-face-attribute 'default nil :height 115 :family "Source Code Pro")
+      ;;(set-face-attribute 'default nil :height 115 :family "Menlo")
+      ;;(set-face-attribute 'default nil :height 115 :family "Hack")
+      ;;(set-face-attribute 'default nil :height 115 :family "FiraCode")
+      ;;(set-face-attribute 'default nil :height 115 :family "monospace")
+      ;;(set-face-attribute 'default nil :height 115 :family "D2Coding")
+      ;;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-130-*-*-*-0-iso10646-1")
+      ))
+   ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
+    (progn
+      (set-face-attribute 'default nil :height 95 :family "Office Code Pro")
+      ;;(set-face-attribute 'default nil :height 95 :family "Source Code Pro")
+      ;;(set-face-attribute 'default nil :height 95 :family "Menlo")
+      ;;(set-face-attribute 'default nil :height 95 :family "Hack")
+      ;;(set-face-attribute 'default nil :height 95 :family "FiraCode")
+      ;;(set-face-attribute 'default nil :height 100 :family "monospace")
+      ;;(set-face-attribute 'default nil :height 95 :family "D2Coding")
+      ;;(set-frame-font "-PfEd-IBM 3270-normal-italic-normal-*-*-115-*-*-*-0-iso10646-1")
+      ;;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
+      ;;(set-face-attribute 'default nil :height 95 :family "FreeMono")
+      ;;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+      )))
 
   ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
   ;; https://crazia.tistory.com/entry/Emacs-24x-%EB%B2%84%EC%A0%BC-%ED%95%9C%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EC%84%A4%EC%A0%95-orgmode-%EC%9D%98-%ED%95%9C%EA%B8%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B9%A8%EC%A7%80%EC%A7%80-%EC%95%8A%EA%B2%8C-%EB%B3%B4%EC%9D%B4%EA%B8%B0
