@@ -291,8 +291,8 @@
 ;;==============================================================================
 
 (defun setup-font ()
-  ;; Office Code Pro (https://github.com/nathco/Office-Code-Pro)
   ;; Source Code Pro (https://github.com/adobe-fonts/source-code-pro)
+  ;; Office Code Pro (https://github.com/nathco/Office-Code-Pro)
   ;; Menlo (https://github.com/hbin/top-programming-fonts
   ;; IBM 3270 (https://github.com/rbanffy/3270font)
   ;; Hack (https://github.com/source-foundry/Hack)
@@ -302,8 +302,9 @@
   (cond
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
-      (set-face-attribute 'default nil :height 115 :family "Office Code Pro")
-      ;;(set-face-attribute 'default nil :height 115 :family "Source Code Pro")
+      (set-face-attribute 'default nil :height 120 :family "Source Code Pro")
+      ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
+      ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
       ;;(set-face-attribute 'default nil :height 115 :family "Menlo")
       ;;(set-face-attribute 'default nil :height 115 :family "Hack")
       ;;(set-face-attribute 'default nil :height 115 :family "FiraCode")
@@ -313,8 +314,9 @@
       ))
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
-      (set-face-attribute 'default nil :height 95 :family "Office Code Pro")
-      ;;(set-face-attribute 'default nil :height 95 :family "Source Code Pro")
+      (set-face-attribute 'default nil :height 95 :family "Source Code Pro")
+      ;;(set-face-attribute 'default nil :height 95 :family "Office Code Pro")
+      ;;(set-face-attribute 'default nil :height 95 :family "Office Code Pro D")
       ;;(set-face-attribute 'default nil :height 95 :family "Menlo")
       ;;(set-face-attribute 'default nil :height 95 :family "Hack")
       ;;(set-face-attribute 'default nil :height 95 :family "FiraCode")
