@@ -93,7 +93,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(centaur-tabs use-package bind-key fcitx dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(lsp-pyright centaur-tabs use-package bind-key fcitx dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1073,34 +1073,25 @@
 ;(setq lsp-enable-file-watchers nil)
 (setq lsp-file-watch-threshold 2000)
 
-;; ------------
-;; Dependencies
-;; ------------
-;; RapidJSON: https://rapidjson.org/
-;; - On Ubuntu
-;; $ sudo apt install rapidjson-dev
-;; - On MacOS brew
-;; $ brew install rapidjson
-;; 
-;; -------------
-;; Building ccls
-;; -------------
-;; $ git clone --depth=1 --recursive https://github.com/MaskRay/ccls
-;; $ cd ccls
+;;==============================================================================
+;; C/C++
 ;;
-;; - On Ubuntu
-;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-7
-;; - On MacOS brew
-;; $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
-;;
-;; $ cmake --build Release
-;;
-;; ----------------------------------------
-;; Installing ccls on MacOS brew
-;; https://github.com/twlz0ne/homebrew-ccls
-;; ----------------------------------------
-;; $ brew tap twlz0ne/homebrew-ccls
-;; $ brew install ccls
+;; - ccls
+;; 1) Dependencies
+;;   RapidJSON: https://rapidjson.org/
+;;     Ubuntu: $ sudo apt install rapidjson-dev
+;;     MacOS brew: $ brew install rapidjson
+;; 2) Building ccls
+;;   $ git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+;;   $ cd ccls
+;;   Ubuntu: $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-7
+;;   MacOS brew: $ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/llvm
+;;   $ cmake --build Release
+;; 3) Installing ccls on MacOS brew (https://github.com/twlz0ne/homebrew-ccls)
+;;   $ brew tap twlz0ne/homebrew-ccls
+;;   $ brew install ccls
+;;==============================================================================
+
 (use-package ccls
   :ensure t
   :hook ((c-mode c++-mode objc-mode) .
@@ -1139,31 +1130,34 @@
 ;;
 ;; - elpy (https://github.com/jorgenschaefer/elpy)
 ;;   elpy docs (https://elpy.readthedocs.io/en/latest/index.html)
-;; # Python
-;; $ sudo apt install python3
-;; $ sudo apt install python
-;; # virtualenv
-;; $ sudo apt install python3-venv
-;; $ pip3 install virtualenv
-;; # Completion and code navigation
-;; $ pip3 install jedi
-;; # Code checks
-;; $ pip3 install flake8
-;; # Refactoring
-;; $ pip3 install rope
-;; # Automatic formatting (PEP8, Yapf or Black)
-;; $ pip3 install autopep8
-;; $ pip3 install yapf
-;; $ pip3 install black (only available on Python 3)
+;;   # Python
+;;   $ sudo apt install python3
+;;   $ sudo apt install python
+;;   # virtualenv
+;;   $ sudo apt install python3-venv
+;;   $ pip3 install virtualenv
+;;   # Completion and code navigation
+;;   $ pip3 install jedi
+;;   # Code checks
+;;   $ pip3 install flake8
+;;   # Refactoring
+;;   $ pip3 install rope
+;;   # Automatic formatting (PEP8, Yapf or Black)
+;;   $ pip3 install autopep8
+;;   $ pip3 install yapf
+;;   $ pip3 install black (only available on Python 3)
+;;
+;;   # Install Python Dependencies
+;;   (setq elpy-rpc-python-command "python3")
+;;   M-x elpy-rpc-reinstall-virtualenv
 ;;
 ;; - importmagic (https://github.com/anachronic/importmagic.el)
-;; $ pip3 install importmagic epc
-;; or
-;; $ sudo apt install python3-importmagic python3-epc
+;;   $ pip3 install importmagic epc
+;;   or
+;;   $ sudo apt install python3-importmagic python3-epc
 ;;
-;; - Install Python Dependencies
-;; (setq elpy-rpc-python-command "python3")
-;; M-x elpy-rpc-reinstall-virtualenv
+;; - lsp-pyright (https://github.com/emacs-lsp/lsp-pyright)
+;;   $ npm install -g pyright
 ;;==============================================================================
 
 (setq python-shell-interpreter "python3"
@@ -1171,27 +1165,6 @@
 
 (use-package python
   :mode ("\\.py" . python-mode))
-
-(use-package elpy
-  :ensure t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-  :config
-  (setq elpy-rpc-python-command "python3")
-  (setq eldoc-idle-delay 1)  ;; in second
-  (defun python-send-buffer-with-args (args)
-    (interactive "sPython arguments: ")
-    (let ((source-buffer (current-buffer))
-          (current-buffer-name (buffer-name)))
-      (with-temp-buffer
-        (insert "import sys; sys.argv = '''" current-buffer-name " " args "'''.split()\n")
-        (insert-buffer-substring source-buffer)
-        (elpy-shell-send-buffer))))
-  (define-key elpy-mode-map (kbd "C-c C-a") 'python-send-buffer-with-args)
-  :bind (:map elpy-mode-map
-              ("M-." . elpy-goto-definition)
-              ("M-," . pop-tag-mark)))
-(elpy-enable)
 
 (use-package pip-requirements
   :ensure t
@@ -1221,6 +1194,33 @@
    ((file-directory-p "~/opt/anaconda3/envs")
     (setenv "WORKON_HOME" "~/opt/anaconda3/envs")))
   (pyvenv-mode 1))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))  ; or lsp-deferred
+
+;;(use-package elpy
+;;  :ensure t
+;;  :init
+;;  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+;;  :config
+;;  (setq elpy-rpc-python-command "python3")
+;;  (setq eldoc-idle-delay 1)  ;; in second
+;;  (defun python-send-buffer-with-args (args)
+;;    (interactive "sPython arguments: ")
+;;    (let ((source-buffer (current-buffer))
+;;          (current-buffer-name (buffer-name)))
+;;      (with-temp-buffer
+;;        (insert "import sys; sys.argv = '''" current-buffer-name " " args "'''.split()\n")
+;;        (insert-buffer-substring source-buffer)
+;;        (elpy-shell-send-buffer))))
+;;  (define-key elpy-mode-map (kbd "C-c C-a") 'python-send-buffer-with-args)
+;;  :bind (:map elpy-mode-map
+;;              ("M-." . elpy-goto-definition)
+;;              ("M-," . pop-tag-mark)))
+;;(elpy-enable)
 
 ;;==============================================================================
 ;; haskell-mode
@@ -1807,7 +1807,10 @@
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
 
-(define-key python-mode-map "\C-ca" 'py-autopep8)
-(define-key python-mode-map "\C-cv" 'pyvenv-workon)
-
 (define-key org-mode-map "\C-cv" 'visual-line-mode)
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (define-key python-mode-map "\C-ca" 'py-autopep8)
+            (define-key python-mode-map "\C-cv" 'pyvenv-workon)
+            (define-key python-mode-map "\C-m" 'newline-and-indent)))
