@@ -1199,7 +1199,10 @@
   :ensure t
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
-                         (lsp))))  ; or lsp-deferred
+                         (lsp)))
+  :config
+  (add-hook 'pyvenv-post-activate-hooks (lambda () (lsp-restart-workspace)))
+  (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace))))
 
 ;;(use-package elpy
 ;;  :ensure t
