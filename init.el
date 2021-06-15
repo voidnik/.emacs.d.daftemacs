@@ -1377,7 +1377,10 @@
 (use-package pdf-tools
   :ensure t
   :config
-  (pdf-tools-install))
+  (pdf-tools-install)
+  (add-hook 'pdf-tools-enabled-hook (lambda ()
+                                      (hide-mode-line-mode)
+                                      (pdf-view-midnight-minor-mode))))
 
 ;;==============================================================================
 ;; graphviz
