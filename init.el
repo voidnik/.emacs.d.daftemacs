@@ -1745,12 +1745,12 @@
 ;; https://github.com/cute-jumper/fcitx.el
 ;;==============================================================================
 
-(if (string-equal system-type "gnu/linux")
-    (use-package fcitx
-      :ensure t
-      :config
-      (fcitx-aggressive-setup)
-      (setq fcitx-use-dbus t)))
+;;(if (string-equal system-type "gnu/linux")
+;;    (use-package fcitx
+;;      :ensure t
+;;      :config
+;;      (fcitx-aggressive-setup)
+;;      (setq fcitx-use-dbus t)))
 
 ;;==============================================================================
 ;; Global Keys
