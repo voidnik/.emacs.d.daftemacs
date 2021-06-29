@@ -379,6 +379,12 @@
         centaur-tabs-set-close-button nil
         centaur-tabs-gray-out-icons 'buffer
         centaur-tabs-cycle-scope 'tabs)
+  (if (string-equal system-type "darwin")
+      (setq centaur-tabs-height 30)
+    (if (string-equal system-type "gnu/linux")
+        (if (string-equal (getenv "GDK_SCALE") "2")
+            (setq centaur-tabs-height 60)
+          (setq centaur-tabs-height 30))))
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
 
