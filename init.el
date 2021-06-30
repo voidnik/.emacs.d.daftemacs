@@ -463,9 +463,13 @@
   (helpful-mode . centaur-tabs-local-mode)  
   :bind
   ("C-{" . centaur-tabs-backward)
+  ("M-s-[" . centaur-tabs-backward)
   ("C-}" . centaur-tabs-forward)
+  ("M-s-]" . centaur-tabs-forward)
   ("C-M-{" . centaur-tabs-move-current-tab-to-left)
+  ("M-s-{" . centaur-tabs-move-current-tab-to-left)
   ("C-M-}" . centaur-tabs-move-current-tab-to-right)
+  ("M-s-}" . centaur-tabs-move-current-tab-to-right)
   ("C-c t s" . centaur-tabs-counsel-switch-group)
   ("C-c t p" . centaur-tabs-group-by-projectile-project)
   ("C-c t g" . centaur-tabs-group-buffer-groups)
