@@ -587,7 +587,9 @@
   :ensure t
   :config
   (projectile-mode +1)
-  (setq projectile-enable-caching t))
+  (setq projectile-enable-caching t)
+  (defadvice projectile-project-root (around ignore-remote first activate)
+    (unless (file-remote-p default-directory) ad-do-it)))
 
 ;;==============================================================================
 ;; company
