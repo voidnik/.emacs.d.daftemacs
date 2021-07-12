@@ -23,10 +23,6 @@
 ;; Info Messages
 ;;==============================================================================
 
-(defvar my-initial-buffer nil)
-;(defvar my-initial-buffer (concat user-emacs-directory "/init.el"))
-(defvar my-default-directory (concat (getenv "HOME") "/Workspace/"))
-
 (message "      _        __ _")
 (message "     | |      / _| |")
 (message "   __| | __ _| |_| |_ ___ _ __ ___   __ _  ___ ___ ")
@@ -39,8 +35,6 @@
 (message "user-login-name: %s" user-login-name)
 (message "user-init-file: %s" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
-(message "my-initial-buffer: %s" my-initial-buffer)
-(message "my-default-directory: %s" my-default-directory)
 (if (functionp 'json-serialize)
     (message "Native JSON: Enabled")
   (message "Native JSON: Disabled"))
@@ -85,7 +79,6 @@
  '(custom-safe-themes
    '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" default))
  '(inhibit-startup-screen t)
- '(initial-buffer-choice my-initial-buffer)
  '(initial-frame-alist '((fullscreen . maximized)))
  '(org-file-apps
    '((auto-mode . emacs)
@@ -116,7 +109,6 @@
  '(ediff-odd-diff-C ((t (:background "#464752"))))
  '(mode-line ((t (:background "#1E2029")))))
 
-(setq default-directory my-default-directory)
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
 
