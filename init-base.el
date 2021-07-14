@@ -21,12 +21,6 @@
 (delete-selection-mode t)
 (require 'cl-lib) ; Common Lisp
 
-(global-hl-line-mode)
-(add-hook 'eshell-mode-hook (lambda ()
-                              (setq-local global-hl-line-mode nil)))
-(add-hook 'term-mode-hook (lambda ()
-                            (setq-local global-hl-line-mode nil)))
-
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
 
@@ -79,6 +73,14 @@
 (setq exec-path (append exec-path (list (expand-file-name "~/Workspace/depot_tools"))))
 
 ;;==============================================================================
+;; hl-line-mode
+;;==============================================================================
+
+(global-hl-line-mode)
+(add-hook 'term-mode-hook (lambda ()
+                            (setq-local global-hl-line-mode nil)))
+
+;;==============================================================================
 ;; Line Numbers
 ;;==============================================================================
 
@@ -104,6 +106,13 @@
           (linum-mode 1))))
   (progn
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)))
+
+;;==============================================================================
+;; Fill Column Indicator
+;;==============================================================================
+
+(setq-default display-fill-column-indicator-column 79)
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 ;;==============================================================================
 ;; Hide Show
