@@ -121,6 +121,16 @@
 
 (setenv "MANWIDTH" "72")
 
+;; How to speed up TRAMP?
+;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
+(setq remote-file-name-inhibit-cache nil) ;; Set remote-file-name-inhibit-cache to nil if remote files are not independently updated outside TRAMP’s control.
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+(setq vc-handled-backends '(SVN Git))
+(setq tramp-verbose 2)
+
 ;;==============================================================================
 ;; exec-path-from-shell
 ;;
