@@ -497,6 +497,10 @@
             (visual-line-mode t)
             (org-indent-mode t)))
 
+;; Change size of the inline image for LaTeX fragment in org-mode
+;; https://tex.stackexchange.com/questions/78501/change-size-of-the-inline-image-for-latex-fragment-in-emacs-org-mode
+(plist-put org-format-latex-options :scale 2)
+
 ;;==============================================================================
 ;; markdown
 ;;==============================================================================
