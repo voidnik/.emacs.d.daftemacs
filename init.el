@@ -1455,7 +1455,8 @@
   (pdf-tools-install)
   (add-hook 'pdf-tools-enabled-hook (lambda ()
                                       (hide-mode-line-mode)
-                                      (pdf-view-midnight-minor-mode))))
+                                      ;;(pdf-view-midnight-minor-mode)
+                                      )))
 
 ;;==============================================================================
 ;; graphviz
