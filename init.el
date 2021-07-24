@@ -968,6 +968,15 @@
         ("C-x t n" . neotree-toggle-project-root-dir-or-current-dir)))
 
 ;;==============================================================================
+;; Bufler
+;;
+;; https://github.com/alphapapa/bufler.el
+;;==============================================================================
+
+(use-package bufler
+  :ensure t)
+
+;;==============================================================================
 ;; Code Style
 ;;==============================================================================
 
@@ -1356,88 +1365,6 @@
 (use-package rich-minority
   :ensure t)
 
-;;;==============================================================================
-;;; gtags (OBSOLETE)
-;;;==============================================================================
-;
-;;; Enable helm-gtags-mode
-;(add-hook 'c-mode-hook 'helm-gtags-mode)
-;(add-hook 'c++-mode-hook 'helm-gtags-mode)
-;(add-hook 'asm-mode-hook 'helm-gtags-mode)
-;
-;;; Set key bindings
-;(eval-after-load "helm-gtags"
-;  '(progn
-;     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-;     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-;     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-;     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
-;     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-;     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-;     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
-
-;;;==============================================================================
-;;; etags (OBSOLETE)
-;;;==============================================================================
-;
-;(defun create-tags (dir-name)
-;  "Create a TAGS file."
-;  (interactive "DDirectory: ")
-;  (setq c++-headers-path "/usr/include/c++")
-;  (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
-;  (execute-commands "*etags-output*"
-;                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c++-headers-path dir-name)
-;                    (format "find -H %s -type f \\( \
-;-name \"*.[csSh]\" \
-;-o \
-;-name \"*.cc\" \
-;-o \
-;-name \"*.cpp\"\
-;-o \
-;-name \"*.m\" \
-;-o \
-;-name \"*.java\" \
-;-o \
-;-name \"*.py\" \
-;-o \
-;-name \"*.pl\" \
-;\\) | \
-;xargs etags -a -o %sTAGS" dir-name dir-name)))
-
-;;;==============================================================================
-;;; find-file-in-tags (OBSOLETE)
-;;;==============================================================================
-;
-;(load-file "~/.emacs.d/find-file-in-tags.el"
-
-;;;==============================================================================
-;;; Dim for #if 0 ... #endif (OBSOLETE)
-;;;==============================================================================
-;
-;(defun cpp-highlight-if-0/1 ()
-;  "Modify the face of text in between #if 0 ... #endif."
-;  (setq cpp-known-face '(background-color . "gray15"))
-;  (setq cpp-unknown-face 'default)
-;  (setq cpp-face-type 'dark)
-;  (setq cpp-known-writable 't)
-;  (setq cpp-unknown-writable 't)
-;  (setq cpp-edit-list
-;        '((#("1" 0 1
-;             (fontified nil))
-;           nil
-;           (background-color . "gray15")
-;           both nil)
-;          (#("0" 0 1
-;             (fontified nil))
-;           (background-color . "gray15")
-;           nil
-;           both nil)))
-;  (cpp-highlight-buffer t))
-;(defun jpk/c-mode-hook ()
-;  (cpp-highlight-if-0/1)
-;  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
-;(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
-
 ;;==============================================================================
 ;; hide-mode-line
 ;;==============================================================================
@@ -1609,15 +1536,6 @@
       (with-current-buffer buffer
         ;(insert (format "Command `%s' %s" p e) )
         (start-next-command)))))
-
-;;==============================================================================
-;; Bufler
-;;
-;; https://github.com/alphapapa/bufler.el
-;;==============================================================================
-
-(use-package bufler
-  :ensure t)
 
 ;;==============================================================================
 ;; Killing Buffers
@@ -1816,7 +1734,14 @@
   :ensure t)
 
 ;;==============================================================================
-;; fcitx
+;; Instant Stackoverflow Solutions
+;;==============================================================================
+
+(load-file "~/.emacs.d/stackoverflow.el")
+(require 'stackoverflow)
+
+;;==============================================================================
+;; fcitx (OBSOLETE)
 ;;
 ;; https://github.com/cute-jumper/fcitx.el
 ;;==============================================================================
@@ -1829,11 +1754,87 @@
 ;;      (setq fcitx-use-dbus t)))
 
 ;;==============================================================================
-;; Instant Stackoverflow Solutions
+;; gtags (OBSOLETE)
 ;;==============================================================================
 
-(load-file "~/.emacs.d/stackoverflow.el")
-(require 'stackoverflow)
+;;;; Enable helm-gtags-mode
+;;(add-hook 'c-mode-hook 'helm-gtags-mode)
+;;(add-hook 'c++-mode-hook 'helm-gtags-mode)
+;;(add-hook 'asm-mode-hook 'helm-gtags-mode)
+;;
+;;;; Set key bindings
+;;(eval-after-load "helm-gtags"
+;;  '(progn
+;;     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+;;     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+;;     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+;;     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+;;     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+;;     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+;;     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+
+;;==============================================================================
+;; etags (OBSOLETE)
+;;==============================================================================
+
+;;(defun create-tags (dir-name)
+;;  "Create a TAGS file."
+;;  (interactive "DDirectory: ")
+;;  (setq c++-headers-path "/usr/include/c++")
+;;  (with-current-buffer (get-buffer-create "*etags-output*") (erase-buffer))
+;;  (execute-commands "*etags-output*"
+;;                    (format "find -H %s -name \"*\" | xargs etags -o %sTAGS" c++-headers-path dir-name)
+;;                    (format "find -H %s -type f \\( \
+;;-name \"*.[csSh]\" \
+;;-o \
+;;-name \"*.cc\" \
+;;-o \
+;;-name \"*.cpp\"\
+;;-o \
+;;-name \"*.m\" \
+;;-o \
+;;-name \"*.java\" \
+;;-o \
+;;-name \"*.py\" \
+;;-o \
+;;-name \"*.pl\" \
+;;\\) | \
+;;xargs etags -a -o %sTAGS" dir-name dir-name)))
+
+;;==============================================================================
+;; find-file-in-tags (OBSOLETE)
+;;==============================================================================
+
+;;(load-file "~/.emacs.d/find-file-in-tags.el"
+;;(global-set-key (kbd "C-c f") 'find-file-in-tags)
+
+;;==============================================================================
+;; Dim for #if 0 ... #endif (OBSOLETE)
+;;==============================================================================
+
+;;(defun cpp-highlight-if-0/1 ()
+;;  "Modify the face of text in between #if 0 ... #endif."
+;;  (setq cpp-known-face '(background-color . "gray15"))
+;;  (setq cpp-unknown-face 'default)
+;;  (setq cpp-face-type 'dark)
+;;  (setq cpp-known-writable 't)
+;;  (setq cpp-unknown-writable 't)
+;;  (setq cpp-edit-list
+;;        '((#("1" 0 1
+;;             (fontified nil))
+;;           nil
+;;           (background-color . "gray15")
+;;           both nil)
+;;          (#("0" 0 1
+;;             (fontified nil))
+;;           (background-color . "gray15")
+;;           nil
+;;           both nil)))
+;;  (cpp-highlight-buffer t))
+;;(defun jpk/c-mode-hook ()
+;;  (cpp-highlight-if-0/1)
+;;  (add-hook 'after-save-hook 'cpp-highlight-if-0/1 'append 'local))
+;;(add-hook 'c-mode-common-hook 'jpk/c-mode-hook)
 
 ;;==============================================================================
 ;; Global Keys
@@ -1842,9 +1843,18 @@
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
 (global-set-key (kbd "M-SPC") 'toggle-input-method)
 
-(global-set-key (kbd "M-o") 'ace-window)
-(global-set-key (kbd "M-s M-s") 'ace-swap-window)
+(global-set-key (kbd "C-c o <up>")    'buf-move-up)
+(global-set-key (kbd "C-c o <down>")  'buf-move-down)
+(global-set-key (kbd "C-c o <left>")  'buf-move-left)
+(global-set-key (kbd "C-c o <right>") 'buf-move-right)
+
+(global-set-key (kbd "M-o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'imenu-list)
+
+(global-set-key (kbd "C-c z") 'resize-window)
+
+(global-set-key (kbd "C-\\") 'ace-window)
+(global-set-key (kbd "C-|") 'ace-swap-window)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -1863,22 +1873,13 @@
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
-(global-set-key (kbd "C-c m") 'magit-status)
-(global-set-key (kbd "C-c w") 'xwidget-webkit-browse-url)
-
 (global-set-key (kbd "s-_") 'whitespace-mode)
 
+(global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") #'(lambda () (interactive) (ansi-term explicit-shell-file-name)))
 (global-set-key (kbd "C-c 9") 'calculator)
 (global-set-key (kbd "C-c 0") 'neato-graph-bar)
-
-(global-set-key (kbd "C-c z") 'resize-window)
-
-(global-set-key (kbd "C-c o <up>")    'buf-move-up)
-(global-set-key (kbd "C-c o <down>")  'buf-move-down)
-(global-set-key (kbd "C-c o <left>")  'buf-move-left)
-(global-set-key (kbd "C-c o <right>") 'buf-move-right)
 
 ;; GUD
 (global-set-key [(shift f5)] 'gud-gdb)
@@ -1892,9 +1893,6 @@
 (global-set-key [f9] 'gud-break)
 (global-set-key [f10] 'gud-finish)
 (global-set-key [f11] 'gdb-many-windows)
-
-;(global-set-key (kbd "C-c f") 'find-file-in-tags) ;; OBSOLETE
-;(global-set-key (kbd "M-o") 'ff-find-other-file) ;; OBSOLETE
 
 ;;==============================================================================
 ;; Local Keys
