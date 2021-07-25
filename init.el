@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -900,6 +900,13 @@
        (treemacs-git-mode 'deferred))
       (`(t . _)
        (treemacs-git-mode 'simple))))
+
+  (defun treemacs-hide()
+    "Close the Treemacs window."
+    (interactive)
+    (let ((treemacs-local-window (treemacs-get-local-window)))
+      (if treemacs-local-window
+          (delete-window treemacs-local-window))))
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -938,6 +945,7 @@
           neo-window-fixed-size t
           neo-smart-open t
           projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
+
     (defun neotree-toggle-project-root-dir-or-current-dir ()
       "Open NeoTree using the project root, using projectile, or the current buffer directory."
       (interactive)
@@ -945,12 +953,13 @@
             (file-name (buffer-file-name)))
         (if (neo-global--window-exists-p)
             (neotree-hide)
-	  (progn
+	      (progn
             (neotree-show)
             (if project-dir
                 (neotree-dir project-dir))
             (if file-name
                 (neotree-find file-name))))))
+
     (defun neotree-show-project-root-dir ()
       "Show NeoTree using the project root using projectile."
       (interactive)
@@ -958,14 +967,101 @@
             (file-name (buffer-file-name)))
         (progn
           (neotree-show)
-	  (if project-dir
+	      (if project-dir
               (neotree-dir project-dir))
-	  (if file-name
+	      (if file-name
               (neotree-find file-name))))))
   :bind
   (:map global-map
-        ("M-9"     . neotree-show-project-root-dir)
         ("C-x t n" . neotree-toggle-project-root-dir-or-current-dir)))
+
+;;==============================================================================
+;; perspective
+;;
+;; https://github.com/nex3/perspective-el
+;;==============================================================================
+
+(use-package perspective
+  :ensure t
+  :config
+  (persp-mode)
+
+  (setq persp-state-default-file "~/.emacs.d/persp-state-default")
+  (message "persp-state-default-file: %s (%s)" persp-state-default-file (file-exists-p persp-state-default-file))
+  (add-hook 'dashboard-after-initialize-hook #'(lambda ()
+                                                 (when (file-exists-p persp-state-default-file)
+                                                   (persp-state-load persp-state-default-file))))
+  (add-hook 'persp-switch-hook #'(lambda ()
+                                   (treemacs-hide)
+                                   (neotree-hide)))
+  (add-hook 'kill-emacs-hook #'(lambda ()
+                                 (treemacs-hide)
+                                 (neotree-hide)
+                                 (persp-state-save)))
+
+  ;; Overriding centaur-tabs-buffer-list
+  (defun centaur-tabs-buffer-list ()
+    "Return the list of buffers to show in tabs.
+Exclude buffers whose name starts with a space, when they are not
+visiting a file.  The current buffer is always included."
+    (centaur-tabs-filter-out
+     'centaur-tabs-hide-tab-cached
+     (delq nil
+	       (cl-mapcar #'(lambda (b)
+			              (cond
+			               ;; Always include the current buffer.
+			               ((eq (current-buffer) b) b)
+			               ((buffer-file-name b) b)
+			               ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+			               ((buffer-live-p b) b)))
+		              (persp-buffer-list-filter(buffer-list))))))
+
+  ;; Overrinding ibuffer-update
+  (defun ibuffer-update (arg &optional silent)
+    "Regenerate the list of all buffers.
+
+Prefix arg non-nil means to toggle whether buffers that match
+`ibuffer-maybe-show-predicates' should be displayed.
+
+If optional arg SILENT is non-nil, do not display progress messages."
+    (interactive "P")
+    (if arg
+        (setq ibuffer-display-maybe-show-predicates
+	          (not ibuffer-display-maybe-show-predicates)))
+    (ibuffer-forward-line 0)
+    (let* ((bufs (persp-buffer-list-filter(buffer-list)))
+	       (blist (ibuffer-filter-buffers
+		           (current-buffer)
+		           (if (and
+		                (cadr bufs)
+		                (eq ibuffer-always-show-last-buffer
+			                :nomini)
+		                (minibufferp (cadr bufs)))
+		               (nth 2 bufs)
+		             (cadr bufs))
+		           (ibuffer-current-buffers-with-marks bufs)
+		           ibuffer-display-maybe-show-predicates)))
+      (and (null blist)
+	       (featurep 'ibuf-ext)
+	       ibuffer-filtering-qualifiers
+	       (message "No buffers! (note: filtering in effect)"))
+      (unless silent
+        (message "Updating buffer list..."))
+      (ibuffer-redisplay-engine blist arg)
+      (unless silent
+        (message "Updating buffer list...done")))
+    (if (eq ibuffer-shrink-to-minimum-size 'onewindow)
+        (ibuffer-shrink-to-fit t)
+      (when ibuffer-shrink-to-minimum-size
+        (ibuffer-shrink-to-fit)))
+    (ibuffer-forward-line 0)
+    ;; I tried to update this automatically from the mode-line-process format,
+    ;; but changing nil-ness of header-line-format while computing
+    ;; mode-line-format is asking a bit too much it seems.  --Stef
+    (setq header-line-format
+          (and ibuffer-use-header-line
+               ibuffer-filtering-qualifiers
+               ibuffer-header-line-format))))
 
 ;;==============================================================================
 ;; Bufler
@@ -990,22 +1086,22 @@
   (add-hook 'c-mode-common-hook 'google-make-newline-indent))
 
 (add-hook 'c-mode-hook
-          (lambda()
+          (lambda ()
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
 
 (add-hook 'c++-mode-hook
-          (lambda()
+          (lambda ()
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
 
 (add-hook 'java-mode-hook
-          (lambda()
+          (lambda ()
             (setq c-basic-offset 2)
             (c-set-offset 'substatement-open 0)))
 
 (add-hook 'js-mode-hook
-          (lambda()
+          (lambda ()
             (setq js-indent-level 2)))
 
 ;;==============================================================================
@@ -1858,8 +1954,9 @@
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-b") 'bufler)
-(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+(global-set-key (kbd "C-x C-b") 'persp-ibuffer)
+(global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
+(global-set-key (kbd "C-x k") 'persp-kill-buffer*)
 
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c r") 'counsel-register)
@@ -1877,9 +1974,17 @@
 
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c 1") 'eshell)
-(global-set-key (kbd "C-c 2") #'(lambda () (interactive) (ansi-term explicit-shell-file-name)))
-(global-set-key (kbd "C-c 9") 'calculator)
-(global-set-key (kbd "C-c 0") 'neato-graph-bar)
+(global-set-key (kbd "C-c 2") #'(lambda ()
+                                  (interactive)
+                                  (ansi-term explicit-shell-file-name)))
+(global-set-key (kbd "C-c 3") #'(lambda ()
+                                  (interactive)
+                                  (calculator)
+                                  (balance-windows)))
+(global-set-key (kbd "C-c 4") 'neato-graph-bar)
+(global-set-key (kbd "C-c 8") 'bufler)
+(global-set-key (kbd "C-c 9") 'neotree-show-project-root-dir)
+(global-set-key (kbd "C-c 0") 'treemacs-select-window)
 
 ;; GUD
 (global-set-key [(shift f5)] 'gud-gdb)
