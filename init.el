@@ -1505,7 +1505,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (csetq ediff-window-setup-function 'ediff-setup-windows-plain)
 (csetq ediff-split-window-function 'split-window-horizontally)
 (csetq ediff-diff-options "-w")
-(winner-mode)
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 
 ;;==============================================================================

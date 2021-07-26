@@ -20,6 +20,8 @@
 (show-paren-mode t)
 (delete-selection-mode t)
 (require 'cl-lib) ; Common Lisp
+(setq winner-dont-bind-my-keys t)
+(winner-mode)
 
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
@@ -150,6 +152,8 @@
 (if (version< emacs-version "26")
     (global-set-key (kbd "C-c l") 'linum-mode)
   (global-set-key (kbd "C-c l") 'display-line-numbers-mode))
+(global-set-key (kbd "C-{") #'winner-undo)
+(global-set-key (kbd "C-}") #'winner-redo)
 
 
 (provide 'init-base)
