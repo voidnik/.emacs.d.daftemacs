@@ -22,6 +22,10 @@
 (require 'cl-lib) ; Common Lisp
 (setq winner-dont-bind-my-keys t)
 (winner-mode)
+(customize-set-variable 'display-buffer-base-action
+                        '((display-buffer-reuse-window display-buffer-same-window)
+                          (reusable-frames . t)))
+(customize-set-variable 'even-window-sizes nil) ; avoid resizing
 
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
