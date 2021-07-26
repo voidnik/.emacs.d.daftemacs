@@ -451,6 +451,7 @@
        (string-prefix-p "*straight" name)
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
+       (string-prefix-p "*Ilist" name)
        (string-prefix-p "*Bufler" name)
        (string-prefix-p "*ein: LaTeX in Markdown preview*" name)
 
@@ -1944,7 +1945,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c o <right>") 'buf-move-right)
 
 (global-set-key (kbd "M-o") 'ff-find-other-file)
-(global-set-key (kbd "M-m") 'imenu-list)
+(global-set-key (kbd "M-m") 'lsp-ui-imenu)
 
 (global-set-key (kbd "C-c z") 'resize-window)
 
