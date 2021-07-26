@@ -987,7 +987,9 @@
   :config
   (persp-mode)
 
+  (setq persp-sort 'access)
   (setq persp-state-default-file "~/.emacs.d/persp-state-default")
+
   (message "persp-state-default-file: %s (%s)" persp-state-default-file (file-exists-p persp-state-default-file))
   (add-hook 'dashboard-after-initialize-hook #'(lambda ()
                                                  (when (file-exists-p persp-state-default-file)
