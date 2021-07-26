@@ -452,6 +452,7 @@
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
        (string-prefix-p "*Ilist" name)
+       (string-prefix-p "*Ediff" name)
        (string-prefix-p "*Bufler" name)
        (string-prefix-p "*ein: LaTeX in Markdown preview*" name)
 
