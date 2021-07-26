@@ -468,8 +468,8 @@
   :bind
   ("M-[" . centaur-tabs-backward)
   ("M-]" . centaur-tabs-forward)
-  ("M-{" . centaur-tabs-move-current-tab-to-left)
-  ("M-}" . centaur-tabs-move-current-tab-to-right)
+  ("C-M-{" . centaur-tabs-move-current-tab-to-left)
+  ("C-M-}" . centaur-tabs-move-current-tab-to-right)
   ("C-c t s" . centaur-tabs-counsel-switch-group)
   ("C-c t p" . centaur-tabs-group-by-projectile-project)
   ("C-c t g" . centaur-tabs-group-buffer-groups)
