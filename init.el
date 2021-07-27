@@ -1665,7 +1665,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (catch 'done
       (while t
         (message
-         "h=heighten, s=shrink, w=widen, n=narrow (by %d);  1-9=unit, q=quit"
+         "h=heighten, s=shrink, w=widen, n=narrow (by %d); 1-9=unit, b=balance, q=quit"
          arg)
         (setq c (read-char))
         (condition-case ()
@@ -1675,6 +1675,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
              ((= c ?w) (enlarge-window-horizontally arg))
              ((= c ?n) (shrink-window-horizontally arg))
              ((= c ?\^G) (keyboard-quit))
+             ((= c ?b) (balance-windows))
              ((= c ?q) (throw 'done t))
              ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
              (t (beep)))
