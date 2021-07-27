@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(centered-window command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(org-tree-slide centered-window command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -504,6 +504,36 @@
 ;; Change size of the inline image for LaTeX fragment in org-mode
 ;; https://tex.stackexchange.com/questions/78501/change-size-of-the-inline-image-for-latex-fragment-in-emacs-org-mode
 (plist-put org-format-latex-options :scale 2)
+
+;;==============================================================================
+;; org-tree-slide
+;;==============================================================================
+
+(use-package org-tree-slide
+  :ensure t
+  :config
+  (define-key org-mode-map (kbd "<f8>") 'org-tree-slide-mode)
+  (define-key org-mode-map (kbd "S-<f8>") 'org-tree-slide-skip-done-toggle)
+  (define-key org-tree-slide-mode-map (kbd "<f9>") 'org-tree-slide-move-previous-tree)
+  (define-key org-tree-slide-mode-map (kbd "<f10>") 'org-tree-slide-move-next-tree)
+  (define-key org-tree-slide-mode-map (kbd "<f11>") 'org-tree-slide-content)
+  (setq org-tree-slide-skip-outline-level 4)
+  (org-tree-slide-presentation-profile)
+  (setq org-tree-slide-skip-done nil)
+  (defun my-org-tree-slide-play ()
+    (view-mode-enter)
+    (text-scale-set 5)
+    (set-window-margins (selected-window) 10 10)
+    (hide-mode-line-mode)
+    (centaur-tabs-local-mode nil))
+  (defun my-org-tree-slide-stop ()
+    (View-exit-and-edit)
+    (text-scale-set 0)
+    (set-window-margins (selected-window) 0 0)
+    (hide-mode-line-mode -1)
+    (centaur-tabs-local-mode 0))
+  (add-hook 'org-tree-slide-play-hook 'my-org-tree-slide-play)
+  (add-hook 'org-tree-slide-stop-hook 'my-org-tree-slide-stop))
 
 ;;==============================================================================
 ;; markdown
