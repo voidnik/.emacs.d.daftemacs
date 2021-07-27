@@ -1213,6 +1213,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;(setq lsp-enable-file-watchers nil)
 (setq lsp-file-watch-threshold 2000)
 
+(lsp-ui-mode)
+
 ;;==============================================================================
 ;; C/C++
 ;;
