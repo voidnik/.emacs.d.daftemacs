@@ -1987,20 +1987,18 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
-(global-set-key (kbd "M-SPC") 'toggle-input-method)
 
-(global-set-key (kbd "C-c o <up>")    'buf-move-up)
-(global-set-key (kbd "C-c o <down>")  'buf-move-down)
-(global-set-key (kbd "C-c o <left>")  'buf-move-left)
-(global-set-key (kbd "C-c o <right>") 'buf-move-right)
+(global-set-key (kbd "C-s-<up>") 'buf-move-up)
+(global-set-key (kbd "C-s-<down>") 'buf-move-down)
+(global-set-key (kbd "C-s-<left>") 'buf-move-left)
+(global-set-key (kbd "C-s-<right>") 'buf-move-right)
 
-(global-set-key (kbd "M-o") 'ff-find-other-file)
+(global-set-key (kbd "C-c M-o") 'resize-window)
+
+(global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "M-O") 'ace-swap-window)
+(global-set-key (kbd "M-s-o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
-
-(global-set-key (kbd "C-c z") 'resize-window)
-
-(global-set-key (kbd "C-\\") 'ace-window)
-(global-set-key (kbd "C-|") 'ace-swap-window)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -2036,15 +2034,17 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c 9") 'neotree-show-project-root-dir)
 (global-set-key (kbd "C-c 0") 'treemacs-select-window)
 
+(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
+
 ;; GUD
 (global-set-key [(shift f5)] 'gud-gdb)
 (global-set-key [f5] 'gud-run)
 (global-set-key [f6] 'gud-next)
 (global-set-key [f7] 'gud-step)
 (global-set-key [f8] #'(lambda ()
-                        (interactive)
-                        (call-interactively 'gud-tbreak)
-                        (call-interactively 'gud-cont)))
+                         (interactive)
+                         (call-interactively 'gud-tbreak)
+                         (call-interactively 'gud-cont)))
 (global-set-key [f9] 'gud-break)
 (global-set-key [f10] 'gud-finish)
 (global-set-key [f11] 'gdb-many-windows)
@@ -2052,9 +2052,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 ;; Local Keys
 ;;==============================================================================
-
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
 
 (define-key org-mode-map "\C-cv" 'visual-line-mode)
 
