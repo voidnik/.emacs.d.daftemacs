@@ -1765,32 +1765,62 @@ appear in a named workspace, the buffer must be matched by an
 ;; https://www.emacswiki.org/emacs/WindowResize
 ;;==============================================================================
 
+(defun enlarge-margin-horizontally (delta)
+  (let ((wm (window-margins (selected-window))))
+    (if (not (car wm))
+        (set-window-margins (selected-window) delta delta)
+      (set-window-margins (selected-window) (+ (cdr wm) delta) (+ (cdr wm) delta)))))
+
+(defun shrink-margin-horizontally (delta)
+  (let ((wm (window-margins (selected-window))))
+    (if (car wm)
+        (let ((nlm (- (cdr wm) delta))
+              (nrm (- (cdr wm) delta)))
+          (set-window-margins (selected-window) (if (< nlm 0) 0 nlm) (if (< nrm 0) 0 nrm))))))
+
 (defun resize-window (&optional arg)
   "*Resize window interactively."
   (interactive "p")
-  (if (one-window-p) (error "Cannot resize sole window"))
   (setq arg 4)
-  ;(or arg (setq arg 1))
-  (let (c)
-    (catch 'done
-      (while t
-        (message
-         "h=heighten, s=shrink, w=widen, n=narrow (by %d); 1-9=unit, b=balance, q=quit"
-         arg)
-        (setq c (read-char))
-        (condition-case ()
-            (cond
-             ((= c ?h) (enlarge-window arg))
-             ((= c ?s) (shrink-window arg))
-             ((= c ?w) (enlarge-window-horizontally arg))
-             ((= c ?n) (shrink-window-horizontally arg))
-             ((= c ?\^G) (keyboard-quit))
-             ((= c ?b) (balance-windows))
-             ((= c ?q) (throw 'done t))
-             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
-             (t (beep)))
-          (error (beep)))))
-    (message "Done.")))
+  (if (one-window-p)
+      (let (c)
+        (catch 'done
+          (while t
+            (message
+             "+=widen margin, -=narrow margin, 1-9=unit(%d), q=quit"
+             arg)
+            (setq c (read-char))
+            (condition-case ()
+                (cond
+                 ((= c ?+) (enlarge-margin-horizontally arg))
+                 ((= c ?-) (shrink-margin-horizontally arg))
+                 ((= c ?\^G) (keyboard-quit))
+                 ((= c ?q) (throw 'done t))
+                 ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+                 (t (beep)))
+              (error (beep))))))
+    (let (c)
+      (catch 'done
+        (while t
+          (message
+           "h=heighten, s=shrink, w=widen, n=narrow, b=balance, +=widen margin, -=narrow margin, 1-9=unit(%d), q=quit"
+           arg)
+          (setq c (read-char))
+          (condition-case ()
+              (cond
+               ((= c ?h) (enlarge-window arg))
+               ((= c ?s) (shrink-window arg))
+               ((= c ?w) (enlarge-window-horizontally arg))
+               ((= c ?n) (shrink-window-horizontally arg))
+               ((= c ?+) (enlarge-margin-horizontally arg))
+               ((= c ?-) (shrink-margin-horizontally arg))
+               ((= c ?b) (balance-windows))
+               ((= c ?\^G) (keyboard-quit))
+               ((= c ?q) (throw 'done t))
+               ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+               (t (beep)))
+            (error (beep)))))))
+  (message "Done."))
 
 ;;==============================================================================
 ;; buffer-move
