@@ -481,8 +481,9 @@
 ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 ;;==============================================================================
 
-;; Hide the markup for /italic/, *bold*, _underline_
-(setq org-hide-emphasis-markers t)
+(setq org-hide-emphasis-markers t) ;; Hide the markup for /italic/, *bold*, _underline_
+(setq org-startup-with-inline-images t)
+(setq org-image-actual-width nil)
 
 ;; Better Bullets
 (font-lock-add-keywords 'org-mode
@@ -495,11 +496,33 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-;; Line and Indentation Mode
-(add-hook 'org-mode-hook
-          (lambda ()
-            (visual-line-mode t)
-            (org-indent-mode t)))
+(defun daftemacs/org-style ()
+  (visual-line-mode t)
+  (org-indent-mode t)
+
+  (mapc
+   (lambda (face)
+     (set-face-attribute face nil :height 0.75))
+   (list 'org-document-info-keyword
+         'org-meta-line
+         'org-drawer
+         'org-property-value))
+
+  (set-face-attribute 'org-block-begin-line nil
+                      :height 0.75)
+  (set-face-attribute 'org-block-end-line nil
+                      :height 1.0)
+
+  (set-face-attribute 'org-level-1 nil
+                      :height 1.25)
+  (set-face-attribute 'org-level-2 nil
+                      :height 1.15)
+  (set-face-attribute 'org-level-3 nil
+                      :height 1.1)
+  (set-face-attribute 'org-level-4 nil
+                      :height 1.05))
+
+(add-hook 'org-mode-hook 'daftemacs/org-style)
 
 ;; Change size of the inline image for LaTeX fragment in org-mode
 ;; https://tex.stackexchange.com/questions/78501/change-size-of-the-inline-image-for-latex-fragment-in-emacs-org-mode
