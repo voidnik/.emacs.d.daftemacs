@@ -2029,7 +2029,7 @@ appear in a named workspace, the buffer must be matched by an
 ;; Instant Stackoverflow Solutions
 ;;==============================================================================
 
-(load-file "~/.emacs.d/stackoverflow.el")
+(load-file "~/.emacs.d/stackoverflow.elc")
 (require 'stackoverflow)
 
 ;;==============================================================================
