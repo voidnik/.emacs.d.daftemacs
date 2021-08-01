@@ -1769,14 +1769,20 @@ appear in a named workspace, the buffer must be matched by an
   (let ((wm (window-margins (selected-window))))
     (if (not (car wm))
         (set-window-margins (selected-window) delta delta)
-      (set-window-margins (selected-window) (+ (cdr wm) delta) (+ (cdr wm) delta)))))
+      (set-window-margins (selected-window) (+ (cdr wm) delta) (+ (cdr wm) delta))))
+  ;; The workaround for the problem that the window's margin is not changed immediately when 'centaur-tabs-local-mode' is turned on.
+  (if centaur-tabs-local-mode
+      (window-resize nil 0 t)))
 
 (defun shrink-margin-horizontally (delta)
   (let ((wm (window-margins (selected-window))))
     (if (car wm)
         (let ((nlm (- (cdr wm) delta))
               (nrm (- (cdr wm) delta)))
-          (set-window-margins (selected-window) (if (< nlm 0) 0 nlm) (if (< nrm 0) 0 nrm))))))
+          (set-window-margins (selected-window) (if (< nlm 0) 0 nlm) (if (< nrm 0) 0 nrm)))))
+  ;; The workaround for the problem that the window's margin is not changed immediately when 'centaur-tabs-local-mode' is turned on.
+  (if centaur-tabs-local-mode
+      (window-resize nil 0 t)))
 
 (defun resize-window (&optional arg)
   "*Resize window interactively."
