@@ -362,7 +362,7 @@
 ;; Based on https://github.com/anler/centered-window-mode
 ;;==============================================================================
 
-(load-file "~/.emacs.d/centered-window.el")
+(load-file "~/.emacs.d/centered-window.elc")
 (require 'centered-window-mode)
 
 (setq-default cwm-centered-window-width 180)
