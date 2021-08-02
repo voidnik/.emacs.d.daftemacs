@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(org-tree-slide centered-window command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -355,6 +355,20 @@
                           (agenda . 10)
                           (registers . 10)))
   (setq dashboard-page-separator "\n\f\n")) ;; This depends on page-break-lines.
+
+;;==============================================================================
+;; centered-window (The customized version)
+;;
+;; Based on https://github.com/anler/centered-window-mode
+;;==============================================================================
+
+(load-file "~/.emacs.d/centered-window.el")
+(require 'centered-window-mode)
+
+(setq-default cwm-centered-window-width 180)
+
+(add-hook 'dashboard-after-initialize-hook #'(lambda ()
+                                               (centered-window-mode)))
 
 ;;==============================================================================
 ;; centaur-tabs
@@ -2010,20 +2024,6 @@ appear in a named workspace, the buffer must be matched by an
   :ensure t)
 
 ;;==============================================================================
-;; centered-window
-;;
-;; https://github.com/anler/centered-window-mode
-;;==============================================================================
-
-(use-package centered-window
-  :ensure t
-  :config
-  (setq-default
-   cwm-centered-window-width 180
-   cwm-incremental-padding t
-   cwm-incremental-padding-% 1))
-
-;;==============================================================================
 ;; Instant Stackoverflow Solutions
 ;;==============================================================================
 
@@ -2137,7 +2137,8 @@ appear in a named workspace, the buffer must be matched by an
 (global-set-key (kbd "C-s-<left>") 'buf-move-left)
 (global-set-key (kbd "C-s-<right>") 'buf-move-right)
 
-(global-set-key (kbd "C-c M-o") 'resize-window)
+(global-set-key (kbd "C-c c") 'centered-window-mode)
+(global-set-key (kbd "C-c z") 'resize-window)
 
 (global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-O") 'ace-swap-window)
