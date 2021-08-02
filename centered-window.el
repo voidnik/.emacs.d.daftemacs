@@ -120,7 +120,9 @@ by this function."
   (let ((buffname (string-trim (buffer-name buffer))))
     (and buffname
          (string-prefix-p "*" buffname)
-         (not (string= "*scratch*" buffname)))))
+         (not (string= "*Messages*" buffname))
+         (not (string= "*scratch*" buffname))
+         (not (string= "*Bufler*" buffname)))))
 
 (defun cwm-update-fringe-background ()
   (custom-set-faces
