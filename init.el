@@ -505,22 +505,15 @@
      (set-face-attribute face nil :height 0.75))
    (list 'org-document-info-keyword
          'org-meta-line
+         'org-block-begin-line
          'org-drawer
          'org-property-value))
 
-  (set-face-attribute 'org-block-begin-line nil
-                      :height 0.75)
-  (set-face-attribute 'org-block-end-line nil
-                      :height 1.0)
-
-  (set-face-attribute 'org-level-1 nil
-                      :height 1.25)
-  (set-face-attribute 'org-level-2 nil
-                      :height 1.15)
-  (set-face-attribute 'org-level-3 nil
-                      :height 1.1)
-  (set-face-attribute 'org-level-4 nil
-                      :height 1.05))
+  (custom-set-faces
+   '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.05))))))
 
 (add-hook 'org-mode-hook 'daftemacs/org-style)
 
@@ -541,6 +534,12 @@
   (define-key org-tree-slide-mode-map (kbd "<f10>") 'org-tree-slide-move-next-tree)
   (define-key org-tree-slide-mode-map (kbd "<f11>") 'org-tree-slide-content)
 
+  (custom-set-faces
+   '(org-tree-slide-heading-level-1-init ((t (:inherit outline-1 :height 1.25))))
+   '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
+   '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
+   '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05)))))
+
   (defun daftemacs/presentation-start ()
     (setq org-tree-slide-skip-outline-level 4)
     (org-tree-slide-presentation-profile)
@@ -559,8 +558,7 @@
     (set-window-margins (selected-window) 0 0)
     (hide-mode-line-mode -1)
     (centaur-tabs-local-mode 0)
-    (spell-fu-mode-enable)
-    (daftemacs/org-style))
+    (spell-fu-mode-enable))
 
   (add-hook 'org-tree-slide-play-hook 'daftemacs/presentation-start)
   (add-hook 'org-tree-slide-stop-hook 'daftemacs/presentation-end))
