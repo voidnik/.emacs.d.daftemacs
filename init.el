@@ -542,8 +542,8 @@
 (use-package org-tree-slide
   :ensure t
   :config
-  (define-key org-mode-map (kbd "<f8>") 'org-tree-slide-mode)
-  (define-key org-mode-map (kbd "S-<f8>") 'org-tree-slide-skip-done-toggle)
+  (define-key org-mode-map (kbd "<f12>") 'org-tree-slide-mode)
+  (define-key org-mode-map (kbd "S-<f12>") 'org-tree-slide-skip-done-toggle)
   (define-key org-tree-slide-mode-map (kbd "<f9>") 'org-tree-slide-move-previous-tree)
   (define-key org-tree-slide-mode-map (kbd "<f10>") 'org-tree-slide-move-next-tree)
   (define-key org-tree-slide-mode-map (kbd "<f11>") 'org-tree-slide-content)
@@ -2140,8 +2140,8 @@ appear in a named workspace, the buffer must be matched by an
 (global-set-key (kbd "C-c c") 'centered-window-mode)
 (global-set-key (kbd "C-c z") 'resize-window)
 
-(global-set-key (kbd "M-o") 'ace-window)
-(global-set-key (kbd "M-O") 'ace-swap-window)
+(global-set-key (kbd "C-x o") 'ace-window)
+(global-set-key (kbd "C-x O") 'ace-swap-window)
 (global-set-key (kbd "M-s-o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 
@@ -2179,7 +2179,7 @@ appear in a named workspace, the buffer must be matched by an
 (global-set-key (kbd "C-c 9") 'neotree-show-project-root-dir)
 (global-set-key (kbd "C-c 0") 'treemacs-select-window)
 
-(define-key projectile-mode-map (kbd "M-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
 
 ;; GUD
 (global-set-key [(shift f5)] 'gud-gdb)
