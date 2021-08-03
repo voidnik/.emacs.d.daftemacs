@@ -2038,6 +2038,32 @@ appear in a named workspace, the buffer must be matched by an
 (require 'stackoverflow)
 
 ;;==============================================================================
+;; Embedding YouTube videos with org-mode links
+;;
+;; http://endlessparentheses.com/embedding-youtube-videos-with-org-mode-links.html
+;;==============================================================================
+
+(defvar youtube-iframe-format
+  (concat "<iframe width=\"960\""
+          " height=\"540\""
+          " src=\"https://www.youtube.com/embed/%s\""
+          " frameborder=\"0\""
+          " allowfullscreen>%s</iframe><br>"))
+
+(org-add-link-type
+ "YouTube"
+ (lambda (handle)
+   (browse-url
+    (concat "https://www.youtube.com/embed/"
+            handle)))
+ (lambda (path desc backend)
+   (cl-case backend
+     (html (format youtube-iframe-format
+                   path (or desc "")))
+     (latex (format "\href{%s}{%s}"
+                    path (or desc "video"))))))
+
+;;==============================================================================
 ;; fcitx (OBSOLETE)
 ;;
 ;; https://github.com/cute-jumper/fcitx.el
