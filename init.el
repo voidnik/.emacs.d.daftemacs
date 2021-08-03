@@ -2138,6 +2138,7 @@ appear in a named workspace, the buffer must be matched by an
 ;;==============================================================================
 
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
+(global-set-key (kbd "M-SPC") 'toggle-input-method) ;; 'Shift + Space' is recognized as 'M-SPC' on MacOS.
 
 (global-set-key (kbd "C-s-<up>") 'buf-move-up)
 (global-set-key (kbd "C-s-<down>") 'buf-move-down)
