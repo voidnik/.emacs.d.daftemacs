@@ -1084,6 +1084,13 @@
                                  (neotree-hide)
                                  (persp-state-save)))
 
+  ;; Renaming the Bufler buffer name by using the current perspective name.
+  (add-hook 'bufler-list-mode-hook #'(lambda ()
+                                       (let ((name (format "*Bufler* (%s)" (persp-current-name))))
+                                         (if (get-buffer name)
+                                             (kill-buffer name))
+                                         (rename-buffer name))))
+
   ;;
   ;; Overriding 'centaur-tabs-buffer-list'
   ;;

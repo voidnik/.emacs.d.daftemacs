@@ -122,7 +122,8 @@ by this function."
          (string-prefix-p "*" buffname)
          (not (string= "*Messages*" buffname))
          (not (string= "*scratch*" buffname))
-         (not (string= "*Bufler*" buffname)))))
+         (not (string-prefix-p "*Bufler*" buffname))
+         (not (string-prefix-p "*ein" buffname)))))
 
 (defun cwm-update-fringe-background ()
   (custom-set-faces
