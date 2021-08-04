@@ -122,6 +122,7 @@ by this function."
          (string-prefix-p "*" buffname)
          (not (string= "*Messages*" buffname))
          (not (string= "*scratch*" buffname))
+         (not (string= "*Packages*" buffname))
          (not (string-prefix-p "*Bufler*" buffname))
          (not (string-prefix-p "*ein" buffname)))))
 
