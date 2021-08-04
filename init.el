@@ -2069,12 +2069,33 @@ appear in a named workspace, the buffer must be matched by an
 ;;==============================================================================
 ;; Embedding YouTube videos with org-mode links
 ;;
-;; http://endlessparentheses.com/embedding-youtube-videos-with-org-mode-links.html
+;; Based on http://endlessparentheses.com/embedding-youtube-videos-with-org-mode-links.html
+;;
+;; - Examples
+;;   [[YouTube:KJritAFWnUM]]
+;;   [[YouTube:KJritAFWnUM/640x360]]
 ;;==============================================================================
 
-(defvar youtube-iframe-format
-  (concat "<iframe width=\"960\""
-          " height=\"540\""
+(defun org-youtube-link-parse-path (path default-width default-height)
+  (if (string-match "/" path)
+      (let* ((split-path (split-string path "/"))
+             (real-path (car split-path))
+             (resolution (car (cdr split-path))))
+        (if (string-match "x" resolution)
+            (let ((split-resolution (split-string resolution "x")))
+              (if (and split-resolution (= (length split-resolution) 2))
+                  (let ((w (string-to-number (car split-resolution)))
+                        (h (string-to-number (car (cdr split-resolution)))))
+                    (if (and (> w 0) (> h 0))
+                        (values real-path w h)
+                      (values real-path default-width default-height)))
+                (values real-path default-width default-height)))
+          (values real-path default-width default-height)))
+    (values path default-width default-height)))
+
+(defvar org-youtube-link-iframe-format
+  (concat "<iframe width=\"%d\""
+          " height=\"%d\""
           " src=\"https://www.youtube.com/embed/%s\""
           " frameborder=\"0\""
           " allowfullscreen>%s</iframe><br>"))
@@ -2082,15 +2103,25 @@ appear in a named workspace, the buffer must be matched by an
 (org-add-link-type
  "YouTube"
  (lambda (handle)
-   (browse-url
-    (concat "https://www.youtube.com/embed/"
-            handle)))
+   (let ((parsed-path (org-youtube-link-parse-path handle 640 360)))
+     (browse-url
+      (concat "https://www.youtube.com/embed/"
+              (car parsed-path)))))
  (lambda (path desc backend)
-   (cl-case backend
-     (html (format youtube-iframe-format
-                   path (or desc "")))
-     (latex (format "\href{%s}{%s}"
-                    path (or desc "video"))))))
+   (let ((parsed-path (org-youtube-link-parse-path path 640 360)))
+     (cl-case backend
+       (html
+        (format org-youtube-link-iframe-format
+                (nth 1 parsed-path)
+                (nth 2 parsed-path)
+                (nth 0 parsed-path)
+                (or desc "")))
+       (latex
+        (format "\href{%s}{%s}"
+                (nth 1 parsed-path)
+                (nth 2 parsed-path)
+                (nth 0 parsed-path)
+                (or desc "video")))))))
 
 ;;==============================================================================
 ;; fcitx (OBSOLETE)
