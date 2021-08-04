@@ -2041,6 +2041,25 @@ appear in a named workspace, the buffer must be matched by an
   :ensure t)
 
 ;;==============================================================================
+;; Setting default web browser
+;;
+;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
+;;==============================================================================
+
+(when (string-equal system-type "gnu/linux")
+  (defun browse-url-surf (url &optional new-window)
+    "Ask the Surf web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL: "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "surf " url) nil
+             "surf"
+             (list url))))
+
+  (setq browse-url-browser-function 'browse-url-surf))
+
+;;==============================================================================
 ;; Instant Stackoverflow Solutions
 ;;==============================================================================
 
