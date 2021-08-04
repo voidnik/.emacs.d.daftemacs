@@ -1019,6 +1019,7 @@
     (setq neo-window-width 40
           neo-window-fixed-size t
           neo-smart-open t
+          neo-vc-integration (quote (face)) ;; https://github.com/jaypei/emacs-neotree/issues/166
           projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
 
     (defun neotree-toggle-project-root-dir-or-current-dir ()
