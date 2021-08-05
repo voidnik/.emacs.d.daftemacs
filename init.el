@@ -143,7 +143,8 @@
  '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8BE9FD"))))
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
- '(ediff-odd-diff-C ((t (:background "#464752")))))
+ '(ediff-odd-diff-C ((t (:background "#464752"))))
+ '(mode-line ((t (:background "#1E2029")))))
 
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
@@ -418,8 +419,7 @@
 				              magit-log-mode
 				              magit-file-mode
 				              magit-blob-mode
-				              magit-blame-mode
-				              )))
+				              magit-blame-mode)))
 	   "Emacs")
 	  ((derived-mode-p 'prog-mode)
 	   "Editing")
