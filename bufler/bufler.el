@@ -243,6 +243,14 @@ Used when `bufler-list' is called."
   "Hook run on entering `bufler-list'."
   :type 'hook)
 
+(defcustom bufler-use-header-line-format t
+  "Use header-line-format."
+  :type 'boolean)
+
+(defcustom bufler-delete-bufler-window-when-switching-to-buffer t
+  "Enable deleting the bufler window when switching to buffer."
+  :type 'boolean)
+
 ;;;;; Faces
 
 (defface bufler-group
@@ -381,14 +389,24 @@ which are otherwise filtered by `bufler-filter-buffer-fns'."
         (setf format-table *format-table)
         (when bufler-reverse
           (setf groups (nreverse (-sort #'format< groups))))
-        (with-current-buffer (get-buffer-create "*Bufler*")
+        ;; customized by daftcoder
+        (if (fboundp 'persp-current-name)
+            (setq-local bufler-buffer-name (format "*Bufler* (%s)" (persp-current-name)))
+          (setq-local bufler-buffer-name "*Bufler*"))
+        (with-current-buffer (get-buffer-create bufler-buffer-name)
           (setf pos (point))
           (bufler-list-mode)
           (erase-buffer)
           (magit-insert-section (bufler-root)
             (--each groups
               (insert-thing it nil 0)))
-          (setf header-line-format header)
+          ;; customized by daftcoder
+          (if bufler-use-header-line-format
+              (setf header-line-format header)
+            (progn
+              (goto-char 0)
+              (insert (format "%s\n" (string-trim-left header)))
+              (setf header-line-format nil)))
           (setf buffer-read-only t)
           (pop-to-buffer (current-buffer) bufler-list-display-buffer-action)
           (goto-char pos))
@@ -441,11 +459,13 @@ NAME, okay, `checkdoc'?"
 (bufler-define-buffer-command switch "Switch to buffer."
   (lambda (buffer)
     (let ((bufler-window (selected-window)))
-      (ignore-errors
-        ;; Ignoring the error seems like the easiest way to handle
-        ;; this.  There are a surprising number of nuances in getting
-        ;; this to behave exactly as desired in all cases.
-        (delete-window bufler-window))
+      ;; customized by daftcoder
+      (when bufler-delete-bufler-window-when-switching-to-buffer
+        (ignore-errors
+          ;; Ignoring the error seems like the easiest way to handle
+          ;; this.  There are a surprising number of nuances in getting
+          ;; this to behave exactly as desired in all cases.
+          (delete-window bufler-window)))
       (pop-to-buffer buffer '((display-buffer-reuse-window
                                display-buffer-same-window)))))
   :refresh-p nil)
@@ -473,7 +493,9 @@ With prefix, unset it."
   :let* ((name (unless current-prefix-arg
                  (completing-read "Named workspace: "
                                   (seq-uniq
-                                   (cl-loop for buffer in (buffer-list)
+                                   (cl-loop for buffer in
+                                            ;; customized by daftcoder
+                                            (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list))
                                             when (buffer-local-value 'bufler-workspace-name buffer)
                                             collect it)))))))
 
@@ -535,11 +557,14 @@ FILTER-FNS, remove buffers that match any of them."
   (cl-labels ((grouped-buffers
                () (bufler-group-tree groups
                     (if filter-fns
-                        (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p (buffer-list))
+                        (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p
+                                                                  ;; customized by daftcoder
+                                                                  (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))
                                  for fn in filter-fns
                                  do (setf buffers (cl-remove-if fn buffers))
                                  finally return buffers)
-                      (buffer-list))))
+                      ;; customized by daftcoder
+                      (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))))
               (cached-buffers
                (key) (when (eql key (car bufler-cache))
                        ;; Buffer list unchanged: return cached result.
@@ -558,7 +583,9 @@ FILTER-FNS, remove buffers that match any of them."
                              grouped-buffers))))
               (buffers
                () (if bufler-use-cache
-                      (let ((key (sxhash (buffer-list))))
+                      (let ((key (sxhash
+                                  ;; customized by daftcoder
+                                  (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))))
                         (or (cached-buffers key)
                             ;; Buffer list has changed: group buffers and cache result.
                             (cdadr

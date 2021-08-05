@@ -1085,15 +1085,6 @@
         ("C-c 9" . neotree-toggle-project-root-dir-or-find-file-in-project-dir-or-current-dir)))
 
 ;;==============================================================================
-;; Bufler
-;;
-;; https://github.com/alphapapa/bufler.el
-;;==============================================================================
-
-(use-package bufler
-  :load-path "bufler")
-
-;;==============================================================================
 ;; perspective
 ;;
 ;; https://github.com/nex3/perspective-el
@@ -1118,13 +1109,6 @@
                                  (treemacs-hide)
                                  (neotree-hide)
                                  (persp-state-save)))
-
-  ;; Renaming the Bufler buffer name by using the current perspective name.
-  (add-hook 'bufler-list-mode-hook #'(lambda ()
-                                       (let ((name (format "*Bufler* (%s)" (persp-current-name))))
-                                         (if (get-buffer name)
-                                             (kill-buffer name))
-                                         (rename-buffer name))))
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-list'
@@ -1194,81 +1178,19 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (setq header-line-format
           (and ibuffer-use-header-line
                ibuffer-filtering-qualifiers
-               ibuffer-header-line-format)))
+               ibuffer-header-line-format))))
 
-  ;;
-  ;; Overriding 'bufler-define-buffer-command', 'bufler-buffers', 'bufler-workspace-buffer-name-workspace'
-  ;;
+;;==============================================================================
+;; Bufler
+;;
+;; https://github.com/alphapapa/bufler.el
+;;==============================================================================
 
-  (bufler-define-buffer-command name-workspace
-    "Set buffer's workspace name.
-With prefix, unset it."
-    (lambda (buffer)
-      (with-current-buffer buffer
-        (bufler-workspace-buffer-name-workspace name)))
-    :let* ((name (unless current-prefix-arg
-                   (completing-read "Named workspace: "
-                                    (seq-uniq
-                                     (cl-loop for buffer in (persp-buffer-list-filter (buffer-list))
-                                              when (buffer-local-value 'bufler-workspace-name buffer)
-                                              collect it)))))))
-
-  (cl-defun bufler-buffers (&key (groups bufler-groups) filter-fns path)
-    "Return buffers grouped by GROUPS.
-If PATH, return only buffers from the group at PATH.  If
-FILTER-FNS, remove buffers that match any of them."
-    ;; TODO: Probably would be clearer to call it IGNORE-FNS or REJECT-FNS rather than FILTER-FNS.
-    (cl-labels ((grouped-buffers
-                 () (bufler-group-tree groups
-                      (if filter-fns
-                          (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p (persp-buffer-list-filter (buffer-list)))
-                                   for fn in filter-fns
-                                   do (setf buffers (cl-remove-if fn buffers))
-                                   finally return buffers)
-                        (persp-buffer-list-filter (buffer-list)))))
-                (cached-buffers
-                 (key) (when (eql key (car bufler-cache))
-                         ;; Buffer list unchanged: return cached result.
-                         (or (map-elt (cdr bufler-cache) filter-fns)
-                             ;; Different filters: group and filter and return cached result.
-
-                             ;; NOTE: (setf (map-elt ...) VALUE), when used with alists, has a bug
-                             ;; that does not return the VALUE, so we must return it explicitly.
-                             ;; The bug is fixed in Emacs commit 896384b of 6 May 2021, and the
-                             ;; fix will also be in the next stable release of map.el on ELPA.  See
-                             ;; <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47572>.
-
-                             ;; TODO: Remove workaround when we can target the fixed version of map.
-                             (let ((grouped-buffers (grouped-buffers)))
-                               (setf (map-elt (cdr bufler-cache) filter-fns) grouped-buffers)
-                               grouped-buffers))))
-                (buffers
-                 () (if bufler-use-cache
-                        (let ((key (sxhash (persp-buffer-list-filter (buffer-list)))))
-                          (or (cached-buffers key)
-                              ;; Buffer list has changed: group buffers and cache result.
-                              (cdadr
-                               (setf bufler-cache (cons key (list (cons filter-fns (grouped-buffers))))))))
-                      (grouped-buffers))))
-      (if path
-          (bufler-group-tree-at path (buffers))
-        (buffers))))
-
-  (defun bufler-workspace-buffer-name-workspace (&optional name)
-    "Set current buffer's workspace to NAME.
-If NAME is nil (interactively, with prefix), unset the buffer's
-workspace name.  This sets the buffer-local variable
-`bufler-workspace-name'.  Note that, in order for a buffer to
-appear in a named workspace, the buffer must be matched by an
-`auto-workspace' group before any other group."
-    (interactive (list (unless current-prefix-arg
-                         (completing-read "Named workspace: "
-                                          (seq-uniq
-                                           (cl-loop for buffer in (persp-buffer-list-filter (buffer-list))
-                                                    when (buffer-local-value 'bufler-workspace-name buffer)
-                                                    collect it))))))
-    (setf bufler-cache nil)
-    (setq-local bufler-workspace-name name)))
+(use-package bufler
+  :load-path "bufler"
+  :config
+  (setq bufler-use-header-line-format nil
+        bufler-delete-bufler-window-when-switching-to-buffer nil))
 
 ;;==============================================================================
 ;; Code Style
