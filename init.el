@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs-evil treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets bufler org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl company-statistics treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company magit vlf flx-isearch flx-ido flx projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -192,28 +192,6 @@
   (setq all-the-icons-scale-factor 1.0))
 
 ;;==============================================================================
-;; doom-themes
-;;==============================================================================
-
-(use-package doom-themes
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
-  ;; theme may have their own settings.
-  (load-theme 'doom-dracula t)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
-
-;; https://draculatheme.com/emacs/
-;(load-file "~/.emacs.d/dracula-theme.el")
-;(load-theme 'dracula t)
-
-;;==============================================================================
 ;; flycheck
 ;;==============================================================================
 
@@ -232,14 +210,35 @@
   :ensure t)
 
 ;;==============================================================================
+;; doom-themes
+;;==============================================================================
+
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each
+  ;; theme may have their own settings.
+  (load-theme 'doom-dracula t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+;; https://draculatheme.com/emacs/
+;;(load-file "~/.emacs.d/dracula-theme.el")
+;;(load-theme 'dracula t)
+
+;;==============================================================================
 ;; Modeline
 ;;==============================================================================
 
-(defun setup-doom-modeline ()
-  (use-package doom-modeline
-    :ensure t
-    :hook (after-init . doom-modeline-mode))
-
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :config
   ;; How tall the mode-line should be (only respected in GUI Emacs).
   (setq doom-modeline-height 24)
 
@@ -322,8 +321,7 @@
   ;; Function to stylize the irc buffer names.
   (setq doom-modeline-irc-stylize 'identity))
 
-(setup-doom-modeline)
-;(dracula-setup-modeline-format)
+;;(dracula-setup-modeline-format)
 
 ;;==============================================================================
 ;; page-break-lines
@@ -762,8 +760,8 @@
   )
 
 (use-package swiper
-  :ensure t
   :after ivy
+  :ensure t
   :config
   (setq swiper-action-recenter t)
   (setq swiper-goto-start-of-match t))
@@ -839,8 +837,8 @@
   (add-hook 'emacs-startup-hook (lambda () (ivy-rich-mode +1))))
 
 ;;(use-package ivy-posframe
-;;  :ensure t
 ;;  :after ivy
+;;  :ensure t
 ;;  :diminish
 ;;  :config
 ;;  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
@@ -983,15 +981,12 @@
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
+        ("C-c 0"     . treemacs-select-window)
         ("C-x t 1"   . treemacs-delete-other-windows)
         ("C-x t t"   . treemacs)
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-evil
-  :after treemacs evil
-  :ensure t)
 
 (use-package treemacs-projectile
   :after treemacs projectile
@@ -1030,6 +1025,18 @@
         neo-vc-integration (quote (face char)) ;; https://github.com/jaypei/emacs-neotree/issues/166
         projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
 
+  (defun neotree-show-project-root-dir ()
+    "Show NeoTree using the project root using projectile."
+    (interactive)
+    (let ((project-dir (projectile-project-root))
+          (file-name (buffer-file-name)))
+      (progn
+        (neotree-show)
+	    (if project-dir
+            (neotree-dir project-dir))
+	    (if file-name
+            (neotree-find file-name)))))
+
   (defun neotree-toggle-project-root-dir-or-current-dir ()
     "Open NeoTree using the project root, using projectile, or the current buffer directory."
     (interactive)
@@ -1044,20 +1051,35 @@
           (if file-name
               (neotree-find file-name))))))
 
-  (defun neotree-show-project-root-dir ()
-    "Show NeoTree using the project root using projectile."
+  (defun neotree-toggle-project-root-dir-or-find-file-in-project-dir-or-current-dir ()
+    "Open NeoTree using the project root, using projectile, find-file-in-project or the current buffer directory."
     (interactive)
-    (let ((project-dir (projectile-project-root))
-          (file-name (buffer-file-name)))
-      (progn
+    (require 'neotree)
+    (let* ((filepath (buffer-file-name))
+           (project-dir
+            (with-demoted-errors
+                (cond
+                 ((featurep 'projectile)
+                  (projectile-project-root))
+                 ((featurep 'find-file-in-project)
+                  (ffip-project-root))
+                 (t ;; Fall back to version control root.
+                  (if filepath
+                      (vc-call-backend
+                       (vc-responsible-backend filepath) 'root filepath)
+                    nil)))))
+           (neo-smart-open t))
+      (if (and (fboundp 'neo-global--window-exists-p)
+               (neo-global--window-exists-p))
+          (neotree-hide)
         (neotree-show)
-	    (if project-dir
-            (neotree-dir project-dir))
-	    (if file-name
-            (neotree-find file-name)))))
+        (when project-dir
+          (neotree-dir project-dir))
+        (when filepath
+          (neotree-find filepath)))))
   :bind
   (:map global-map
-        ("C-x t n" . neotree-toggle-project-root-dir-or-current-dir)))
+        ("C-c 9" . neotree-toggle-project-root-dir-or-find-file-in-project-dir-or-current-dir)))
 
 ;;==============================================================================
 ;; Bufler
@@ -2270,8 +2292,6 @@ appear in a named workspace, the buffer must be matched by an
                                   (calculator)
                                   (balance-windows)))
 (global-set-key (kbd "C-c 4") 'neato-graph-bar)
-(global-set-key (kbd "C-c 9") 'neotree-show-project-root-dir)
-(global-set-key (kbd "C-c 0") 'treemacs-select-window)
 
 (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
 
