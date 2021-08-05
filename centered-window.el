@@ -123,7 +123,9 @@ by this function."
          (not (string= "*Messages*" buffname))
          (not (string= "*scratch*" buffname))
          (not (string= "*Packages*" buffname))
-         (not (string-prefix-p "*Bufler*" buffname))
+         (not (string-prefix-p "*Bufler" buffname))
+         (not (string-prefix-p "*eshell" buffname))
+         (not (string-prefix-p "*ansi-term" buffname))
          (not (string-prefix-p "*ein" buffname)))))
 
 (defun cwm-update-fringe-background ()
