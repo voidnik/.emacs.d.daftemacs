@@ -401,7 +401,10 @@
   ;; Projectile integration
   (centaur-tabs-group-by-projectile-project)
 
-  ;; Buffer groups
+  ;;
+  ;; Overriding 'centaur-tabs-buffer-groups' in 'centaur-tabs-functions.el'
+  ;; Customize buffer groups.
+  ;;
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.
 
@@ -442,7 +445,10 @@
 	  (t
 	   (centaur-tabs-get-group-name (current-buffer))))))
 
-  ;; Prevent the access to specified buffers
+  ;;
+  ;; Overriding 'centaur-tabs-hide-tab' in 'centaur-tabs-functions.el'
+  ;; Prevent the access to specified buffers.
+  ;;
   (defun centaur-tabs-hide-tab (x)
     "Do no to show buffer X in tabs."
     (let ((name (format "%s" x)))
@@ -473,6 +479,66 @@
        (and (string-prefix-p "magit" name)
 	        (not (file-name-extension name)))
        )))
+
+  ;;
+  ;; Overriding 'centaur-tabs-line-format' in 'centaur-tabs-functions.el'
+  ;; To solve the miscalculation of visible tabs when using 'centered-window-mode'.
+  ;;
+  (defun centaur-tabs-line-format (tabset)
+    "Return the `centaur-tabs-display-line-format' value to display TABSET."
+    (let* ((sel (centaur-tabs-selected-tab tabset))
+	       (tabs (centaur-tabs-view tabset))
+	       (padcolor centaur-tabs-background-color)
+	       atsel elts)
+      ;; Track the selected tab to ensure it is always visible.
+      (when centaur-tabs--track-selected
+        (while (not (memq sel tabs))
+	      (centaur-tabs-scroll tabset -1)
+	      (setq tabs (centaur-tabs-view tabset)))
+        (while (and tabs (not atsel))
+	      (setq elts  (cons (centaur-tabs-line-tab (car tabs)) elts)
+	            atsel (eq (car tabs) sel)
+	            tabs  (cdr tabs)))
+        (setq elts (nreverse elts))
+        ;; At this point the selected tab is the last elt in ELTS.
+        ;; Scroll TABSET and ELTS until the selected tab becomes
+        ;; visible.
+        (let (buffer-list-update-hook)
+	      (with-temp-buffer
+            (set-window-margins (selected-window) 0 0) ;; added by daftcoder
+	        (let ((truncate-partial-width-windows nil)
+		          (inhibit-modification-hooks t)
+		          deactivate-mark ;; Prevent deactivation of the mark!
+		          start)
+	          (setq truncate-lines nil
+		            buffer-undo-list t)
+	          (setq start (point))
+	          (while (and (cdr elts) ;; Always show the selected tab!
+			              (progn
+			                (delete-region start (point-max))
+			                (goto-char (point-max))
+			                (apply #'insert elts)
+			                (goto-char (point-min))
+			                (> (vertical-motion 1) 0)))
+	            (centaur-tabs-scroll tabset 1)
+	            (setq elts (cdr elts))))))
+        (setq elts (nreverse elts))
+        (setq centaur-tabs--track-selected nil))
+      ;; Format remaining tabs.
+      (while tabs
+        (setq elts (cons (centaur-tabs-line-tab (car tabs)) elts)
+	          tabs (cdr tabs)))
+      ;; Cache and return the new tab bar.
+      (centaur-tabs-set-template
+       tabset
+       (list
+        (centaur-tabs-line-format--buttons)
+        (nreverse elts)
+        (propertize "% "
+                    'face (list :background padcolor)
+                    'pointer 'arrow)
+        (centaur-tabs-line-format--new-button)))
+      ))
   :hook
   (term-mode . centaur-tabs-local-mode)
   (calendar-mode . centaur-tabs-local-mode)
@@ -1133,9 +1199,9 @@
                                  (persp-state-save)))
 
   ;;
-  ;; Overriding 'centaur-tabs-buffer-list'
+  ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
+  ;; For smooth work with 'perspective', '(buffer-list)' is replaced with '(persp-buffer-list-filter (buffer-list))'.
   ;;
-
   (defun centaur-tabs-buffer-list ()
     "Return the list of buffers to show in tabs.
 Exclude buffers whose name starts with a space, when they are not
@@ -1150,12 +1216,11 @@ visiting a file.  The current buffer is always included."
 			               ((buffer-file-name b) b)
 			               ((char-equal ?\  (aref (buffer-name b) 0)) nil)
 			               ((buffer-live-p b) b)))
-		              (persp-buffer-list-filter (buffer-list))))))
+		              (persp-buffer-list-filter (buffer-list)))))) ;; modified by daftcoder
 
   ;;
   ;; Overriding 'ibuffer-update'
   ;;
-
   (defun ibuffer-update (arg &optional silent)
     "Regenerate the list of all buffers.
 
