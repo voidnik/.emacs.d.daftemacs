@@ -119,7 +119,9 @@ The *scratch* buffer although special, is treated as not special
 by this function."
   (let ((buffname (string-trim (buffer-name buffer))))
     (and buffname
-         (string-prefix-p "*" buffname)
+         (or (string-prefix-p "*" buffname)
+             (string-prefix-p "magit: " buffname)
+             (string-match "magit-[0-9a-zA-Z]*: " buffname))
          (not (string= "*Messages*" buffname))
          (not (string-prefix-p "*scratch" buffname))
          (not (string= "*Packages*" buffname))
