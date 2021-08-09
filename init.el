@@ -1033,12 +1033,11 @@
     (interactive)
     (let ((project-dir (projectile-project-root))
           (file-name (buffer-file-name)))
-      (progn
-        (neotree-show)
-	    (if project-dir
-            (neotree-dir project-dir))
-	    (if file-name
-            (neotree-find file-name)))))
+      (neotree-show)
+	  (when project-dir
+        (neotree-dir project-dir))
+	  (when file-name
+        (neotree-find file-name))))
 
   (defun neotree-toggle-project-root-dir-or-current-dir ()
     "Open NeoTree using the project root, using projectile, or the current buffer directory."
@@ -1049,10 +1048,33 @@
           (neotree-hide)
 	    (progn
           (neotree-show)
-          (if project-dir
-              (neotree-dir project-dir))
-          (if file-name
-              (neotree-find file-name))))))
+          (when project-dir
+            (neotree-dir project-dir))
+          (when file-name
+            (neotree-find file-name))))))
+
+  (defun neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir ()
+    "Show NeoTree using the project root, using projectile, find-file-in-project or the current buffer directory."
+    (interactive)
+    (let* ((filepath (buffer-file-name))
+           (project-dir
+            (with-demoted-errors
+                (cond
+                 ((featurep 'projectile)
+                  (projectile-project-root))
+                 ((featurep 'find-file-in-project)
+                  (ffip-project-root))
+                 (t ;; Fall back to version control root.
+                  (if filepath
+                      (vc-call-backend
+                       (vc-responsible-backend filepath) 'root filepath)
+                    nil)))))
+           (neo-smart-open t))
+      (neotree-show)
+      (when project-dir
+        (neotree-dir project-dir))
+      (when filepath
+        (neotree-find filepath))))
 
   (defun neotree-toggle-project-root-dir-or-find-file-in-project-dir-or-current-dir ()
     "Open NeoTree using the project root, using projectile, find-file-in-project or the current buffer directory."
@@ -1072,17 +1094,17 @@
                        (vc-responsible-backend filepath) 'root filepath)
                     nil)))))
            (neo-smart-open t))
-      (if (and (fboundp 'neo-global--window-exists-p)
-               (neo-global--window-exists-p))
+      (if (neo-global--window-exists-p)
           (neotree-hide)
-        (neotree-show)
-        (when project-dir
-          (neotree-dir project-dir))
-        (when filepath
-          (neotree-find filepath)))))
+        (progn
+          (neotree-show)
+          (when project-dir
+            (neotree-dir project-dir))
+          (when filepath
+            (neotree-find filepath))))))
   :bind
   (:map global-map
-        ("C-c 9" . neotree-toggle-project-root-dir-or-find-file-in-project-dir-or-current-dir)))
+        ("C-c 9" . neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)))
 
 ;;==============================================================================
 ;; perspective
