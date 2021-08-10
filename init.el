@@ -413,17 +413,19 @@
     Other buffer group by `centaur-tabs-get-group-name' with project name."
     (list
 	 (cond
+	  ((string-equal "*" (substring (buffer-name) 0 1))
+	   "Emacs")
       ((string-prefix-p "*ein" (buffer-name))
        "EIN")
-	  ((or (string-equal "*" (substring (buffer-name) 0 1))
-	       (memq major-mode '(magit-process-mode
+      ((or (string-match "magit-?[0-9a-zA-Z]*?: " (buffer-name))
+           (memq major-mode '(magit-process-mode
 				              magit-status-mode
 				              magit-diff-mode
 				              magit-log-mode
 				              magit-file-mode
 				              magit-blob-mode
 				              magit-blame-mode)))
-	   "Emacs")
+       "Magit")
 	  ((derived-mode-p 'prog-mode)
 	   "Editing")
 	  ((derived-mode-p 'dired-mode)
@@ -474,12 +476,7 @@
        (string-prefix-p "*Ediff" name)
        (string-prefix-p "*Bufler" name)
        (string-prefix-p "*Ibuffer" name)
-       (string-prefix-p "*ein: LaTeX in Markdown preview*" name)
-
-       ;; Is not magit buffer.
-       (and (string-prefix-p "magit" name)
-	        (not (file-name-extension name)))
-       )))
+       (string-prefix-p "*ein: LaTeX in Markdown preview*" name))))
 
   ;;
   ;; Overriding 'centaur-tabs-line-format' in 'centaur-tabs-functions.el'
@@ -544,7 +541,7 @@
   (term-mode . centaur-tabs-local-mode)
   (calendar-mode . centaur-tabs-local-mode)
   (org-agenda-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)  
+  (helpful-mode . centaur-tabs-local-mode)
   :bind
   ("M-[" . centaur-tabs-backward)
   ("M-]" . centaur-tabs-forward)
