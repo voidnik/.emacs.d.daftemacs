@@ -731,7 +731,8 @@
 (use-package ace-window
   :ensure t
   :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (push " *NeoTree*" aw-ignored-buffers))
 
 ;;==============================================================================
 ;; ztree
