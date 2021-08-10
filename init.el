@@ -473,6 +473,7 @@
        (string-prefix-p "*Ilist" name)
        (string-prefix-p "*Ediff" name)
        (string-prefix-p "*Bufler" name)
+       (string-prefix-p "*Ibuffer" name)
        (string-prefix-p "*ein: LaTeX in Markdown preview*" name)
 
        ;; Is not magit buffer.
@@ -2284,7 +2285,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-x C-b") 'bufler)
-;;(global-set-key (kbd "C-x C-b") 'persp-ibuffer)
+(global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
 (global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
 
