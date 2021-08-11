@@ -2274,8 +2274,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c c") 'centered-window-mode)
 (global-set-key (kbd "C-c z") 'resize-window)
 
-(global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-x O") 'ace-swap-window)
+(global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "M-O") 'ace-swap-window)
 (global-set-key (kbd "M-s-o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 
