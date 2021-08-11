@@ -1047,7 +1047,6 @@
           (delete-window treemacs-local-window))))
   :bind
   (:map global-map
-        ("M-0"       . treemacs-select-window)
         ("C-c 0"     . treemacs-select-window)
         ("C-x t 1"   . treemacs-delete-other-windows)
         ("C-x t t"   . treemacs)
@@ -1168,9 +1167,18 @@
             (neotree-dir project-dir))
           (when filepath
             (neotree-find filepath))))))
+
+  (defun neotree-select-window ()
+    (interactive)
+    (let ((neotree-buffer (get-buffer neo-buffer-name)))
+      (if neotree-buffer
+          (let ((p (with-current-buffer neotree-buffer (point))))
+            (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)
+            (goto-char p))
+        (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir))))
   :bind
   (:map global-map
-        ("C-c 9" . neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)))
+        ("C-c 9" . neotree-select-window)))
 
 ;;==============================================================================
 ;; perspective
@@ -2279,6 +2287,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "M-O") 'ace-swap-window)
 (global-set-key (kbd "M-s-o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
+(global-set-key (kbd "M-0") #'(lambda ()
+                                (interactive)
+                                (if (neo-global--window-exists-p)
+                                    (neotree-select-window)
+                                  (pcase (treemacs-current-visibility)
+                                    ('visible (treemacs--select-visible-window))
+                                    (code (neotree-select-window))))))
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
