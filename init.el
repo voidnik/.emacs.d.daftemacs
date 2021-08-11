@@ -729,8 +729,7 @@
 (use-package ace-window
   :ensure t
   :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  (push " *NeoTree*" aw-ignored-buffers))
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 ;;==============================================================================
 ;; ztree
@@ -1093,6 +1092,9 @@
         neo-vc-integration (quote (face char)) ;; https://github.com/jaypei/emacs-neotree/issues/166
         projectile-switch-project-action 'neotree-projectile-action) ;; To open neotree when projectile project is opend.
 
+  (when (boundp 'aw-ignored-buffers)
+    (push neo-buffer-name aw-ignored-buffers))
+
   (defun neotree-show-project-root-dir ()
     "Show NeoTree using the project root using projectile."
     (interactive)
@@ -1144,7 +1146,6 @@
   (defun neotree-toggle-project-root-dir-or-find-file-in-project-dir-or-current-dir ()
     "Open NeoTree using the project root, using projectile, find-file-in-project or the current buffer directory."
     (interactive)
-    (require 'neotree)
     (let* ((filepath (buffer-file-name))
            (project-dir
             (with-demoted-errors
