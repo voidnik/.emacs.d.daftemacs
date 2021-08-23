@@ -2287,6 +2287,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "M-O") 'ace-swap-window)
 (global-set-key (kbd "M-s-o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
+(global-set-key (kbd "M-M") 'imenu-list)
 (global-set-key (kbd "M-0") #'(lambda ()
                                 (interactive)
                                 (if (neo-global--window-exists-p)
