@@ -120,7 +120,8 @@ by this function."
   (let ((buffname (string-trim (buffer-name buffer))))
     (and buffname
          (or (string-prefix-p "*" buffname)
-             (string-match "magit-?[0-9a-zA-Z]*?: " buffname))
+             (string-match "magit-?[0-9a-zA-Z]*?: " buffname)
+             (string= "pdf-view-mode" (with-current-buffer buffer major-mode)))
          (not (string= "*Messages*" buffname))
          (not (string-prefix-p "*scratch" buffname))
          (not (string= "*Packages*" buffname))
