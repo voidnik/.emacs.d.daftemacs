@@ -30,7 +30,7 @@
       ;;(set-face-attribute 'default nil :height 115 :family "FiraCode")
       ;;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;;(set-face-attribute 'default nil :height 115 :family "D2Coding")
-      ;;(set-face-attribute 'default nil :height 130 :family "IBM 3270")
+      ;;(set-face-attribute 'default nil :height 125 :family "IBM 3270")
       ))
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
@@ -327,15 +327,15 @@
 
 ;;(dracula-setup-modeline-format)
 
-(cond
- ((string-equal system-type "darwin")
-  (progn
-    (set-face-attribute 'mode-line nil :height 135 :family "IBM 3270")
-    (set-face-attribute 'mode-line-inactive nil :height 135 :family "IBM 3270")))
- ((string-equal system-type "gnu/linux")
-  (progn
-    (set-face-attribute 'mode-line nil :height 110 :family "IBM 3270")
-    (set-face-attribute 'mode-line-inactive nil :height 110 :family "IBM 3270"))))
+;;(cond
+;; ((string-equal system-type "darwin")
+;;  (progn
+;;    (set-face-attribute 'mode-line nil :height 135 :family "IBM 3270")
+;;    (set-face-attribute 'mode-line-inactive nil :height 135 :family "IBM 3270")))
+;; ((string-equal system-type "gnu/linux")
+;;  (progn
+;;    (set-face-attribute 'mode-line nil :height 110 :family "IBM 3270")
+;;    (set-face-attribute 'mode-line-inactive nil :height 110 :family "IBM 3270"))))
 
 ;;==============================================================================
 ;; page-break-lines
@@ -405,11 +405,11 @@
         (if (string-equal (getenv "GDK_SCALE") "2")
             (setq centaur-tabs-height 60)
           (setq centaur-tabs-height 30))))
-  (cond
-   ((string-equal system-type "darwin")
-    (centaur-tabs-change-fonts "IBM 3270" 135))
-   ((string-equal system-type "gnu/linux")
-    (centaur-tabs-change-fonts "IBM 3270" 110)))
+;;  (cond
+;;   ((string-equal system-type "darwin")
+;;    (centaur-tabs-change-fonts "IBM 3270" 135))
+;;   ((string-equal system-type "gnu/linux")
+;;    (centaur-tabs-change-fonts "IBM 3270" 110)))
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
 
