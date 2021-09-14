@@ -243,10 +243,12 @@ Used when `bufler-list' is called."
   "Hook run on entering `bufler-list'."
   :type 'hook)
 
+;; customized by daftcoder
 (defcustom bufler-use-header-line-format t
   "Use header-line-format."
   :type 'boolean)
 
+;; customized by daftcoder
 (defcustom bufler-delete-bufler-window-when-switching-to-buffer t
   "Enable deleting the bufler window when switching to buffer."
   :type 'boolean)
@@ -390,9 +392,9 @@ which are otherwise filtered by `bufler-filter-buffer-fns'."
         (when bufler-reverse
           (setf groups (nreverse (-sort #'format< groups))))
         ;; customized by daftcoder
-        (if (fboundp 'persp-current-name)
-            (setq-local bufler-buffer-name (format "*Bufler* (%s)" (persp-current-name)))
-          (setq-local bufler-buffer-name "*Bufler*"))
+        (setq-local bufler-buffer-name "*Bufler*")
+        (when (fboundp 'persp-current-name)
+          (setq-local bufler-buffer-name (format "*Bufler* (%s)" (persp-current-name))))
         (with-current-buffer (get-buffer-create bufler-buffer-name)
           (setf pos (point))
           (bufler-list-mode)
@@ -460,21 +462,24 @@ NAME, okay, `checkdoc'?"
   (lambda (buffer)
     (let ((bufler-window (selected-window)))
       ;; customized by daftcoder
-      (when bufler-delete-bufler-window-when-switching-to-buffer
-        (ignore-errors
-          ;; Ignoring the error seems like the easiest way to handle
-          ;; this.  There are a surprising number of nuances in getting
-          ;; this to behave exactly as desired in all cases.
-          (delete-window bufler-window)))
-      (pop-to-buffer buffer '((display-buffer-reuse-window
-                               display-buffer-same-window)))))
+      (when (and (not (eq (line-number-at-pos) 1)) (not bufler-use-header-line-format))
+        (when bufler-delete-bufler-window-when-switching-to-buffer
+          (ignore-errors
+            ;; Ignoring the error seems like the easiest way to handle
+            ;; this.  There are a surprising number of nuances in getting
+            ;; this to behave exactly as desired in all cases.
+            (delete-window bufler-window)))
+        (pop-to-buffer buffer '((display-buffer-reuse-window
+                                 display-buffer-same-window))))))
   :refresh-p nil)
 
 (bufler-define-buffer-command peek "Peek at buffer in another window."
   (lambda (buffer)
-    (display-buffer buffer '((display-buffer-use-some-window
-                              display-buffer-pop-up-window)
-                             (inhibit-same-window . t))))
+    ;; customized by daftcoder
+    (when (and (not (eq (line-number-at-pos) 1)) (not bufler-use-header-line-format))
+      (display-buffer buffer '((display-buffer-use-some-window
+                                display-buffer-pop-up-window)
+                               (inhibit-same-window . t)))))
   :refresh-p nil)
 
 (bufler-define-buffer-command save "Save buffer."
@@ -736,6 +741,10 @@ That is, if its name starts with \"*\"."
 
 ;;
 
+(defcustom bufler-indent-per-level 2
+  "How much indentation to apply per level of depth."
+  :type 'integer)
+
 (defvar bufler-column-format-fns nil
   "Alist mapping column names to formatting functions.
 Each function takes two arguments, the buffer and its depth in
@@ -761,7 +770,10 @@ PLIST may be a plist setting the following options:
   (declare (indent defun))
   (cl-check-type name string)
   (pcase-let* ((fn-name (intern (concat "bufler-column-format-" (downcase name))))
-               ((map :face :max-width) plist)
+               ;; NOTE: Emacs 27 inexplicably fails to expand this `pcase' binding form correctly at compile time,
+               ;; so we use the more explicit form.  See <https://github.com/alphapapa/bufler.el/issues/70>.
+               ;;  ((map :face :max-width) plist)
+               ((map (:face face) (:max-width max-width)) plist)
                (max-width-variable (intern (concat "bufler-column-" name "-max-width")))
                (max-width-docstring (format "Maximum width of the %s column." name)))
     `(progn
@@ -789,7 +801,7 @@ PLIST may be a plist setting the following options:
 (bufler-define-column "Name" (:max-width nil)
   ;; MAYBE: Move indentation back to `bufler-list'.  But this seems to
   ;; work well, and that might be more complicated.
-  (let ((indentation (make-string (* 2 depth) ? ))
+  (let ((indentation (make-string (* 2 bufler-indent-per-level) ? ))
         (mode-annotation (when (cl-loop for fn in bufler-buffer-mode-annotate-preds
                                         thereis (funcall fn buffer))
                            (propertize (concat (replace-regexp-in-string
