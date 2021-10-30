@@ -724,16 +724,14 @@
     (text-scale-set 5)
     (set-window-margins (selected-window) 12 12)
     (hide-mode-line-mode)
-    (centaur-tabs-local-mode nil)
-    (spell-fu-mode-disable))
+    (centaur-tabs-local-mode nil))
 
   (defun daftemacs/presentation-end ()
     (View-exit-and-edit)
     (text-scale-set 0)
     (set-window-margins (selected-window) 0 0)
     (hide-mode-line-mode -1)
-    (centaur-tabs-local-mode 0)
-    (spell-fu-mode-enable))
+    (centaur-tabs-local-mode 0))
 
   (add-hook 'org-tree-slide-play-hook 'daftemacs/presentation-start)
   (add-hook 'org-tree-slide-stop-hook 'daftemacs/presentation-end))
@@ -1034,23 +1032,21 @@
   :ensure t)
 
 ;;==============================================================================
+;; flyspell
+;;==============================================================================
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (flyspell-mode)))
+
+;;==============================================================================
 ;; spell-fu
 ;;
 ;; https://gitlab.com/ideasman42/emacs-spell-fu
 ;;==============================================================================
 
 (use-package spell-fu
-  :ensure t
-  :config
-  ;(global-spell-fu-mode)
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
-              (spell-fu-mode)))
-  ;(add-hook 'emacs-lisp-mode-hook
-  ;          (lambda ()
-  ;            (spell-fu-mode)))
-  )
+  :ensure t)
 
 ;;==============================================================================
 ;; treemacs
