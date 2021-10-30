@@ -1966,14 +1966,14 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq bidi-display-reordering nil)
   (jit-lock-mode nil)
   (set (make-variable-buffer-local 'font-lock-mode) nil)
-  (if (version< emacs-version "26")
-      (set (make-variable-buffer-local 'linum-mode) nil)
-    (set (make-variable-buffer-local 'display-line-numbers) nil))
+  ;;(if (version< emacs-version "26")
+  ;;    (set (make-variable-buffer-local 'linum-mode) nil)
+  ;;  (set (make-variable-buffer-local 'display-line-numbers) nil))
   (set (make-variable-buffer-local 'global-hl-line-mode) nil))
 
 (defun my-find-file-check-if-very-large-file-hook ()
-  "If a file is over 5MB, turn off modes of the buffer that make it slow."
-  (when (> (buffer-size) (* 5 1024 1024))
+  "If a file is over 2MB, turn off modes of the buffer that make it slow."
+  (when (> (buffer-size) (* 2 1024 1024))
     (disable-slow-modes)))
 (add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
 
