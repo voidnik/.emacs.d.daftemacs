@@ -500,6 +500,26 @@
   (centaur-tabs-group-by-projectile-project)
 
   ;;
+  ;; Overriding 'centaur-tabs-buffer-tab-label' in 'centaur-tabs-functions.el'
+  ;; Customize tabs label width with 'centaur-tabs-label-max-length'.
+  ;;
+  (setq centaur-tabs-label-max-length 30)
+  (defun centaur-tabs-buffer-tab-label (tab)
+    "Return a label for TAB.
+That is, a string used to represent it on the tab bar."
+    ;; Init tab style.
+    ;; Render tab.
+    (format " %s"
+	        (let ((bufname (if centaur-tabs--buffer-show-groups
+		                       (centaur-tabs-tab-tabset tab)
+		                     (buffer-name (car tab)))))
+              (if (> centaur-tabs-label-fixed-length 0)
+                  (centaur-tabs-truncate-string centaur-tabs-label-fixed-length bufname)
+                (if (and (> centaur-tabs-label-max-length 0) (< centaur-tabs-label-max-length (string-width bufname)))
+                    (centaur-tabs-truncate-string centaur-tabs-label-max-length bufname)
+                  bufname)))))
+
+  ;;
   ;; Overriding 'centaur-tabs-buffer-groups' in 'centaur-tabs-functions.el'
   ;; Customize buffer groups.
   ;;
