@@ -537,30 +537,30 @@ That is, a string used to represent it on the tab bar."
        "EIN")
       ((or (string-match "magit-?[0-9a-zA-Z]*?: " (buffer-name))
            (memq major-mode '(magit-process-mode
-				              magit-status-mode
-				              magit-diff-mode
-				              magit-log-mode
-				              magit-file-mode
-				              magit-blob-mode
-				              magit-blame-mode)))
+			                  magit-status-mode
+			                  magit-diff-mode
+			                  magit-log-mode
+			                  magit-file-mode
+			                  magit-blob-mode
+			                  magit-blame-mode)))
        "Magit")
 	  ((derived-mode-p 'prog-mode)
 	   "Editing")
 	  ((derived-mode-p 'dired-mode)
 	   "Dired")
 	  ((memq major-mode '(helpful-mode
-			              help-mode))
+		                  help-mode))
 	   "Help")
 	  ((memq major-mode '(org-mode
-			              org-agenda-clockreport-mode
-			              org-src-mode
-			              org-agenda-mode
-			              org-beamer-mode
-			              org-indent-mode
-			              org-bullets-mode
-			              org-cdlatex-mode
-			              org-agenda-log-mode
-			              diary-mode))
+		                  org-agenda-clockreport-mode
+		                  org-src-mode
+		                  org-agenda-mode
+		                  org-beamer-mode
+		                  org-indent-mode
+		                  org-bullets-mode
+		                  org-cdlatex-mode
+		                  org-agenda-log-mode
+		                  diary-mode))
 	   "OrgMode")
 	  (t
 	   (centaur-tabs-get-group-name (current-buffer))))))
@@ -603,47 +603,47 @@ That is, a string used to represent it on the tab bar."
   (defun centaur-tabs-line-format (tabset)
     "Return the `centaur-tabs-display-line-format' value to display TABSET."
     (let* ((sel (centaur-tabs-selected-tab tabset))
-	       (tabs (centaur-tabs-view tabset))
-	       (padcolor centaur-tabs-background-color)
-	       atsel elts)
+           (tabs (centaur-tabs-view tabset))
+           (padcolor centaur-tabs-background-color)
+           atsel elts)
       ;; Track the selected tab to ensure it is always visible.
       (when centaur-tabs--track-selected
         (while (not (memq sel tabs))
-	      (centaur-tabs-scroll tabset -1)
-	      (setq tabs (centaur-tabs-view tabset)))
+          (centaur-tabs-scroll tabset -1)
+          (setq tabs (centaur-tabs-view tabset)))
         (while (and tabs (not atsel))
-	      (setq elts  (cons (centaur-tabs-line-tab (car tabs)) elts)
-	            atsel (eq (car tabs) sel)
-	            tabs  (cdr tabs)))
+          (setq elts  (cons (centaur-tabs-line-tab (car tabs)) elts)
+                atsel (eq (car tabs) sel)
+                tabs  (cdr tabs)))
         (setq elts (nreverse elts))
         ;; At this point the selected tab is the last elt in ELTS.
         ;; Scroll TABSET and ELTS until the selected tab becomes
         ;; visible.
         (let (buffer-list-update-hook)
-	      (with-temp-buffer
+          (with-temp-buffer
             (set-window-margins (selected-window) 0 0) ;; added by daftcoder
-	        (let ((truncate-partial-width-windows nil)
-		          (inhibit-modification-hooks t)
-		          deactivate-mark ;; Prevent deactivation of the mark!
-		          start)
-	          (setq truncate-lines nil
-		            buffer-undo-list t)
-	          (setq start (point))
-	          (while (and (cdr elts) ;; Always show the selected tab!
-			              (progn
-			                (delete-region start (point-max))
-			                (goto-char (point-max))
-			                (apply #'insert elts)
-			                (goto-char (point-min))
-			                (> (vertical-motion 1) 0)))
-	            (centaur-tabs-scroll tabset 1)
-	            (setq elts (cdr elts))))))
+            (let ((truncate-partial-width-windows nil)
+                  (inhibit-modification-hooks t)
+                  deactivate-mark ;; Prevent deactivation of the mark!
+                  start)
+              (setq truncate-lines nil
+                    buffer-undo-list t)
+              (setq start (point))
+              (while (and (cdr elts) ;; Always show the selected tab!
+                          (progn
+                            (delete-region start (point-max))
+                            (goto-char (point-max))
+                            (apply #'insert elts)
+                            (goto-char (point-min))
+                            (> (vertical-motion 1) 0)))
+                (centaur-tabs-scroll tabset 1)
+                (setq elts (cdr elts))))))
         (setq elts (nreverse elts))
         (setq centaur-tabs--track-selected nil))
       ;; Format remaining tabs.
       (while tabs
         (setq elts (cons (centaur-tabs-line-tab (car tabs)) elts)
-	          tabs (cdr tabs)))
+              tabs (cdr tabs)))
       ;; Cache and return the new tab bar.
       (centaur-tabs-set-template
        tabset
@@ -959,11 +959,11 @@ That is, a string used to represent it on the tab bar."
   :preface
   (defun ivy-rich-switch-buffer-icon (candidate)
     (with-current-buffer
-   	    (get-buffer candidate)
-	  (let ((icon (all-the-icons-icon-for-mode major-mode)))
-	    (if (symbolp icon)
-	        (all-the-icons-icon-for-mode 'fundamental-mode)
-	      icon))))
+        (get-buffer candidate)
+      (let ((icon (all-the-icons-icon-for-mode major-mode)))
+        (if (symbolp icon)
+            (all-the-icons-icon-for-mode 'fundamental-mode)
+          icon))))
   :init
   (use-package all-the-icons-ivy-rich
     :ensure t
@@ -1183,9 +1183,9 @@ That is, a string used to represent it on the tab bar."
     (let ((project-dir (projectile-project-root))
           (file-name (buffer-file-name)))
       (neotree-show)
-	  (when project-dir
+      (when project-dir
         (neotree-dir project-dir))
-	  (when file-name
+      (when file-name
         (neotree-find file-name))))
 
   (defun neotree-toggle-project-root-dir-or-current-dir ()
@@ -1195,7 +1195,7 @@ That is, a string used to represent it on the tab bar."
           (file-name (buffer-file-name)))
       (if (neo-global--window-exists-p)
           (neotree-hide)
-	    (progn
+        (progn
           (neotree-show)
           (when project-dir
             (neotree-dir project-dir))
@@ -1300,14 +1300,14 @@ visiting a file.  The current buffer is always included."
     (centaur-tabs-filter-out
      'centaur-tabs-hide-tab-cached
      (delq nil
-	       (cl-mapcar #'(lambda (b)
-			              (cond
-			               ;; Always include the current buffer.
-			               ((eq (current-buffer) b) b)
-			               ((buffer-file-name b) b)
-			               ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-			               ((buffer-live-p b) b)))
-		              (persp-buffer-list-filter (buffer-list)))))) ;; modified by daftcoder
+           (cl-mapcar #'(lambda (b)
+                          (cond
+                           ;; Always include the current buffer.
+                           ((eq (current-buffer) b) b)
+                           ((buffer-file-name b) b)
+                           ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+                           ((buffer-live-p b) b)))
+                      (persp-buffer-list-filter (buffer-list)))))) ;; modified by daftcoder
 
   ;;
   ;; Overriding 'ibuffer-update'
@@ -1681,21 +1681,21 @@ If optional arg SILENT is non-nil, do not display progress messages."
     "Preview LaTeX from the current markdown cell in a separate buffer."
     (interactive)
     (let* ((cell (ein:worksheet-get-current-cell))
-	       (buffer (if (ein:markdowncell-p cell)
-		               (get-buffer-create "*ein: LaTeX in Markdown preview*")
-		             (error "Not on a markdown cell"))))
+           (buffer (if (ein:markdowncell-p cell)
+                       (get-buffer-create "*ein: LaTeX in Markdown preview*")
+                     (error "Not on a markdown cell"))))
       (with-current-buffer buffer
         (when buffer-read-only
-	      (toggle-read-only))
+          (toggle-read-only))
         (unless (= (point-min) (point-max))
-	      (delete-region (point-min) (point-max)))
+          (delete-region (point-min) (point-max)))
         (insert (slot-value cell :input))
         (goto-char (point-min))
         (org-mode)
         (org-toggle-latex-fragment 16)
         (special-mode)
         (unless buffer-read-only
-	      (toggle-read-only))
+          (toggle-read-only))
         (display-buffer
          buffer
          '((display-buffer-below-selected display-buffer-at-bottom)
