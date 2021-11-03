@@ -499,6 +499,15 @@
   ;; Projectile integration
   (centaur-tabs-group-by-projectile-project)
 
+  ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
+  (defun magit-status-on-centaur-tabs (&optional directory cache)
+    "Run magit-status on centaur-tabs environment."
+    (interactive)
+    (magit-status directory cache)
+    (call-interactively 'centaur-tabs-local-mode)
+    (call-interactively 'centaur-tabs-local-mode))
+  (defalias 'magit 'magit-status-on-centaur-tabs)
+
   ;;
   ;; Overriding 'centaur-tabs-buffer-tab-label' in 'centaur-tabs-functions.el'
   ;; Customize tabs label width with 'centaur-tabs-label-max-length'.
@@ -2418,7 +2427,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "s-_") 'whitespace-mode)
 
-(global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c m") 'magit-status-on-centaur-tabs)
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") #'(lambda ()
                                   (interactive)
