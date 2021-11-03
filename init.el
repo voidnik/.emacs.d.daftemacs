@@ -1058,7 +1058,12 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package spell-fu
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
+              (spell-fu-mode))))
 
 ;;==============================================================================
 ;; treemacs
