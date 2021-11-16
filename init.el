@@ -1083,9 +1083,9 @@ That is, a string used to represent it on the tab bar."
 (use-package treemacs
   :ensure t
   :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  ;;:init
+  ;;(with-eval-after-load 'winum
+  ;;  (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
   (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
         treemacs-deferred-git-apply-delay      0.5
@@ -1266,16 +1266,14 @@ That is, a string used to represent it on the tab bar."
             (neotree-find filepath))))))
 
   (defun neotree-select-window ()
+    "Select the neotree window if it is visible."
     (interactive)
     (let ((neotree-buffer (get-buffer neo-buffer-name)))
       (if neotree-buffer
           (let ((p (with-current-buffer neotree-buffer (point))))
             (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)
             (goto-char p))
-        (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir))))
-  :bind
-  (:map global-map
-        ("C-c 9" . neotree-select-window)))
+        (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)))))
 
 ;;==============================================================================
 ;; perspective
@@ -2448,6 +2446,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                   (calculator)
                                   (balance-windows)))
 (global-set-key (kbd "C-c 4") 'neato-graph-bar)
+(global-set-key (kbd "C-c 9") 'neotree-select-window)
 
 (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
 
