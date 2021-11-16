@@ -1290,18 +1290,27 @@ That is, a string used to represent it on the tab bar."
 
   (setq persp-sort 'access)
   (setq persp-state-default-file "~/.emacs.d/persp-state-default")
+  (setq persp-state-default-file-loaded nil)
 
   (message "persp-state-default-file: %s (%s)" persp-state-default-file (file-exists-p persp-state-default-file))
-  (add-hook 'dashboard-after-initialize-hook #'(lambda ()
-                                                 (when (file-exists-p persp-state-default-file)
-                                                   (persp-state-load persp-state-default-file))))
+
+  (defun persp-state-load-default ()
+    "Restore the perspective state saved in the default file."
+    (interactive)
+    (when (file-exists-p persp-state-default-file)
+      (persp-state-load persp-state-default-file)
+      (setq persp-state-default-file-loaded t)))
+
+  ;;(add-hook 'dashboard-after-initialize-hook #'(lambda ()
+  ;;                                               (persp-state-load-default)))
   (add-hook 'persp-before-switch-hook #'(lambda ()
                                           (treemacs-hide)
                                           (neotree-hide)))
   (add-hook 'kill-emacs-hook #'(lambda ()
                                  (treemacs-hide)
                                  (neotree-hide)
-                                 (persp-state-save)))
+                                 (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
+                                   (persp-state-save))))
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
@@ -2412,6 +2421,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
 (global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
+
+(global-set-key (kbd "C-x x l") 'persp-state-load-default)
 
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c r") 'counsel-register)
