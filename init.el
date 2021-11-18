@@ -1460,56 +1460,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
                               "/System/Library/Frameworks" "/Library/Frameworks"))
 
 ;;==============================================================================
-;; Objective C
-;;
-;; https://www.emacswiki.org/emacs/ObjectiveCMode
-;;==============================================================================
-
-(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
-
-(add-to-list 'magic-mode-alist
-             `(,(lambda ()
-                  (and (buffer-file-name)
-                       (string= (file-name-extension buffer-file-name) "h")
-                       (re-search-forward "@\\<interface\\>"
-                                          magic-mode-regexp-match-limit t)))
-               . objc-mode))
-
-(require 'find-file) ;; for the "cc-other-file-alist" variable
-(nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
-
-(defadvice ff-get-file-name (around ff-get-file-name-framework
-                                    (search-dirs
-                                     fname-stub
-                                     &optional suffix-list))
-  "Search for Mac framework headers as well as POSIX headers."
-  (or
-   (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
-       (let* ((framework (match-string 1 fname-stub))
-              (header (match-string 2 fname-stub))
-              (fname-stub (concat framework ".framework/Headers/" header)))
-         ad-do-it))
-   ad-do-it))
-(ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
-(ad-activate 'ff-get-file-name)
-
-;;==============================================================================
-;; Swift
-;;
-;; https://github.com/swift-emacs/swift-mode
-;;==============================================================================
-
-(use-package swift-mode
-  :ensure t)
-
-;;==============================================================================
-;; objc-font-lock
-;;==============================================================================
-
-(use-package objc-font-lock
-  :ensure t)
-
-;;==============================================================================
 ;; Language Server Protocol (LSP)
 ;;
 ;; https://github.com/emacs-lsp/lsp-mode
@@ -1590,6 +1540,53 @@ If optional arg SILENT is non-nil, do not display progress messages."
                 "[/\\\\]\\.libs$")))
 
 (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+
+;;==============================================================================
+;; Objective C
+;;
+;; https://www.emacswiki.org/emacs/ObjectiveCMode
+;;==============================================================================
+
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+
+(add-to-list 'magic-mode-alist
+             `(,(lambda ()
+                  (and (buffer-file-name)
+                       (string= (file-name-extension buffer-file-name) "h")
+                       (re-search-forward "@\\<interface\\>"
+                                          magic-mode-regexp-match-limit t)))
+               . objc-mode))
+
+(require 'find-file) ;; for the "cc-other-file-alist" variable
+(nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
+
+(defadvice ff-get-file-name (around ff-get-file-name-framework
+                                    (search-dirs
+                                     fname-stub
+                                     &optional suffix-list))
+  "Search for Mac framework headers as well as POSIX headers."
+  (or
+   (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
+       (let* ((framework (match-string 1 fname-stub))
+              (header (match-string 2 fname-stub))
+              (fname-stub (concat framework ".framework/Headers/" header)))
+         ad-do-it))
+   ad-do-it))
+(ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
+(ad-activate 'ff-get-file-name)
+
+;; objc-font-lock
+(use-package objc-font-lock
+  :ensure t)
+
+;;==============================================================================
+;; Swift
+;;
+;; https://github.com/swift-emacs/swift-mode
+;;==============================================================================
+
+(use-package swift-mode
+  :ensure t)
 
 ;;==============================================================================
 ;; Python
@@ -1787,7 +1784,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t)
 
 ;;==============================================================================
-;; docker
+;; Docker
 ;;==============================================================================
 
 ;; docker
