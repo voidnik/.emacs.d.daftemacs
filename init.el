@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-flx company-statistics magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(docker docker-tramp typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-flx company-statistics magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1787,11 +1787,22 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t)
 
 ;;==============================================================================
-;; dockerfile-mode
-;;
-;; https://github.com/spotify/dockerfile-mode
+;; docker
 ;;==============================================================================
 
+;; docker
+;; https://github.com/Silex/docker.el
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
+;; docker-tramp
+;; https://github.com/emacs-pe/docker-tramp.el
+(use-package docker-tramp
+  :ensure t)
+
+;; dockerfile-mode
+;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode
   :ensure t
   :config
@@ -2406,9 +2417,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-s-<left>") 'buf-move-left)
 (global-set-key (kbd "C-s-<right>") 'buf-move-right)
 
-(global-set-key (kbd "C-c c") 'centered-window-mode)
-(global-set-key (kbd "C-c z") 'resize-window)
-
 (global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-O") 'ace-swap-window)
 (global-set-key (kbd "M-s-o") 'ff-find-other-file)
@@ -2432,13 +2440,17 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-x x l") 'persp-state-load-default)
 
 (global-set-key (kbd "C-c s") 'swiper)
-(global-set-key (kbd "C-c r") 'counsel-register)
-(global-set-key (kbd "C-c e") 'counsel-recentf)
-(global-set-key (kbd "C-c f") 'counsel-projectile-find-file)
-(global-set-key (kbd "C-c d") 'counsel-projectile-find-dir)
-(global-set-key (kbd "C-c b") 'counsel-projectile-switch-to-buffer)
-(global-set-key (kbd "C-c g") 'counsel-projectile-rg)
-(global-set-key (kbd "C-c p") 'counsel-projectile-switch-project)
+
+(global-set-key (kbd "C-c w c") 'centered-window-mode)
+(global-set-key (kbd "C-c w z") 'resize-window)
+
+(global-set-key (kbd "C-c c r") 'counsel-register)
+(global-set-key (kbd "C-c c e") 'counsel-recentf)
+(global-set-key (kbd "C-c c f") 'counsel-projectile-find-file)
+(global-set-key (kbd "C-c c d") 'counsel-projectile-find-dir)
+(global-set-key (kbd "C-c c b") 'counsel-projectile-switch-to-buffer)
+(global-set-key (kbd "C-c c g") 'counsel-projectile-rg)
+(global-set-key (kbd "C-c c p") 'counsel-projectile-switch-project)
 
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
