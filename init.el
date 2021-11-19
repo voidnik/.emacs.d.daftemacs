@@ -2044,7 +2044,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (if centaur-tabs-local-mode
       (window-resize nil 0 t)))
 
-(defun resize-window (&optional arg)
+(defun resize-window-and-margin (&optional arg)
   "*Resize window interactively."
   (interactive "p")
   (setq arg 4)
@@ -2069,7 +2069,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
       (catch 'done
         (while t
           (message
-           "h=heighten, s=shrink, w=widen, n=narrow, b=balance, +=widen margin, -=narrow margin, 1-9=unit(%d), q=quit"
+           "h=heighten, s=shrink, w=widen, n=narrow, b=balance, +=widen margin, -=narrow margin | 1-9=unit(%d), q=quit"
            arg)
           (setq c (read-char))
           (condition-case ()
@@ -2086,6 +2086,33 @@ If optional arg SILENT is non-nil, do not display progress messages."
                ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
                (t (beep)))
             (error (beep)))))))
+  (message "Done."))
+
+(defun resize-window (&optional arg)
+  "*Resize window interactively."
+  (interactive "p")
+  (if (one-window-p)
+      (error "Cannot resize sole window"))
+  (setq arg 4)
+  (let (c)
+    (catch 'done
+      (while t
+        (message
+         "h=heighten, s=shrink, w=widen, n=narrow, b=balance | 1-9=unit(%d), q=quit"
+         arg)
+        (setq c (read-char))
+        (condition-case ()
+            (cond
+             ((= c ?h) (enlarge-window arg))
+             ((= c ?s) (shrink-window arg))
+             ((= c ?w) (enlarge-window-horizontally arg))
+             ((= c ?n) (shrink-window-horizontally arg))
+             ((= c ?b) (balance-windows))
+             ((= c ?\^G) (keyboard-quit))
+             ((= c ?q) (throw 'done t))
+             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+             (t (beep)))
+          (error (beep))))))
   (message "Done."))
 
 ;;==============================================================================
@@ -2457,7 +2484,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c s") 'swiper)
 
 (global-set-key (kbd "C-c w c") 'centered-window-mode)
-(global-set-key (kbd "C-c w z") 'resize-window)
+(global-set-key (kbd "C-c w s") 'resize-window)
 
 (global-set-key (kbd "C-c c r") 'counsel-register)
 (global-set-key (kbd "C-c c e") 'counsel-recentf)
