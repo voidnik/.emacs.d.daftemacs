@@ -1091,6 +1091,7 @@ That is, a string used to represent it on the tab bar."
   :config
   (add-hook 'org-mode-hook
             (lambda ()
+              (setq ispell-personal-dictionary "~/.emacs.d/spell-fu/personal_dictionary.txt")
               (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
               (spell-fu-mode))))
 
