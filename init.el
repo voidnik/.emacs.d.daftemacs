@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(docker docker-tramp typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-fuzzy company-statistics magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(docker typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -879,6 +879,7 @@ That is, a string used to represent it on the tab bar."
 ;; company
 ;;==============================================================================
 
+;; http://company-mode.github.io/
 (use-package company
   :ensure t
   :diminish company-mode
@@ -905,6 +906,7 @@ That is, a string used to represent it on the tab bar."
         company-show-numbers "on")
   (add-hook 'after-init-hook 'global-company-mode))
 
+;; https://github.com/jcs-elpa/company-fuzzy
 (use-package company-fuzzy
   :ensure t
   :init
@@ -913,11 +915,15 @@ That is, a string used to represent it on the tab bar."
     (setq company-fuzzy-show-annotation t)
     (global-company-fuzzy-mode 1)))
 
+;; https://github.com/company-mode/company-statistics
 (use-package company-statistics
   :ensure t
-  :init
-  (with-eval-after-load 'company
-    (company-statistics-mode)))
+  :hook (company-mode . company-statistics-mode))
+
+;; https://github.com/sebastiencs/company-box
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
 
 (with-eval-after-load 'company
   (message "company-backends: %s" company-backends)
@@ -1801,18 +1807,15 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; Docker
 ;;==============================================================================
 
-;; docker
 ;; https://github.com/Silex/docker.el
 (use-package docker
   :ensure t
   :bind ("C-c d" . docker))
 
-;; docker-tramp
 ;; https://github.com/emacs-pe/docker-tramp.el
 (use-package docker-tramp
   :ensure t)
 
-;; dockerfile-mode
 ;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode
   :ensure t
