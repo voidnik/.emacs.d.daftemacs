@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-flx company-statistics magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-fuzzy company-statistics magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -883,31 +883,45 @@ That is, a string used to represent it on the tab bar."
   :ensure t
   :diminish company-mode
   :commands (company-complete company-mode)
-  :bind (;([remap dabbrev-expand] . company-complete)
-         ("C-." . company-complete)
-         ("C->" . counsel-company)
-         :map prog-mode-map
-         ([tab] . company-indent-or-complete-common))
-  :init (if (fboundp 'evil-declare-change-repeat)
-            (mapc #'evil-declare-change-repeat
-                  '(company-complete-common
-                    company-select-next
-                    company-select-previous
-                    company-complete-selection
-                    company-complete-number)))
-  (add-hook 'after-init-hook 'global-company-mode)
-  :config
-  (use-package company-flx
-    :ensure t
-    :init
-    (with-eval-after-load 'company
-      (company-flx-mode +1)))
-  (use-package company-statistics
-    :ensure t
-    :init
-    (company-statistics-mode))
-  (setq company-idle-delay 0)
-  (setq company-show-numbers "on"))
+  :bind
+  (;([remap dabbrev-expand] . company-complete)
+   ("C-." . company-complete)
+   ("C->" . counsel-company)
+   :map prog-mode-map
+   ([tab] . company-indent-or-complete-common))
+  :init
+  (if (fboundp 'evil-declare-change-repeat)
+      (mapc #'evil-declare-change-repeat
+            '(company-complete-common
+              company-select-next
+              company-select-previous
+              company-complete-selection
+              company-complete-number)))
+  (setq company-require-match nil            ; Don't require match, so you can still move your cursor as expected.
+        company-tooltip-align-annotations t  ; Align annotation to the right side.
+        company-eclim-auto-save nil          ; Stop eclim auto save.
+        company-dabbrev-downcase nil         ; No downcase when completion.
+        company-idle-delay 1
+        company-show-numbers "on")
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package company-fuzzy
+  :ensure t
+  :init
+  (with-eval-after-load 'company
+    (setq company-fuzzy-sorting-backend 'alphabetic)
+    (setq company-fuzzy-show-annotation t)
+    (global-company-fuzzy-mode 1)))
+
+(use-package company-statistics
+  :ensure t
+  :init
+  (with-eval-after-load 'company
+    (company-statistics-mode)))
+
+(with-eval-after-load 'company
+  (message "company-backends: %s" company-backends)
+  (message "company-fuzzy--backends: %s" company-fuzzy--backends))
 
 ;;==============================================================================
 ;; yasnippet
