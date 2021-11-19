@@ -902,7 +902,7 @@ That is, a string used to represent it on the tab bar."
         company-tooltip-align-annotations t  ; Align annotation to the right side.
         company-eclim-auto-save nil          ; Stop eclim auto save.
         company-dabbrev-downcase nil         ; No downcase when completion.
-        company-idle-delay 1
+        company-idle-delay 0.5
         company-show-numbers "on")
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -2485,6 +2485,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "C-c w c") 'centered-window-mode)
 (global-set-key (kbd "C-c w s") 'resize-window)
+(global-set-key (kbd "C-c w k") 'kill-buffer-and-window)
 
 (global-set-key (kbd "C-c c r") 'counsel-register)
 (global-set-key (kbd "C-c c e") 'counsel-recentf)

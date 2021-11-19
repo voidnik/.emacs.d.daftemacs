@@ -34,9 +34,9 @@
   (interactive)
   (other-window -1))
 
-(defun my-shell-hook ()
-  (local-set-key "\C-ck" 'erase-buffer))
-(add-hook 'shell-mode-hook 'my-shell-hook)
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (local-set-key "\C-ck" 'erase-buffer)))
 
 (defun hexl-mode-toggle ()
   (interactive)
