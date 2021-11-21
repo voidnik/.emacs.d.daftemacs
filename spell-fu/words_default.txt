@@ -1070,6 +1070,7 @@ adapting
 adaption
 adaptions
 adaptive
+adaptively
 adapts
 Adar
 Adar's
@@ -20398,6 +20399,7 @@ cnidarian's
 cnidarians
 CNN
 CNN's
+CNNs
 CNS
 CNS's
 CO
@@ -23576,6 +23578,7 @@ convolution
 convolution's
 convolutional
 convolutions
+convolved
 convoy
 convoy's
 convoyed
@@ -27181,6 +27184,7 @@ database
 database's
 databases
 Datamation
+dataset
 datasets
 datatype
 date
@@ -27539,6 +27543,7 @@ debit's
 debited
 debiting
 debits
+deblocking
 debonair
 debonairly
 debonairness
@@ -27882,6 +27887,8 @@ decontrol
 decontrolled
 decontrolling
 decontrols
+Deconvolutional
+deconvolutions
 decor
 decor's
 decorate
@@ -28890,6 +28897,8 @@ Dennis
 Dennis's
 Denny
 Denny's
+denoised
+denoising
 denominate
 denominated
 denominates
@@ -30963,6 +30972,8 @@ discriminates
 discriminating
 discrimination
 discrimination's
+discriminative
+discriminatively
 discriminator
 discriminator's
 discriminators
@@ -32753,6 +32764,7 @@ downriver
 Downs
 downs
 Downs's
+downsampling
 downscale
 downshift
 downshifted
@@ -53174,6 +53186,7 @@ Ilyushin's
 image
 image's
 imaged
+ImageNet
 imagery
 imagery's
 images
@@ -55375,6 +55388,9 @@ inordinately
 inorganic
 inorganically
 inositol
+inpaint
+inpainted
+inpainting
 inpatient
 inpatient's
 inpatients
@@ -61349,6 +61365,7 @@ Lear's
 Learjet
 Learjet's
 learn
+learnable
 learned
 learnedly
 learner
@@ -69929,6 +69946,7 @@ monochromatic
 monochrome
 monochrome's
 monochromes
+Monochromic
 monocle
 monocle's
 monocled
@@ -80193,6 +80211,7 @@ persist
 persisted
 persistence
 persistence's
+persistency
 persistent
 persistently
 persisting
@@ -89100,6 +89119,7 @@ Reconstruction's
 reconstruction's
 reconstructions
 reconstructive
+reconstructor
 reconstructs
 recontact
 recontacted
@@ -90008,6 +90028,7 @@ regression
 regression's
 regressions
 regressive
+regressor
 regret
 regret's
 regretful
@@ -97039,6 +97060,7 @@ segment
 segment's
 segmentation
 segmentation's
+segmentations
 segmented
 segmenting
 segments
@@ -110336,6 +110358,7 @@ threshes
 threshing
 threshold
 threshold's
+thresholding
 thresholds
 threw
 thrice
@@ -116514,6 +116537,10 @@ uproots
 UPS
 ups
 UPS's
+upsample
+upsampled
+upsamples
+upsampling
 upscale
 upset
 upset's
