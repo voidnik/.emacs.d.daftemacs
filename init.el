@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(docker typescript-mode flx dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line lsp-pyright centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich lsp-ivy diff-hl treemacs-icons-dired qml-mode highlight-indent-guides lsp-treemacs keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-ui lsp-mode flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
+   '(flx docker typescript-mode dockerfile-mode pretty-hydra string-utils org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein exec-path-from-shell yaml-mode hide-mode-line centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich all-the-icons-ivy all-the-icons-ivy-rich diff-hl treemacs-icons-dired qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright flycheck spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box magit vlf projectile haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1531,8 +1531,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package ccls
   :ensure t
-  :hook ((c-mode c++-mode objc-mode) .
-         (lambda () (require 'ccls) (lsp))))
+  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp))))
 (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
 ;TODO
 ;(setq
@@ -1640,7 +1639,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;   or
 ;;   $ sudo apt install python3-importmagic python3-epc
 ;;
-;; - lsp-pyright (https://github.com/emacs-lsp/lsp-pyright)
+;; - lsp-pyright server installation (https://github.com/emacs-lsp/lsp-pyright)
 ;;   $ npm install -g pyright
 ;;==============================================================================
 
@@ -1682,9 +1681,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package lsp-pyright
   :ensure t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp)))
+  :hook (python-mode . (lambda () (require 'lsp-pyright) (lsp)))
   :config
   (add-hook 'pyvenv-post-activate-hooks (lambda () (lsp-restart-workspace)))
   (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace))))
@@ -1742,19 +1739,34 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (fit-window-to-buffer (window-in-direction 'below))))))
 
 ;;==============================================================================
+;; Javascript/Typescript
+;;
+;; - lsp-typescript server installation
+;;   M-x lsp-install-server RET ts-ls RET
+;;    or
+;;   npm i -g typescript-language-server; npm i -g typescript
+;;
+;; - vscode-json-languageserver installation
+;;   M-x lsp-install-server RET json-ls RET
+;;    or
+;;   npm i -g vscode-json-languageserver
+;;
+;;   https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/
+;;   https://github.com/typescript-language-server/typescript-language-server
+;;==============================================================================
+
+;; https://github.com/emacs-typescript/typescript.el
+(use-package typescript-mode
+  :ensure t)
+
+(add-hook 'js-mode-hook (lambda () (lsp)))
+(add-hook 'typescript-mode-hook (lambda () (lsp)))
+
+;;==============================================================================
 ;; haskell-mode
 ;;==============================================================================
 
 (use-package haskell-mode
-  :ensure t)
-
-;;==============================================================================
-;; typescript-mode
-;;
-;; https://github.com/emacs-typescript/typescript.el
-;;==============================================================================
-
-(use-package typescript-mode
   :ensure t)
 
 ;;==============================================================================
