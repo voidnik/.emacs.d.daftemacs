@@ -911,9 +911,10 @@ That is, a string used to represent it on the tab bar."
   :ensure t
   :init
   (with-eval-after-load 'company
-    (setq company-fuzzy-sorting-backend 'alphabetic)
+    (setq company-fuzzy-sorting-backend 'flx)
+    (setq company-fuzzy-prefix-on-top nil)
     (setq company-fuzzy-show-annotation t)
-    (global-company-fuzzy-mode 1)))
+    (add-hook 'org-mode-hook (lambda () (company-fuzzy-mode 1)))))
 
 ;; https://github.com/company-mode/company-statistics
 (use-package company-statistics
