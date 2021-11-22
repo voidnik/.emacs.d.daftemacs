@@ -1511,6 +1511,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (lsp-ui-mode)
 
+(add-hook 'lsp-mode-hook
+          (lambda ()
+            (define-key lsp-mode-map "\M-." 'lsp-find-definition)))
+
 ;;==============================================================================
 ;; C/C++
 ;;
