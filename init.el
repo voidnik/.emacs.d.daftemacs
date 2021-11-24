@@ -902,7 +902,7 @@ That is, a string used to represent it on the tab bar."
         company-tooltip-align-annotations t  ; Align annotation to the right side.
         company-eclim-auto-save nil          ; Stop eclim auto save.
         company-dabbrev-downcase nil         ; No downcase when completion.
-        company-idle-delay 0.5
+        company-idle-delay .2
         company-show-numbers "on")
   (add-hook 'after-init-hook 'global-company-mode))
 
