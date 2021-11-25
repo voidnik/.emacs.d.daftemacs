@@ -766,11 +766,39 @@ That is, a string used to represent it on the tab bar."
   (add-hook 'org-tree-slide-stop-hook 'daftemacs/presentation-end))
 
 ;;==============================================================================
+;; org-re-reveal
+;;
+;; https://gitlab.com/oer/org-re-reveal
+;; https://github.com/hakimel/reveal.js
+;;==============================================================================
+
+(use-package org-re-reveal
+  :ensure t
+  :config
+  (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
+
+;;==============================================================================
 ;; markdown
 ;;==============================================================================
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq markdown-command "pandoc")
+  ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
+  (define-key markdown-mode-map (kbd "C-M-{") nil)
+  (define-key markdown-mode-map (kbd "C-M-}") nil)
+  :bind
+  ("M-+" . markdown-backward-block)
+  ("M-\"" . markdown-forward-block))
+
+;; markdown-preview-mode
+;; https://github.com/ancane/markdown-preview-mode
+(use-package markdown-preview-mode
+  :ensure t
+  :config
+  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
+  (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
 ;;==============================================================================
 ;; LaTeX Preview
@@ -1962,32 +1990,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (eval-after-load "term"
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
-
-;;==============================================================================
-;; markdown
-;;==============================================================================
-
-(setq markdown-command "pandoc")
-
-;; markdown-preview-mode
-;; https://github.com/ancane/markdown-preview-mode
-(use-package markdown-preview-mode
-  :ensure t
-  :config
-  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
-  (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
-
-;;==============================================================================
-;; org-re-reveal
-;;
-;; https://gitlab.com/oer/org-re-reveal
-;; https://github.com/hakimel/reveal.js
-;;==============================================================================
-
-(use-package org-re-reveal
-  :ensure t
-  :config
-  (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
 
 ;;==============================================================================
 ;; undo-tree
