@@ -252,7 +252,11 @@
   :config
   ;; How tall the mode-line should be. It's only respected in GUI.
   ;; If the actual char height is larger, it respects the actual height.
-  (setq doom-modeline-height 32)
+  (cond
+   ((string-equal system-type "darwin")
+    (setq doom-modeline-height 25))
+   ((string-equal system-type "gnu/linux")
+    (setq doom-modeline-height 32)))
 
   ;; How wide the mode-line bar should be. It's only respected in GUI.
   (setq doom-modeline-bar-width 2)
@@ -491,18 +495,16 @@
         centaur-tabs-set-close-button nil
         centaur-tabs-gray-out-icons 'buffer
         centaur-tabs-cycle-scope 'tabs)
-  (if (string-equal system-type "darwin")
-      (setq centaur-tabs-height 30)
-    (if (string-equal system-type "gnu/linux")
-        (if (string-equal (getenv "GDK_SCALE") "2")
-            (setq centaur-tabs-height 60)
-          (setq centaur-tabs-height 30))))
   (cond
    ((string-equal system-type "darwin")
+    (setq centaur-tabs-height 25)
     (centaur-tabs-change-fonts "Source Code Pro" 120)
     ;;(centaur-tabs-change-fonts "IBM 3270" 135)
     )
    ((string-equal system-type "gnu/linux")
+    (if (string-equal (getenv "GDK_SCALE") "2")
+        (setq centaur-tabs-height 56)
+      (setq centaur-tabs-height 28))
     (centaur-tabs-change-fonts "Source Code Pro" 95)
     ;;(centaur-tabs-change-fonts "IBM 3270" 110)
     ))
