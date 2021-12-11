@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich flx flycheck magit projectile restclient docker typescript-mode dockerfile-mode pretty-hydra org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein yaml-mode hide-mode-line centaur-tabs which-key use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy ace-window)))
+   '(string-utils exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline centaur-tabs page-break-lines dashboard which-key flx flycheck magit projectile restclient docker typescript-mode dockerfile-mode pretty-hydra org-tree-slide command-log-mode perspective magic-latex-buffer px ein yaml-mode hide-mode-line use-package bind-key google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil avy ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -194,31 +194,6 @@
   :ensure t
   :config
   (setq all-the-icons-scale-factor 1.0))
-
-;;==============================================================================
-;; flx
-;;==============================================================================
-
-(use-package flx
-  :ensure t)
-
-;;==============================================================================
-;; flycheck
-;;==============================================================================
-
-(use-package flycheck
-  :ensure t)
-;;(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;;==============================================================================
-;; magit
-;;==============================================================================
-
-(use-package magit
-  :ensure t)
-
-(use-package magit-popup
-  :ensure t)
 
 ;;==============================================================================
 ;; doom-themes
@@ -434,49 +409,6 @@
     )))
 
 ;;==============================================================================
-;; page-break-lines
-;;
-;; https://github.com/purcell/page-break-lines
-;;==============================================================================
-
-(use-package page-break-lines
-  :ensure t)
-
-;;==============================================================================
-;; dashboard
-;;
-;; https://github.com/emacs-dashboard/emacs-dashboard
-;;==============================================================================
-
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-center-content t)
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-items '((recents . 10)
-                          (bookmarks . 10)
-                          (projects . 10)
-                          (agenda . 10)
-                          (registers . 10)))
-  (setq dashboard-page-separator "\n\f\n")) ;; This depends on page-break-lines.
-
-;;==============================================================================
-;; centered-window (The customized version)
-;;
-;; Based on https://github.com/anler/centered-window-mode
-;;==============================================================================
-
-(load-file "~/.emacs.d/centered-window.elc")
-(require 'centered-window-mode)
-
-(setq-default cwm-centered-window-width 180)
-
-(add-hook 'dashboard-after-initialize-hook #'(lambda ()
-                                               (centered-window-mode)))
-
-;;==============================================================================
 ;; centaur-tabs
 ;;
 ;; https://github.com/ema2159/centaur-tabs
@@ -513,15 +445,6 @@
 
   ;; Projectile integration
   (centaur-tabs-group-by-projectile-project)
-
-  ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
-  (defun magit-status-on-centaur-tabs (&optional directory cache)
-    "Run magit-status on centaur-tabs environment."
-    (interactive)
-    (magit-status directory cache)
-    (call-interactively 'centaur-tabs-local-mode)
-    (call-interactively 'centaur-tabs-local-mode))
-  (defalias 'magit 'magit-status-on-centaur-tabs)
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-tab-label' in 'centaur-tabs-functions.el'
@@ -696,6 +619,49 @@ That is, a string used to represent it on the tab bar."
   ("C-c t k" . centaur-tabs-kill-all-buffers-in-current-group))
 
 ;;==============================================================================
+;; page-break-lines
+;;
+;; https://github.com/purcell/page-break-lines
+;;==============================================================================
+
+(use-package page-break-lines
+  :ensure t)
+
+;;==============================================================================
+;; dashboard
+;;
+;; https://github.com/emacs-dashboard/emacs-dashboard
+;;==============================================================================
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-center-content t)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-items '((recents . 10)
+                          (bookmarks . 10)
+                          (projects . 10)
+                          (agenda . 10)
+                          (registers . 10)))
+  (setq dashboard-page-separator "\n\f\n")) ;; This depends on page-break-lines.
+
+;;==============================================================================
+;; centered-window (The customized version)
+;;
+;; Based on https://github.com/anler/centered-window-mode
+;;==============================================================================
+
+(load-file "~/.emacs.d/centered-window.elc")
+(require 'centered-window-mode)
+
+(setq-default cwm-centered-window-width 180)
+
+(add-hook 'dashboard-after-initialize-hook #'(lambda ()
+                                               (centered-window-mode)))
+
+;;==============================================================================
 ;; which-key
 ;;
 ;; https://github.com/justbur/emacs-which-key
@@ -708,6 +674,41 @@ That is, a string used to represent it on the tab bar."
   :ensure t
   :config
   (which-key-mode))
+
+;;==============================================================================
+;; flx
+;;==============================================================================
+
+(use-package flx
+  :ensure t)
+
+;;==============================================================================
+;; flycheck
+;;==============================================================================
+
+(use-package flycheck
+  :ensure t)
+;;(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;;==============================================================================
+;; magit
+;;==============================================================================
+
+(use-package magit
+  :ensure t
+  :config
+  (when (bound-and-true-p centaur-tabs-mode)
+    ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
+    (defun magit-status-on-centaur-tabs (&optional directory cache)
+      "Run magit-status on centaur-tabs environment."
+      (interactive)
+      (magit-status directory cache)
+      (call-interactively 'centaur-tabs-local-mode)
+      (call-interactively 'centaur-tabs-local-mode))
+    (defalias 'magit 'magit-status-on-centaur-tabs)))
+
+(use-package magit-popup
+  :ensure t)
 
 ;;==============================================================================
 ;; org
@@ -2563,7 +2564,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "s-_") 'whitespace-mode)
 
-(global-set-key (kbd "C-c m") 'magit-status-on-centaur-tabs)
+(global-set-key (kbd "C-c m") 'magit)
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") #'(lambda ()
                                   (interactive)
