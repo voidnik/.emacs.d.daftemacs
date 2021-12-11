@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich flx flycheck magit projectile restclient docker typescript-mode dockerfile-mode pretty-hydra org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein yaml-mode hide-mode-line centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich diff-hl treemacs-icons-dired qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy ace-window)))
+   '(string-utils exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich flx flycheck magit projectile restclient docker typescript-mode dockerfile-mode pretty-hydra org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein yaml-mode hide-mode-line centaur-tabs which-key use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -208,7 +208,7 @@
 
 (use-package flycheck
   :ensure t)
-;(add-hook 'after-init-hook #'global-flycheck-mode)
+;;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
 ;; magit
@@ -601,6 +601,7 @@ That is, a string used to represent it on the tab bar."
        (window-dedicated-p (selected-window))
 
        ;; Buffer name not match below blacklist.
+       (string-prefix-p "*which-key" name)
        (string-prefix-p "*epc" name)
        (string-prefix-p "*helm" name)
        (string-prefix-p "*Helm" name)
@@ -693,6 +694,20 @@ That is, a string used to represent it on the tab bar."
   ("C-c t p" . centaur-tabs-group-by-projectile-project)
   ("C-c t g" . centaur-tabs-group-buffer-groups)
   ("C-c t k" . centaur-tabs-kill-all-buffers-in-current-group))
+
+;;==============================================================================
+;; which-key
+;;
+;; https://github.com/justbur/emacs-which-key
+;;
+;; 'which-key' should be loaded after loading 'centaur-tabs' in order to hide
+;; centaur-tabs in which-key buffer.
+;;==============================================================================
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
 ;;==============================================================================
 ;; org
@@ -1552,6 +1567,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   ;;(setq lsp-enable-file-watchers nil)
   (setq lsp-file-watch-threshold 2000)
   :hook ((lsp-mode . (lambda ()
+                       (lsp-enable-which-key-integration)
                        (define-key lsp-mode-map "\M-." 'lsp-find-definition)))))
 
 (use-package lsp-ui
