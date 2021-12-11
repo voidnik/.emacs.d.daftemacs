@@ -126,7 +126,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich flx flycheck magit projectile restclient docker typescript-mode dockerfile-mode pretty-hydra org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein yaml-mode hide-mode-line centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich diff-hl treemacs-icons-dired qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy ace-window)))
+   '(string-utils exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich flx flycheck magit projectile restclient docker typescript-mode dockerfile-mode pretty-hydra org-tree-slide command-log-mode perspective magic-latex-buffer px page-break-lines ein yaml-mode hide-mode-line centaur-tabs use-package bind-key dashboard google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile swiper ivy-posframe ivy-rich diff-hl treemacs-icons-dired qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright spell-fu treemacs-magit treemacs-projectile treemacs pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil doom-themes doom-modeline avy ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1543,40 +1543,36 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; Language Server Protocol (LSP)
 ;;
 ;; https://github.com/emacs-lsp/lsp-mode
-;; https://github.com/MaskRay/ccls
-;; https://github.com/MaskRay/emacs-ccls
+;; https://github.com/Microsoft/language-server-protocol/
 ;;==============================================================================
 
 (use-package lsp-mode
   :ensure t
-  :commands lsp)
+  :init
+  ;;(setq lsp-enable-file-watchers nil)
+  (setq lsp-file-watch-threshold 2000)
+  :hook ((lsp-mode . (lambda ()
+                       (define-key lsp-mode-map "\M-." 'lsp-find-definition)))))
 
 (use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+  :ensure t)
 
-(use-package lsp-treemacs
-  :ensure t
-  :after lsp-mode)
+(use-package helm-lsp
+  :ensure t)
 
 (use-package lsp-ivy
-  :ensure t
-  :after lsp-mode)
+  :ensure t)
 
-(setq lsp-prefer-flymake nil)
-;(setq lsp-enable-file-watchers nil)
-(setq lsp-file-watch-threshold 2000)
-
-(lsp-ui-mode)
-
-(add-hook 'lsp-mode-hook
-          (lambda ()
-            (define-key lsp-mode-map "\M-." 'lsp-find-definition)))
+(use-package lsp-treemacs
+  :ensure t)
 
 ;;==============================================================================
 ;; C/C++
 ;;
 ;; - ccls
+;; https://github.com/MaskRay/ccls
+;; https://github.com/MaskRay/emacs-ccls
+;;
 ;; 1) Dependencies
 ;;   RapidJSON: https://rapidjson.org/
 ;;     Ubuntu: $ sudo apt install rapidjson-dev
@@ -1594,35 +1590,36 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package ccls
   :ensure t
-  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp))))
-(setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
-;TODO
-;(setq
-; ccls-initialization-options
-; `(:index (:multiVersion 1 :trackDependency 1)))
+  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp-deferred)))
+  :config
+  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
+  ;;TODO
+  ;;(setq
+  ;; ccls-initialization-options
+  ;; `(:index (:multiVersion 1 :trackDependency 1)))
 
-;; # Indentation for ccls
-;;
-;; https://github.com/MaskRay/ccls/issues/459
-;; https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-;;
-;; 1) Place .clang-format in the project root, e.g.
-;;
-;; $ emacs .clang-format
-;; BasedOnStyle: LLVM
-;; IndentWidth: 4
-;;
-;; 2) If you don't want automatic type formatting, set lsp-enable-on-type-formatting to nil as follows.
-;;
-;; (setq lsp-enable-on-type-formatting nil)
+  ;; # Indentation for ccls
+  ;;
+  ;; https://github.com/MaskRay/ccls/issues/459
+  ;; https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+  ;;
+  ;; 1) Place .clang-format in the project root, e.g.
+  ;;
+  ;; $ emacs .clang-format
+  ;; BasedOnStyle: LLVM
+  ;; IndentWidth: 4
+  ;;
+  ;; 2) If you don't want automatic type formatting, set lsp-enable-on-type-formatting to nil as follows.
+  ;;
+  ;; (setq lsp-enable-on-type-formatting nil)
 
-(setq lsp-file-watch-ignored
-      (append lsp-file-watch-ignored
-              '("[/\\\\]\\.ccls-cache$"
-                "[/\\\\]\\.deps$"
-                "[/\\\\]\\.libs$")))
+  (setq lsp-file-watch-ignored
+        (append lsp-file-watch-ignored
+                '("[/\\\\]\\.ccls-cache$"
+                  "[/\\\\]\\.deps$"
+                  "[/\\\\]\\.libs$")))
 
-(add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
 ;;==============================================================================
 ;; Objective C
@@ -1745,7 +1742,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package lsp-pyright
   :ensure t
-  :hook (python-mode . (lambda () (require 'lsp-pyright) (lsp)))
+  :hook (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))
   :config
   (add-hook 'pyvenv-post-activate-hooks (lambda () (lsp-restart-workspace)))
   (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace))))
@@ -1823,8 +1820,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package typescript-mode
   :ensure t)
 
-(add-hook 'js-mode-hook (lambda () (lsp)))
-(add-hook 'typescript-mode-hook (lambda () (lsp)))
+(add-hook 'js-mode-hook (lambda () (lsp-deferred)))
+(add-hook 'typescript-mode-hook (lambda () (lsp-deferred)))
 
 ;;==============================================================================
 ;; haskell-mode
