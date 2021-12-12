@@ -55,10 +55,11 @@
   (interactive)
   (find-file-read-only "~/.zshrc"))
 
-(defun open-i3-config-file ()
-  (interactive)
-  (find-file-read-only "~/.config/i3status/config")
-  (find-file-read-only "~/.config/i3/config"))
+(if (string-equal system-type "gnu/linux")
+    (defun open-i3-config-file ()
+      (interactive)
+      (find-file-read-only "~/.config/i3status/config")
+      (find-file-read-only "~/.config/i3/config")))
 
 ;;==============================================================================
 ;; exec-path (OBSOLETE by exec-path-from-shell)
