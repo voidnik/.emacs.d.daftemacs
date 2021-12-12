@@ -531,7 +531,7 @@ That is, a string used to represent it on the tab bar."
        (window-dedicated-p (selected-window))
 
        ;; Buffer name not match below blacklist.
-       (string-prefix-p "*which-key" name)
+       (string-prefix-p " *which-key" name)
        (string-prefix-p "*epc" name)
        (string-prefix-p "*helm" name)
        (string-prefix-p "*Helm" name)
@@ -680,6 +680,7 @@ That is, a string used to represent it on the tab bar."
 (use-package which-key
   :ensure t
   :config
+  (setq which-key-idle-delay 0.5)
   (which-key-mode))
 
 ;;==============================================================================
