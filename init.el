@@ -1604,6 +1604,17 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 ;; C/C++
 ;;
+;; - bear
+;; https://github.com/rizsotto/Bear
+;;
+;; 1) Installing
+;;   Ubuntu: $ sudo apt-get install bear
+;;   MacOS brew: $ brew install bear
+;;
+;; 2) Usage
+;;   Ubuntu: $ bear make
+;;   MacOS brew: $ bear -- make
+;;
 ;; - clangd
 ;; https://clangd.llvm.org/
 ;;
