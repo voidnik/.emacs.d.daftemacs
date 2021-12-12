@@ -985,6 +985,7 @@ That is, a string used to represent it on the tab bar."
         company-eclim-auto-save nil          ; Stop eclim auto save.
         company-dabbrev-downcase nil         ; No downcase when completion.
         company-idle-delay .2
+        company-minimum-prefix-length 1
         company-show-numbers "on")
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -1573,6 +1574,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :init
   ;;(setq lsp-enable-file-watchers nil)
   (setq lsp-file-watch-threshold 2000)
+  (setq lsp-idle-delay 0.2)
   :hook ((lsp-mode . (lambda ()
                        (lsp-enable-which-key-integration)
                        (define-key lsp-mode-map "\M-." 'lsp-find-definition)))))
