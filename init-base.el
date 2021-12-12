@@ -6,6 +6,9 @@
             (message "normal-gc-cons-threshold: %d" gc-cons-threshold)))
 (add-hook 'focus-out-hook #'garbage-collect)
 
+(setq read-process-output-max (* 1024 1024))
+(message "read-process-output-max: %d" read-process-output-max)
+
 (setq visible-bell t
       make-backup-files nil
       column-number-mode t
