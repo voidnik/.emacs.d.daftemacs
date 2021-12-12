@@ -946,7 +946,9 @@ That is, a string used to represent it on the tab bar."
   (projectile-mode +1)
   (setq projectile-enable-caching t)
   (defadvice projectile-project-root (around ignore-remote first activate)
-    (unless (file-remote-p default-directory) ad-do-it)))
+    (unless (file-remote-p default-directory) ad-do-it))
+  ;;(message "projectile-globally-ignored-directories: %s" projectile-globally-ignored-directories)
+  )
 
 ;;==============================================================================
 ;; restclient
@@ -1578,7 +1580,14 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq lsp-idle-delay 0.5)
   :hook ((lsp-mode . (lambda ()
                        (lsp-enable-which-key-integration)
-                       (define-key lsp-mode-map "\M-." 'lsp-find-definition)))))
+                       (define-key lsp-mode-map "\M-." 'lsp-find-definition))))
+  :config
+  (setq lsp-file-watch-ignored
+        (append lsp-file-watch-ignored
+                '("[/\\\\]\\.cache$"
+                  "[/\\\\]\\.libs$")))
+  ;;(message "lsp-file-watch-ignored: %s" lsp-file-watch-ignored)
+  )
 
 (use-package lsp-ui
   :ensure t)
@@ -1594,6 +1603,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 ;;==============================================================================
 ;; C/C++
+;;
+;; - clangd
+;; https://clangd.llvm.org/
+;;
+;; 1) Installing
+;;   Ubuntu: $ sudo apt-get install clangd-12
+;;   MacOS brew: $ brew install llvm
 ;;
 ;; - ccls
 ;; https://github.com/MaskRay/ccls
@@ -1614,38 +1630,34 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;   $ brew install ccls
 ;;==============================================================================
 
-(use-package ccls
-  :ensure t
-  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp-deferred)))
-  :config
-  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
-  ;;TODO
-  ;;(setq
-  ;; ccls-initialization-options
-  ;; `(:index (:multiVersion 1 :trackDependency 1)))
+(add-hook 'c-mode-hook 'lsp-deferred)
+(add-hook 'c++-mode-hook 'lsp-deferred)
 
-  ;; # Indentation for ccls
-  ;;
-  ;; https://github.com/MaskRay/ccls/issues/459
-  ;; https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-  ;;
-  ;; 1) Place .clang-format in the project root, e.g.
-  ;;
-  ;; $ emacs .clang-format
-  ;; BasedOnStyle: LLVM
-  ;; IndentWidth: 4
-  ;;
-  ;; 2) If you don't want automatic type formatting, set lsp-enable-on-type-formatting to nil as follows.
-  ;;
-  ;; (setq lsp-enable-on-type-formatting nil)
-
-  (setq lsp-file-watch-ignored
-        (append lsp-file-watch-ignored
-                '("[/\\\\]\\.ccls-cache$"
-                  "[/\\\\]\\.deps$"
-                  "[/\\\\]\\.libs$")))
-
-  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
+;;(use-package ccls
+;;  :ensure t
+;;  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp-deferred)))
+;;  :config
+;;  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
+;;  ;;TODO
+;;  ;;(setq
+;;  ;; ccls-initialization-options
+;;  ;; `(:index (:multiVersion 1 :trackDependency 1)))
+;;
+;;  ;; # Indentation for ccls
+;;  ;;
+;;  ;; https://github.com/MaskRay/ccls/issues/459
+;;  ;; https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+;;  ;;
+;;  ;; 1) Place .clang-format in the project root, e.g.
+;;  ;;
+;;  ;; $ emacs .clang-format
+;;  ;; BasedOnStyle: LLVM
+;;  ;; IndentWidth: 4
+;;  ;;
+;;  ;; 2) If you don't want automatic type formatting, set lsp-enable-on-type-formatting to nil as follows.
+;;  ;;
+;;  ;; (setq lsp-enable-on-type-formatting nil)
+;;  )
 
 ;;==============================================================================
 ;; Objective C
@@ -1680,6 +1692,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
    ad-do-it))
 (ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
 (ad-activate 'ff-get-file-name)
+
+;; for lsp-mode
+(add-hook 'objc-mode-hook 'lsp-deferred)
 
 ;; objc-font-lock
 (use-package objc-font-lock
