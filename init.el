@@ -75,6 +75,12 @@
 (message "user-login-name: %s" user-login-name)
 (message "user-init-file: %s" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
+
+(if (and (fboundp 'native-comp-available-p)
+         (native-comp-available-p))
+    (message "Native compilation: Available")
+  (message "Native compilation: NOT available"))
+
 (if (functionp 'json-serialize)
     (message "Native JSON: Enabled")
   (message "Native JSON: Disabled"))
