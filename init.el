@@ -113,6 +113,11 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; Ahead-of-time native compilation when installing a package
+(when (and (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+  (setq package-native-compile t))
+
 ;;==============================================================================
 ;; Custom Set Variables
 ;;==============================================================================
