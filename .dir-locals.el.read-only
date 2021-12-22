@@ -1,0 +1,2 @@
+;; https://www.reddit.com/r/emacs/comments/rkw3h1/readonly_mode_in_specific_subtree/
+((nil . ((buffer-read-only . t))))
