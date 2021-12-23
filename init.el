@@ -2462,18 +2462,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
                 (or desc "video")))))))
 
 ;;==============================================================================
-;; Read-only directories
-;;
-;; https://www.reddit.com/r/emacs/comments/rkw3h1/readonly_mode_in_specific_subtree/
-;;==============================================================================
-
-(dir-locals-set-class-variables
- 'read-only
- '((nil . ((buffer-read-only . t)))))
-
-(dir-locals-set-directory-class "~/.emacs.d/elpa" 'read-only)
-
-;;==============================================================================
 ;; Global Keys
 ;;==============================================================================
 

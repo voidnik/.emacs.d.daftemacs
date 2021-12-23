@@ -58,29 +58,20 @@
 (if (string-equal system-type "gnu/linux")
     (defun open-i3-config-file ()
       (interactive)
-      (find-file-read-only "~/.config/i3status/config")
-      (find-file-read-only "~/.config/i3/config")))
+      (find-file "~/.config/i3status/config")
+      (find-file "~/.config/i3/config")))
 
 ;;==============================================================================
-;; exec-path (OBSOLETE by exec-path-from-shell)
-;;==============================================================================
-
-;;(cond
-;; ((string-equal system-type "darwin")
-;;  (progn
-;;    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-;;    (setq exec-path (append exec-path '("/usr/local/bin")))
-;;    (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
-;;    (setq exec-path (append exec-path '("/Library/TeX/texbin")))
-;;    (setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Library/Android/sdk/platform-tools")))
-;;    (setq exec-path (append exec-path (list (expand-file-name "~/Library/Android/sdk/platform-tools"))))))
-;; ((string-equal system-type "gnu/linux")
-;;  (progn
-;;    (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
-;;    (setq exec-path (append exec-path '("/usr/bin"))))))
+;; Read-only directories
 ;;
-;;(setenv "PATH" (concat (concat (getenv "PATH") ":") (expand-file-name "~/Workspace/depot_tools")))
-;;(setq exec-path (append exec-path (list (expand-file-name "~/Workspace/depot_tools"))))
+;; https://www.reddit.com/r/emacs/comments/rkw3h1/readonly_mode_in_specific_subtree/
+;;==============================================================================
+
+(dir-locals-set-class-variables
+ 'read-only
+ '((nil . ((buffer-read-only . t)))))
+
+(dir-locals-set-directory-class "~/.config" 'read-only)
 
 ;;==============================================================================
 ;; hl-line-mode
