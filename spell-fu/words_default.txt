@@ -3917,6 +3917,7 @@ aniseed
 aniseed's
 anisette
 anisette's
+Anisotropic
 Anita
 Anita's
 Ankara
@@ -6841,6 +6842,8 @@ autocross
 autodidact
 autodidact's
 autodidacts
+autoencoder
+autoencoders
 autograph
 autograph's
 autographed
@@ -6890,6 +6893,7 @@ autopsies
 autopsy
 autopsy's
 autopsying
+autoregressive
 autos
 autosuggestion
 autoworker
@@ -10226,6 +10230,7 @@ bickering
 bickers
 biconcave
 biconvex
+bicubic
 bicuspid
 bicuspid's
 bicuspids
@@ -19121,6 +19126,7 @@ Chromebook's
 Chromebooks
 chromed
 chromes
+chrominance
 chroming
 chromium
 chromium's
@@ -21237,6 +21243,7 @@ colostomy
 colostomy's
 colostrum
 colostrum's
+colour
 cols
 Colt
 colt
@@ -23566,6 +23573,7 @@ convivial
 conviviality
 conviviality's
 convivially
+ConvNets
 convocation
 convocation's
 convocations
@@ -23579,6 +23587,7 @@ convolution's
 convolutional
 convolutions
 convolved
+convolving
 convoy
 convoy's
 convoyed
@@ -27544,6 +27553,7 @@ debited
 debiting
 debits
 deblocking
+deblurring
 debonair
 debonairly
 debonairness
@@ -27887,6 +27897,7 @@ decontrol
 decontrolled
 decontrolling
 decontrols
+deconvolution
 Deconvolutional
 deconvolutions
 decor
@@ -28237,6 +28248,7 @@ deforested
 deforesting
 deforests
 deform
+deformable
 deformation
 deformation's
 deformations
@@ -28360,6 +28372,9 @@ deigning
 deigns
 Deimos
 Deimos's
+deinterlace
+deinterlaced
+deinterlacing
 Deirdre
 Deirdre's
 deism
@@ -28898,6 +28913,8 @@ Dennis's
 Denny
 Denny's
 denoised
+denoiser
+denoisers
 denoising
 denominate
 denominated
@@ -28933,6 +28950,7 @@ dense
 densely
 denseness
 denseness's
+DenseNet
 denser
 densest
 densities
@@ -29585,6 +29603,7 @@ detected
 detecting
 detection
 detection's
+detections
 detective
 detective's
 detectives
@@ -32764,6 +32783,7 @@ downriver
 Downs
 downs
 Downs's
+downsampled
 downsampling
 downscale
 downshift
@@ -56365,6 +56385,7 @@ intoxicates
 intoxicating
 intoxication
 intoxication's
+intra
 intracranial
 intractability
 intractability's
@@ -56514,6 +56535,7 @@ invariable
 invariable's
 invariables
 invariably
+invariance
 invariant
 invasion
 invasion's
@@ -57168,6 +57190,7 @@ iteration
 iteration's
 iterations
 iterative
+iteratively
 iterator
 iterators
 Ithaca
@@ -69441,6 +69464,7 @@ Mobile
 mobile
 Mobile's
 mobile's
+MobileNet
 mobiles
 mobility
 mobility's
@@ -71119,6 +71143,7 @@ multiprocessor's
 multiprocessors
 multipurpose
 multiracial
+multiscale
 multistage
 multistory
 multitask
@@ -73569,6 +73594,7 @@ nonintoxicating
 noninvasive
 nonirritating
 nonissue
+noniterative
 nonjudgmental
 nonjudicial
 nonlegal
@@ -73611,6 +73637,7 @@ nonoperative
 nonparallel
 nonparallel's
 nonparallels
+nonparametric
 nonpareil
 nonpareil's
 nonpareils
@@ -75579,6 +75606,7 @@ Opel's
 open
 open's
 opencast
+OpenCV
 opened
 opener
 opener's
@@ -75716,6 +75744,7 @@ optics
 optics's
 optima
 optimal
+optimality
 optimally
 optimism
 optimism's
@@ -80913,6 +80942,7 @@ photojournalists
 photometer
 photometer's
 photometers
+photometric
 photon
 photon's
 photons
@@ -81163,6 +81193,7 @@ piece's
 pieced
 piecemeal
 pieces
+piecewise
 piecework
 piecework's
 pieceworker
@@ -83841,6 +83872,7 @@ praying
 prays
 PRC
 PRC's
+pre
 preach
 preached
 preacher
@@ -84318,6 +84350,8 @@ preppiest
 prepping
 preppy
 preppy's
+preprocessed
+preprocessing
 preps
 prepubescence
 prepubescence's
@@ -88503,6 +88537,7 @@ realness's
 realpolitik
 realpolitik's
 reals
+realtime
 Realtor
 Realtor's
 realty
@@ -91464,6 +91499,7 @@ resize
 resized
 resizes
 resizing
+ResNet
 resold
 resole
 resoled
@@ -94117,6 +94153,8 @@ runt
 runt's
 runtier
 runtiest
+runtime
+runtimes
 runts
 runty
 runway
@@ -95597,6 +95635,8 @@ Scandinavian's
 Scandinavians
 scandium
 scandium's
+scanline
+scanlines
 scanned
 scanner
 scanner's
@@ -98150,6 +98190,7 @@ shapes
 shaping
 Shapiro
 Shapiro's
+sharable
 shard
 shard's
 shards
@@ -102554,6 +102595,7 @@ spathe's
 spathes
 spatial
 spatially
+spatio
 spats
 spatted
 spatter
@@ -105365,6 +105407,7 @@ strictures
 stridden
 stride
 stride's
+strided
 stridency
 stridency's
 strident
@@ -105951,6 +105994,7 @@ subroutine
 subroutine's
 subroutines
 subs
+subsampling
 subscribe
 subscribed
 subscriber
@@ -106788,6 +106832,7 @@ superposition's
 superpower
 superpower's
 superpowers
+superresolution
 supers
 supersaturate
 supersaturated
@@ -112131,6 +112176,7 @@ train
 train's
 trainable
 trained
+trained
 trainee
 trainee's
 trainees
@@ -113589,6 +113635,7 @@ tun
 tun's
 tuna
 tuna's
+tunable
 tunas
 tundra
 tundra's
@@ -115100,6 +115147,7 @@ underwrote
 undeserved
 undeservedly
 undeserving
+undeservingly
 undesirability
 undesirability's
 undesirable
@@ -116542,6 +116590,8 @@ upsampled
 upsamples
 upsampling
 upscale
+upscaled
+upscaling
 upset
 upset's
 upsets
