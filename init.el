@@ -1423,14 +1423,7 @@ That is, a string used to represent it on the tab bar."
       (persp-state-load persp-state-default-file)
       (setq persp-state-default-file-loaded t)))
 
-  ;;(add-hook 'dashboard-after-initialize-hook #'(lambda ()
-  ;;                                               (persp-state-load-default)))
-  (add-hook 'persp-before-switch-hook #'(lambda ()
-                                          (treemacs-hide)
-                                          (neotree-hide)))
   (add-hook 'kill-emacs-hook #'(lambda ()
-                                 (treemacs-hide)
-                                 (neotree-hide)
                                  (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
                                    (persp-state-save))))
 
