@@ -1584,7 +1584,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq lsp-idle-delay 0.5)
   :hook ((lsp-mode . (lambda ()
                        (lsp-enable-which-key-integration)
-                       (define-key lsp-mode-map "\M-." 'lsp-find-definition))))
+                       (define-key lsp-mode-map "\M-." 'lsp-find-definition)
+                       (define-key lsp-mode-map (kbd "s-l 0") 'lsp-treemacs-symbols))))
   :config
   (setq lsp-file-watch-ignored
         (append lsp-file-watch-ignored
