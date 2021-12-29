@@ -8,6 +8,7 @@ set -o errexit
 # https://akrl.sdf.org/gccemacs.html
 # https://xenodium.com/trying-out-gccemacs-on-macos/
 # https://gist.github.com/AllenDang/f019593e65572a8e0aefc96058a2d23e
+# http://www.cesarolea.com/posts/emacs-native-compile/
 
 readonly GCC_DIR="$(realpath $(brew --prefix libgccjit))"
 [[ -d $GCC_DIR ]] ||  { echo "${GCC_DIR} not found"; exit 1; }
