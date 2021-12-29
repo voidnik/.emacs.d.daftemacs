@@ -13,6 +13,7 @@ autoencoder
 autoencoders
 autoregressive
 bicubic
+bilinear
 chrominance
 colour
 convolutional
@@ -25,6 +26,7 @@ deblurring
 deconvolution
 deconvolutions
 deformable
+degradations
 deinterlace
 deinterlaced
 deinterlacing
@@ -37,6 +39,9 @@ discriminative
 discriminatively
 downsampled
 downsampling
+grayscale
+incentivize
+incentivizes
 inpaint
 inpainted
 inpainting
@@ -44,6 +49,7 @@ intra
 invariance
 iteratively
 learnable
+modelling
 multiscale
 noniterative
 nonparametric
@@ -57,17 +63,21 @@ preprocessing
 realtime
 reconstructor
 regressor
+rescale
 runtime
 runtimes
 scanline
 scanlines
 segmentations
 sharable
+sociotechnical
+softmax
 spatio
 strided
 subsampling
 superresolution
 thresholding
+tradeoff
 trained
 tunable
 undeservingly
@@ -77,3 +87,4 @@ upsamples
 upsampling
 upscaled
 upscaling
+variational

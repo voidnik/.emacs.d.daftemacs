@@ -10374,6 +10374,7 @@ bile's
 bilge
 bilge's
 bilges
+bilinear
 bilingual
 bilingual's
 bilingualism
@@ -28317,6 +28318,7 @@ DeGeneres's
 degradable
 degradation
 degradation's
+degradations
 degrade
 degraded
 degrades
@@ -46764,6 +46766,7 @@ grayish
 grayness
 grayness's
 grays
+grayscale
 graze
 graze's
 grazed
@@ -54097,6 +54100,8 @@ incensing
 incentive
 incentive's
 incentives
+incentivize
+incentivizes
 inception
 inception's
 inceptions
@@ -69524,6 +69529,7 @@ modelers
 modeling
 modeling's
 modelings
+modelling
 models
 modem
 modem's
@@ -91317,6 +91323,7 @@ resale
 resale's
 resales
 resat
+rescale
 reschedule
 rescheduled
 reschedules
@@ -101655,6 +101662,7 @@ sociopath
 sociopath's
 sociopaths
 sociopolitical
+sociotechnical
 sock
 sock's
 socked
@@ -101722,6 +101730,7 @@ softest
 softhearted
 softies
 softly
+softmax
 softness
 softness's
 software
@@ -112099,6 +112108,7 @@ trademark's
 trademarked
 trademarking
 trademarks
+tradeoff
 trader
 trader's
 traders
@@ -117282,6 +117292,7 @@ variants
 variate
 variation
 variation's
+variational
 variations
 varicolored
 varicose
