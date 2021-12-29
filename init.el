@@ -496,10 +496,10 @@ That is, a string used to represent it on the tab bar."
     Other buffer group by `centaur-tabs-get-group-name' with project name."
     (list
 	 (cond
+      ((string-match "\s?\*ein" (buffer-name))
+       "EIN")
 	  ((string-equal "*" (substring (buffer-name) 0 1))
 	   "Emacs")
-      ((string-prefix-p "*ein" (buffer-name))
-       "EIN")
       ((or (string-match "magit-?[0-9a-zA-Z]*?: " (buffer-name))
            (memq major-mode '(magit-process-mode
 			                  magit-status-mode
@@ -547,7 +547,9 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*helm" name)
        (string-prefix-p "*Helm" name)
        (string-prefix-p "*Compile-Log*" name)
+       (string-prefix-p "*Backtrace*" name)
        (string-prefix-p "*lsp" name)
+       (string-prefix-p "*LSP" name)
        (string-prefix-p "*company" name)
        (string-prefix-p "*Flycheck" name)
        (string-prefix-p "*tramp" name)
@@ -556,11 +558,12 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*straight" name)
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
+       (string-prefix-p "*Calc" name)
+       (string-prefix-p "*calculator" name)
        (string-prefix-p "*Ilist" name)
        (string-prefix-p "*Ediff" name)
        (string-prefix-p "*Bufler" name)
-       (string-prefix-p "*Ibuffer" name)
-       (string-prefix-p "*ein: LaTeX in Markdown preview*" name))))
+       (string-prefix-p "*Ibuffer" name))))
 
   ;;
   ;; Overriding 'centaur-tabs-line-format' in 'centaur-tabs-functions.el'
@@ -870,11 +873,11 @@ That is, a string used to represent it on the tab bar."
   :config
   ;;(add-hook 'latex-mode-hook 'magic-latex-buffer)
   (setq magic-latex-enable-block-highlight nil
-      magic-latex-enable-suscript        t
-      magic-latex-enable-pretty-symbols  t
-      magic-latex-enable-block-align     nil
-      magic-latex-enable-inline-image    nil
-      magic-latex-enable-minibuffer-echo nil))
+        magic-latex-enable-suscript        t
+        magic-latex-enable-pretty-symbols  t
+        magic-latex-enable-block-align     nil
+        magic-latex-enable-inline-image    nil
+        magic-latex-enable-minibuffer-echo nil))
 
 ;;==============================================================================
 ;; grep variants
