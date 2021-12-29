@@ -21,6 +21,7 @@ company-statistics-cache.el
 .cask
 .cache
 .lsp-session-v1
+.dap-breakpoints
 ccls
 reveal.js
 transient
