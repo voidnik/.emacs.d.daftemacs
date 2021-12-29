@@ -2518,8 +2518,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                   (ansi-term explicit-shell-file-name)))
 (global-set-key (kbd "C-c 3") #'(lambda ()
                                   (interactive)
-                                  (calculator)
-                                  (balance-windows)))
+                                  (calculator)))
 (global-set-key (kbd "C-c 4") 'neato-graph-bar)
 (global-set-key (kbd "C-c 9") 'neotree-select-window)
 
