@@ -22,6 +22,8 @@
 (put 'erase-buffer 'disabled nil)
 (show-paren-mode t)
 (delete-selection-mode t)
+(display-time-mode t)
+(display-battery-mode t)
 (require 'cl-lib) ; Common Lisp
 (setq winner-dont-bind-my-keys t)
 (winner-mode)
