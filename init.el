@@ -1572,7 +1572,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t
   :config
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-method 'bitmap)
   (setq highlight-indent-guides-responsive 'top))
 
 ;;==============================================================================
