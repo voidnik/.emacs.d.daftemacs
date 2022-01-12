@@ -137,7 +137,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient docker typescript-mode dockerfile-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein yaml-mode hide-mode-line use-package bind-key google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode highlight-indent-guides keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump ccls lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright dap-mode pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup highlight-indentation helm find-file-in-project evil avy ace-window)))
+   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient docker typescript-mode dockerfile-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein yaml-mode hide-mode-line use-package bind-key google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode keyfreq neato-graph-bar epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright dap-mode ccls pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup helm find-file-in-project evil avy ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1583,6 +1583,15 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t)
 
 ;;==============================================================================
+;; filldent
+;;
+;; https://github.com/duckwork/filldent.el
+;;==============================================================================
+
+(use-package filldent
+  :ensure t)
+
+;;==============================================================================
 ;; cc-search-directories
 ;;==============================================================================
 
@@ -2511,6 +2520,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                   (pcase (treemacs-current-visibility)
                                     ('visible (treemacs--select-visible-window))
                                     (code (neotree-select-window))))))
+(global-set-key (kbd "M-q") 'filldent-dwim)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
