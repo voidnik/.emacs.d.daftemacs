@@ -1856,6 +1856,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/millejoh/emacs-ipython-notebook
 (use-package ein
   :ensure t
+  :custom-face
+  (ein:basecell-input-area-face ((t (:extend t :background "#23242f"))))
   :config
   ;; https://github.com/millejoh/emacs-ipython-notebook/issues/88
   (defun ein:preview-md-cell-latex ()
