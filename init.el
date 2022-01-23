@@ -2523,6 +2523,21 @@ If optional arg SILENT is non-nil, do not display progress messages."
                 (or desc "video")))))))
 
 ;;==============================================================================
+;; Wordel: Wordle in Emacs
+;;
+;; - Installation
+;;   $ git clone https://github.com/progfolio/wordel.git
+;;
+;; https://github.com/progfolio/wordel
+;; https://www.powerlanguage.co.uk/wordle/
+;;==============================================================================
+
+(setq wordel-el-file "~/.emacs.d/wordel/wordel.el")
+(when (file-exists-p wordel-el-file)
+  (load-file wordel-el-file)
+  (require 'wordel))
+
+;;==============================================================================
 ;; Global Keys
 ;;==============================================================================
 
