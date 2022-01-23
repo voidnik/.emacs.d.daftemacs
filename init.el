@@ -2569,6 +2569,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
 (global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
+(global-set-key (kbd "C-x _") 'whitespace-mode)
 
 (global-set-key (kbd "C-x x l") 'persp-state-load-default)
 
@@ -2588,8 +2589,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
-
-(global-set-key (kbd "s-_") 'whitespace-mode)
 
 (global-set-key (kbd "C-c m") 'magit)
 (global-set-key (kbd "C-c 1") 'eshell)
