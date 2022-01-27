@@ -1525,7 +1525,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package bufler
   :load-path "bufler"
   :config
-  (setq bufler-use-header-line-format nil
+  (setq bufler-show-header-string nil
+        bufler-use-header-line-format nil
         bufler-delete-bufler-window-when-switching-to-buffer nil)
   (setq bufler-filter-buffer-modes
         '(bufler-list-mode special-mode timer-list-mode)))

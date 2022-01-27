@@ -244,6 +244,11 @@ Used when `bufler-list' is called."
   :type 'hook)
 
 ;; customized by daftcoder
+(defcustom bufler-show-header-string t
+  "Show the header string."
+  :type 'boolean)
+
+;; customized by daftcoder
 (defcustom bufler-use-header-line-format t
   "Use header-line-format."
   :type 'boolean)
@@ -403,12 +408,13 @@ which are otherwise filtered by `bufler-filter-buffer-fns'."
             (--each groups
               (insert-thing it nil 0)))
           ;; customized by daftcoder
-          (if bufler-use-header-line-format
-              (setf header-line-format header)
-            (progn
-              (goto-char 0)
-              (insert (format "%s\n" (string-trim-left header)))
-              (setf header-line-format nil)))
+          (when bufler-show-header-string
+            (if bufler-use-header-line-format
+                (setf header-line-format header)
+              (progn
+                (goto-char 0)
+                (insert (format "%s\n" (string-trim-left header)))
+                (setf header-line-format nil))))
           (setf buffer-read-only t)
           (pop-to-buffer (current-buffer) bufler-list-display-buffer-action)
           (goto-char pos))
