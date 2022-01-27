@@ -462,7 +462,7 @@ NAME, okay, `checkdoc'?"
   (lambda (buffer)
     (let ((bufler-window (selected-window)))
       ;; customized by daftcoder
-      (when (and (not (eq (line-number-at-pos) 1)) (not bufler-use-header-line-format))
+      (when (or bufler-use-header-line-format (and (not (eq (line-number-at-pos) 1)) (not bufler-use-header-line-format)))
         (when bufler-delete-bufler-window-when-switching-to-buffer
           (ignore-errors
             ;; Ignoring the error seems like the easiest way to handle
@@ -476,7 +476,7 @@ NAME, okay, `checkdoc'?"
 (bufler-define-buffer-command peek "Peek at buffer in another window."
   (lambda (buffer)
     ;; customized by daftcoder
-    (when (and (not (eq (line-number-at-pos) 1)) (not bufler-use-header-line-format))
+    (when (or bufler-use-header-line-format (and (not (eq (line-number-at-pos) 1)) (not bufler-use-header-line-format)))
       (display-buffer buffer '((display-buffer-use-some-window
                                 display-buffer-pop-up-window)
                                (inhibit-same-window . t)))))
