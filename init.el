@@ -137,25 +137,25 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient docker typescript-mode dockerfile-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein yaml-mode hide-mode-line use-package bind-key google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode keyfreq neato-graph-bar arxiv-mode md4rd wordel epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright dap-mode ccls pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup helm find-file-in-project evil avy ace-window)))
+   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient docker typescript-mode dockerfile-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein yaml-mode hide-mode-line use-package bind-key google-c-style i3wm-config-mode peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit qml-mode keyfreq neato-graph-bar elfeed arxiv-mode md4rd wordel epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep helm-rg ag helm-ag dumb-jump highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui lsp-treemacs lsp-ivy lsp-pyright dap-mode ccls pdf-tools helm-gtags helm-lsp imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup helm find-file-in-project evil avy ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ediff-current-diff-A ((t (:background "#7F3C63"))))
- '(ediff-current-diff-B ((t (:background "#287D3D"))))
- '(ediff-current-diff-C ((t (:background "#45747E"))))
+ '(ediff-current-diff-A ((t (:background "#7f3c63"))))
+ '(ediff-current-diff-B ((t (:background "#287d3d"))))
+ '(ediff-current-diff-C ((t (:background "#45747e"))))
  '(ediff-even-diff-A ((t (:background "#464752"))))
  '(ediff-even-diff-B ((t (:background "#464752"))))
  '(ediff-even-diff-C ((t (:background "#464752"))))
- '(ediff-fine-diff-A ((t (:foreground "#282a36" :background "#FF79C6"))))
- '(ediff-fine-diff-B ((t (:foreground "#282a36" :background "#50FA7B"))))
- '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8BE9FD"))))
+ '(ediff-fine-diff-A ((t (:foreground "#282a36" :background "#ff79c6"))))
+ '(ediff-fine-diff-B ((t (:foreground "#282a36" :background "#50fa7b"))))
+ '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8be9fd"))))
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
  '(ediff-odd-diff-C ((t (:background "#464752"))))
- '(mode-line ((t (:background "#1E2029")))))
+ '(mode-line ((t (:background "#1e2029")))))
 
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
@@ -2434,13 +2434,19 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq browse-url-browser-function 'browse-url-surf))
 
 ;;==============================================================================
-;; arxiv-mode
+;; elfeed
 ;;
-;; https://github.com/fizban007/arxiv-mode
+;; https://github.com/skeeto/elfeed
 ;;==============================================================================
 
-(use-package arxiv-mode
-  :ensure t)
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds
+        '("https://darkpgmr.tistory.com/rss"
+          "http://nullprogram.com/feed/"
+          ("https://planet.emacslife.com/atom.xml" emacs)
+          )))
 
 ;;==============================================================================
 ;; md4rd - Mode for reddit
@@ -2452,12 +2458,22 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t
   :config
   (add-hook 'md4rd-mode-hook 'md4rd-indent-all-the-lines)
-  (setq md4rd-subs-active '(emacs lisp+Common_Lisp prolog clojure))
   (setq md4rd--oauth-access-token "44428323-ci7Q1lW1XZadFiMIYPdQu2Xdj-asyw")
   (setq md4rd--oauth-refresh-token "44428323-vwOa5w774LmcjoMcy7IxTySny2aXBw")
   (run-with-timer 0 3540 'md4rd-refresh-login)
   (message "md4rd--oauth-access-token: %s" md4rd--oauth-access-token)
-  (message "md4rd--oauth-refresh-token: %s" md4rd--oauth-refresh-token))
+  (message "md4rd--oauth-refresh-token: %s" md4rd--oauth-refresh-token)
+
+  (setq md4rd-subs-active '(emacs lisp+Common_Lisp prolog clojure rust)))
+
+;;==============================================================================
+;; arxiv-mode
+;;
+;; https://github.com/fizban007/arxiv-mode
+;;==============================================================================
+
+(use-package arxiv-mode
+  :ensure t)
 
 ;;==============================================================================
 ;; Instant Stackoverflow Solutions
@@ -2585,7 +2601,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
+(global-set-key (kbd "C-c 9") 'neotree-select-window)
 (global-set-key (kbd "C-c m") 'magit)
+
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") #'(lambda ()
                                   (interactive)
@@ -2594,7 +2612,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                   (interactive)
                                   (calculator)))
 (global-set-key (kbd "C-c 4") 'neato-graph-bar)
-(global-set-key (kbd "C-c 9") 'neotree-select-window)
+
+(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z f") 'elfeed)
+(global-set-key (kbd "C-z r") 'md4rd)
+(global-set-key (kbd "C-z a") 'arxiv-complex-search)
+(global-set-key (kbd "C-z s") 'stackoverflow-lookup)
 
 (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
 
