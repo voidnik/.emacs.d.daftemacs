@@ -410,6 +410,16 @@
 
 ;;(dracula-setup-modeline-format)
 
+;; Custom visible bell
+;; https://www.emacswiki.org/emacs/AlarmBell
+(setq ring-bell-function
+      (lambda ()
+        (let ((orig-bg (face-background 'mode-line)))
+          (set-face-background 'mode-line "#ff5555")
+          (run-with-idle-timer 0.1 nil
+                               (lambda (bg) (set-face-background 'mode-line bg))
+                               orig-bg))))
+
 (cond
  ((string-equal system-type "darwin")
   (progn
