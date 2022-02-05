@@ -2433,7 +2433,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (when (string-equal system-type "gnu/linux")
   (defun browse-url-surf (url &optional new-window)
     "Ask the Surf web browser to load URL."
-    (interactive (browse-url-interactive-arg "URL: "))
+    (interactive (browse-url-interactive-arg "URL (Surf): "))
     (setq url (browse-url-encode-url url))
     (let* ((process-environment (browse-url-process-environment)))
       (apply #'start-process
@@ -2441,7 +2441,17 @@ If optional arg SILENT is non-nil, do not display progress messages."
              "surf"
              (list url))))
 
-  (setq browse-url-browser-function 'browse-url-surf))
+  (defun browse-url-nyxt (url &optional new-window)
+    "Ask the Nyxt web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL (Nyxt): "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "nyxt " url) nil
+             "nyxt"
+             (list url))))
+
+  (setq browse-url-browser-function 'browse-url-nyxt))
 
 ;;==============================================================================
 ;; elfeed
