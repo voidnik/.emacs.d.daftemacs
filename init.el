@@ -1348,7 +1348,7 @@ That is, a string used to represent it on the tab bar."
   (defun neotree-show-project-root-dir ()
     "Show NeoTree using the project root using projectile."
     (interactive)
-    (let ((project-dir (projectile-project-root))
+    (let ((project-dir (ignore-errors (projectile-project-root)))
           (file-name (buffer-file-name)))
       (neotree-show)
       (when project-dir
@@ -1374,18 +1374,17 @@ That is, a string used to represent it on the tab bar."
     "Show NeoTree using the project root, using projectile, find-file-in-project or the current buffer directory."
     (interactive)
     (let* ((filepath (buffer-file-name))
-           (project-dir
-            (with-demoted-errors
-                (cond
-                 ((featurep 'projectile)
-                  (projectile-project-root))
-                 ((featurep 'find-file-in-project)
-                  (ffip-project-root))
-                 (t ;; Fall back to version control root.
-                  (if filepath
-                      (vc-call-backend
-                       (vc-responsible-backend filepath) 'root filepath)
-                    nil)))))
+           (project-dir (ignore-errors
+                          (cond
+                           ((featurep 'projectile)
+                            (projectile-project-root))
+                           ((featurep 'find-file-in-project)
+                            (ffip-project-root))
+                           (t ;; Fall back to version control root.
+                            (if filepath
+                                (vc-call-backend
+                                 (vc-responsible-backend filepath) 'root filepath)
+                              nil)))))
            (neo-smart-open t))
       (neotree-show)
       (when project-dir
@@ -1397,18 +1396,17 @@ That is, a string used to represent it on the tab bar."
     "Open NeoTree using the project root, using projectile, find-file-in-project or the current buffer directory."
     (interactive)
     (let* ((filepath (buffer-file-name))
-           (project-dir
-            (with-demoted-errors
-                (cond
-                 ((featurep 'projectile)
-                  (projectile-project-root))
-                 ((featurep 'find-file-in-project)
-                  (ffip-project-root))
-                 (t ;; Fall back to version control root.
-                  (if filepath
-                      (vc-call-backend
-                       (vc-responsible-backend filepath) 'root filepath)
-                    nil)))))
+           (project-dir (ignore-errors
+                          (cond
+                           ((featurep 'projectile)
+                            (projectile-project-root))
+                           ((featurep 'find-file-in-project)
+                            (ffip-project-root))
+                           (t ;; Fall back to version control root.
+                            (if filepath
+                                (vc-call-backend
+                                 (vc-responsible-backend filepath) 'root filepath)
+                              nil)))))
            (neo-smart-open t))
       (if (neo-global--window-exists-p)
           (neotree-hide)
