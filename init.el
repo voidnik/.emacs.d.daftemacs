@@ -137,7 +137,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient typescript-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein hide-mode-line use-package bind-key google-c-style peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit keyfreq neato-graph-bar elfeed arxiv-mode md4rd wordel epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep ag helm helm-ag helm-rg dumb-jump highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs lsp-pyright dap-mode ccls pdf-tools imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup find-file-in-project avy ace-window yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode)))
+   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient typescript-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein hide-mode-line use-package bind-key google-c-style peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl vterm multi-vterm spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit keyfreq neato-graph-bar elfeed arxiv-mode md4rd wordel epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep ag helm helm-ag helm-rg dumb-jump highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs lsp-pyright dap-mode ccls pdf-tools imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup find-file-in-project avy ace-window yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -2082,6 +2082,22 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
 
 ;;==============================================================================
+;; vterm
+;;
+;; https://github.com/akermu/emacs-libvterm
+;; https://github.com/suonlight/multi-vterm
+;;==============================================================================
+
+(use-package vterm
+  :ensure t
+  :config
+  (add-hook 'vterm-mode-hook (lambda ()
+                               (setq-local global-hl-line-mode nil))))
+
+(use-package multi-vterm
+  :ensure t)
+
+;;==============================================================================
 ;; ansi-term
 ;;
 ;; https://oremacs.com/2015/01/01/three-ansi-term-tips/
@@ -2622,7 +2638,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c 1") 'eshell)
 (global-set-key (kbd "C-c 2") #'(lambda ()
                                   (interactive)
-                                  (ansi-term explicit-shell-file-name)))
+                                  (multi-vterm)
+                                  ;;(ansi-term explicit-shell-file-name)
+                                  ))
 (global-set-key (kbd "C-c 3") #'(lambda ()
                                   (interactive)
                                   (calculator)))
