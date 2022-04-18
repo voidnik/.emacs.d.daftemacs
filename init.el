@@ -2084,6 +2084,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 ;; vterm
 ;;
+;; - Install libvterm for MacOS
+;;   $ brew install libvterm
+;;
 ;; https://github.com/akermu/emacs-libvterm
 ;; https://github.com/suonlight/multi-vterm
 ;;==============================================================================
