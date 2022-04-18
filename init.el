@@ -2134,7 +2134,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :config
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t))
+  (setq undo-tree-visualizer-diff t)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history"))))
 
 ;;==============================================================================
 ;; Eshell
