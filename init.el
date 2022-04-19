@@ -2098,7 +2098,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                (setq-local global-hl-line-mode nil))))
 
 (use-package multi-vterm
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'vterm-mode-hook (lambda ()
+                               (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer))))
 
 ;;==============================================================================
 ;; ansi-term
