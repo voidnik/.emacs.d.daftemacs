@@ -2144,7 +2144,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq undo-tree-visualizer-diff t)
   ;; Prevent undo tree files from polluting your git repo
   ;; https://www.reddit.com/r/emacs/comments/tejte0/undotree_bug_undotree_files_scattering_everywhere/
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history"))))
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+        `((".*" . ,(concat user-emacs-directory "undo-tree-history"))))
+  )
 
 ;;==============================================================================
 ;; Eshell
