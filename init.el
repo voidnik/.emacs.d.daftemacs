@@ -1425,9 +1425,10 @@ That is, a string used to represent it on the tab bar."
 
 (use-package perspective
   :ensure t
+  :init
+  (setq persp-mode-prefix-key (kbd "C-c p"))
   :config
   (persp-mode)
-
   (setq persp-sort 'access)
   (setq persp-state-default-file "~/.emacs.d/persp-state-default")
   (setq persp-state-default-file-loaded nil)
@@ -2622,7 +2623,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
 (global-set-key (kbd "C-x _") 'whitespace-mode)
 
-(global-set-key (kbd "C-x x l") 'persp-state-load-default)
+(global-set-key (kbd "C-c p l") 'persp-state-load-default)
 
 (global-set-key (kbd "C-c s") 'swiper)
 
@@ -2661,7 +2662,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-z a") 'arxiv-complex-search)
 (global-set-key (kbd "C-z s") 'stackoverflow-lookup)
 
-(define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c j") 'projectile-command-map)
 
 ;; GUD
 (global-set-key [(shift f5)] 'gud-gdb)
