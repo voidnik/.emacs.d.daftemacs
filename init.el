@@ -137,7 +137,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx exec-path-from-shell all-the-icons all-the-icons-ivy all-the-icons-ivy-rich doom-themes doom-modeline nyan-mode centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck magit projectile restclient typescript-mode org-tree-slide command-log-mode perspective magic-latex-buffer px ein hide-mode-line use-package bind-key google-c-style peep-dired swift-mode focus cuda-mode org-bullets org-re-reveal markdown-preview-mode graphviz-dot-mode ivy counsel counsel-projectile counsel-at-point swiper ivy-posframe ivy-rich diff-hl vterm multi-vterm spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit keyfreq neato-graph-bar elfeed arxiv-mode md4rd wordel epc importmagic pip-requirements py-autopep8 elpy json-reformat yasnippet rg deadgrep ripgrep ag helm helm-ag helm-rg dumb-jump highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs lsp-pyright dap-mode ccls pdf-tools imenu-list objc-font-lock neotree company company-fuzzy company-statistics company-box company-restclient vlf haskell-mode lua-mode ztree undo-tree shrink-path rich-minority pyvenv markdown-mode magit-popup find-file-in-project avy ace-window yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired helm helm-ag helm-rg ace-window ztree projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit neotree perspective google-c-style highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode graphviz-dot-mode focus rich-minority hide-mode-line diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list json-reformat shrink-path neato-graph-bar elfeed md4rd arxiv-mode wordel command-log-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -189,6 +189,25 @@
 
 (use-package flx
   :ensure t)
+
+;;==============================================================================
+;; undo-tree
+;;
+;; https://www.emacswiki.org/emacs/UndoTree
+;;==============================================================================
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t)
+  ;; Prevent undo tree files from polluting your git repo
+  ;; https://www.reddit.com/r/emacs/comments/tejte0/undotree_bug_undotree_files_scattering_everywhere/
+  (setq undo-tree-auto-save-history nil)
+  ;;(setq undo-tree-history-directory-alist
+  ;;      `((".*" . ,(concat user-emacs-directory "undo-tree-history"))))
+  )
 
 ;;==============================================================================
 ;; exec-path-from-shell
@@ -449,6 +468,26 @@
         nyan-wavy-trail t
         nyan-bar-length 40)
   (nyan-mode 1))
+
+;;==============================================================================
+;; magit
+;;==============================================================================
+
+(use-package magit
+  :ensure t
+  :config
+  (when (bound-and-true-p centaur-tabs-mode)
+    ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
+    (defun magit-status-on-centaur-tabs (&optional directory cache)
+      "Run magit-status on centaur-tabs environment."
+      (interactive)
+      (magit-status directory cache)
+      (call-interactively 'centaur-tabs-local-mode)
+      (call-interactively 'centaur-tabs-local-mode))
+    (defalias 'magit 'magit-status-on-centaur-tabs)))
+
+(use-package magit-popup
+  :ensure t)
 
 ;;==============================================================================
 ;; centaur-tabs
@@ -743,26 +782,6 @@ That is, a string used to represent it on the tab bar."
 ;;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
-;; magit
-;;==============================================================================
-
-(use-package magit
-  :ensure t
-  :config
-  (when (bound-and-true-p centaur-tabs-mode)
-    ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
-    (defun magit-status-on-centaur-tabs (&optional directory cache)
-      "Run magit-status on centaur-tabs environment."
-      (interactive)
-      (magit-status directory cache)
-      (call-interactively 'centaur-tabs-local-mode)
-      (call-interactively 'centaur-tabs-local-mode))
-    (defalias 'magit 'magit-status-on-centaur-tabs)))
-
-(use-package magit-popup
-  :ensure t)
-
-;;==============================================================================
 ;; org
 ;;
 ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
@@ -808,10 +827,7 @@ That is, a string used to represent it on the tab bar."
 ;; https://tex.stackexchange.com/questions/78501/change-size-of-the-inline-image-for-latex-fragment-in-emacs-org-mode
 (plist-put org-format-latex-options :scale 2)
 
-;;==============================================================================
 ;; org-tree-slide
-;;==============================================================================
-
 (use-package org-tree-slide
   :ensure t
   :config
@@ -848,13 +864,9 @@ That is, a string used to represent it on the tab bar."
   (add-hook 'org-tree-slide-play-hook 'daftemacs/presentation-start)
   (add-hook 'org-tree-slide-stop-hook 'daftemacs/presentation-end))
 
-;;==============================================================================
 ;; org-re-reveal
-;;
 ;; https://gitlab.com/oer/org-re-reveal
 ;; https://github.com/hakimel/reveal.js
-;;==============================================================================
-
 (use-package org-re-reveal
   :ensure t
   :config
@@ -2002,6 +2014,17 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 ;;==============================================================================
+;; graphviz
+;;==============================================================================
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :config
+  (setq graphviz-dot-indent-width 4))
+
+(use-package company-graphviz-dot)
+
+;;==============================================================================
 ;; focus
 ;;==============================================================================
 
@@ -2021,30 +2044,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package hide-mode-line
   :ensure t)
-
-;;==============================================================================
-;; pdf-tools
-;;==============================================================================
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install)
-  (add-hook 'pdf-tools-enabled-hook (lambda ()
-                                      ;;(hide-mode-line-mode)
-                                      ;;(pdf-view-midnight-minor-mode)
-                                      (pdf-view-fit-page-to-window))))
-
-;;==============================================================================
-;; graphviz
-;;==============================================================================
-
-(use-package graphviz-dot-mode
-  :ensure t
-  :config
-  (setq graphviz-dot-indent-width 4))
-
-(use-package company-graphviz-dot)
 
 ;;==============================================================================
 ;; ediff
@@ -2081,6 +2080,19 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (diff-hl-flydiff-mode +1)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
+
+;;==============================================================================
+;; pdf-tools
+;;==============================================================================
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install)
+  (add-hook 'pdf-tools-enabled-hook (lambda ()
+                                      ;;(hide-mode-line-mode)
+                                      ;;(pdf-view-midnight-minor-mode)
+                                      (pdf-view-fit-page-to-window))))
 
 ;;==============================================================================
 ;; vterm
@@ -2129,25 +2141,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (eval-after-load "term"
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
-
-;;==============================================================================
-;; undo-tree
-;;
-;; https://www.emacswiki.org/emacs/UndoTree
-;;==============================================================================
-
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
-  ;; Prevent undo tree files from polluting your git repo
-  ;; https://www.reddit.com/r/emacs/comments/tejte0/undotree_bug_undotree_files_scattering_everywhere/
-  (setq undo-tree-auto-save-history t)
-  (setq undo-tree-history-directory-alist
-        `((".*" . ,(concat user-emacs-directory "undo-tree-history"))))
-  )
 
 ;;==============================================================================
 ;; Eshell
