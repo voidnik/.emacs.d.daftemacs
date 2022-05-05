@@ -1615,11 +1615,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;
 ;; https://github.com/emacs-lsp/lsp-mode
 ;; https://github.com/Microsoft/language-server-protocol/
+;; https://emacs-lsp.github.io/lsp-mode/page/performance/
 ;;==============================================================================
+
+(setenv "LSP_USE_PLISTS" "true")
 
 (use-package lsp-mode
   :ensure t
   :init
+  (message "LSP_USE_PLISTS: %s" (getenv "LSP_USE_PLISTS"))
+  (setq lsp-use-plists t)
   ;;(setq lsp-enable-file-watchers nil)
   (setq lsp-file-watch-threshold 2000)
   (setq lsp-idle-delay 0.5)
