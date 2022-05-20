@@ -1442,6 +1442,7 @@ That is, a string used to represent it on the tab bar."
 (use-package perspective
   :ensure t
   :init
+  (setq persp-modestring-short t)
   (setq persp-mode-prefix-key (kbd "C-c p"))
   :config
   (persp-mode)
