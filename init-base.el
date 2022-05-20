@@ -9,6 +9,11 @@
 (setq read-process-output-max (* 1024 1024))
 (message "read-process-output-max: %d" read-process-output-max)
 
+;; Don’t compact font caches during GC.
+;; If you experience a slow down in performace when rendering multiple
+;; icons simultaneously, you can try setting the following variable.
+(setq inhibit-compacting-font-caches t)
+
 (setq visible-bell t
       make-backup-files nil
       column-number-mode t
