@@ -273,12 +273,13 @@
   ;; How wide the mode-line bar should be. It's only respected in GUI.
   (setq doom-modeline-bar-width 2)
 
-  ;;;; Whether to use hud instead of default bar. It's only respected in GUI.
-  ;;(defcustom doom-modeline-hud nil)
+  ;; Whether to use hud instead of default bar. It's only respected in GUI.
+  (setq doom-modeline-hud nil)
 
   ;; The limit of the window width.
-  ;; If `window-width' is smaller than the limit, some information won't be displayed.
-  (setq doom-modeline-window-width-limit fill-column)
+  ;; If `window-width' is smaller than the limit, some information won't be
+  ;; displayed. It can be an integer or a float number. `nil' means no limit."
+  (setq doom-modeline-window-width-limit 0.25)
 
   ;; How to detect the project root.
   ;; nil means to use `default-directory'.
@@ -311,7 +312,7 @@
 
   ;; Whether display icons in the mode-line.
   ;; While using the server mode in GUI, should set the value explicitly.
-  (setq doom-modeline-icon (display-graphic-p))
+  (setq doom-modeline-icon t)
 
   ;; Whether display the icon for `major-mode'. It respects `doom-modeline-icon'.
   (setq doom-modeline-major-mode-icon t)
@@ -329,6 +330,9 @@
 
   ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
   (setq doom-modeline-unicode-fallback nil)
+
+  ;; Whether display the buffer name.
+  (setq doom-modeline-buffer-name t)
 
   ;; Whether display the minor modes in the mode-line.
   (setq doom-modeline-minor-modes nil)
@@ -390,7 +394,7 @@
   ;; Whether display the gnus notifications.
   (setq doom-modeline-gnus t)
 
-  ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
+  ;; Whether gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
   (setq doom-modeline-gnus-timer 2)
 
   ;; Wheter groups should be excludede when gnus automatically being updated.
