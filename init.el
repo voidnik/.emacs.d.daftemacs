@@ -478,17 +478,7 @@
 ;;==============================================================================
 
 (use-package magit
-  :ensure t
-  :config
-  (when (bound-and-true-p centaur-tabs-mode)
-    ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
-    (defun magit-status-on-centaur-tabs (&optional directory cache)
-      "Run magit-status on centaur-tabs environment."
-      (interactive)
-      (magit-status directory cache)
-      (call-interactively 'centaur-tabs-local-mode)
-      (call-interactively 'centaur-tabs-local-mode))
-    (defalias 'magit 'magit-status-on-centaur-tabs)))
+  :ensure t)
 
 (use-package magit-popup
   :ensure t)
@@ -530,6 +520,15 @@
 
   ;; Projectile integration
   (centaur-tabs-group-by-projectile-project)
+
+  ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
+  (defun magit-status-on-centaur-tabs (&optional directory cache)
+    "Run magit-status on centaur-tabs environment."
+    (interactive)
+    (magit-status directory cache)
+    (call-interactively 'centaur-tabs-local-mode)
+    (call-interactively 'centaur-tabs-local-mode))
+  (defalias 'magit 'magit-status-on-centaur-tabs)
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-tab-label' in 'centaur-tabs-functions.el'
