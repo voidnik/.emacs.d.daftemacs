@@ -4,6 +4,8 @@
 ;; Setup Frame and Font
 ;;==============================================================================
 
+(setq with-pgtk (fboundp 'pgtk-backend-display-class))
+
 (defun setup-frame ()
   (menu-bar-mode -1)
   (tool-bar-mode -1)
@@ -34,7 +36,9 @@
       ))
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
-      (set-face-attribute 'default nil :height 95 :family "Source Code Pro")
+      (if with-pgtk
+          (set-face-attribute 'default nil :height 94 :family "Source Code Pro")
+        (set-face-attribute 'default nil :height 95 :family "Source Code Pro"))
       ;;(set-face-attribute 'default nil :height 95 :family "Office Code Pro")
       ;;(set-face-attribute 'default nil :height 95 :family "Office Code Pro D")
       ;;(set-face-attribute 'default nil :height 95 :family "Menlo")
@@ -78,8 +82,12 @@
 
 (if (and (fboundp 'native-comp-available-p)
          (native-comp-available-p))
-    (message "Native compilation: Available")
-  (message "Native compilation: NOT available"))
+    (message "Native compilation: Enabled")
+  (message "Native compilation: Disabled"))
+
+(if with-pgtk
+    (message "PGTK: Enabled")
+  (message "PGTK: Disabled"))
 
 (if (functionp 'json-serialize)
     (message "Native JSON: Enabled")
@@ -268,7 +276,9 @@
    ((string-equal system-type "darwin")
     (setq doom-modeline-height 25))
    ((string-equal system-type "gnu/linux")
-    (setq doom-modeline-height 32)))
+    (if with-pgtk
+        (setq doom-modeline-height 25)
+      (setq doom-modeline-height 32))))
 
   ;; How wide the mode-line bar should be. It's only respected in GUI.
   (setq doom-modeline-bar-width 2)
@@ -452,12 +462,16 @@
     ;;(set-face-attribute 'mode-line-inactive nil :height 135 :family "IBM 3270")
     ))
  ((string-equal system-type "gnu/linux")
-  (progn
-    (set-face-attribute 'mode-line nil :height 95 :family "Source Code Pro")
-    (set-face-attribute 'mode-line-inactive nil :height 95 :family "Source Code Pro")
-    ;;(set-face-attribute 'mode-line nil :height 110 :family "IBM 3270")
-    ;;(set-face-attribute 'mode-line-inactive nil :height 110 :family "IBM 3270")
-    )))
+  (if with-pgtk
+      (progn
+        (set-face-attribute 'mode-line nil :height 94 :family "Source Code Pro")
+        (set-face-attribute 'mode-line-inactive nil :height 94 :family "Source Code Pro"))
+    (progn
+      (set-face-attribute 'mode-line nil :height 95 :family "Source Code Pro")
+      (set-face-attribute 'mode-line-inactive nil :height 95 :family "Source Code Pro")
+      ;;(set-face-attribute 'mode-line nil :height 110 :family "IBM 3270")
+      ;;(set-face-attribute 'mode-line-inactive nil :height 110 :family "IBM 3270")
+      ))))
 
 ;;==============================================================================
 ;; nyan-mode
@@ -510,10 +524,15 @@
     )
    ((string-equal system-type "gnu/linux")
     (if (string-equal (getenv "GDK_SCALE") "2")
-        (setq centaur-tabs-height 56)
+        (if with-pgtk
+            (setq centaur-tabs-height 28)
+          (setq centaur-tabs-height 56))
       (setq centaur-tabs-height 28))
-    (centaur-tabs-change-fonts "Source Code Pro" 95)
-    ;;(centaur-tabs-change-fonts "IBM 3270" 110)
+    (if with-pgtk
+        (centaur-tabs-change-fonts "Source Code Pro" 94)
+      (centaur-tabs-change-fonts "Source Code Pro" 95)
+      ;;(centaur-tabs-change-fonts "IBM 3270" 110)
+      )
     ))
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
@@ -743,7 +762,9 @@ That is, a string used to represent it on the tab bar."
 (load-file "~/.emacs.d/centered-window.elc")
 (require 'centered-window-mode)
 
-(setq-default cwm-centered-window-width 180)
+(if with-pgtk
+    (setq-default cwm-centered-window-width 200)
+  (setq-default cwm-centered-window-width 180))
 
 (add-hook 'dashboard-after-initialize-hook #'(lambda ()
                                                (centered-window-mode)))
