@@ -4,7 +4,7 @@
 ;; Setup Frame and Font
 ;;==============================================================================
 
-(setq with-pgtk (fboundp 'pgtk-backend-display-class))
+(setq with-pgtk (string-equal window-system "pgtk"))
 
 (defun setup-frame ()
   (menu-bar-mode -1)
@@ -76,6 +76,7 @@
 (message "emacs-version: %s %d %d" emacs-version emacs-major-version emacs-minor-version)
 (message "system-type: %s" system-type)
 (message "system-name: %s" system-name)
+(message "window-system: %s" window-system)
 (message "user-login-name: %s" user-login-name)
 (message "user-init-file: %s" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
@@ -226,7 +227,7 @@
 (use-package exec-path-from-shell
   :ensure t
   :config
-  (when (memq window-system '(mac ns x))
+  (when (memq window-system '(mac ns x pgtk))
     (exec-path-from-shell-initialize))
   (when (daemonp)
     (exec-path-from-shell-initialize)))
