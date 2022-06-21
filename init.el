@@ -24,7 +24,8 @@
   (cond
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
-      (set-face-attribute 'default nil :height 120 :family "Source Code Pro")
+      (set-face-attribute 'default nil :height 120 :family "JetBrainsMono")
+      ;;(set-face-attribute 'default nil :height 120 :family "Source Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
       ;;(set-face-attribute 'default nil :height 115 :family "Menlo")
@@ -37,8 +38,11 @@
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
-          (set-face-attribute 'default nil :height 94 :family "Source Code Pro")
-        (set-face-attribute 'default nil :height 95 :family "Source Code Pro"))
+          (set-face-attribute 'default nil :height 94 :family "JetBrainsMono")
+        (set-face-attribute 'default nil :height 95 :family "JetBrainsMono"))
+      ;;(if with-pgtk
+      ;;    (set-face-attribute 'default nil :height 94 :family "Source Code Pro")
+      ;;  (set-face-attribute 'default nil :height 95 :family "Source Code Pro"))
       ;;(set-face-attribute 'default nil :height 95 :family "Office Code Pro")
       ;;(set-face-attribute 'default nil :height 95 :family "Office Code Pro D")
       ;;(set-face-attribute 'default nil :height 95 :family "Menlo")
@@ -271,6 +275,12 @@
   :ensure t
   :hook (after-init . doom-modeline-mode)
   :config
+  ;; If non-nil, cause imenu to see `doom-modeline' declarations.
+  ;; This is done by adjusting `lisp-imenu-generic-expression' to
+  ;; include support for finding `doom-modeline-def-*' forms.
+  ;; Must be set before loading doom-modeline.
+  (setq doom-modeline-support-imenu t)
+
   ;; How tall the mode-line should be. It's only respected in GUI.
   ;; If the actual char height is larger, it respects the actual height.
   (cond
