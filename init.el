@@ -24,7 +24,7 @@
   (cond
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
-      (set-face-attribute 'default nil :height 120 :family "JetBrainsMono")
+      (set-face-attribute 'default nil :height 120 :family "JetBrains Mono")
       ;;(set-face-attribute 'default nil :height 120 :family "Source Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
@@ -38,8 +38,8 @@
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
-          (set-face-attribute 'default nil :height 94 :family "JetBrainsMono")
-        (set-face-attribute 'default nil :height 95 :family "JetBrainsMono"))
+          (set-face-attribute 'default nil :height 94 :family "JetBrains Mono")
+        (set-face-attribute 'default nil :height 95 :family "JetBrains Mono"))
       ;;(if with-pgtk
       ;;    (set-face-attribute 'default nil :height 94 :family "Source Code Pro")
       ;;  (set-face-attribute 'default nil :height 95 :family "Source Code Pro"))
@@ -467,22 +467,16 @@
 (cond
  ((string-equal system-type "darwin")
   (progn
-    (set-face-attribute 'mode-line nil :height 120 :family "Source Code Pro")
-    (set-face-attribute 'mode-line-inactive nil :height 120 :family "Source Code Pro")
-    ;;(set-face-attribute 'mode-line nil :height 135 :family "IBM 3270")
-    ;;(set-face-attribute 'mode-line-inactive nil :height 135 :family "IBM 3270")
-    ))
+    (set-face-attribute 'mode-line nil :height 120 :family "JetBrains Mono")
+    (set-face-attribute 'mode-line-inactive nil :height 120 :family "JetBrains Mono")))
  ((string-equal system-type "gnu/linux")
   (if with-pgtk
       (progn
-        (set-face-attribute 'mode-line nil :height 94 :family "Source Code Pro")
-        (set-face-attribute 'mode-line-inactive nil :height 94 :family "Source Code Pro"))
+        (set-face-attribute 'mode-line nil :height 94 :family "JetBrains Mono")
+        (set-face-attribute 'mode-line-inactive nil :height 94 :family "JetBrains Mono"))
     (progn
-      (set-face-attribute 'mode-line nil :height 95 :family "Source Code Pro")
-      (set-face-attribute 'mode-line-inactive nil :height 95 :family "Source Code Pro")
-      ;;(set-face-attribute 'mode-line nil :height 110 :family "IBM 3270")
-      ;;(set-face-attribute 'mode-line-inactive nil :height 110 :family "IBM 3270")
-      ))))
+      (set-face-attribute 'mode-line nil :height 95 :family "JetBrains Mono")
+      (set-face-attribute 'mode-line-inactive nil :height 95 :family "JetBrains Mono")))))
 
 ;;==============================================================================
 ;; nyan-mode
@@ -530,9 +524,7 @@
   (cond
    ((string-equal system-type "darwin")
     (setq centaur-tabs-height 25)
-    (centaur-tabs-change-fonts "Source Code Pro" 120)
-    ;;(centaur-tabs-change-fonts "IBM 3270" 135)
-    )
+    (centaur-tabs-change-fonts "JetBrains Mono" 120))
    ((string-equal system-type "gnu/linux")
     (if (string-equal (getenv "GDK_SCALE") "2")
         (if with-pgtk
@@ -540,10 +532,8 @@
           (setq centaur-tabs-height 56))
       (setq centaur-tabs-height 28))
     (if with-pgtk
-        (centaur-tabs-change-fonts "Source Code Pro" 94)
-      (centaur-tabs-change-fonts "Source Code Pro" 95)
-      ;;(centaur-tabs-change-fonts "IBM 3270" 110)
-      )
+        (centaur-tabs-change-fonts "JetBrains Mono" 94)
+      (centaur-tabs-change-fonts "JetBrains Mono" 95))
     ))
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
