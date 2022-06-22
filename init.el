@@ -13,6 +13,7 @@
   (set-frame-position (selected-frame) 0 0))
 
 (defun setup-font ()
+  ;; JetBrainsMono (https://www.jetbrains.com/lp/mono/, https://fonts.google.com/specimen/JetBrains+Mono)
   ;; Source Code Pro (https://github.com/adobe-fonts/source-code-pro)
   ;; Office Code Pro (https://github.com/nathco/Office-Code-Pro)
   ;; Menlo (https://github.com/hbin/top-programming-fonts
