@@ -151,7 +151,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired helm helm-ag helm-rg ace-window ztree projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit neotree perspective google-c-style highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode graphviz-dot-mode focus rich-minority hide-mode-line diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list json-reformat shrink-path neato-graph-bar elfeed md4rd arxiv-mode wordel command-log-mode use-package)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit neotree ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode graphviz-dot-mode focus rich-minority hide-mode-line diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list json-reformat shrink-path neato-graph-bar elfeed md4rd arxiv-mode wordel command-log-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -562,9 +562,9 @@ That is, a string used to represent it on the tab bar."
     ;; Init tab style.
     ;; Render tab.
     (format " %s"
-	        (let ((bufname (if centaur-tabs--buffer-show-groups
-		                       (centaur-tabs-tab-tabset tab)
-		                     (buffer-name (car tab)))))
+            (let ((bufname (if centaur-tabs--buffer-show-groups
+                               (centaur-tabs-tab-tabset tab)
+                             (buffer-name (car tab)))))
               (if (> centaur-tabs-label-fixed-length 0)
                   (centaur-tabs-truncate-string centaur-tabs-label-fixed-length bufname)
                 (if (and (> centaur-tabs-label-max-length 0) (< centaur-tabs-label-max-length (string-width bufname)))
@@ -582,40 +582,40 @@ That is, a string used to represent it on the tab bar."
     All buffer name start with * will group to \"Emacs\".
     Other buffer group by `centaur-tabs-get-group-name' with project name."
     (list
-	 (cond
+     (cond
       ((string-match "\s?\*ein" (buffer-name))
        "EIN")
-	  ((string-equal "*" (substring (buffer-name) 0 1))
-	   "Emacs")
+      ((string-equal "*" (substring (buffer-name) 0 1))
+       "Emacs")
       ((or (string-match "magit-?[0-9a-zA-Z]*?: " (buffer-name))
            (memq major-mode '(magit-process-mode
-			                  magit-status-mode
-			                  magit-diff-mode
-			                  magit-log-mode
-			                  magit-file-mode
-			                  magit-blob-mode
-			                  magit-blame-mode)))
+                              magit-status-mode
+                              magit-diff-mode
+                              magit-log-mode
+                              magit-file-mode
+                              magit-blob-mode
+                              magit-blame-mode)))
        "Magit")
-	  ((derived-mode-p 'prog-mode)
-	   "Editing")
-	  ((derived-mode-p 'dired-mode)
-	   "Dired")
-	  ((memq major-mode '(helpful-mode
-		                  help-mode))
-	   "Help")
-	  ((memq major-mode '(org-mode
-		                  org-agenda-clockreport-mode
-		                  org-src-mode
-		                  org-agenda-mode
-		                  org-beamer-mode
-		                  org-indent-mode
-		                  org-bullets-mode
-		                  org-cdlatex-mode
-		                  org-agenda-log-mode
-		                  diary-mode))
-	   "OrgMode")
-	  (t
-	   (centaur-tabs-get-group-name (current-buffer))))))
+      ((derived-mode-p 'prog-mode)
+       "Editing")
+      ((derived-mode-p 'dired-mode)
+       "Dired")
+      ((memq major-mode '(helpful-mode
+                          help-mode))
+       "Help")
+      ((memq major-mode '(org-mode
+                          org-agenda-clockreport-mode
+                          org-src-mode
+                          org-agenda-mode
+                          org-beamer-mode
+                          org-indent-mode
+                          org-bullets-mode
+                          org-cdlatex-mode
+                          org-agenda-log-mode
+                          diary-mode))
+       "OrgMode")
+      (t
+       (centaur-tabs-get-group-name (current-buffer))))))
 
   ;;
   ;; Overriding 'centaur-tabs-hide-tab' in 'centaur-tabs-functions.el'
@@ -869,7 +869,7 @@ That is, a string used to represent it on the tab bar."
    '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
    '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05)))))
 
-  (defun daftemacs/presentation-start ()
+  (defun daftemacs/ots-presentation-start ()
     (setq org-tree-slide-skip-outline-level 4)
     (org-tree-slide-presentation-profile)
     (setq org-tree-slide-heading-emphasis t)
@@ -880,15 +880,15 @@ That is, a string used to represent it on the tab bar."
     (hide-mode-line-mode)
     (centaur-tabs-local-mode nil))
 
-  (defun daftemacs/presentation-end ()
+  (defun daftemacs/ots-presentation-end ()
     (View-exit-and-edit)
     (text-scale-set 0)
     (set-window-margins (selected-window) 0 0)
     (hide-mode-line-mode -1)
     (centaur-tabs-local-mode 0))
 
-  (add-hook 'org-tree-slide-play-hook 'daftemacs/presentation-start)
-  (add-hook 'org-tree-slide-stop-hook 'daftemacs/presentation-end))
+  (add-hook 'org-tree-slide-play-hook 'daftemacs/ots-presentation-start)
+  (add-hook 'org-tree-slide-stop-hook 'daftemacs/ots-presentation-end))
 
 ;; org-re-reveal
 ;; https://gitlab.com/oer/org-re-reveal
@@ -909,6 +909,11 @@ That is, a string used to represent it on the tab bar."
   ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
   (define-key markdown-mode-map (kbd "C-M-{") nil)
   (define-key markdown-mode-map (kbd "C-M-}") nil)
+
+  (defun daftemacs/markdown-style ()
+    (visual-line-mode t))
+
+  (add-hook 'markdown-mode-hook 'daftemacs/markdown-style)
   :bind
   ("M-+" . markdown-backward-block)
   ("M-\"" . markdown-forward-block))
@@ -994,13 +999,6 @@ That is, a string used to represent it on the tab bar."
   :ensure t
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-
-;;==============================================================================
-;; ztree
-;;==============================================================================
-
-(use-package ztree
-  :ensure t)
 
 ;;==============================================================================
 ;; projectile
@@ -1454,6 +1452,13 @@ That is, a string used to represent it on the tab bar."
             (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)
             (goto-char p))
         (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)))))
+
+;;==============================================================================
+;; ztree
+;;==============================================================================
+
+(use-package ztree
+  :ensure t)
 
 ;;==============================================================================
 ;; perspective
@@ -2474,35 +2479,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t)
 
 ;;==============================================================================
-;; Setting default web browser
-;;
-;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
-;;==============================================================================
-
-(when (string-equal system-type "gnu/linux")
-  (defun browse-url-surf (url &optional new-window)
-    "Ask the Surf web browser to load URL."
-    (interactive (browse-url-interactive-arg "URL (Surf): "))
-    (setq url (browse-url-encode-url url))
-    (let* ((process-environment (browse-url-process-environment)))
-      (apply #'start-process
-             (concat "surf " url) nil
-             "surf"
-             (list url))))
-
-  (defun browse-url-nyxt (url &optional new-window)
-    "Ask the Nyxt web browser to load URL."
-    (interactive (browse-url-interactive-arg "URL (Nyxt): "))
-    (setq url (browse-url-encode-url url))
-    (let* ((process-environment (browse-url-process-environment)))
-      (apply #'start-process
-             (concat "nyxt " url) nil
-             "nyxt"
-             (list url))))
-
-  (setq browse-url-browser-function 'browse-url-nyxt))
-
-;;==============================================================================
 ;; elfeed
 ;;
 ;; https://github.com/skeeto/elfeed
@@ -2618,6 +2594,35 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :ensure t)
 
 ;;==============================================================================
+;; Setting default web browser
+;;
+;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
+;;==============================================================================
+
+(when (string-equal system-type "gnu/linux")
+  (defun browse-url-surf (url &optional new-window)
+    "Ask the Surf web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL (Surf): "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "surf " url) nil
+             "surf"
+             (list url))))
+
+  (defun browse-url-nyxt (url &optional new-window)
+    "Ask the Nyxt web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL (Nyxt): "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "nyxt " url) nil
+             "nyxt"
+             (list url))))
+
+  (setq browse-url-browser-function 'browse-url-nyxt))
+
+;;==============================================================================
 ;; Global Keys
 ;;==============================================================================
 
@@ -2710,6 +2715,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (define-key org-mode-map "\C-cv" 'visual-line-mode)
+(define-key markdown-mode-map "\C-cv" 'visual-line-mode)
 
 (add-hook 'python-mode-hook
           (lambda ()
