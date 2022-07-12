@@ -2702,6 +2702,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                   (calculator)))
 (global-set-key (kbd "C-c 4") 'neato-graph-bar)
 
+(global-set-key (kbd "C-c ESC ESC") #'(lambda ()
+                                        (interactive)
+                                        (treemacs-hide)
+                                        (neotree-hide)))
+
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z f") 'elfeed)
 (global-set-key (kbd "C-z r") 'md4rd)
