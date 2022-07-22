@@ -35,6 +35,7 @@ denoiser
 denoisers
 denoising
 detections
+discriminability
 discriminative
 discriminatively
 downsampled

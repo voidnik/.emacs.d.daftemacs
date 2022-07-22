@@ -31,6 +31,7 @@ denoisers
 denoising
 DenseNet
 detections
+discriminability
 discriminative
 discriminatively
 downsampled
