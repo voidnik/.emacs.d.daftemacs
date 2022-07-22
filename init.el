@@ -2706,8 +2706,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                         (interactive)
                                         (treemacs-hide)
                                         (neotree-hide)
-                                        (delete-window (get-buffer-window "*lsp-ui-imenu*"))
-                                        (delete-window (get-buffer-window " *command-log*"))))
+                                        (kill-buffer "*lsp-ui-imenu*")
+                                        (kill-buffer " *command-log*")))
 
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z f") 'elfeed)
