@@ -6,3 +6,4 @@ cat /dev/null > eshell/lastdir
 rm -rf auto-save-list/.saves*
 rm recentf
 rm -rf image-dired/*
+rm -rf dirvish
