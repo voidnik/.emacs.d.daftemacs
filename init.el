@@ -1665,7 +1665,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package gnu-indent
-  :ensure t)
+  :ensure t
+  :config
+  (if (string-equal system-type "darwin")
+      (setq gnu-indent-program "gindent")))
 
 ;;==============================================================================
 ;; cc-search-directories
