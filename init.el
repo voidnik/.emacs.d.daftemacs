@@ -583,8 +583,6 @@ That is, a string used to represent it on the tab bar."
     Other buffer group by `centaur-tabs-get-group-name' with project name."
     (list
      (cond
-      ((string-match "\s?\*ein" (buffer-name))
-       "EIN")
       ((string-equal "*" (substring (buffer-name) 0 1))
        "Emacs")
       ((or (string-match "magit-?[0-9a-zA-Z]*?: " (buffer-name))
@@ -650,7 +648,8 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*Ilist" name)
        (string-prefix-p "*Ediff" name)
        (string-prefix-p "*Bufler" name)
-       (string-prefix-p "*Ibuffer" name))))
+       (string-prefix-p "*Ibuffer" name)
+       (string-match "\s?\*ein" (buffer-name)))))
 
   ;;
   ;; Overriding 'centaur-tabs-line-format' in 'centaur-tabs-functions.el'
@@ -2709,7 +2708,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c s") 'swiper)
 
 (global-set-key (kbd "C-c w c") 'centered-window-mode)
-(global-set-key (kbd "C-c w s") 'centered-cursor-mode)
+(global-set-key (kbd "C-c w l") 'centered-cursor-mode)
 (global-set-key (kbd "C-c w s") 'resize-window)
 (global-set-key (kbd "C-c w k") 'kill-buffer-and-window)
 
@@ -2742,8 +2741,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                         (interactive)
                                         (treemacs-hide)
                                         (neotree-hide)
-                                        (kill-buffer "*lsp-ui-imenu*")
-                                        (kill-buffer " *command-log*")))
+                                        (if (get-buffer "*lsp-ui-imenu*")
+                                            (kill-buffer "*lsp-ui-imenu*"))
+                                        (if (get-buffer " *command-log*")
+                                            (kill-buffer " *command-log*"))))
 
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z f") 'elfeed)
