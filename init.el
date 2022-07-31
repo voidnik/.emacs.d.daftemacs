@@ -25,7 +25,7 @@
   (cond
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
-      (set-face-attribute 'default nil :height 120 :family "JetBrains Mono")
+      (set-face-attribute 'default nil :width 'normal :height 120 :family "JetBrains Mono")
       ;;(set-face-attribute 'default nil :height 120 :family "Source Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
@@ -39,8 +39,8 @@
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
-          (set-face-attribute 'default nil :height 94 :family "JetBrains Mono")
-        (set-face-attribute 'default nil :height 95 :family "JetBrains Mono"))
+          (set-face-attribute 'default nil :width 'normal :height 94 :family "JetBrains Mono")
+        (set-face-attribute 'default nil :width 'normal :height 95 :family "JetBrains Mono"))
       ;;(if with-pgtk
       ;;    (set-face-attribute 'default nil :height 94 :family "Source Code Pro")
       ;;  (set-face-attribute 'default nil :height 95 :family "Source Code Pro"))
@@ -468,16 +468,16 @@
 (cond
  ((string-equal system-type "darwin")
   (progn
-    (set-face-attribute 'mode-line nil :height 120 :family "JetBrains Mono")
-    (set-face-attribute 'mode-line-inactive nil :height 120 :family "JetBrains Mono")))
+    (set-face-attribute 'mode-line nil :width 'normal :height 120 :family "JetBrains Mono")
+    (set-face-attribute 'mode-line-inactive nil :width 'normal :height 120 :family "JetBrains Mono")))
  ((string-equal system-type "gnu/linux")
   (if with-pgtk
       (progn
-        (set-face-attribute 'mode-line nil :height 94 :family "JetBrains Mono")
-        (set-face-attribute 'mode-line-inactive nil :height 94 :family "JetBrains Mono"))
+        (set-face-attribute 'mode-line nil :width 'normal :height 94 :family "JetBrains Mono")
+        (set-face-attribute 'mode-line-inactive nil :width 'normal :height 94 :family "JetBrains Mono"))
     (progn
-      (set-face-attribute 'mode-line nil :height 95 :family "JetBrains Mono")
-      (set-face-attribute 'mode-line-inactive nil :height 95 :family "JetBrains Mono")))))
+      (set-face-attribute 'mode-line nil :width 'normal :height 95 :family "JetBrains Mono")
+      (set-face-attribute 'mode-line-inactive nil :width 'normal :height 95 :family "JetBrains Mono")))))
 
 ;;==============================================================================
 ;; nyan-mode
