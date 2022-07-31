@@ -2771,6 +2771,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                         (interactive)
                                         (treemacs-hide)
                                         (neotree-hide)
+                                        (if (get-buffer "*Ilist*")
+                                            (kill-buffer "*Ilist*"))
                                         (if (get-buffer "*lsp-ui-imenu*")
                                             (kill-buffer "*lsp-ui-imenu*"))
                                         (if (get-buffer " *command-log*")
