@@ -1491,6 +1491,7 @@ That is, a string used to represent it on the tab bar."
 (use-package perspective
   :ensure t
   :init
+  (setq persp-modestring-dividers '("<" ">" "|"))
   (setq persp-modestring-short t)
   (setq persp-mode-prefix-key (kbd "C-c p"))
   :config
@@ -1545,24 +1546,24 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (interactive "P")
     (if arg
         (setq ibuffer-display-maybe-show-predicates
-	          (not ibuffer-display-maybe-show-predicates)))
+              (not ibuffer-display-maybe-show-predicates)))
     (ibuffer-forward-line 0)
     (let* ((bufs (persp-buffer-list-filter (buffer-list)))
-	       (blist (ibuffer-filter-buffers
-		           (current-buffer)
-		           (if (and
-		                (cadr bufs)
-		                (eq ibuffer-always-show-last-buffer
-			                :nomini)
-		                (minibufferp (cadr bufs)))
-		               (nth 2 bufs)
-		             (cadr bufs))
-		           (ibuffer-current-buffers-with-marks bufs)
-		           ibuffer-display-maybe-show-predicates)))
+           (blist (ibuffer-filter-buffers
+                   (current-buffer)
+                   (if (and
+                        (cadr bufs)
+                        (eq ibuffer-always-show-last-buffer
+                            :nomini)
+                        (minibufferp (cadr bufs)))
+                       (nth 2 bufs)
+                     (cadr bufs))
+                   (ibuffer-current-buffers-with-marks bufs)
+                   ibuffer-display-maybe-show-predicates)))
       (and (null blist)
-	       (featurep 'ibuf-ext)
-	       ibuffer-filtering-qualifiers
-	       (message "No buffers! (note: filtering in effect)"))
+           (featurep 'ibuf-ext)
+           ibuffer-filtering-qualifiers
+           (message "No buffers! (note: filtering in effect)"))
       (unless silent
         (message "Updating buffer list..."))
       (ibuffer-redisplay-engine blist arg)
