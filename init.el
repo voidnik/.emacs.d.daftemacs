@@ -503,6 +503,17 @@
 (use-package magit-popup
   :ensure t)
 
+;; https://emacs.stackexchange.com/questions/3108/git-stage-the-current-file-visiting-buffer
+(defun git-add-current-buffer ()
+  "Call 'git add [current-buffer]'"
+  (interactive)
+  (let* ((buffile (buffer-file-name))
+         (output (shell-command-to-string
+                  (concat "git add " (buffer-file-name)))))
+    (message (if (not (string= output ""))
+                 output
+               (concat "Added " buffile)))))
+
 ;;==============================================================================
 ;; centaur-tabs
 ;;
