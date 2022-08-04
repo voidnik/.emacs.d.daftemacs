@@ -119,8 +119,18 @@
 ;;==============================================================================
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+(setq package-archives `(("melpa" .
+                          ,(format "http%s://melpa.org/packages/"
+                                   (if (gnutls-available-p) "s" "")))
+                         ("org" .
+                          ,(format "http%s://orgmode.org/packages/"
+                                   (if (gnutls-available-p) "s" "")))
+                         ("gnu" .
+                          ,(format "http%s://elpa.gnu.org/packages/"
+                                   (if (gnutls-available-p) "s" "")))
+                         ("nongnu" .
+                          ,(format "http%s://elpa.nongnu.org/nongnu/"
+                                   (if (gnutls-available-p) "s" "")))))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -134,6 +144,8 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 ;; Ahead-of-time native compilation when installing a package
 (when (and (fboundp 'native-comp-available-p)
@@ -202,15 +214,13 @@
 ;; string-utils
 ;;==============================================================================
 
-(use-package string-utils
-  :ensure t)
+(use-package string-utils)
 
 ;;==============================================================================
 ;; flx
 ;;==============================================================================
 
-(use-package flx
-  :ensure t)
+(use-package flx)
 
 ;;==============================================================================
 ;; undo-tree
@@ -219,7 +229,6 @@
 ;;==============================================================================
 
 (use-package undo-tree
-  :ensure t
   :config
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
@@ -238,7 +247,6 @@
 ;;==============================================================================
 
 (use-package exec-path-from-shell
-  :ensure t
   :config
   (when (memq window-system '(mac ns x pgtk))
     (exec-path-from-shell-initialize))
@@ -250,7 +258,6 @@
 ;;==============================================================================
 
 (use-package all-the-icons
-  :ensure t
   :config
   (setq all-the-icons-scale-factor 1.0))
 
@@ -259,7 +266,6 @@
 ;;==============================================================================
 
 (use-package doom-themes
-  :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -281,7 +287,6 @@
 ;;==============================================================================
 
 (use-package doom-modeline
-  :ensure t
   :hook (after-init . doom-modeline-mode)
   :config
   ;; If non-nil, cause imenu to see `doom-modeline' declarations.
@@ -494,7 +499,6 @@
 ;;==============================================================================
 
 (use-package nyan-mode
-  :ensure t
   :config
   (setq nyan-animate-nyancat t
         nyan-wavy-trail t
@@ -505,11 +509,9 @@
 ;; magit
 ;;==============================================================================
 
-(use-package magit
-  :ensure t)
+(use-package magit)
 
-(use-package magit-popup
-  :ensure t)
+(use-package magit-popup)
 
 ;; https://emacs.stackexchange.com/questions/3108/git-stage-the-current-file-visiting-buffer
 (defun git-add-current-buffer ()
@@ -529,7 +531,6 @@
 ;;==============================================================================
 
 (use-package centaur-tabs
-  :ensure t
   :demand
   :config
   (setq centaur-tabs-style "bar"
@@ -750,8 +751,7 @@ That is, a string used to represent it on the tab bar."
 ;; https://github.com/purcell/page-break-lines
 ;;==============================================================================
 
-(use-package page-break-lines
-  :ensure t)
+(use-package page-break-lines)
 
 ;;==============================================================================
 ;; dashboard
@@ -760,7 +760,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package dashboard
-  :ensure t
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t)
@@ -795,8 +794,7 @@ That is, a string used to represent it on the tab bar."
 ;; https://github.com/andre-r/centered-cursor-mode.el
 ;;==============================================================================
 
-(use-package centered-cursor-mode
-  :ensure t)
+(use-package centered-cursor-mode)
 
 ;;==============================================================================
 ;; which-key
@@ -808,7 +806,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package which-key
-  :ensure t
   :config
   (setq which-key-idle-delay 0.5)
   (which-key-mode))
@@ -820,18 +817,15 @@ That is, a string used to represent it on the tab bar."
 ;; https://github.com/jerrypnz/major-mode-hydra.el
 ;;==============================================================================
 
-(use-package hydra
-  :ensure t)
+(use-package hydra)
 
-(use-package pretty-hydra
-  :ensure t)
+(use-package pretty-hydra)
 
 ;;==============================================================================
 ;; flycheck
 ;;==============================================================================
 
-(use-package flycheck
-  :ensure t)
+(use-package flycheck)
 ;;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;==============================================================================
@@ -851,7 +845,6 @@ That is, a string used to represent it on the tab bar."
 
 ;; Better Header Bullets
 (use-package org-bullets
-  :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -882,7 +875,6 @@ That is, a string used to represent it on the tab bar."
 
 ;; org-tree-slide
 (use-package org-tree-slide
-  :ensure t
   :config
   (define-key org-mode-map (kbd "<f12>") 'org-tree-slide-mode)
   (define-key org-mode-map (kbd "S-<f12>") 'org-tree-slide-skip-done-toggle)
@@ -921,7 +913,6 @@ That is, a string used to represent it on the tab bar."
 ;; https://gitlab.com/oer/org-re-reveal
 ;; https://github.com/hakimel/reveal.js
 (use-package org-re-reveal
-  :ensure t
   :config
   (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
 
@@ -930,7 +921,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package markdown-mode
-  :ensure t
   :config
   (setq markdown-command "pandoc")
   ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
@@ -948,7 +938,6 @@ That is, a string used to represent it on the tab bar."
 ;; markdown-preview-mode
 ;; https://github.com/ancane/markdown-preview-mode
 (use-package markdown-preview-mode
-  :ensure t
   :config
   (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
   (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
@@ -958,12 +947,10 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 ;; https://github.com/aaptel/preview-latex
-(use-package px
-  :ensure t)
+(use-package px)
 
 ;; https://github.com/zk-phi/magic-latex-buffer
 (use-package magic-latex-buffer
-  :ensure t
   :config
   ;;(add-hook 'latex-mode-hook 'magic-latex-buffer)
   (setq magic-latex-enable-block-highlight nil
@@ -977,20 +964,15 @@ That is, a string used to represent it on the tab bar."
 ;; grep variants
 ;;==============================================================================
 
-(use-package ag
-  :ensure t)
+(use-package ag)
 
-(use-package rg
-  :ensure t)
+(use-package rg)
 
-(use-package ripgrep
-  :ensure t)
+(use-package ripgrep)
 
-(use-package deadgrep
-  :ensure t)
+(use-package deadgrep)
 
 (use-package dumb-jump
-  :ensure t
   :config
   (dumb-jump-mode))
 
@@ -1000,7 +982,6 @@ That is, a string used to represent it on the tab bar."
 
 ;; peep-dired: preview files in dired
 (use-package peep-dired
-  :ensure t
   :defer t ; don't access `dired-mode-map' until `peep-dired' is loaded
   :bind (:map dired-mode-map
               ("P" . peep-dired)))
@@ -1012,7 +993,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package dirvish
-  :ensure t
   :init
   ;; Let Dirvish take over Dired globally
   (dirvish-override-dired-mode)
@@ -1023,21 +1003,17 @@ That is, a string used to represent it on the tab bar."
 ;; helm
 ;;==============================================================================
 
-(use-package helm
-  :ensure t)
+(use-package helm)
 
-(use-package helm-ag
-  :ensure t)
+(use-package helm-ag)
 
-(use-package helm-rg
-  :ensure t)
+(use-package helm-rg)
 
 ;;==============================================================================
 ;; ace-window
 ;;==============================================================================
 
 (use-package ace-window
-  :ensure t
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
@@ -1046,7 +1022,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package projectile
-  :ensure t
   :config
   (projectile-mode +1)
   (setq projectile-enable-caching t)
@@ -1062,7 +1037,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package restclient
-  :ensure t
   :mode ("\\.http" . restclient-mode))
 
 ;;==============================================================================
@@ -1071,7 +1045,6 @@ That is, a string used to represent it on the tab bar."
 
 ;; http://company-mode.github.io/
 (use-package company
-  :ensure t
   :diminish company-mode
   :commands (company-complete company-mode)
   :bind
@@ -1099,7 +1072,6 @@ That is, a string used to represent it on the tab bar."
 
 ;; https://github.com/jcs-elpa/company-fuzzy
 (use-package company-fuzzy
-  :ensure t
   :init
   (with-eval-after-load 'company
     (setq company-fuzzy-sorting-backend 'flx)
@@ -1109,16 +1081,13 @@ That is, a string used to represent it on the tab bar."
 
 ;; https://github.com/company-mode/company-statistics
 (use-package company-statistics
-  :ensure t
   :hook (company-mode . company-statistics-mode))
 
 ;; https://github.com/sebastiencs/company-box
 (use-package company-box
-  :ensure t
   :hook (company-mode . company-box-mode))
 
 (use-package company-restclient
-  :ensure t
   :init
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-restclient)))
@@ -1131,7 +1100,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package yasnippet
-  :ensure t
   :config
   (yas-global-mode 1))
 
@@ -1140,7 +1108,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package ivy
-  :ensure t
   :diminish
   :hook (after-init . ivy-mode)
   :config
@@ -1158,33 +1125,27 @@ That is, a string used to represent it on the tab bar."
         ivy-initial-inputs-alist nil))
 
 (use-package all-the-icons-ivy
-  :ensure t
   :hook (after-init . all-the-icons-ivy-setup))
 
 (use-package counsel
-  :ensure t
   :diminish
   :hook (ivy-mode . counsel-mode)
   :config
   (setq counsel-rg-base-command "rg --vimgrep %s"))
 
 (use-package counsel-projectile
-  :ensure t
   ;;:config (counsel-projectile-mode +1) ;; This is commented to prevent that the original shortcuts for projectile are overrided.
   )
 
-(use-package counsel-at-point
-  :ensure t)
+(use-package counsel-at-point)
 
 (use-package swiper
   :after ivy
-  :ensure t
   :config
   (setq swiper-action-recenter t)
   (setq swiper-goto-start-of-match t))
 
 (use-package ivy-rich
-  :ensure t
   :preface
   (defun ivy-rich-switch-buffer-icon (candidate)
     (with-current-buffer
@@ -1195,7 +1156,6 @@ That is, a string used to represent it on the tab bar."
           icon))))
   :init
   (use-package all-the-icons-ivy-rich
-    :ensure t
     :init (all-the-icons-ivy-rich-mode 1))
   (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-posframe-width - 1)
         '(ivy-switch-buffer
@@ -1255,7 +1215,6 @@ That is, a string used to represent it on the tab bar."
 
 ;;(use-package ivy-posframe
 ;;  :after ivy
-;;  :ensure t
 ;;  :diminish
 ;;  :config
 ;;  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
@@ -1268,8 +1227,7 @@ That is, a string used to represent it on the tab bar."
 ;; avy
 ;;==============================================================================
 
-(use-package avy
-  :ensure t)
+(use-package avy)
 
 ;;==============================================================================
 ;; find-file-in-project
@@ -1277,8 +1235,7 @@ That is, a string used to represent it on the tab bar."
 ;; https://github.com/technomancy/find-file-in-project
 ;;==============================================================================
 
-(use-package find-file-in-project
-  :ensure t)
+(use-package find-file-in-project)
 
 ;;==============================================================================
 ;; spell-fu
@@ -1287,7 +1244,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package spell-fu
-  :ensure t
   :config
   (add-hook 'org-mode-hook
             (lambda ()
@@ -1302,7 +1258,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package treemacs
-  :ensure t
   :defer t
   ;;:init
   ;;(with-eval-after-load 'winum
@@ -1373,17 +1328,14 @@ That is, a string used to represent it on the tab bar."
         ("C-x t M-t" . treemacs-find-tag)))
 
 (use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
+  :after treemacs projectile)
 
 (use-package treemacs-icons-dired
   :after treemacs dired
-  :ensure t
   :config (treemacs-icons-dired-mode))
 
 (use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
+  :after treemacs magit)
 
 ;;==============================================================================
 ;; neotree
@@ -1392,7 +1344,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package neotree
-  :ensure t
   :config
   (if (and (fboundp 'doom-themes-neotree-config)
            nil) ;; Currently not used because doom-themes-neotree-config doesn't support neo-vc-integration.
@@ -1498,8 +1449,7 @@ That is, a string used to represent it on the tab bar."
 ;; ztree
 ;;==============================================================================
 
-(use-package ztree
-  :ensure t)
+(use-package ztree)
 
 ;;==============================================================================
 ;; perspective
@@ -1508,7 +1458,6 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package perspective
-  :ensure t
   :init
   (setq persp-modestring-dividers '("<" ">" "|"))
   (setq persp-modestring-short t)
@@ -1624,7 +1573,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (setq default-tab-width 2)
 
 (use-package google-c-style
-  :ensure t
   :config
   (add-hook 'c-mode-common-hook 'google-set-c-style)
   (add-hook 'c-mode-common-hook 'google-make-newline-indent))
@@ -1655,7 +1603,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package highlight-indent-guides
-  :ensure t
   :config
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'bitmap)
@@ -1665,8 +1612,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; highlight-indentation
 ;;==============================================================================
 
-(use-package highlight-indentation
-  :ensure t)
+(use-package highlight-indentation)
 
 ;;==============================================================================
 ;; filldent
@@ -1674,8 +1620,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/duckwork/filldent.el
 ;;==============================================================================
 
-(use-package filldent
-  :ensure t)
+(use-package filldent)
 
 ;;==============================================================================
 ;; gnu-indent
@@ -1684,7 +1629,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package gnu-indent
-  :ensure t
   :config
   (if (string-equal system-type "darwin")
       (setq gnu-indent-program "gindent")))
@@ -1707,7 +1651,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (setenv "LSP_USE_PLISTS" "true")
 
 (use-package lsp-mode
-  :ensure t
   :init
   (message "LSP_USE_PLISTS: %s" (getenv "LSP_USE_PLISTS"))
   (setq lsp-use-plists t)
@@ -1726,17 +1669,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
   ;;(message "lsp-file-watch-ignored: %s" lsp-file-watch-ignored)
   )
 
-(use-package lsp-ui
-  :ensure t)
+(use-package lsp-ui)
 
-(use-package helm-lsp
-  :ensure t)
+(use-package helm-lsp)
 
-(use-package lsp-ivy
-  :ensure t)
+(use-package lsp-ivy)
 
-(use-package lsp-treemacs
-  :ensure t)
+(use-package lsp-treemacs)
 
 ;;==============================================================================
 ;; Debug Adapter Protocol (DAP)
@@ -1745,8 +1684,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://microsoft.github.io/debug-adapter-protocol/
 ;;==============================================================================
 
-(use-package dap-mode
-  :ensure t)
+(use-package dap-mode)
 
 ;;==============================================================================
 ;; C/C++
@@ -1792,7 +1730,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (add-hook 'c++-mode-hook 'lsp-deferred)
 
 ;;(use-package ccls
-;;  :ensure t
 ;;  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp-deferred)))
 ;;  :config
 ;;  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
@@ -1855,8 +1792,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (add-hook 'objc-mode-hook 'lsp-deferred)
 
 ;; objc-font-lock
-(use-package objc-font-lock
-  :ensure t)
+(use-package objc-font-lock)
 
 ;;==============================================================================
 ;; Swift
@@ -1864,8 +1800,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/swift-emacs/swift-mode
 ;;==============================================================================
 
-(use-package swift-mode
-  :ensure t)
+(use-package swift-mode)
 
 ;;==============================================================================
 ;; Python
@@ -1906,31 +1841,25 @@ If optional arg SILENT is non-nil, do not display progress messages."
       python-shell-completion-native-enable nil)
 
 (use-package python
-  :ensure t
   :mode ("\\.py" . python-mode))
 
 (use-package pip-requirements
-  :ensure t
   :config
   (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 
 (use-package py-autopep8
-  :ensure t
   :config
   ;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   )
 
-(use-package epc
-  :ensure t)
+(use-package epc)
 
 (use-package importmagic
-  :ensure t
   :config
   (add-hook 'python-mode-hook 'importmagic-mode)
   (setq importmagic-python-interpreter "~/anaconda3/bin/python3"))
 
 (use-package pyvenv
-  :ensure t
   :config
   (cond
    ((file-directory-p "~/anaconda3/envs")
@@ -1940,14 +1869,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (pyvenv-mode 1))
 
 (use-package lsp-pyright
-  :ensure t
   :hook (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))
   :config
   (add-hook 'pyvenv-post-activate-hooks (lambda () (lsp-restart-workspace)))
   (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace))))
 
 ;;(use-package elpy
-;;  :ensure t
 ;;  :init
 ;;  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 ;;  :config
@@ -1970,7 +1897,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; EIN -- Emacs IPython Notebook
 ;; https://github.com/millejoh/emacs-ipython-notebook
 (use-package ein
-  :ensure t
   :custom-face
   (ein:basecell-input-area-face ((t (:extend t :background "#23242f"))))
   :config
@@ -2018,8 +1944,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 ;; https://github.com/emacs-typescript/typescript.el
-(use-package typescript-mode
-  :ensure t)
+(use-package typescript-mode)
 
 (add-hook 'js-mode-hook (lambda () (lsp-deferred)))
 (add-hook 'typescript-mode-hook (lambda () (lsp-deferred)))
@@ -2028,15 +1953,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; haskell-mode
 ;;==============================================================================
 
-(use-package haskell-mode
-  :ensure t)
+(use-package haskell-mode)
 
 ;;==============================================================================
 ;; lua-mode
 ;;==============================================================================
 
 (use-package lua-mode
-  :ensure t
   :config
   (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
   (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
@@ -2046,18 +1969,15 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; cuda-mode
 ;;==============================================================================
 
-(use-package cuda-mode
-  :ensure t)
+(use-package cuda-mode)
 
 ;;==============================================================================
 ;; JSON
 ;;==============================================================================
 
-(use-package json-mode
-  :ensure t)
+(use-package json-mode)
 
 (use-package json-snatcher
-  :ensure t
   :config
   (defun js-mode-bindings ()
     "Sets a hotkey for using the json-snatcher plugin"
@@ -2066,15 +1986,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (add-hook 'js-mode-hook 'js-mode-bindings)
   (add-hook 'js2-mode-hook 'js-mode-bindings))
 
-(use-package json-reformat
-  :ensure t)
+(use-package json-reformat)
 
 ;;==============================================================================
 ;; yaml-mode
 ;;==============================================================================
 
 (use-package yaml-mode
-  :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-hook 'yaml-mode-hook
@@ -2086,7 +2004,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package qml-mode
-  :ensure t
   :config
   (autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
   (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
@@ -2095,15 +2012,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; cmake-mode
 ;;==============================================================================
 
-(use-package cmake-mode
-  :ensure t)
+(use-package cmake-mode)
 
 ;;==============================================================================
 ;; i3wm-config-mode
 ;;==============================================================================
 
-(use-package i3wm-config-mode
-  :ensure t)
+(use-package i3wm-config-mode)
 
 ;;==============================================================================
 ;; Docker
@@ -2111,16 +2026,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 ;; https://github.com/Silex/docker.el
 (use-package docker
-  :ensure t
   :bind ("C-c d" . docker))
 
 ;; https://github.com/emacs-pe/docker-tramp.el
-(use-package docker-tramp
-  :ensure t)
+(use-package docker-tramp)
 
 ;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode
-  :ensure t
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
@@ -2129,32 +2041,29 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package graphviz-dot-mode
-  :ensure t
   :config
   (setq graphviz-dot-indent-width 4))
 
-(use-package company-graphviz-dot)
+(use-package company-graphviz-dot
+  :ensure nil)
 
 ;;==============================================================================
 ;; focus
 ;;==============================================================================
 
-(use-package focus
-  :ensure t)
+(use-package focus)
 
 ;;==============================================================================
 ;; rich-minority
 ;;==============================================================================
 
-(use-package rich-minority
-  :ensure t)
+(use-package rich-minority)
 
 ;;==============================================================================
 ;; hide-mode-line
 ;;==============================================================================
 
-(use-package hide-mode-line
-  :ensure t)
+(use-package hide-mode-line)
 
 ;;==============================================================================
 ;; ediff
@@ -2181,7 +2090,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package diff-hl
-  :ensure t
   :custom-face
   (diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
   (diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
@@ -2197,7 +2105,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package pdf-tools
-  :ensure t
   :config
   (pdf-tools-install)
   (add-hook 'pdf-tools-enabled-hook (lambda ()
@@ -2216,13 +2123,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package vterm
-  :ensure t
   :config
   (add-hook 'vterm-mode-hook (lambda ()
                                (setq-local global-hl-line-mode nil))))
 
 (use-package multi-vterm
-  :ensure t
   :config
   (add-hook 'vterm-mode-hook (lambda ()
                                (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer))))
@@ -2434,15 +2339,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/m00natic/vlfi
 ;;==============================================================================
 
-(use-package vlf
-  :ensure t)
+(use-package vlf)
 
 ;;==============================================================================
 ;; keyfreq
 ;;==============================================================================
 
 (use-package keyfreq
-  :ensure t
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
@@ -2451,15 +2354,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; imenu-list
 ;;==============================================================================
 
-(use-package imenu-list
-  :ensure t)
+(use-package imenu-list)
 
 ;;==============================================================================
 ;; shrink-path
 ;;==============================================================================
 
-(use-package shrink-path
-  :ensure t)
+(use-package shrink-path)
 
 ;;==============================================================================
 ;; Dos To Unix
@@ -2542,8 +2443,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; neato-graph-bar
 ;;==============================================================================
 
-(use-package neato-graph-bar
-  :ensure t)
+(use-package neato-graph-bar)
 
 ;;==============================================================================
 ;; elfeed
@@ -2552,7 +2452,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package elfeed
-  :ensure t
   :config
   (setq elfeed-feeds
         '("https://darkpgmr.tistory.com/rss"
@@ -2583,7 +2482,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package md4rd
-  :ensure t
   :config
   (add-hook 'md4rd-mode-hook 'md4rd-indent-all-the-lines)
   (setq md4rd--oauth-access-token "44428323-ci7Q1lW1XZadFiMIYPdQu2Xdj-asyw")
@@ -2600,8 +2498,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/fizban007/arxiv-mode
 ;;==============================================================================
 
-(use-package arxiv-mode
-  :ensure t)
+(use-package arxiv-mode)
 
 ;;==============================================================================
 ;; arxiv-citation
@@ -2610,7 +2507,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package arxiv-citation
-  :ensure t
   :commands (arxiv-citation-elfeed arxiv-citation-gui)
   :custom
   (arxiv-citation-library "~/Documents")
@@ -2687,8 +2583,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/progfolio/wordel
 ;;==============================================================================
 
-(use-package wordel
-  :ensure t)
+(use-package wordel)
 
 ;;==============================================================================
 ;; Setting default web browser
@@ -2838,5 +2733,4 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/lewang/command-log-mode
 ;;==============================================================================
 
-(use-package command-log-mode
-  :ensure t)
+(use-package command-log-mode)
