@@ -119,18 +119,9 @@
 ;;==============================================================================
 
 (require 'package)
-(setq package-archives `(("melpa" .
-                          ,(format "http%s://melpa.org/packages/"
-                                   (if (gnutls-available-p) "s" "")))
-                         ("org" .
-                          ,(format "http%s://orgmode.org/packages/"
-                                   (if (gnutls-available-p) "s" "")))
-                         ("gnu" .
-                          ,(format "http%s://elpa.gnu.org/packages/"
-                                   (if (gnutls-available-p) "s" "")))
-                         ("nongnu" .
-                          ,(format "http%s://elpa.nongnu.org/nongnu/"
-                                   (if (gnutls-available-p) "s" "")))))
+(setq package-archives `(("melpa" . "http://melpa.org/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("nongnu" . "http://elpa.nongnu.org/nongnu/")))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
