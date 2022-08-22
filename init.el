@@ -162,7 +162,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit neotree ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode graphviz-dot-mode focus rich-minority hide-mode-line diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit neotree ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -2079,6 +2079,95 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (csetq ediff-split-window-function 'split-window-horizontally)
 (csetq ediff-diff-options "-w")
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+
+;;==============================================================================
+;; vdiff
+;;
+;; https://github.com/justbur/emacs-vdiff
+;; https://github.com/justbur/emacs-vdiff-magit
+;;==============================================================================
+
+(use-package vdiff
+  :config
+  (define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
+
+  ;; Whether to lock scrolling by default when starting vdiff
+  (setq vdiff-lock-scrolling t)
+
+  ;; diff program/algorithm to use. Allows choice of diff or git diff along with
+  ;; the various algorithms provided by these commands. See
+  ;; `vdiff-diff-algorithms' for the associated command line arguments.
+  (setq vdiff-diff-algorithm 'git-diff)
+
+  ;; diff3 command to use. Specify as a list where the car is the command to use
+  ;; and the remaining elements are the arguments to the command.
+  (setq vdiff-diff3-command '("diff3"))
+
+  ;; Don't use folding in vdiff buffers if non-nil.
+  (setq vdiff-disable-folding t)
+
+  ;; Unchanged lines to leave unfolded around a fold
+  (setq vdiff-fold-padding 6)
+
+  ;; Minimum number of lines to fold
+  (setq vdiff-min-fold-size 4)
+
+  ;; If non-nil, allow closing new folds around point after updates.
+  (setq vdiff-may-close-fold-on-point t)
+
+  ;; Function that returns the string printed for a closed fold. The arguments
+  ;; passed are the number of lines folded, the text on the first line, and the
+  ;; width of the buffer.
+  (setq vdiff-fold-string-function 'vdiff-fold-string-default)
+
+  ;; Default syntax table class code to use for identifying "words" in
+  ;; `vdiff-refine-this-change'. Some useful options are
+  ;;
+  ;; "w"   (default) words
+  ;; "w_"  symbols (words plus symbol constituents)
+  ;;
+  ;; For more information see
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html
+  (setq vdiff-default-refinement-syntax-code "w")
+
+  ;; If non-nil, automatically refine all hunks.
+  (setq vdiff-auto-refine nil)
+
+  ;; How to represent subtractions (i.e., deleted lines). The
+  ;; default is full which means add the same number of (fake) lines
+  ;; as those that were removed. The choice single means add only one
+  ;; fake line. The choice fringe means don't add lines but do
+  ;; indicate the subtraction location in the fringe.
+  (setq vdiff-subtraction-style 'full)
+
+  ;; Character to use for filling subtraction lines. See also
+  ;; `vdiff-subtraction-style'.
+  (setq vdiff-subtraction-fill-char ?-))
+
+(use-package vdiff-magit
+  :config
+  (define-key magit-mode-map "e" 'vdiff-magit-dwim)
+  (define-key magit-mode-map "E" 'vdiff-magit)
+  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
+
+  ;; This flag will default to using ediff for merges.
+  ;; (setq vdiff-magit-use-ediff-for-merges nil)
+
+  ;; Whether vdiff-magit-dwim runs show variants on hunks.  If non-nil,
+  ;; vdiff-magit-show-staged or vdiff-magit-show-unstaged are called based on what
+  ;; section the hunk is in.  Otherwise, vdiff-magit-dwim runs vdiff-magit-stage
+  ;; when point is on an uncommitted hunk.
+  ;; (setq vdiff-magit-dwim-show-on-hunks nil)
+
+  ;; Whether vdiff-magit-show-stash shows the state of the index.
+  ;; (setq vdiff-magit-show-stash-with-index t)
+
+  ;; Only use two buffers (working file and index) for vdiff-magit-stage
+  ;; (setq vdiff-magit-stage-is-2way nil)
+  )
 
 ;;==============================================================================
 ;; diff-hl
