@@ -31,19 +31,6 @@
   ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
   ;;(print (font-family-list))
   (cond
-   ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
-    (progn
-      (set-face-attribute 'default nil :width 'normal :height 120 :family "JetBrains Mono")
-      ;;(set-face-attribute 'default nil :height 120 :family "Source Code Pro")
-      ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
-      ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
-      ;;(set-face-attribute 'default nil :height 115 :family "Menlo")
-      ;;(set-face-attribute 'default nil :height 115 :family "Hack")
-      ;;(set-face-attribute 'default nil :height 115 :family "FiraCode")
-      ;;(set-face-attribute 'default nil :height 115 :family "monospace")
-      ;;(set-face-attribute 'default nil :height 115 :family "D2Coding")
-      ;;(set-face-attribute 'default nil :height 125 :family "IBM 3270")
-      ))
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
@@ -63,6 +50,19 @@
       ;;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
       ;;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+      ))
+   ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
+    (progn
+      (set-face-attribute 'default nil :width 'normal :height 120 :family "JetBrains Mono")
+      ;;(set-face-attribute 'default nil :height 120 :family "Source Code Pro")
+      ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
+      ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
+      ;;(set-face-attribute 'default nil :height 115 :family "Menlo")
+      ;;(set-face-attribute 'default nil :height 115 :family "Hack")
+      ;;(set-face-attribute 'default nil :height 115 :family "FiraCode")
+      ;;(set-face-attribute 'default nil :height 115 :family "monospace")
+      ;;(set-face-attribute 'default nil :height 115 :family "D2Coding")
+      ;;(set-face-attribute 'default nil :height 125 :family "IBM 3270")
       )))
 
   ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
