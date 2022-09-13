@@ -65,8 +65,20 @@
 (if (string-equal system-type "gnu/linux")
     (defun open-i3-config-file ()
       (interactive)
-      (find-file "~/.config/i3status/config")
-      (find-file "~/.config/i3/config")))
+      (find-file-read-only "~/.config/i3status/config")
+      (find-file-read-only "~/.config/i3/config")))
+
+(cond
+ ((string-equal system-type "gnu/linux")
+  (defun open-qb-config-file ()
+    (interactive)
+    (find-file-read-only "~/.config/qutebrowser/config.py")
+    (find-file-read-only "~/.config/qutebrowser/daftemacs-qb/daftemacs_qb_config.py")))
+ ((string-equal system-type "darwin")
+  (defun open-qb-config-file ()
+    (interactive)
+    (find-file-read-only "~/.qutebrowser/config.py")
+    (find-file-read-only "~/.qutebrowser/daftemacs-qb/daftemacs_qb_config.py"))))
 
 ;;==============================================================================
 ;; Read-only directories
