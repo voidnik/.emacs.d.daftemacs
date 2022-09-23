@@ -279,7 +279,7 @@
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
-  :config
+  :init
   ;; If non-nil, cause imenu to see `doom-modeline' declarations.
   ;; This is done by adjusting `lisp-imenu-generic-expression' to
   ;; include support for finding `doom-modeline-def-*' forms.
@@ -305,7 +305,7 @@
   ;; The limit of the window width.
   ;; If `window-width' is smaller than the limit, some information won't be
   ;; displayed. It can be an integer or a float number. `nil' means no limit."
-  (setq doom-modeline-window-width-limit 0.25)
+  (setq doom-modeline-window-width-limit 85)
 
   ;; How to detect the project root.
   ;; nil means to use `default-directory'.
@@ -318,7 +318,7 @@
   ;; Determines the style used by `doom-modeline-buffer-file-name'.
   ;;
   ;; Given ~/Projects/FOSS/emacs/lisp/comint.el
-  ;;   auto => emacs/lisp/comint.el (in a project) or comint.el
+  ;;   auto => emacs/l/comint.el (in a project) or comint.el
   ;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
   ;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
   ;;   truncate-with-project => emacs/l/comint.el
@@ -353,6 +353,9 @@
   ;; Whether display the modification icon for the buffer.
   ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
   (setq doom-modeline-buffer-modification-icon t)
+
+  ;; Whether display the time icon. It respects variable `doom-modeline-icon'.
+  (setq doom-modeline-time-icon t)
 
   ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
   (setq doom-modeline-unicode-fallback nil)
@@ -431,6 +434,13 @@
 
   ;; Function to stylize the irc buffer names.
   (setq doom-modeline-irc-stylize 'identity)
+
+  ;; Whether display the time. It respects `display-time-mode'.
+  (setq doom-modeline-time t)
+
+  ;; Whether display the misc segment on all mode lines.
+  ;; If nil, display only if the mode line is active.
+  (setq doom-modeline-display-misc-in-all-mode-lines t)
 
   ;; Whether display the environment version.
   (setq doom-modeline-env-version t)
@@ -1999,6 +2009,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package json-mode)
 
+;; https://github.com/sterlingg/json-snatcher
 (use-package json-snatcher
   :config
   (defun js-mode-bindings ()
