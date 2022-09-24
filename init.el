@@ -1260,9 +1260,9 @@ That is, a string used to represent it on the tab bar."
 
 (use-package treemacs
   :defer t
-  ;;:init
-  ;;(with-eval-after-load 'winum
-  ;;  (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
   (progn
     (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
@@ -1334,7 +1334,14 @@ That is, a string used to represent it on the tab bar."
       (`(t . _)
        (treemacs-git-mode 'simple)))
 
-    (treemacs-hide-gitignored-files-mode nil))
+    (treemacs-hide-gitignored-files-mode nil)
+
+    (defun treemacs-hide ()
+      (interactive)
+      (dolist (frame (frame-list))
+        (dolist (window (window-list frame))
+          (when (treemacs-is-treemacs-window? window)
+            (delete-window window))))))
   :bind
   (:map global-map
         ("C-c 0"     . treemacs-select-window)
@@ -1356,9 +1363,8 @@ That is, a string used to represent it on the tab bar."
 
 (use-package treemacs-perspective ;;treemacs-perspective if you use perspective.el vs. persp-mode
   :after (treemacs perspective) ;;or perspective vs. persp-mode
-  ;;:config
-  ;;(treemacs-set-scope-type 'Perspectives)
-  )
+  :config
+  (treemacs-set-scope-type 'Perspectives))
 
 ;;==============================================================================
 ;; neotree
@@ -2759,7 +2765,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                     (neotree-select-window)
                                   (pcase (treemacs-current-visibility)
                                     ('visible (treemacs--select-visible-window))
-                                    (code (neotree-select-window))))))
+                                    (code (treemacs-select-window))))))
 (global-set-key (kbd "M-q") 'filldent-dwim)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -2790,7 +2796,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
-(global-set-key (kbd "C-c 9") 'neotree-select-window)
+(global-set-key (kbd "C-c 0") 'neotree-select-window)
 (global-set-key (kbd "C-c m") 'magit)
 
 (global-set-key (kbd "C-c 1") 'eshell)
