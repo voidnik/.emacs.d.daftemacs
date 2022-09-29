@@ -1260,9 +1260,9 @@ That is, a string used to represent it on the tab bar."
 
 (use-package treemacs
   :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  ;;:init
+  ;;(with-eval-after-load 'winum
+  ;;  (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
   (progn
     (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
@@ -1341,10 +1341,16 @@ That is, a string used to represent it on the tab bar."
       (dolist (frame (frame-list))
         (dolist (window (window-list frame))
           (when (treemacs-is-treemacs-window? window)
-            (delete-window window))))))
+            (delete-window window)))))
+
+    (defun treemacs-kill ()
+      (interactive)
+      (dolist (buffer (buffer-list))
+        (when (s-starts-with? treemacs--buffer-name-prefix (buffer-name buffer))
+          (kill-buffer buffer)))))
   :bind
   (:map global-map
-        ("C-c 0"     . treemacs-select-window)
+        ("C-c 9"     . treemacs-select-window)
         ("C-x t 1"   . treemacs-delete-other-windows)
         ("C-x t t"   . treemacs)
         ("C-x t d"   . treemacs-select-directory)
@@ -1506,7 +1512,13 @@ That is, a string used to represent it on the tab bar."
       (persp-state-load persp-state-default-file)
       (setq persp-state-default-file-loaded t)))
 
+  (add-hook 'persp-before-switch-hook #'(lambda ()
+                                          (treemacs-kill)
+                                          (neotree-hide)))
+
   (add-hook 'kill-emacs-hook #'(lambda ()
+                                 (treemacs-kill)
+                                 (neotree-hide)
                                  (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
                                    (persp-state-save))))
 
@@ -2812,7 +2824,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "C-c ESC ESC") #'(lambda ()
                                         (interactive)
-                                        (treemacs-hide)
+                                        (treemacs-kill)
                                         (neotree-hide)
                                         (if (get-buffer-window "*Ilist*")
                                             (delete-window (get-buffer-window "*Ilist*")))
