@@ -2267,6 +2267,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package vterm
   :config
+  (setq vterm-max-scrollback 100000)
   (add-hook 'vterm-mode-hook (lambda ()
                                (setq-local global-hl-line-mode nil))))
 
