@@ -165,14 +165,15 @@
 ;; Global Keys
 ;;==============================================================================
 
-(global-set-key (kbd "C-x o") 'other-window)
-(global-set-key (kbd "C-x O") 'other-window-reverse)
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-p") 'other-window-reverse)
 (global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 (if (version< emacs-version "26")
     (global-set-key (kbd "C-c l") 'linum-mode)
   (global-set-key (kbd "C-c l") 'display-line-numbers-mode))
 (global-set-key (kbd "C-{") #'winner-undo)
 (global-set-key (kbd "C-}") #'winner-redo)
-
+(global-set-key (kbd "C-M-[") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-M-]") 'switch-to-next-buffer)
 
 (provide 'init-base)
