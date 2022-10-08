@@ -166,7 +166,7 @@
 ;;==============================================================================
 
 (global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "M-p") 'other-window-reverse)
+(global-set-key (kbd "M-O") 'other-window-reverse)
 (global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 (if (version< emacs-version "26")
     (global-set-key (kbd "C-c l") 'linum-mode)
