@@ -2841,6 +2841,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "ESC ESC") 'kill-side-windows)
 
+(add-hook 'vterm-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c ESC ESC") 'kill-side-windows)))
+
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z f") 'elfeed)
 (global-set-key (kbd "C-z r") 'md4rd)
