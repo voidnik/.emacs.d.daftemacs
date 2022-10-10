@@ -163,11 +163,21 @@
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
    '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:background "#1e2029"))))
+ '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.05))))
+ '(org-tree-slide-heading-level-1-init ((t (:inherit outline-1 :height 1.25))))
+ '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
+ '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
+ '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
  '(ediff-current-diff-A ((t (:background "#7f3c63"))))
  '(ediff-current-diff-B ((t (:background "#287d3d"))))
  '(ediff-current-diff-C ((t (:background "#45747e"))))
@@ -179,8 +189,7 @@
  '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8be9fd"))))
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
- '(ediff-odd-diff-C ((t (:background "#464752"))))
- '(mode-line ((t (:background "#1e2029")))))
+ '(ediff-odd-diff-C ((t (:background "#464752")))))
 
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
@@ -860,13 +869,7 @@ That is, a string used to represent it on the tab bar."
          'org-meta-line
          'org-block-begin-line
          'org-drawer
-         'org-property-value))
-
-  (custom-set-faces
-   '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.05))))))
+         'org-property-value)))
 
 (add-hook 'org-mode-hook 'daftemacs/org-style)
 
@@ -882,12 +885,6 @@ That is, a string used to represent it on the tab bar."
   (define-key org-tree-slide-mode-map (kbd "<f9>") 'org-tree-slide-move-previous-tree)
   (define-key org-tree-slide-mode-map (kbd "<f10>") 'org-tree-slide-move-next-tree)
   (define-key org-tree-slide-mode-map (kbd "<f11>") 'org-tree-slide-content)
-
-  (custom-set-faces
-   '(org-tree-slide-heading-level-1-init ((t (:inherit outline-1 :height 1.25))))
-   '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
-   '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
-   '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05)))))
 
   (defun daftemacs/ots-presentation-start ()
     (setq org-tree-slide-skip-outline-level 4)
