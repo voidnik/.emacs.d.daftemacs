@@ -2182,7 +2182,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq vdiff-default-refinement-syntax-code "w")
 
   ;; If non-nil, automatically refine all hunks.
-  (setq vdiff-auto-refine nil)
+  (setq vdiff-auto-refine t)
 
   ;; How to represent subtractions (i.e., deleted lines). The
   ;; default is full which means add the same number of (fake) lines
