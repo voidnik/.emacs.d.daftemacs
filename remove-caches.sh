@@ -7,3 +7,5 @@ rm -rf auto-save-list/.saves*
 rm recentf
 rm -rf image-dired/*
 rm -rf dirvish
+rm projectile-bookmarks.eld
+rm projectile.cache
