@@ -1013,7 +1013,8 @@ That is, a string used to represent it on the tab bar."
 
 (use-package ace-window
   :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  (setq aw-dispatch-when-more-than 4)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 ;;==============================================================================
 ;; projectile
@@ -2767,9 +2768,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-s-<left>") 'buf-move-left)
 (global-set-key (kbd "C-s-<right>") 'buf-move-right)
 
-(global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-x O") 'ace-swap-window)
-(global-set-key (kbd "C-M-o") 'ff-find-other-file)
+(global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "C-M-o") 'ace-swap-window)
+(global-set-key (kbd "C-c o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 (global-set-key (kbd "M-M") 'imenu-list)
 (global-set-key (kbd "M-0") #'(lambda ()
