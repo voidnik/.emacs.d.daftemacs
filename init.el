@@ -1016,6 +1016,72 @@ That is, a string used to represent it on the tab bar."
   (setq aw-dispatch-when-more-than 4)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
+  (defun aw-select-previous (mode-line &optional action)
+    "Return a selected other window.
+Amend MODE-LINE to the mode line for the duration of the selection."
+    (setq aw-action action)
+    (let ((start-window (selected-window))
+          (previous-window-scope (cl-case aw-scope
+                                   ('visible 'visible)
+                                   ('global 'visible)
+                                   ('frame 'frame)))
+          (wnd-list (aw-window-list))
+          window)
+      (setq window
+            (cond ((<= (length wnd-list) 1)
+                   (when aw-dispatch-always
+                     (setq aw-action
+                           (unwind-protect
+                               (catch 'done
+                                 (funcall aw-dispatch-function (read-char)))
+                             (aw--done)))
+                     (when (eq aw-action 'exit)
+                       (setq aw-action nil)))
+                   (or (car wnd-list) start-window))
+                  ((and (<= (+ (length wnd-list) (if (aw-ignored-p start-window) 1 0))
+                            aw-dispatch-when-more-than)
+                        (not aw-dispatch-always)
+                        (not aw-ignore-current))
+                   (let ((wnd (previous-window nil nil previous-window-scope)))
+                     (while (and (or (not (memq wnd wnd-list))
+                                     (aw-ignored-p wnd))
+                                 (not (equal wnd start-window)))
+                       (setq wnd (previous-window wnd nil previous-window-scope)))
+                     wnd))
+                  (t
+                   (let ((candidate-list
+                          (mapcar (lambda (wnd)
+                                    (cons (aw-offset wnd) wnd))
+                                  wnd-list)))
+                     (aw--make-backgrounds wnd-list)
+                     (aw-set-mode-line mode-line)
+                     ;; turn off helm transient map
+                     (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
+                     (unwind-protect
+                         (let* ((avy-handler-function aw-dispatch-function)
+                                (avy-translate-char-function aw-translate-char-function)
+                                (transient-mark-mode nil)
+                                (res (avy-read (avy-tree candidate-list aw-keys)
+                                               (if (and ace-window-display-mode
+                                                        (null aw-display-mode-overlay))
+                                                   (lambda (_path _leaf))
+                                                 aw--lead-overlay-fn)
+                                               aw--remove-leading-chars-fn)))
+                           (if (eq res 'exit)
+                               (setq aw-action nil)
+                             (or (cdr res)
+                                 start-window)))
+                       (aw--done))))))
+      (if aw-action
+          (funcall aw-action window)
+        window)))
+
+  (defun ace-select-previous-window ()
+    "Ace select window."
+    (interactive)
+    (aw-select-previous " Ace - Window"
+                        #'aw-switch-to-window)))
+
 ;;==============================================================================
 ;; projectile
 ;;==============================================================================
@@ -2769,6 +2835,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-s-<right>") 'buf-move-right)
 
 (global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "M-O") 'ace-select-previous-window)
 (global-set-key (kbd "C-M-o") 'ace-swap-window)
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
