@@ -2882,4 +2882,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://github.com/lewang/command-log-mode
 ;;==============================================================================
 
-(use-package command-log-mode)
+(use-package command-log-mode
+  :init
+  (setq command-log-mode-key-binding-open-log nil))
