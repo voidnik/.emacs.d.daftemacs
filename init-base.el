@@ -172,8 +172,6 @@
 (global-set-key (kbd "C-x O") 'other-window-reverse)
 (global-set-key (kbd "C-{") 'winner-undo)
 (global-set-key (kbd "C-}") 'winner-redo)
-(global-set-key (kbd "C-M-[") 'switch-to-prev-buffer)
-(global-set-key (kbd "C-M-]") 'switch-to-next-buffer)
 (global-set-key (kbd "C-c x") 'hexl-mode-toggle)
 
 (provide 'init-base)
