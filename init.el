@@ -677,6 +677,7 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*straight" name)
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
+       (string-prefix-p "*Process List" name)
        (string-prefix-p "*Register Preview" name)
        (string-prefix-p "*Calc" name)
        (string-prefix-p "*calculator" name)
