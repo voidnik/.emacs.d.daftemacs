@@ -683,7 +683,6 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*calculator" name)
        (string-prefix-p "*Ilist" name)
        (string-prefix-p "*Ediff" name)
-       (string-prefix-p "*Bufler" name)
        (string-prefix-p "*Ibuffer" name)
        (string-match "\s?\*ein" (buffer-name)))))
 
@@ -1679,7 +1678,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
         bufler-use-header-line-format nil
         bufler-delete-bufler-window-when-switching-to-buffer nil)
   (setq bufler-filter-buffer-modes
-        '(bufler-list-mode special-mode timer-list-mode)))
+        '(bufler-list-mode special-mode timer-list-mode))
+
+  (defun bufler-refresh-when-visible (frame)
+    (when (string-prefix-p "*Bufler" (buffer-name (window-buffer (selected-window))))
+      (bufler-list)))
+  (add-hook 'window-buffer-change-functions 'bufler-refresh-when-visible))
 
 ;;==============================================================================
 ;; Code Style
