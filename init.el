@@ -1581,10 +1581,11 @@ Amend MODE-LINE to the mode line for the duration of the selection."
     (when (file-exists-p persp-state-default-file)
       (if persp-state-default-file-loaded
           (message "The default perspective state has been already restored.")
-        (message "Restoring the default perspective state...")
-        (persp-state-load persp-state-default-file)
-        (message "The default perspective state has been restored.")
-        (setq persp-state-default-file-loaded t))))
+        (progn
+          (message "Restoring the default perspective state...")
+          (persp-state-load persp-state-default-file)
+          (message "The default perspective state has been restored.")
+          (setq persp-state-default-file-loaded t)))))
 
   (add-hook 'persp-before-switch-hook #'(lambda ()
                                           (treemacs-kill)
