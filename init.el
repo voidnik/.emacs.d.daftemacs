@@ -2353,6 +2353,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package multi-vterm
   :config
   (add-hook 'vterm-mode-hook (lambda ()
+                               (define-key vterm-mode-map (kbd "M-]") 'centaur-tabs-forward)
                                (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer))))
 
 ;;==============================================================================
