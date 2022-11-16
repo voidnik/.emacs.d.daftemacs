@@ -2158,8 +2158,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 ;; https://github.com/Silex/docker.el
-(use-package docker
-  :bind ("C-c d" . docker))
+(use-package docker)
 
 ;; https://github.com/emacs-pe/docker-tramp.el
 (use-package docker-tramp)
@@ -2900,19 +2899,28 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
+(defun open-dedicated-terminal ()
+  (interactive)
+  (multi-vterm-dedicated-toggle))
 
-(global-set-key (kbd "C-c 1") #'(lambda ()
-                                  (interactive)
-                                  (multi-vterm)))
-;;(global-set-key (kbd "C-c 1") 'eshell)
-;;(global-set-key (kbd "C-c 1") #'(lambda ()
-;;                                  (interactive)
-;;                                  (ansi-term explicit-shell-file-name)))
-(global-set-key (kbd "C-c 2") 'dirvish)
-(global-set-key (kbd "C-c 3") #'(lambda ()
-                                  (interactive)
-                                  (calculator)))
-(global-set-key (kbd "C-c 4") 'neato-graph-bar)
+(defun open-terminal ()
+  (interactive)
+  (multi-vterm)
+  ;;(eshell)
+  ;;(ansi-term explicit-shell-file-name)
+  )
+
+(defun open-calculator ()
+  (interactive)
+  (calculator))
+
+(global-set-key (kbd "C-c u s") 'open-dedicated-terminal)
+(global-set-key (kbd "C-c u S") 'open-terminal)
+(global-set-key (kbd "C-c u d") 'dirvish)
+(global-set-key (kbd "C-c u t") 'dir-treeview-open)
+(global-set-key (kbd "C-c u k") 'docker)
+(global-set-key (kbd "C-c u c") 'open-calculator)
+(global-set-key (kbd "C-c u p") 'neato-graph-bar)
 
 (defun kill-side-windows ()
   (interactive)
