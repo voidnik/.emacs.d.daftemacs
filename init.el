@@ -2851,10 +2851,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
 (global-set-key (kbd "M-SPC") 'toggle-input-method) ;; 'Shift + Space' is recognized as 'M-SPC' on MacOS.
 
-(global-set-key (kbd "C-s-<up>") 'buf-move-up)
-(global-set-key (kbd "C-s-<down>") 'buf-move-down)
-(global-set-key (kbd "C-s-<left>") 'buf-move-left)
-(global-set-key (kbd "C-s-<right>") 'buf-move-right)
+(global-set-key (kbd "C-S-<up>") 'buf-move-up)
+(global-set-key (kbd "C-S-<down>") 'buf-move-down)
+(global-set-key (kbd "C-S-<left>") 'buf-move-left)
+(global-set-key (kbd "C-S-<right>") 'buf-move-right)
 
 (global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-O") 'ace-select-previous-window)
