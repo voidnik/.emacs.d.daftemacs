@@ -162,7 +162,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -1322,6 +1322,114 @@ Amend MODE-LINE to the mode line for the duration of the selection."
               (spell-fu-mode))))
 
 ;;==============================================================================
+;; perspective
+;;
+;; https://github.com/nex3/perspective-el
+;;==============================================================================
+
+(use-package perspective
+  :init
+  (setq persp-modestring-dividers '("<" ">" "|"))
+  (setq persp-modestring-short t)
+  (setq persp-mode-prefix-key (kbd "C-c p"))
+  :config
+  (persp-mode)
+  (setq persp-sort 'access)
+  (setq persp-state-default-file "~/.emacs.d/persp-state-default")
+  (setq persp-state-default-file-loaded nil)
+
+  (message "persp-state-default-file: %s (%s)" persp-state-default-file (file-exists-p persp-state-default-file))
+
+  (defun persp-state-load-default ()
+    "Restore the perspective state saved in the default file."
+    (interactive)
+    (when (file-exists-p persp-state-default-file)
+      (if persp-state-default-file-loaded
+          (message "The default perspective state has been already restored.")
+        (progn
+          (message "Restoring the default perspective state...")
+          (persp-state-load persp-state-default-file)
+          (message "The default perspective state has been restored.")
+          (setq persp-state-default-file-loaded t)))))
+
+  (add-hook 'persp-before-switch-hook #'(lambda ()
+                                          (kill-side-windows)))
+
+  (add-hook 'kill-emacs-hook #'(lambda ()
+                                 (kill-side-windows)
+                                 (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
+                                   (persp-state-save))))
+
+  ;;
+  ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
+  ;; For smooth work with 'perspective', '(buffer-list)' is replaced with '(persp-buffer-list-filter (buffer-list))'.
+  ;;
+  (defun centaur-tabs-buffer-list ()
+    "Return the list of buffers to show in tabs.
+Exclude buffers whose name starts with a space, when they are not
+visiting a file.  The current buffer is always included."
+    (centaur-tabs-filter-out
+     'centaur-tabs-hide-tab-cached
+     (delq nil
+           (cl-mapcar #'(lambda (b)
+                          (cond
+                           ;; Always include the current buffer.
+                           ((eq (current-buffer) b) b)
+                           ((buffer-file-name b) b)
+                           ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+                           ((buffer-live-p b) b)))
+                      (persp-buffer-list-filter (buffer-list)))))) ;; modified by daftcoder
+
+  ;;
+  ;; Overriding 'ibuffer-update'
+  ;;
+  (defun ibuffer-update (arg &optional silent)
+    "Regenerate the list of all buffers.
+
+Prefix arg non-nil means to toggle whether buffers that match
+`ibuffer-maybe-show-predicates' should be displayed.
+
+If optional arg SILENT is non-nil, do not display progress messages."
+    (interactive "P")
+    (if arg
+        (setq ibuffer-display-maybe-show-predicates
+              (not ibuffer-display-maybe-show-predicates)))
+    (ibuffer-forward-line 0)
+    (let* ((bufs (persp-buffer-list-filter (buffer-list)))
+           (blist (ibuffer-filter-buffers
+                   (current-buffer)
+                   (if (and
+                        (cadr bufs)
+                        (eq ibuffer-always-show-last-buffer
+                            :nomini)
+                        (minibufferp (cadr bufs)))
+                       (nth 2 bufs)
+                     (cadr bufs))
+                   (ibuffer-current-buffers-with-marks bufs)
+                   ibuffer-display-maybe-show-predicates)))
+      (and (null blist)
+           (featurep 'ibuf-ext)
+           ibuffer-filtering-qualifiers
+           (message "No buffers! (note: filtering in effect)"))
+      (unless silent
+        (message "Updating buffer list..."))
+      (ibuffer-redisplay-engine blist arg)
+      (unless silent
+        (message "Updating buffer list...done")))
+    (if (eq ibuffer-shrink-to-minimum-size 'onewindow)
+        (ibuffer-shrink-to-fit t)
+      (when ibuffer-shrink-to-minimum-size
+        (ibuffer-shrink-to-fit)))
+    (ibuffer-forward-line 0)
+    ;; I tried to update this automatically from the mode-line-process format,
+    ;; but changing nil-ness of header-line-format while computing
+    ;; mode-line-format is asking a bit too much it seems.  --Stef
+    (setq header-line-format
+          (and ibuffer-use-header-line
+               ibuffer-filtering-qualifiers
+               ibuffer-header-line-format))))
+
+;;==============================================================================
 ;; File Tree
 ;;
 ;; treemacs (https://github.com/Alexander-Miller/treemacs)
@@ -1559,116 +1667,6 @@ Amend MODE-LINE to the mode line for the duration of the selection."
 (load-theme 'dir-treeview-pleasant t)
 
 (use-package ztree)
-
-;;==============================================================================
-;; perspective
-;;
-;; https://github.com/nex3/perspective-el
-;;==============================================================================
-
-(use-package perspective
-  :init
-  (setq persp-modestring-dividers '("<" ">" "|"))
-  (setq persp-modestring-short t)
-  (setq persp-mode-prefix-key (kbd "C-c p"))
-  :config
-  (persp-mode)
-  (setq persp-sort 'access)
-  (setq persp-state-default-file "~/.emacs.d/persp-state-default")
-  (setq persp-state-default-file-loaded nil)
-
-  (message "persp-state-default-file: %s (%s)" persp-state-default-file (file-exists-p persp-state-default-file))
-
-  (defun persp-state-load-default ()
-    "Restore the perspective state saved in the default file."
-    (interactive)
-    (when (file-exists-p persp-state-default-file)
-      (if persp-state-default-file-loaded
-          (message "The default perspective state has been already restored.")
-        (progn
-          (message "Restoring the default perspective state...")
-          (persp-state-load persp-state-default-file)
-          (message "The default perspective state has been restored.")
-          (setq persp-state-default-file-loaded t)))))
-
-  (add-hook 'persp-before-switch-hook #'(lambda ()
-                                          (treemacs-kill)
-                                          (neotree-hide)))
-
-  (add-hook 'kill-emacs-hook #'(lambda ()
-                                 (treemacs-kill)
-                                 (neotree-hide)
-                                 (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
-                                   (persp-state-save))))
-
-  ;;
-  ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
-  ;; For smooth work with 'perspective', '(buffer-list)' is replaced with '(persp-buffer-list-filter (buffer-list))'.
-  ;;
-  (defun centaur-tabs-buffer-list ()
-    "Return the list of buffers to show in tabs.
-Exclude buffers whose name starts with a space, when they are not
-visiting a file.  The current buffer is always included."
-    (centaur-tabs-filter-out
-     'centaur-tabs-hide-tab-cached
-     (delq nil
-           (cl-mapcar #'(lambda (b)
-                          (cond
-                           ;; Always include the current buffer.
-                           ((eq (current-buffer) b) b)
-                           ((buffer-file-name b) b)
-                           ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                           ((buffer-live-p b) b)))
-                      (persp-buffer-list-filter (buffer-list)))))) ;; modified by daftcoder
-
-  ;;
-  ;; Overriding 'ibuffer-update'
-  ;;
-  (defun ibuffer-update (arg &optional silent)
-    "Regenerate the list of all buffers.
-
-Prefix arg non-nil means to toggle whether buffers that match
-`ibuffer-maybe-show-predicates' should be displayed.
-
-If optional arg SILENT is non-nil, do not display progress messages."
-    (interactive "P")
-    (if arg
-        (setq ibuffer-display-maybe-show-predicates
-              (not ibuffer-display-maybe-show-predicates)))
-    (ibuffer-forward-line 0)
-    (let* ((bufs (persp-buffer-list-filter (buffer-list)))
-           (blist (ibuffer-filter-buffers
-                   (current-buffer)
-                   (if (and
-                        (cadr bufs)
-                        (eq ibuffer-always-show-last-buffer
-                            :nomini)
-                        (minibufferp (cadr bufs)))
-                       (nth 2 bufs)
-                     (cadr bufs))
-                   (ibuffer-current-buffers-with-marks bufs)
-                   ibuffer-display-maybe-show-predicates)))
-      (and (null blist)
-           (featurep 'ibuf-ext)
-           ibuffer-filtering-qualifiers
-           (message "No buffers! (note: filtering in effect)"))
-      (unless silent
-        (message "Updating buffer list..."))
-      (ibuffer-redisplay-engine blist arg)
-      (unless silent
-        (message "Updating buffer list...done")))
-    (if (eq ibuffer-shrink-to-minimum-size 'onewindow)
-        (ibuffer-shrink-to-fit t)
-      (when ibuffer-shrink-to-minimum-size
-        (ibuffer-shrink-to-fit)))
-    (ibuffer-forward-line 0)
-    ;; I tried to update this automatically from the mode-line-process format,
-    ;; but changing nil-ness of header-line-format while computing
-    ;; mode-line-format is asking a bit too much it seems.  --Stef
-    (setq header-line-format
-          (and ibuffer-use-header-line
-               ibuffer-filtering-qualifiers
-               ibuffer-header-line-format))))
 
 ;;==============================================================================
 ;; Bufler
@@ -2875,6 +2873,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "C-c p l") 'persp-state-load-default)
 
+(global-set-key (kbd "C-c m") 'magit)
+(global-set-key (kbd "C-c 0") 'neotree-select-window)
 (global-set-key (kbd "C-c s") 'swiper)
 
 (global-set-key (kbd "C-c w c") 'centered-window-mode)
@@ -2893,8 +2893,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
-(global-set-key (kbd "C-c 0") 'neotree-select-window)
-(global-set-key (kbd "C-c m") 'magit)
 
 (global-set-key (kbd "C-c 1") #'(lambda ()
                                   (interactive)
