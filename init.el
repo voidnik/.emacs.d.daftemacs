@@ -2349,15 +2349,22 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package vterm
   :config
-  (setq vterm-max-scrollback 100000)
+  (setq vterm-max-scrollback 1000000)
+
+  (defun vterm-clear-all ()
+    (interactive)
+    (vterm-clear)
+    (vterm-clear-scrollback))
+
   (add-hook 'vterm-mode-hook (lambda ()
+                               (define-key vterm-mode-map (kbd "M-0") 'treemacs-or-neotree-select-window)
+                               (define-key vterm-mode-map (kbd "M-]") 'centaur-tabs-forward)
+                               (define-key vterm-mode-map (kbd "C-S-k") 'vterm-clear-all)
                                (setq-local global-hl-line-mode nil))))
 
 (use-package multi-vterm
   :config
   (add-hook 'vterm-mode-hook (lambda ()
-                               (define-key vterm-mode-map (kbd "M-0") 'treemacs-or-neotree-select-window)
-                               (define-key vterm-mode-map (kbd "M-]") 'centaur-tabs-forward)
                                (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer))))
 
 ;;==============================================================================
