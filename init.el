@@ -1531,12 +1531,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :bind
   (:map global-map
         ("C-c 9"     . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+        ("C-c f 1"   . treemacs-delete-other-windows)
+        ("C-c f t"   . treemacs)
+        ("C-c f d"   . treemacs-select-directory)
+        ("C-c f B"   . treemacs-bookmark)
+        ("C-c f C-t" . treemacs-find-file)
+        ("C-c f M-t" . treemacs-find-tag)))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
