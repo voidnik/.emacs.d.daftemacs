@@ -162,7 +162,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree perspective google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -184,7 +184,7 @@
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
  '(ediff-odd-diff-C ((t (:background "#464752"))))
- '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))))
+ '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))) t)
  '(mode-line ((t (:background "#1e2029"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
@@ -1322,9 +1322,12 @@ Amend MODE-LINE to the mode line for the duration of the selection."
               (spell-fu-mode))))
 
 ;;==============================================================================
-;; treemacs
+;; File Tree
 ;;
-;; https://github.com/Alexander-Miller/treemacs
+;; treemacs (https://github.com/Alexander-Miller/treemacs)
+;; neotree (https://github.com/jaypei/emacs-neotree)
+;; dir-treeview (https://github.com/tilmanrassy/emacs-dir-treeview)
+;; ztree (https://github.com/fourier/ztree)
 ;;==============================================================================
 
 (use-package treemacs
@@ -1441,12 +1444,6 @@ Amend MODE-LINE to the mode line for the duration of the selection."
   :config
   (treemacs-set-scope-type 'Perspectives))
 
-;;==============================================================================
-;; neotree
-;;
-;; https://github.com/jaypei/emacs-neotree
-;;==============================================================================
-
 (use-package neotree
   :config
   (if (and (fboundp 'doom-themes-neotree-config)
@@ -1549,9 +1546,17 @@ Amend MODE-LINE to the mode line for the duration of the selection."
             (goto-char p))
         (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)))))
 
-;;==============================================================================
-;; ztree
-;;==============================================================================
+(defun treemacs-or-neotree-select-window ()
+  (interactive)
+  (if (neo-global--window-exists-p)
+      (neotree-select-window)
+    (pcase (treemacs-current-visibility)
+      ('visible (treemacs--select-visible-window))
+      (code (treemacs-select-window)))))
+
+(use-package dir-treeview)
+(use-package dir-treeview-themes)
+(load-theme 'dir-treeview-pleasant t)
 
 (use-package ztree)
 
@@ -2856,13 +2861,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 (global-set-key (kbd "M-M") 'imenu-list)
-(global-set-key (kbd "M-0") #'(lambda ()
-                                (interactive)
-                                (if (neo-global--window-exists-p)
-                                    (neotree-select-window)
-                                  (pcase (treemacs-current-visibility)
-                                    ('visible (treemacs--select-visible-window))
-                                    (code (treemacs-select-window))))))
+(global-set-key (kbd "M-0") 'treemacs-or-neotree-select-window)
 (global-set-key (kbd "M-q") 'filldent-dwim)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
