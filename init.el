@@ -2918,7 +2918,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (if (get-buffer "*lsp-ui-imenu*")
       (kill-buffer "*lsp-ui-imenu*"))
   (if (get-buffer " *command-log*")
-      (kill-buffer " *command-log*")))
+      (kill-buffer " *command-log*"))
+  (multi-vterm-dedicated-close))
 
 (global-set-key (kbd "ESC ESC") 'kill-side-windows)
 
