@@ -683,7 +683,7 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*calculator" name)
        (string-prefix-p "*Ilist" name)
        (string-prefix-p "*Ediff" name)
-       (string-prefix-p "*Ibuffer" name)
+       (string-prefix-p "*vterminal - dedicated" name)
        (string-match "\s?\*ein" (buffer-name)))))
 
   ;;
