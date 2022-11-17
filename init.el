@@ -2855,10 +2855,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
 (global-set-key (kbd "M-SPC") 'toggle-input-method) ;; 'Shift + Space' is recognized as 'M-SPC' on MacOS.
 
-(global-set-key (kbd "C-S-<up>") 'buf-move-up)
-(global-set-key (kbd "C-S-<down>") 'buf-move-down)
-(global-set-key (kbd "C-S-<left>") 'buf-move-left)
-(global-set-key (kbd "C-S-<right>") 'buf-move-right)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-b") 'bufler)
+(global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
+(global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
+(global-set-key (kbd "C-x k") 'persp-kill-buffer*)
+(global-set-key (kbd "C-x _") 'whitespace-mode)
 
 (global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-O") 'ace-select-previous-window)
@@ -2869,19 +2872,20 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "M-0") 'treemacs-or-neotree-select-window)
 (global-set-key (kbd "M-q") 'filldent-dwim)
 
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-b") 'bufler)
-(global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
-(global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
-(global-set-key (kbd "C-x k") 'persp-kill-buffer*)
-(global-set-key (kbd "C-x _") 'whitespace-mode)
-
-(global-set-key (kbd "C-c p l") 'persp-state-load-default)
+(global-set-key (kbd "C-S-<up>") 'buf-move-up)
+(global-set-key (kbd "C-S-<down>") 'buf-move-down)
+(global-set-key (kbd "C-S-<left>") 'buf-move-left)
+(global-set-key (kbd "C-S-<right>") 'buf-move-right)
 
 (global-set-key (kbd "C-c m") 'magit)
 (global-set-key (kbd "C-c 0") 'neotree-select-window)
 (global-set-key (kbd "C-c s") 'swiper)
+(global-set-key (kbd "C-c v") 'visual-line-mode)
+
+(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
+
+(global-set-key (kbd "C-c p l") 'persp-state-load-default)
 
 (global-set-key (kbd "C-c w c") 'centered-window-mode)
 (global-set-key (kbd "C-c w l") 'centered-cursor-mode)
@@ -2895,9 +2899,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c c b") 'counsel-projectile-switch-to-buffer)
 (global-set-key (kbd "C-c c g") 'counsel-projectile-rg)
 (global-set-key (kbd "C-c c p") 'counsel-projectile-switch-project)
-
-(global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
 
 (defun open-dedicated-terminal ()
   (interactive)
@@ -2965,13 +2966,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; Local Keys
 ;;==============================================================================
 
-(define-key org-mode-map "\C-cv" 'visual-line-mode)
-(define-key markdown-mode-map "\C-cv" 'visual-line-mode)
-
 (add-hook 'python-mode-hook
           (lambda ()
             (define-key python-mode-map "\C-ca" 'py-autopep8)
-            (define-key python-mode-map "\C-cv" 'pyvenv-workon)
+            (define-key python-mode-map "\C-ce" 'pyvenv-workon)
             (define-key python-mode-map "\C-m" 'newline-and-indent)))
 
 ;;==============================================================================
