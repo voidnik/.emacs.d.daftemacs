@@ -1680,7 +1680,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :custom-face
   (dir-treeview-control-mouse-face ((t (:foreground "#282a36" :background "#bd93f9"))))
   (dir-treeview-label-mouse-face ((t (:foreground "#282a36" :background "#50fa7b"))))
-  (dir-treeview-start-dir-face ((t (:foreground "#282a36" :background "#ff5555")))))
+  (dir-treeview-start-dir-face ((t (:foreground "#282a36" :background "#ff79c6")))))
 (use-package dir-treeview-themes)
 (load-theme 'dir-treeview-pleasant t)
 
