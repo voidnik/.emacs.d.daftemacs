@@ -162,7 +162,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck org-bullets org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation openwith wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -2830,15 +2830,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
                 (or desc "video")))))))
 
 ;;==============================================================================
-;; Wordel: Wordle in Emacs
-;;
-;; https://github.com/progfolio/wordel
-;;==============================================================================
-
-(use-package wordel)
-
-;;==============================================================================
-;; Setting default web browser
+;; Setting the default web browser
 ;;
 ;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
 ;;==============================================================================
@@ -2865,6 +2857,34 @@ If optional arg SILENT is non-nil, do not display progress messages."
              (list url))))
 
   (setq browse-url-browser-function 'browse-url-nyxt))
+
+;;==============================================================================
+;; Setting the default app with an association
+;;==============================================================================
+
+(use-package openwith
+  :config
+  (openwith-mode t)
+  (setq openwith-associations '(("\\.\\(?:ts\\|mxf\\|mpe?g\\|mov\\|mp4\\|avi\\|mkv\\|wmv\\)\\'" "mpv" (file))))
+
+  ;; https://emacs.stackexchange.com/questions/17095/how-supress-dired-confirmation-of-large-file-for-specific-extensions
+  (defvar my-ok-large-file-types
+    (mapconcat 'car openwith-associations "\\|")
+    "Regexp matching filenames which are definitely ok to visit,
+even when the file is larger than `large-file-warning-threshold'.")
+  (defadvice abort-if-file-too-large (around my-check-ok-large-file-types)
+    "If FILENAME matches `my-ok-large-file-types', do not abort."
+    (unless (string-match-p my-ok-large-file-types (ad-get-arg 2))
+      ad-do-it))
+  (ad-activate 'abort-if-file-too-large))
+
+;;==============================================================================
+;; Wordel: Wordle in Emacs
+;;
+;; https://github.com/progfolio/wordel
+;;==============================================================================
+
+(use-package wordel)
 
 ;;==============================================================================
 ;; Global Keys
