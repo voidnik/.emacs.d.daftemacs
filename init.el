@@ -321,10 +321,10 @@
    ((string-equal system-type "gnu/linux")
     (if with-pgtk
         (setq doom-modeline-height 25)
-      (setq doom-modeline-height 32))))
+      (setq doom-modeline-height 50))))
 
   ;; How wide the mode-line bar should be. It's only respected in GUI.
-  (setq doom-modeline-bar-width 2)
+  (setq doom-modeline-bar-width 3)
 
   ;; Whether to use hud instead of default bar. It's only respected in GUI.
   (setq doom-modeline-hud nil)
@@ -577,13 +577,12 @@
    ((string-equal system-type "gnu/linux")
     (if (string-equal (getenv "GDK_SCALE") "2")
         (if with-pgtk
-            (setq centaur-tabs-height 28)
-          (setq centaur-tabs-height 56))
-      (setq centaur-tabs-height 28))
+            (setq centaur-tabs-height 25)
+          (setq centaur-tabs-height 50))
+      (setq centaur-tabs-height 25))
     (if with-pgtk
         (centaur-tabs-change-fonts "JetBrains Mono" 94)
-      (centaur-tabs-change-fonts "JetBrains Mono" 95))
-    ))
+      (centaur-tabs-change-fonts "JetBrains Mono" 95))))
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
 
