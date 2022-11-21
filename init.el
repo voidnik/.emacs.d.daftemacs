@@ -1680,7 +1680,31 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :custom-face
   (dir-treeview-control-mouse-face ((t (:foreground "#282a36" :background "#bd93f9"))))
   (dir-treeview-label-mouse-face ((t (:foreground "#282a36" :background "#50fa7b"))))
-  (dir-treeview-start-dir-face ((t (:foreground "#282a36" :background "#ff79c6")))))
+  (dir-treeview-start-dir-face ((t (:foreground "#282a36" :background "#ff79c6"))))
+  (dir-treeview-select-face ((t (:background "#6272a4"))))
+
+  (setq dir-treeview-control-keymap
+        '(("<mouse-1>" . treeview-toggle-node-state-at-event)
+          ("<mouse-2>" . treeview-toggle-node-state-at-event)
+          ("<mouse-3>" . dir-treeview-popup-node-menu-at-mouse)
+          ("RET" . treeview-toggle-node-state-at-point)
+          ("SPC" . dir-treeview-open-file-at-point)
+          ("e" . dir-treeview-popup-node-menu-at-point)))
+  (setq dir-treeview-label-keymap
+        '(("<mouse-1>" . treeview-toggle-node-state-at-event)
+          ("<mouse-2>" . dir-treeview-open-file-at-event)
+          ("<mouse-3>" . dir-treeview-popup-node-menu-at-mouse)
+          ("RET" . treeview-toggle-node-state-at-point)
+          ("SPC" . dir-treeview-open-file-at-point)
+          ("e" . dir-treeview-popup-node-menu-at-point)
+          ("<C-down-mouse-1>" . ignore)
+          ("<C-mouse-1>" . treeview-toggle-select-node-at-event)
+          ("<S-down-mouse-1>" . ignore)
+          ("<S-mouse-1>" . treeview-select-gap-above-node-at-event)))
+  (setq dir-treeview-parent-dir-control-keymap
+        '(("<mouse-1>" . dir-treeview-to-parent-dir)
+          ("<mouse-2>" . dir-treeview-to-parent-dir)
+          ("RET" . dir-treeview-to-parent-dir))))
 (use-package dir-treeview-themes)
 (load-theme 'dir-treeview-pleasant t)
 
