@@ -1681,7 +1681,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (dir-treeview-label-mouse-face ((t (:foreground "#282a36" :background "#50fa7b"))))
   (dir-treeview-start-dir-face ((t (:foreground "#282a36" :background "#ff79c6"))))
   (dir-treeview-select-face ((t (:background "#6272a4"))))
-
+  :config
   (setq dir-treeview-control-keymap
         '(("<mouse-1>" . treeview-toggle-node-state-at-event)
           ("<mouse-2>" . treeview-toggle-node-state-at-event)
