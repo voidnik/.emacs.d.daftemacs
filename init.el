@@ -1018,8 +1018,29 @@ That is, a string used to represent it on the tab bar."
      ("d" "~/Downloads/" "Downloads")
      ("c" "~/Documents/" "Documents")))
   :config
+  ;; Placement
+  ;;(setq dirvish-use-header-line nil)     ; hide header line (show the classic dired header)
+  ;;(setq dirvish-use-mode-line nil)       ; hide mode line
+  ;;(setq dirvish-use-header-line 'global) ; make header line span all panes
+
+  ;; Height
+  ;;; '(25 . 35) means
+  ;;;   - height in single window sessions is 25
+  ;;;   - height in full-frame sessions is 35
+  (setq dirvish-header-line-height '(34 . 34))
+  (setq dirvish-mode-line-height 34) ; shorthand for '(34 . 34)
+
+  ;; Segments
+  ;;; 1. the order of segments *matters* here
+  ;;; 2. it's ok to place raw string inside
+  (setq dirvish-header-line-format
+        '(:left (path) :right (free-space))
+        dirvish-mode-line-format
+        '(:left (sort file-time " " file-size symlink) :right (omit yank index)))
+
   (setq dirvish-mode-line-format
         '(:left (sort symlink) :right (omit yank index)))
+
   (setq dirvish-attributes
         '(all-the-icons file-time file-size collapse subtree-state vc-state git-msg))
   (setq delete-by-moving-to-trash t)
