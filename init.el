@@ -227,6 +227,14 @@
 (use-package flx)
 
 ;;==============================================================================
+;; buffer-focus-hook
+;;
+;; https://github.com/mschuldt/buffer-focus-hook
+;;==============================================================================
+
+(load-file "~/.emacs.d/buffer-focus-hook.elc")
+
+;;==============================================================================
 ;; undo-tree
 ;;
 ;; https://www.emacswiki.org/emacs/UndoTree
