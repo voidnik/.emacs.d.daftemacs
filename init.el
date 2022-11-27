@@ -2461,12 +2461,34 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                (define-key vterm-mode-map (kbd "M-0") 'treemacs-or-neotree-select-window)
                                (define-key vterm-mode-map (kbd "M-]") 'centaur-tabs-forward)
                                (define-key vterm-mode-map (kbd "C-S-k") 'vterm-clear-all)
+
                                (setq-local global-hl-line-mode nil))))
 
 (use-package multi-vterm
   :config
+  (setq multi-vterm-dedicated-buffer-lock-state nil)
+
+  (defun multi-vterm-dedicated-buffer-focus-out ()
+    (if (and (multi-vterm-dedicated-exist-p) (not multi-vterm-dedicated-buffer-lock-state))
+        (multi-vterm-dedicated-close)))
+
+  (defun multi-vterm-dedicated-buffer-lock-toggle ()
+    (interactive)
+    (if multi-vterm-dedicated-buffer-lock-state
+        (progn
+          (setq multi-vterm-dedicated-buffer-lock-state nil)
+          (message "multi-vterm-dedicated-buffer UNLOCKED."))
+      (progn
+        (setq multi-vterm-dedicated-buffer-lock-state t)
+        (message "multi-vterm-dedicated-buffer LOCKED."))))
+
   (add-hook 'vterm-mode-hook (lambda ()
-                               (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer))))
+                               (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer)
+                               (define-key vterm-mode-map (kbd "C-c l") 'multi-vterm-dedicated-buffer-lock-toggle)
+
+                               (let ((buffer (current-buffer)))
+                                 (when (string-prefix-p "*vterminal - dedicated" (buffer-name buffer))
+                                   (buffer-focus-out-callback 'multi-vterm-dedicated-buffer-focus-out buffer))))))
 
 ;;==============================================================================
 ;; ansi-term
