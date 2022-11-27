@@ -1417,14 +1417,15 @@ Amend MODE-LINE to the mode line for the duration of the selection."
   (defun persp-state-load-default ()
     "Restore the perspective state saved in the default file."
     (interactive)
-    (when (file-exists-p persp-state-default-file)
-      (if persp-state-default-file-loaded
-          (message "The default perspective state has been already restored.")
-        (progn
-          (message "Restoring the default perspective state...")
-          (persp-state-load persp-state-default-file)
-          (message "The default perspective state has been restored.")
-          (setq persp-state-default-file-loaded t)))))
+    (if (file-exists-p persp-state-default-file)
+        (if persp-state-default-file-loaded
+            (message "The default perspective state has been already restored.")
+          (progn
+            (message "Restoring the default perspective state...")
+            (persp-state-load persp-state-default-file)
+            (message "The default perspective state has been restored.")
+            (setq persp-state-default-file-loaded t)))
+      (message "There is no saved file for the default perspective state.")))
 
   (add-hook 'persp-before-switch-hook #'(lambda ()
                                           (kill-side-windows)))
