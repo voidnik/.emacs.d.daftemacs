@@ -171,7 +171,8 @@ must be called to get up-to-date results."
 (defcustom bufler-filter-buffer-name-regexps
   (list (rx "*Compile-Log*") (rx "*Disabled Command*")
         ;; Org export logs.
-        (rx "*Org " (1+ anything) "Output*"))
+        (rx "*Org " (1+ anything) "Output*")
+        (rx "*xref*"))
   "Regular expressions matched against buffer names.
 Buffers whose names match are hidden when function
 `bufler--buffer-name-filtered-p' is in `bufler-filter-buffer-fns'
@@ -209,6 +210,12 @@ May be used to add extra space between groups in `bufler-list'."
                         ((0 . "\n")))
                  (alist :key-type (integer :tag "Group level")
                         :value-type (string :tag "Suffix string"))))
+
+(defcustom bufler-list-switch-buffer-action '((display-buffer-reuse-window
+                                               display-buffer-same-window))
+  "Display buffer action used by `bufler-list-buffer-switch'.
+See `display-buffer' for more information."
+  :type 'sexp)
 
 (defcustom bufler-cache-related-dirs-p t
   "Whether to cache whether directory pairs are related.
@@ -301,6 +308,10 @@ Used when `bufler-list' is called."
 
 (cl-defstruct bufler-group
   type path elements)
+
+;; customized by daftcoder
+(defun persp-buffer-list ()
+  (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))
 
 ;;;###autoload
 (defun bufler-list (&optional arg)
@@ -429,6 +440,59 @@ which are otherwise filtered by `bufler-filter-buffer-fns'."
 ;;;###autoload
 (defalias 'bufler #'bufler-list)
 
+(defvar bufler-sidebar-dedicated-window nil
+  "The dedicated `bufler-sidebar' window.")
+
+(defvar bufler-sidebar-dedicated-buffer nil
+  "The dedicated `bufler-sidebar' buffer.")
+
+(defun bufler-sidebar-dedicated-exist-p ()
+  "Return non-nil if `bufler-sidebar' dedicated window exists."
+  (and (bufler-sidebar-dedicated-buffer-exist-p bufler-sidebar-dedicated-buffer)
+       (bufler-sidebar-dedicated-window-exist-p bufler-sidebar-dedicated-window)))
+
+(defun bufler-sidebar-dedicated-window-exist-p (window)
+  "Return non-nil if WINDOW exist."
+  (and window (window-live-p window)))
+
+(defun bufler-sidebar-dedicated-buffer-exist-p (buffer)
+  "Return non-nil if BUFFER exist.
+Otherwise return nil."
+  (and buffer (buffer-live-p buffer)))
+
+;;;###autoload
+(cl-defun bufler-sidebar (&key (side 'right) (slot 0))
+  "Display Bufler list in dedicated side window.
+With universal prefix, use left SIDE instead of right.  With two
+universal prefixes, prompt for side and slot."
+  (interactive (list :side (pcase current-prefix-arg
+                             ('nil 'right)
+                             ('(0) 'left)
+                             (_ (intern (completing-read "Side: " '(left right top bottom) nil t))))
+                     :slot (pcase current-prefix-arg
+                             ('nil 0)
+                             ('(0) 0)
+                             (_ (read-number "Slot: ")))))
+
+  (let ((display-buffer-mark-dedicated t)
+        buffer)
+    (save-window-excursion
+      (bufler-list)
+      (setf buffer (window-buffer (selected-window)))
+      (setq bufler-sidebar-dedicated-buffer buffer))
+    (setq bufler-sidebar-dedicated-window (display-buffer buffer
+                                                          `(display-buffer-in-side-window
+                                                            (side . ,side)
+                                                            (slot . ,slot)
+                                                            (window-parameters
+                                                             (no-delete-other-windows . t)))))
+    (select-window bufler-sidebar-dedicated-window)))
+
+(defun bufler-sidebar-close ()
+  (interactive)
+  (when (bufler-sidebar-dedicated-exist-p)
+    (delete-window bufler-sidebar-dedicated-window)))
+
 (declare-function bufler-workspace-switch-buffer "bufler-workspace")
 ;;;###autoload
 (defalias 'bufler-switch-buffer #'bufler-workspace-switch-buffer)
@@ -475,8 +539,7 @@ NAME, okay, `checkdoc'?"
             ;; this.  There are a surprising number of nuances in getting
             ;; this to behave exactly as desired in all cases.
             (delete-window bufler-window)))
-        (pop-to-buffer buffer '((display-buffer-reuse-window
-                                 display-buffer-same-window))))))
+        (pop-to-buffer buffer bufler-list-switch-buffer-action))))
   :refresh-p nil)
 
 (bufler-define-buffer-command peek "Peek at buffer in another window."
@@ -504,9 +567,7 @@ With prefix, unset it."
   :let* ((name (unless current-prefix-arg
                  (completing-read "Named workspace: "
                                   (seq-uniq
-                                   (cl-loop for buffer in
-                                            ;; customized by daftcoder
-                                            (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list))
+                                   (cl-loop for buffer in (persp-buffer-list)
                                             when (buffer-local-value 'bufler-workspace-name buffer)
                                             collect it)))))))
 
@@ -568,14 +629,11 @@ FILTER-FNS, remove buffers that match any of them."
   (cl-labels ((grouped-buffers
                () (bufler-group-tree groups
                     (if filter-fns
-                        (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p
-                                                                  ;; customized by daftcoder
-                                                                  (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))
+                        (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p (persp-buffer-list))
                                  for fn in filter-fns
                                  do (setf buffers (cl-remove-if fn buffers))
                                  finally return buffers)
-                      ;; customized by daftcoder
-                      (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))))
+                      (persp-buffer-list))))
               (cached-buffers
                (key) (when (eql key (car bufler-cache))
                        ;; Buffer list unchanged: return cached result.
@@ -594,9 +652,7 @@ FILTER-FNS, remove buffers that match any of them."
                              grouped-buffers))))
               (buffers
                () (if bufler-use-cache
-                      (let ((key (sxhash
-                                  ;; customized by daftcoder
-                                  (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))))
+                      (let ((key (sxhash (persp-buffer-list))))
                         (or (cached-buffers key)
                             ;; Buffer list has changed: group buffers and cache result.
                             (cdadr
@@ -807,6 +863,7 @@ PLIST may be a plist setting the following options:
 (bufler-define-column "Name" (:max-width nil)
   ;; MAYBE: Move indentation back to `bufler-list'.  But this seems to
   ;; work well, and that might be more complicated.
+  (ignore depth)
   (let ((indentation (make-string (* 2 bufler-indent-per-level) ? ))
         (mode-annotation (when (cl-loop for fn in bufler-buffer-mode-annotate-preds
                                         thereis (funcall fn buffer))

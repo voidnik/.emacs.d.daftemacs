@@ -688,6 +688,7 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*Helm" name)
        (string-prefix-p "*Compile-Log*" name)
        (string-prefix-p "*Backtrace*" name)
+       (string-prefix-p "*Bufler*" name)
        (string-prefix-p "*lsp" name)
        (string-prefix-p "*LSP" name)
        (string-prefix-p "*company" name)
@@ -1782,14 +1783,19 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :config
   (setq bufler-show-header-string nil
         bufler-use-header-line-format nil
-        bufler-delete-bufler-window-when-switching-to-buffer nil)
+        bufler-delete-bufler-window-when-switching-to-buffer t)
   (setq bufler-filter-buffer-modes
         '(bufler-list-mode special-mode timer-list-mode))
 
   (defun bufler-refresh-when-visible (frame)
     (when (string-prefix-p "*Bufler" (buffer-name (window-buffer (selected-window))))
       (bufler-list)))
-  (add-hook 'window-buffer-change-functions 'bufler-refresh-when-visible))
+  (add-hook 'window-buffer-change-functions 'bufler-refresh-when-visible)
+
+  (add-hook 'bufler-list-mode-hook (lambda ()
+                                     (let ((buffer (current-buffer)))
+                                       (when (string-prefix-p "*Bufler" (buffer-name buffer))
+                                         (buffer-focus-out-callback 'bufler-sidebar-close buffer))))))
 
 ;;==============================================================================
 ;; Code Style
@@ -2467,11 +2473,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package multi-vterm
   :config
-  (setq multi-vterm-dedicated-buffer-lock-state nil)
-
-  (defun multi-vterm-dedicated-buffer-focus-out ()
-    (if (and (multi-vterm-dedicated-exist-p) (not multi-vterm-dedicated-buffer-lock-state))
-        (multi-vterm-dedicated-close)))
+  (defvar multi-vterm-dedicated-buffer-lock-state nil)
 
   (defun multi-vterm-dedicated-buffer-lock-toggle ()
     (interactive)
@@ -2482,6 +2484,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
       (progn
         (setq multi-vterm-dedicated-buffer-lock-state t)
         (message "multi-vterm-dedicated-buffer LOCKED."))))
+
+  (defun multi-vterm-dedicated-buffer-focus-out ()
+    (if (and (multi-vterm-dedicated-exist-p) (not multi-vterm-dedicated-buffer-lock-state))
+        (multi-vterm-dedicated-close)))
 
   (add-hook 'vterm-mode-hook (lambda ()
                                (define-key vterm-mode-map (kbd "C-c r") 'multi-vterm-rename-buffer)
@@ -3002,7 +3008,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-b") 'bufler)
+(global-set-key (kbd "C-x C-b") 'bufler-sidebar)
 (global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
 (global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
@@ -3072,6 +3078,7 @@ even when the file is larger than `large-file-warning-threshold'.")
   (interactive)
   (treemacs-kill)
   (neotree-hide)
+  (bufler-sidebar-close)
   (if (get-buffer-window "*Ilist*")
       (delete-window (get-buffer-window "*Ilist*")))
   (if (get-buffer "*lsp-ui-imenu*")
