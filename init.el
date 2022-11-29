@@ -547,10 +547,17 @@
 ;; https://codeberg.org/akib/emacs-minibar
 ;;==============================================================================
 
-(use-package minibar
-  :config
-  (minibar-mode +1)
-  (setq minibar-group-middle '(minibar-module-cpu minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))
+(cond
+ ((string-equal system-type "darwin")
+  (use-package minibar
+    :config
+    (minibar-mode +1)
+    (setq minibar-group-middle '(minibar-module-battery minibar-module-time))))
+ ((string-equal system-type "gnu/linux")
+  (use-package minibar
+    :config
+    (minibar-mode +1)
+    (setq minibar-group-middle '(minibar-module-cpu minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
 
 ;;==============================================================================
 ;; magit
