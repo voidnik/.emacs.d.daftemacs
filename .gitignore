@@ -5,6 +5,7 @@ undo-tree-history
 persp-state-default
 bookmarks
 semanticdb
+ac-comphist.dat
 tramp
 request
 url
