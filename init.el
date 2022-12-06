@@ -890,9 +890,7 @@ That is, a string used to represent it on the tab bar."
 ;; https://github.com/auto-complete/auto-complete
 ;;==============================================================================
 
-(use-package auto-complete
-  :config
-  (ac-config-default))
+(use-package auto-complete)
 
 ;;==============================================================================
 ;; org
@@ -2114,12 +2112,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :mode ("\\.py" . python-mode))
 
 (use-package pip-requirements
-  :config
-  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+  ;;:config
+  ;;(add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
+  )
 
 (use-package py-autopep8
-  :config
-  ;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  ;;:config
+  ;;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   )
 
 (use-package epc)
