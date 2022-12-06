@@ -3148,7 +3148,9 @@ even when the file is larger than `large-file-warning-threshold'.")
   (calculator))
 
 (add-hook 'calculator-mode-hook #'(lambda ()
-                                    (enlarge-window 1)))
+                                    (let ((window (selected-window)))
+                                      (if (< (window-height window) 3)
+                                          (window-resize window 1)))))
 
 (global-set-key (kbd "C-c u s") 'open-dedicated-terminal)
 (global-set-key (kbd "C-c u S") 'open-terminal)
