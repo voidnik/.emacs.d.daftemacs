@@ -819,7 +819,7 @@ That is, a string used to represent it on the tab bar."
 
 (use-package dashboard
   :config
-  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (setq dashboard-center-content t)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
@@ -828,7 +828,8 @@ That is, a string used to represent it on the tab bar."
                           (projects . 10)
                           (agenda . 10)
                           (registers . 10)))
-  (setq dashboard-page-separator "\n\f\n")) ;; This depends on page-break-lines.
+  (setq dashboard-page-separator "\n\f\n") ;; This depends on page-break-lines.
+  (dashboard-setup-startup-hook))
 
 ;;==============================================================================
 ;; centered-window (The customized version)
