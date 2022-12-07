@@ -17,6 +17,7 @@
 (setq visible-bell t
       make-backup-files nil
       column-number-mode t
+      split-width-threshold (if (< (display-pixel-width) 1920) 127 170)
       split-height-threshold nil ; not to split this way.
       register-preview-delay 0
       gdb-many-windows t

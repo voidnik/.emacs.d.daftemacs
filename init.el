@@ -93,6 +93,8 @@
 (message "user-login-name: %s" user-login-name)
 (message "user-init-file: %s" user-init-file)
 (message "user-emacs-directory: %s" user-emacs-directory)
+(message "split-width-threshold: %d" split-width-threshold)
+(message "Display pixel size: %dx%d" (display-pixel-width) (display-pixel-height))
 
 (if (and (fboundp 'native-comp-available-p)
          (native-comp-available-p))
