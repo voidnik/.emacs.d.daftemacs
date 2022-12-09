@@ -1084,6 +1084,8 @@ That is, a string used to represent it on the tab bar."
   (setq dirvish-attributes
         '(all-the-icons file-time file-size collapse subtree-state vc-state git-msg))
   (setq delete-by-moving-to-trash t)
+  (when (eq system-type 'darwin)
+    (setq insert-directory-program "gls" dired-use-ls-dired t))
   (setq dired-listing-switches
         "-l --almost-all --human-readable --group-directories-first --no-group")
   :bind ; Bind `dirvish|dirvish-side|dirvish-dwim' as you see fit
