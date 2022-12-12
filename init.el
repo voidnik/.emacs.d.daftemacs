@@ -518,20 +518,6 @@
                                (lambda (bg) (set-face-background 'mode-line bg))
                                orig-bg))))
 
-(cond
- ((string-equal system-type "darwin")
-  (progn
-    (set-face-attribute 'mode-line nil :width 'normal :height 120 :family "JetBrains Mono")
-    (set-face-attribute 'mode-line-inactive nil :width 'normal :height 120 :family "JetBrains Mono")))
- ((string-equal system-type "gnu/linux")
-  (if with-pgtk
-      (progn
-        (set-face-attribute 'mode-line nil :width 'normal :height 94 :family "JetBrains Mono")
-        (set-face-attribute 'mode-line-inactive nil :width 'normal :height 94 :family "JetBrains Mono"))
-    (progn
-      (set-face-attribute 'mode-line nil :width 'normal :height 95 :family "JetBrains Mono")
-      (set-face-attribute 'mode-line-inactive nil :width 'normal :height 95 :family "JetBrains Mono")))))
-
 ;;==============================================================================
 ;; nyan-mode
 ;;
@@ -602,17 +588,13 @@
         centaur-tabs-cycle-scope 'tabs)
   (cond
    ((string-equal system-type "darwin")
-    (setq centaur-tabs-height 25)
-    (centaur-tabs-change-fonts "JetBrains Mono" 120))
+    (setq centaur-tabs-height 25))
    ((string-equal system-type "gnu/linux")
     (if (string-equal (getenv "GDK_SCALE") "2")
         (if with-pgtk
             (setq centaur-tabs-height 25)
           (setq centaur-tabs-height 50))
-      (setq centaur-tabs-height 25))
-    (if with-pgtk
-        (centaur-tabs-change-fonts "JetBrains Mono" 94)
-      (centaur-tabs-change-fonts "JetBrains Mono" 95))))
+      (setq centaur-tabs-height 25))))
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
 
