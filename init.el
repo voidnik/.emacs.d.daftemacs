@@ -3100,10 +3100,11 @@ even when the file is larger than `large-file-warning-threshold'.")
 (global-set-key (kbd "C-c m") 'magit)
 (global-set-key (kbd "C-c 0") 'neotree-select-window)
 (global-set-key (kbd "C-c s") 'swiper)
-(global-set-key (kbd "C-c v") 'visual-line-mode)
-
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
+
+(global-set-key (kbd "C-c b v") 'visual-line-mode)
+(global-set-key (kbd "C-c b f") 'focus-mode)
 
 (global-set-key (kbd "C-c p l") 'persp-state-load-default)
 
