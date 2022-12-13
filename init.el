@@ -711,66 +711,6 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*Ediff" name)
        (string-prefix-p "*vterminal - dedicated" name)
        (string-match "\s?\*ein" (buffer-name)))))
-
-  ;;
-  ;; Overriding 'centaur-tabs-line-format' in 'centaur-tabs-functions.el'
-  ;; To solve the miscalculation of visible tabs when using 'centered-window-mode'.
-  ;;
-  (defun centaur-tabs-line-format (tabset)
-    "Return the `centaur-tabs-display-line-format' value to display TABSET."
-    (let* ((sel (centaur-tabs-selected-tab tabset))
-           (tabs (centaur-tabs-view tabset))
-           (padcolor centaur-tabs-background-color)
-           atsel elts)
-      ;; Track the selected tab to ensure it is always visible.
-      (when centaur-tabs--track-selected
-        (while (not (memq sel tabs))
-          (centaur-tabs-scroll tabset -1)
-          (setq tabs (centaur-tabs-view tabset)))
-        (while (and tabs (not atsel))
-          (setq elts  (cons (centaur-tabs-line-tab (car tabs)) elts)
-                atsel (eq (car tabs) sel)
-                tabs  (cdr tabs)))
-        (setq elts (nreverse elts))
-        ;; At this point the selected tab is the last elt in ELTS.
-        ;; Scroll TABSET and ELTS until the selected tab becomes
-        ;; visible.
-        (let (buffer-list-update-hook)
-          (with-temp-buffer
-            (set-window-margins (selected-window) 0 0) ;; added by daftcoder
-            (let ((truncate-partial-width-windows nil)
-                  (inhibit-modification-hooks t)
-                  deactivate-mark ;; Prevent deactivation of the mark!
-                  start)
-              (setq truncate-lines nil
-                    buffer-undo-list t)
-              (setq start (point))
-              (while (and (cdr elts) ;; Always show the selected tab!
-                          (progn
-                            (delete-region start (point-max))
-                            (goto-char (point-max))
-                            (apply #'insert elts)
-                            (goto-char (point-min))
-                            (> (vertical-motion 1) 0)))
-                (centaur-tabs-scroll tabset 1)
-                (setq elts (cdr elts))))))
-        (setq elts (nreverse elts))
-        (setq centaur-tabs--track-selected nil))
-      ;; Format remaining tabs.
-      (while tabs
-        (setq elts (cons (centaur-tabs-line-tab (car tabs)) elts)
-              tabs (cdr tabs)))
-      ;; Cache and return the new tab bar.
-      (centaur-tabs-set-template
-       tabset
-       (list
-        (centaur-tabs-line-format--buttons)
-        (nreverse elts)
-        (propertize "% "
-                    'face (list :background padcolor)
-                    'pointer 'arrow)
-        (centaur-tabs-line-format--new-button)))
-      ))
   :hook
   (term-mode . centaur-tabs-local-mode)
   (calendar-mode . centaur-tabs-local-mode)
@@ -1459,17 +1399,18 @@ Amend MODE-LINE to the mode line for the duration of the selection."
     "Return the list of buffers to show in tabs.
 Exclude buffers whose name starts with a space, when they are not
 visiting a file.  The current buffer is always included."
-    (centaur-tabs-filter-out
-     'centaur-tabs-hide-tab-cached
-     (delq nil
-           (cl-mapcar #'(lambda (b)
-                          (cond
-                           ;; Always include the current buffer.
-                           ((eq (current-buffer) b) b)
-                           ((buffer-file-name b) b)
-                           ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                           ((buffer-live-p b) b)))
-                      (persp-buffer-list-filter (buffer-list)))))) ;; modified by daftcoder
+    (let* ((bufs (persp-buffer-list-filter (buffer-list))))
+      (centaur-tabs-filter-out
+       'centaur-tabs-hide-tab-cached
+       (delq nil
+             (cl-mapcar #'(lambda (b)
+                            (cond
+                             ;; Always include the current buffer.
+                             ((eq (current-buffer) b) b)
+                             ((buffer-file-name b) b)
+                             ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+                             ((buffer-live-p b) b)))
+                        bufs))))) ;; modified by daftcoder
 
   ;;
   ;; Overriding 'ibuffer-update'
