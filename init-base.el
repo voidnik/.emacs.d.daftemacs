@@ -14,6 +14,9 @@
 ;; icons simultaneously, you can try setting the following variable.
 (setq inhibit-compacting-font-caches t)
 
+;; https://www.masteringemacs.org/article/improving-performance-emacs-display-engine
+(setq redisplay-dont-pause t)
+
 (setq visible-bell t
       make-backup-files nil
       column-number-mode t
