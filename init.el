@@ -2675,9 +2675,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq bidi-display-reordering nil)
   (jit-lock-mode nil)
   (set (make-variable-buffer-local 'font-lock-mode) nil)
-  ;;(if (version< emacs-version "26")
-  ;;    (set (make-variable-buffer-local 'linum-mode) nil)
-  ;;  (set (make-variable-buffer-local 'display-line-numbers) nil))
   (set (make-variable-buffer-local 'global-hl-line-mode) nil))
 
 (defun my-find-file-check-if-very-large-file-hook ()
