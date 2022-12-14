@@ -1391,15 +1391,23 @@ Amend MODE-LINE to the mode line for the duration of the selection."
                                  (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
                                    (persp-state-save))))
 
+  (defun persp-buffer-list ()
+    "Return a list of buffers of all living buffers in the current perspective."
+    (let ((ignore-rx (persp--make-ignore-buffer-rx)))
+      (cl-loop for buf in (persp-current-buffers* t)
+               if (and (buffer-live-p buf)
+                       (not (string-match-p ignore-rx (buffer-name buf))))
+               collect buf)))
+
   ;;
   ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
-  ;; For smooth work with 'perspective', '(buffer-list)' is replaced with '(persp-buffer-list-filter (buffer-list))'.
+  ;; For smooth work with 'perspective', '(buffer-list)' is replaced with '(persp-buffer-list)'.
   ;;
   (defun centaur-tabs-buffer-list ()
     "Return the list of buffers to show in tabs.
 Exclude buffers whose name starts with a space, when they are not
 visiting a file.  The current buffer is always included."
-    (let* ((bufs (persp-buffer-list-filter (buffer-list))))
+    (let* ((bufs (persp-buffer-list)))
       (centaur-tabs-filter-out
        'centaur-tabs-hide-tab-cached
        (delq nil
@@ -1427,7 +1435,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (setq ibuffer-display-maybe-show-predicates
               (not ibuffer-display-maybe-show-predicates)))
     (ibuffer-forward-line 0)
-    (let* ((bufs (persp-buffer-list-filter (buffer-list)))
+    (let* ((bufs (persp-buffer-list))
            (blist (ibuffer-filter-buffers
                    (current-buffer)
                    (if (and

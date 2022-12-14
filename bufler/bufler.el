@@ -310,8 +310,8 @@ Used when `bufler-list' is called."
   type path elements)
 
 ;; customized by daftcoder
-(defun persp-buffer-list ()
-  (if (fboundp 'persp-buffer-list-filter) (persp-buffer-list-filter (buffer-list)) (buffer-list)))
+(defun bufler-buffer-list ()
+  (if (fboundp 'persp-buffer-list) (persp-buffer-list) (buffer-list)))
 
 ;;;###autoload
 (defun bufler-list (&optional arg)
@@ -567,7 +567,7 @@ With prefix, unset it."
   :let* ((name (unless current-prefix-arg
                  (completing-read "Named workspace: "
                                   (seq-uniq
-                                   (cl-loop for buffer in (persp-buffer-list)
+                                   (cl-loop for buffer in (bufler-buffer-list)
                                             when (buffer-local-value 'bufler-workspace-name buffer)
                                             collect it)))))))
 
@@ -629,11 +629,11 @@ FILTER-FNS, remove buffers that match any of them."
   (cl-labels ((grouped-buffers
                () (bufler-group-tree groups
                     (if filter-fns
-                        (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p (persp-buffer-list))
+                        (cl-loop with buffers = (cl-delete-if-not #'buffer-live-p (bufler-buffer-list))
                                  for fn in filter-fns
                                  do (setf buffers (cl-remove-if fn buffers))
                                  finally return buffers)
-                      (persp-buffer-list))))
+                      (bufler-buffer-list))))
               (cached-buffers
                (key) (when (eql key (car bufler-cache))
                        ;; Buffer list unchanged: return cached result.
@@ -652,7 +652,7 @@ FILTER-FNS, remove buffers that match any of them."
                              grouped-buffers))))
               (buffers
                () (if bufler-use-cache
-                      (let ((key (sxhash (persp-buffer-list))))
+                      (let ((key (sxhash (bufler-buffer-list))))
                         (or (cached-buffers key)
                             ;; Buffer list has changed: group buffers and cache result.
                             (cdadr

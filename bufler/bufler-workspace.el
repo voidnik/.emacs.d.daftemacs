@@ -171,7 +171,7 @@ appear in a named workspace, the buffer must be matched by an
   (interactive (list (unless current-prefix-arg
                        (completing-read "Named workspace: "
                                         (seq-uniq
-                                         (cl-loop for buffer in (persp-buffer-list)
+                                         (cl-loop for buffer in (bufler-buffer-list)
                                                   when (buffer-local-value 'bufler-workspace-name buffer)
                                                   collect it))))))
   (setf bufler-cache nil)
