@@ -1,5 +1,22 @@
 ;; Editor: Richard Jaeho Hur
 
+;; Dracula color codes
+;;----------------------------------------------------------
+;; Background   | #282a36 | hsl(231,15%,18%)  | 40 42 54
+;; Current Line | #44475a | hsl(232,14%,31%)  | 68 71 90
+;; Foreground   | #f8f8f2 | hsl(60,30%,96%)   | 248 248 242
+;; Comment      | #6272a4 | hsl(225,27%,51%)  | 98 114 164
+;; Cyan         | #8be9fd | hsl(191,97%,77%)  | 139 233 253
+;; Green        | #50fa7b | hsl(135,94%,65%)  | 80 250 123
+;; Orange       | #ffb86c | hsl(31,100%,71%)  | 255 184 108
+;; Pink         | #ff79c6 | hsl(326,100%,74%) | 255 121 198
+;; Purple       | #bd93f9 | hsl(265,89%,78%)  | 189 147 249
+;; Red          | #ff5555 | hsl(0,100%,67%)   | 255 85 85
+;; Yellow       | #f1fa8c | hsl(65,92%,76%)   | 241 250 140
+;;
+;; My favorite special characters: 🔥 🌙 ⚡ ⭐ 👍
+;; https://unicode-table.com/en/sets/top-emoji/
+
 (setq with-pgtk (string-equal window-system "pgtk"))
 
 (defun daftemacs/display-startup-time ()
@@ -280,20 +297,6 @@
 ;;==============================================================================
 ;; doom-themes
 ;;==============================================================================
-
-;; Dracula Color Codes
-;;----------------------------------------------------------
-;; Background   | #282a36 | hsl(231,15%,18%)  | 40 42 54
-;; Current Line | #44475a | hsl(232,14%,31%)  | 68 71 90
-;; Foreground   | #f8f8f2 | hsl(60,30%,96%)   | 248 248 242
-;; Comment      | #6272a4 | hsl(225,27%,51%)  | 98 114 164
-;; Cyan         | #8be9fd | hsl(191,97%,77%)  | 139 233 253
-;; Green        | #50fa7b | hsl(135,94%,65%)  | 80 250 123
-;; Orange       | #ffb86c | hsl(31,100%,71%)  | 255 184 108
-;; Pink         | #ff79c6 | hsl(326,100%,74%) | 255 121 198
-;; Purple       | #bd93f9 | hsl(265,89%,78%)  | 189 147 249
-;; Red          | #ff5555 | hsl(0,100%,67%)   | 255 85 85
-;; Yellow       | #f1fa8c | hsl(65,92%,76%)   | 241 250 140
 
 (use-package doom-themes
   :config
@@ -582,10 +585,16 @@
         x-underline-at-descent-line t
         centaur-tabs-set-icons t
         centaur-tabs-set-modified-marker t
-        centaur-tabs-modified-marker "*"
+        centaur-tabs-modified-marker "🔥"
         centaur-tabs-set-close-button nil
         centaur-tabs-gray-out-icons 'buffer
-        centaur-tabs-cycle-scope 'tabs)
+        centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-down-tab-text " ⭐ "
+        centaur-tabs-backward-tab-text ""
+        centaur-tabs-forward-tab-text ""
+        centaur-tabs-show-count t
+        centaur-tabs-new-tab-text " + ")
   (cond
    ((string-equal system-type "darwin")
     (setq centaur-tabs-height 25))
