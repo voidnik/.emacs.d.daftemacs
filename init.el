@@ -1368,12 +1368,22 @@ Amend MODE-LINE to the mode line for the duration of the selection."
 
 (use-package perspective
   :init
-  (setq persp-modestring-dividers '("<" ">" "|"))
-  (setq persp-modestring-short t)
-  (setq persp-mode-prefix-key (kbd "C-c p"))
+  (setq persp-modestring-dividers '("<" ">" "|")
+        persp-modestring-short t
+        persp-mode-prefix-key (kbd "C-c p")
+        persp-avoid-killing-last-buffer-in-perspective nil)
   :config
   (persp-mode)
   (setq persp-sort 'access)
+
+  (defun persp-buffer-list ()
+    "Return a list of buffers of all living buffers in the current perspective."
+    (let ((ignore-rx (persp--make-ignore-buffer-rx)))
+      (cl-loop for buf in (persp-current-buffers)
+               if (and (buffer-live-p buf)
+                       (not (string-match-p ignore-rx (buffer-name buf))))
+               collect buf)))
+
   (setq persp-state-default-file "~/.emacs.d/persp-state-default")
   (setq persp-state-default-file-loaded nil)
 
@@ -1399,14 +1409,6 @@ Amend MODE-LINE to the mode line for the duration of the selection."
                                  (kill-side-windows)
                                  (when (or (not (file-exists-p persp-state-default-file)) persp-state-default-file-loaded)
                                    (persp-state-save))))
-
-  (defun persp-buffer-list ()
-    "Return a list of buffers of all living buffers in the current perspective."
-    (let ((ignore-rx (persp--make-ignore-buffer-rx)))
-      (cl-loop for buf in (persp-current-buffers* t)
-               if (and (buffer-live-p buf)
-                       (not (string-match-p ignore-rx (buffer-name buf))))
-               collect buf)))
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
