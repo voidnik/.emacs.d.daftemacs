@@ -14,7 +14,7 @@
 ;; Red          | #ff5555 | hsl(0,100%,67%)   | 255 85 85
 ;; Yellow       | #f1fa8c | hsl(65,92%,76%)   | 241 250 140
 ;;
-;; My favorite special characters: 🔥 🌙 ⚡ ⭐ 👍
+;; My favorite special characters: 🔥 🚀 ⭐ 🌙 ⚡ 👍
 ;; https://unicode-table.com/en/sets/top-emoji/
 
 (setq with-pgtk (string-equal window-system "pgtk"))
@@ -590,11 +590,11 @@
         centaur-tabs-gray-out-icons 'buffer
         centaur-tabs-cycle-scope 'tabs
         centaur-tabs-show-navigation-buttons t
-        centaur-tabs-down-tab-text " ⭐ "
+        centaur-tabs-down-tab-text " 🚀 "
         centaur-tabs-backward-tab-text ""
         centaur-tabs-forward-tab-text ""
         centaur-tabs-show-count t
-        centaur-tabs-new-tab-text " + ")
+        centaur-tabs-new-tab-text " ⭐ ")
   (cond
    ((string-equal system-type "darwin")
     (setq centaur-tabs-height 25))
