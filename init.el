@@ -693,6 +693,7 @@ That is, a string used to represent it on the tab bar."
       ((string-equal "*" (substring (buffer-name) 0 1))
        "Emacs")
       ((or (string-match "magit-?[0-9a-zA-Z]*?: " (buffer-name))
+           (string-match "COMMIT_EDITMSG" (buffer-name))
            (memq major-mode '(magit-process-mode
                               magit-status-mode
                               magit-diff-mode
