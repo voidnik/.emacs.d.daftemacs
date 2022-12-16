@@ -205,7 +205,7 @@
  '(ediff-odd-diff-C ((t (:background "#464752"))))
  '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))) t)
  '(fringe ((t (:background "#282a36"))))
- '(header-line ((t (:background "#1e2029"))))
+ '(header-line ((t (:background "#23242f"))))
  '(mode-line ((t (:background "#455073"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
