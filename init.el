@@ -666,14 +666,17 @@ That is, a string used to represent it on the tab bar."
     ;; Init tab style.
     ;; Render tab.
     (format " %s"
-            (let ((bufname (if centaur-tabs--buffer-show-groups
-                               (centaur-tabs-tab-tabset tab)
-                             (buffer-name (car tab)))))
-              (if (> centaur-tabs-label-fixed-length 0)
-                  (centaur-tabs-truncate-string centaur-tabs-label-fixed-length bufname)
-                (if (and (> centaur-tabs-label-max-length 0) (< centaur-tabs-label-max-length (string-width bufname)))
-                    (centaur-tabs-truncate-string centaur-tabs-label-max-length bufname)
-                  bufname)))))
+            (if centaur-tabs--buffer-show-groups
+                (let ((bufname (centaur-tabs-tab-tabset tab)))
+                  (if (> centaur-tabs-label-fixed-length 0)
+                      (centaur-tabs-truncate-string centaur-tabs-label-fixed-length bufname)
+                    bufname))
+              (let ((bufname (buffer-name (car tab))))
+                (if (> centaur-tabs-label-fixed-length 0)
+                    (centaur-tabs-truncate-string centaur-tabs-label-fixed-length bufname)
+                  (if (and (> centaur-tabs-label-max-length 0) (< centaur-tabs-label-max-length (string-width bufname)))
+                      (centaur-tabs-truncate-string centaur-tabs-label-max-length bufname)
+                    bufname))))))
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-groups' in 'centaur-tabs-functions.el'
