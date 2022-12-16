@@ -40,6 +40,7 @@ discriminative
 discriminatively
 downsampled
 downsampling
+equivariant
 grayscale
 incentivize
 incentivizes
@@ -61,6 +62,7 @@ piecewise
 pre
 preprocessed
 preprocessing
+pretrained
 priori
 realtime
 reconstructor
@@ -68,6 +70,8 @@ regressor
 rescale
 runtime
 runtimes
+scalability
+scalable
 scanline
 scanlines
 segmentations

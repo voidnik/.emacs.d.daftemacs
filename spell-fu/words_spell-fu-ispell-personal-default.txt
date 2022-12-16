@@ -36,6 +36,7 @@ discriminative
 discriminatively
 downsampled
 downsampling
+equivariant
 grayscale
 ImageNet
 incentivize
@@ -61,6 +62,7 @@ piecewise
 pre
 preprocessed
 preprocessing
+pretrained
 priori
 realtime
 reconstructor
@@ -69,6 +71,8 @@ rescale
 ResNet
 runtime
 runtimes
+scalability
+scalable
 scanline
 scanlines
 segmentations
