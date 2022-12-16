@@ -587,9 +587,8 @@
   (centaur-tabs-unselected-modified ((t (:background "#1e2029" :foreground "#b33939"))))
   :config
   (setq centaur-tabs-style "bar"
-        centaur-tabs-set-bar 'left
-        ;;centaur-tabs-set-bar 'under
-        ;;x-underline-at-descent-line t
+        centaur-tabs-set-bar 'under
+        x-underline-at-descent-line t
         centaur-tabs-set-icons t
         centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "🔥"
@@ -605,17 +604,19 @@
   (cond
    ((string-equal system-type "darwin")
     (setq centaur-tabs-height 25)
-    (setq centaur-tabs-bar-height 17))
+    (setq centaur-tabs-bar-height 25))
    ((string-equal system-type "gnu/linux")
     (if (string-equal (getenv "GDK_SCALE") "2")
         (if with-pgtk
             (progn
               (setq centaur-tabs-height 25)
-              (setq centaur-tabs-bar-height 17))
+              (setq centaur-tabs-bar-height 25))
           (progn
             (setq centaur-tabs-height 50)
             (setq centaur-tabs-bar-height 34)))
-      (setq centaur-tabs-height 25))))
+      (progn
+        (setq centaur-tabs-height 25)
+        (setq centaur-tabs-bar-height 25)))))
   (setq centaur-tabs-active-bar
         (centaur-tabs--make-xpm 'centaur-tabs-active-bar-face
                                 2
