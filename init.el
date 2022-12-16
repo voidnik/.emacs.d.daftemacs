@@ -579,10 +579,17 @@
 
 (use-package centaur-tabs
   :demand
+  :custom-face
+  (centaur-tabs-default ((t (:background "#1e2029" :foreground "#f8f8f2"))))
+  (centaur-tabs-selected ((t (:background "#455073" :foreground "#f8f8f2"))))
+  (centaur-tabs-selected-modified ((t (:background "#455073" :foreground "#ff5555"))))
+  (centaur-tabs-unselected ((t (:background "#1e2029" :foreground "#6272a4"))))
+  (centaur-tabs-unselected-modified ((t (:background "#1e2029" :foreground "#b33939"))))
   :config
   (setq centaur-tabs-style "bar"
-        centaur-tabs-set-bar 'under
-        x-underline-at-descent-line t
+        centaur-tabs-set-bar 'left
+        ;;centaur-tabs-set-bar 'under
+        ;;x-underline-at-descent-line t
         centaur-tabs-set-icons t
         centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "🔥"
@@ -597,13 +604,41 @@
         centaur-tabs-new-tab-text " ⭐ ")
   (cond
    ((string-equal system-type "darwin")
-    (setq centaur-tabs-height 25))
+    (setq centaur-tabs-height 25)
+    (setq centaur-tabs-bar-height 17))
    ((string-equal system-type "gnu/linux")
     (if (string-equal (getenv "GDK_SCALE") "2")
         (if with-pgtk
-            (setq centaur-tabs-height 25)
-          (setq centaur-tabs-height 50))
+            (progn
+              (setq centaur-tabs-height 25)
+              (setq centaur-tabs-bar-height 17))
+          (progn
+            (setq centaur-tabs-height 50)
+            (setq centaur-tabs-bar-height 34)))
       (setq centaur-tabs-height 25))))
+  (setq centaur-tabs-active-bar
+        (centaur-tabs--make-xpm 'centaur-tabs-active-bar-face
+                                2
+                                centaur-tabs-bar-height))
+
+  (defsubst daftemacs/centaur-tabs-button-tab (button)
+    "Return the display representation of button BUTTON.
+That is, a propertized string used as an `centaur-tabs-display-line-format'
+template element."
+    (let* ((face 'centaur-tabs-default))
+      (concat
+       (propertize
+        button
+        'face face
+        'mouse-face 'highlight))))
+
+  (defun centaur-tabs-count (index count)
+    "Return a centaur-tabs-button-tab with the current tab INDEX and the total tabs COUNT."
+    (if centaur-tabs-show-count
+        (propertize (daftemacs/centaur-tabs-button-tab (format " [%d/%d] " index count))
+                    'help-echo "Tabs count")
+      ""))
+
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
 
@@ -761,7 +796,11 @@ That is, a string used to represent it on the tab bar."
                           (agenda . 10)
                           (registers . 10)))
   (setq dashboard-page-separator "\n\f\n") ;; This depends on page-break-lines.
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (when (< (length command-line-args) 2)
+    (add-hook 'emacs-startup-hook (lambda ()
+                                    (switch-to-buffer dashboard-buffer-name)
+                                    (set-buffer-modified-p nil)))))
 
 ;;==============================================================================
 ;; centered-window (The customized version)
