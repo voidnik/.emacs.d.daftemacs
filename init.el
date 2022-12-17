@@ -646,6 +646,17 @@ template element."
   ;; Projectile integration
   (centaur-tabs-group-by-projectile-project)
 
+  (defun centaur-tabs-toggle-group-by ()
+    "Toggle centaur tabs group by 'projectile project' or 'buffer group'."
+    (interactive)
+    (if (eq centaur-tabs-buffer-groups-function 'centaur-tabs-buffer-groups)
+        (progn
+          (message "Centaur tabs group by 'projectile project'.")
+          (centaur-tabs-group-by-projectile-project))
+      (progn
+        (message "Centaur tabs group by 'buffer group'.")
+        (centaur-tabs-group-buffer-groups))))
+
   ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
   (defun magit-status-on-centaur-tabs (&optional directory cache)
     "Run magit-status on centaur-tabs environment."
@@ -771,8 +782,7 @@ That is, a string used to represent it on the tab bar."
   ("C-M-{" . centaur-tabs-move-current-tab-to-left)
   ("C-M-}" . centaur-tabs-move-current-tab-to-right)
   ("C-c t s" . centaur-tabs-counsel-switch-group)
-  ("C-c t p" . centaur-tabs-group-by-projectile-project)
-  ("C-c t g" . centaur-tabs-group-buffer-groups)
+  ("C-c t g" . centaur-tabs-toggle-group-by)
   ("C-c t k" . centaur-tabs-kill-all-buffers-in-current-group))
 
 ;;==============================================================================
