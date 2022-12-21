@@ -13,7 +13,9 @@
 ;; Purple       | #bd93f9 | hsl(265,89%,78%)  | 189 147 249
 ;; Red          | #ff5555 | hsl(0,100%,67%)   | 255 85 85
 ;; Yellow       | #f1fa8c | hsl(65,92%,76%)   | 241 250 140
-;;
+;;----------------------------------------------------------
+;; https://draculatheme.com/contribute
+
 ;; My favorite special characters: 🔥 🚀 ⭐ 🌙 ⚡ 👍
 ;; https://unicode-table.com/en/sets/top-emoji/
 

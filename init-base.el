@@ -149,7 +149,7 @@
 ;;==============================================================================
 
 (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
-(global-set-key (kbd "M-g M-g") 'avy-goto-word-0)
+(global-set-key (kbd "M-g M-w") 'avy-goto-word-0)
 (global-set-key (kbd "M-g M-l") 'avy-goto-line)
 (global-set-key (kbd "C-x o") 'other-window)
 (global-set-key (kbd "C-x O") 'other-window-reverse)
