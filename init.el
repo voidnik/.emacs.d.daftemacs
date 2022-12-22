@@ -407,6 +407,9 @@
   ;; Whether display the buffer name.
   (setq doom-modeline-buffer-name t)
 
+  ;; Whether highlight the modified buffer name.
+  (setq doom-modeline-highlight-modified-buffer-name t)
+
   ;; Whether display the minor modes in the mode-line.
   (setq doom-modeline-minor-modes nil)
 
@@ -454,6 +457,10 @@
 
   ;; The interval of checking GitHub.
   (setq doom-modeline-github-interval (* 30 60))
+
+  ;; Whether display the modal state.
+  ;; Including `evil', `overwrite', `god', `ryo' and `xah-fly-keys', etc.
+  (setq doom-modeline-modal t)
 
   ;; Whether display the modal state icon.
   ;; Including `evil', `overwrite', `god', `ryo' and `xah-fly-keys', etc.
@@ -506,6 +513,10 @@
 
   ;; What to display as the version while a new one is being loaded
   (setq doom-modeline-env-load-string "...")
+
+  ;;;; By default, almost all segments are displayed only in the active window. To
+  ;;;; display such segments in all windows, specify e.g.
+  ;;(setq doom-modeline-always-visible-segments '(mu4e irc))
 
   ;; Hooks that run before/after the modeline version string is updated
   (setq doom-modeline-before-update-env-hook nil)
