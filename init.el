@@ -323,6 +323,8 @@
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
+  :custom-face
+  (doom-modeline-buffer-modified ((t (:inherit (warning bold) :foreground "#ff5555" :background unspecified))))
   :init
   ;; If non-nil, cause imenu to see `doom-modeline' declarations.
   ;; This is done by adjusting `lisp-imenu-generic-expression' to
