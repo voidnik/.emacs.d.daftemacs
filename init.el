@@ -656,7 +656,7 @@ Amend MODE-LINE to the mode line for the duration of the selection."
   (setq minimap-window-location 'right
         minimap-update-delay 0.2
         minimap-enlarge-certain-faces 'always
-        minimap-major-modes '(prog-mode org-mode markdown-mode))
+        minimap-major-modes '(prog-mode yaml-mode))
   (when (boundp 'aw-ignored-buffers)
     (push minimap-buffer-name aw-ignored-buffers))
   (minimap-mode))
