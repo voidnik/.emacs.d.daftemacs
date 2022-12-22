@@ -258,6 +258,81 @@
 (load-file "~/.emacs.d/buffer-focus-hook.elc")
 
 ;;==============================================================================
+;; ace-window
+;;==============================================================================
+
+(use-package ace-window
+  :config
+  (setq aw-dispatch-when-more-than 4
+        aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
+  (defun aw-select-previous (mode-line &optional action)
+    "Return a selected other window.
+Amend MODE-LINE to the mode line for the duration of the selection."
+    (setq aw-action action)
+    (let ((start-window (selected-window))
+          (previous-window-scope (cl-case aw-scope
+                                   ('visible 'visible)
+                                   ('global 'visible)
+                                   ('frame 'frame)))
+          (wnd-list (aw-window-list))
+          window)
+      (setq window
+            (cond ((<= (length wnd-list) 1)
+                   (when aw-dispatch-always
+                     (setq aw-action
+                           (unwind-protect
+                               (catch 'done
+                                 (funcall aw-dispatch-function (read-char)))
+                             (aw--done)))
+                     (when (eq aw-action 'exit)
+                       (setq aw-action nil)))
+                   (or (car wnd-list) start-window))
+                  ((and (<= (+ (length wnd-list) (if (aw-ignored-p start-window) 1 0))
+                            aw-dispatch-when-more-than)
+                        (not aw-dispatch-always)
+                        (not aw-ignore-current))
+                   (let ((wnd (previous-window nil nil previous-window-scope)))
+                     (while (and (or (not (memq wnd wnd-list))
+                                     (aw-ignored-p wnd))
+                                 (not (equal wnd start-window)))
+                       (setq wnd (previous-window wnd nil previous-window-scope)))
+                     wnd))
+                  (t
+                   (let ((candidate-list
+                          (mapcar (lambda (wnd)
+                                    (cons (aw-offset wnd) wnd))
+                                  wnd-list)))
+                     (aw--make-backgrounds wnd-list)
+                     (aw-set-mode-line mode-line)
+                     ;; turn off helm transient map
+                     (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
+                     (unwind-protect
+                         (let* ((avy-handler-function aw-dispatch-function)
+                                (avy-translate-char-function aw-translate-char-function)
+                                (transient-mark-mode nil)
+                                (res (avy-read (avy-tree candidate-list aw-keys)
+                                               (if (and ace-window-display-mode
+                                                        (null aw-display-mode-overlay))
+                                                   (lambda (_path _leaf))
+                                                 aw--lead-overlay-fn)
+                                               aw--remove-leading-chars-fn)))
+                           (if (eq res 'exit)
+                               (setq aw-action nil)
+                             (or (cdr res)
+                                 start-window)))
+                       (aw--done))))))
+      (if aw-action
+          (funcall aw-action window)
+        window)))
+
+  (defun ace-select-previous-window ()
+    "Ace select window."
+    (interactive)
+    (aw-select-previous " Ace - Window"
+                        #'aw-switch-to-window)))
+
+;;==============================================================================
 ;; undo-tree
 ;;
 ;; https://www.emacswiki.org/emacs/UndoTree
@@ -575,12 +650,15 @@
 
 (use-package minimap
   :custom-face
-  (minimap-font-face ((default :family "JetBrains Mono" :height 40)))
+  (minimap-font-face ((default :family "JetBrains Mono" :height 30)))
+  (minimap-active-region-background ((t (:background "#1e2029" :extend t))))
   :config
   (setq minimap-window-location 'right
         minimap-update-delay 0.2
         minimap-enlarge-certain-faces 'always
         minimap-major-modes '(prog-mode org-mode markdown-mode))
+  (when (boundp 'aw-ignored-buffers)
+    (push minimap-buffer-name aw-ignored-buffers))
   (minimap-mode))
 
 ;;==============================================================================
@@ -1135,81 +1213,6 @@ That is, a string used to represent it on the tab bar."
 (use-package helm-ag)
 
 (use-package helm-rg)
-
-;;==============================================================================
-;; ace-window
-;;==============================================================================
-
-(use-package ace-window
-  :config
-  (setq aw-dispatch-when-more-than 4)
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-
-  (defun aw-select-previous (mode-line &optional action)
-    "Return a selected other window.
-Amend MODE-LINE to the mode line for the duration of the selection."
-    (setq aw-action action)
-    (let ((start-window (selected-window))
-          (previous-window-scope (cl-case aw-scope
-                                   ('visible 'visible)
-                                   ('global 'visible)
-                                   ('frame 'frame)))
-          (wnd-list (aw-window-list))
-          window)
-      (setq window
-            (cond ((<= (length wnd-list) 1)
-                   (when aw-dispatch-always
-                     (setq aw-action
-                           (unwind-protect
-                               (catch 'done
-                                 (funcall aw-dispatch-function (read-char)))
-                             (aw--done)))
-                     (when (eq aw-action 'exit)
-                       (setq aw-action nil)))
-                   (or (car wnd-list) start-window))
-                  ((and (<= (+ (length wnd-list) (if (aw-ignored-p start-window) 1 0))
-                            aw-dispatch-when-more-than)
-                        (not aw-dispatch-always)
-                        (not aw-ignore-current))
-                   (let ((wnd (previous-window nil nil previous-window-scope)))
-                     (while (and (or (not (memq wnd wnd-list))
-                                     (aw-ignored-p wnd))
-                                 (not (equal wnd start-window)))
-                       (setq wnd (previous-window wnd nil previous-window-scope)))
-                     wnd))
-                  (t
-                   (let ((candidate-list
-                          (mapcar (lambda (wnd)
-                                    (cons (aw-offset wnd) wnd))
-                                  wnd-list)))
-                     (aw--make-backgrounds wnd-list)
-                     (aw-set-mode-line mode-line)
-                     ;; turn off helm transient map
-                     (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
-                     (unwind-protect
-                         (let* ((avy-handler-function aw-dispatch-function)
-                                (avy-translate-char-function aw-translate-char-function)
-                                (transient-mark-mode nil)
-                                (res (avy-read (avy-tree candidate-list aw-keys)
-                                               (if (and ace-window-display-mode
-                                                        (null aw-display-mode-overlay))
-                                                   (lambda (_path _leaf))
-                                                 aw--lead-overlay-fn)
-                                               aw--remove-leading-chars-fn)))
-                           (if (eq res 'exit)
-                               (setq aw-action nil)
-                             (or (cdr res)
-                                 start-window)))
-                       (aw--done))))))
-      (if aw-action
-          (funcall aw-action window)
-        window)))
-
-  (defun ace-select-previous-window ()
-    "Ace select window."
-    (interactive)
-    (aw-select-previous " Ace - Window"
-                        #'aw-switch-to-window)))
 
 ;;==============================================================================
 ;; projectile
@@ -1896,9 +1899,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package highlight-indent-guides
   :config
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-  (setq highlight-indent-guides-method 'bitmap)
-  (setq highlight-indent-guides-responsive 'top))
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top)
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
 ;;==============================================================================
 ;; highlight-indentation
