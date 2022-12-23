@@ -1858,6 +1858,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (add-hook 'bufler-list-mode-hook (lambda ()
                                      (let ((buffer (current-buffer)))
                                        (when (string-prefix-p "*Bufler" (buffer-name buffer))
+                                         (setq mode-line-format nil)
                                          (buffer-focus-out-callback 'bufler-sidebar-close buffer))))))
 
 ;;==============================================================================
