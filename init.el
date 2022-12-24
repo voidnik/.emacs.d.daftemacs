@@ -2927,12 +2927,15 @@ If optional arg SILENT is non-nil, do not display progress messages."
         '("https://darkpgmr.tistory.com/rss"
           "http://nullprogram.com/feed/"
           ("https://planet.emacslife.com/atom.xml" emacs)
-          "http://arxiv.org/rss/cs.CV"
-          ))
+          "http://arxiv.org/rss/cs.CV"))
 
   (setq elfeed-show-mode-hook
         (lambda ()
-	      (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 11))
+          (cond
+           ((string-equal system-type "gnu/linux")
+	        (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 25)))
+           ((string-equal system-type "darwin")
+	        (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 12))))
 	      (setq fill-column 120)
 	      (setq elfeed-show-entry-switch #'my-show-elfeed)))
 
