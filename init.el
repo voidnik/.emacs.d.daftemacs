@@ -3210,6 +3210,10 @@ even when the file is larger than `large-file-warning-threshold'.")
 (global-set-key (kbd "C-c u k") 'docker)
 (global-set-key (kbd "C-c u c") 'open-calculator)
 (global-set-key (kbd "C-c u p") 'neato-graph-bar)
+(global-set-key (kbd "C-c u f") 'elfeed)
+(global-set-key (kbd "C-c u r") 'md4rd)
+(global-set-key (kbd "C-c u a") 'arxiv-complex-search)
+(global-set-key (kbd "C-c u o") 'stackoverflow-lookup)
 
 (defun kill-side-windows ()
   (interactive)
@@ -3230,12 +3234,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 (add-hook 'vterm-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c ESC ESC") 'kill-side-windows)))
-
-(global-unset-key (kbd "C-z"))
-(global-set-key (kbd "C-z f") 'elfeed)
-(global-set-key (kbd "C-z r") 'md4rd)
-(global-set-key (kbd "C-z a") 'arxiv-complex-search)
-(global-set-key (kbd "C-z s") 'stackoverflow-lookup)
 
 (define-key projectile-mode-map (kbd "C-c j") 'projectile-command-map)
 
