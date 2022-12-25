@@ -3068,6 +3068,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
              "surf"
              (list url))))
 
+  (defun browse-url-qutebrowser (url &optional new-window)
+    "Ask the Nyxt web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL (qutebrowser): "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "qutebrowser " url) nil
+             "qutebrowser"
+             (list url))))
+
   (defun browse-url-nyxt (url &optional new-window)
     "Ask the Nyxt web browser to load URL."
     (interactive (browse-url-interactive-arg "URL (Nyxt): "))
@@ -3078,7 +3088,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
              "nyxt"
              (list url))))
 
-  (setq browse-url-browser-function 'browse-url-nyxt))
+  (setq browse-url-browser-function 'browse-url-qutebrowser))
 
 ;;==============================================================================
 ;; Setting the default app with an association
