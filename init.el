@@ -183,7 +183,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode minibar minimap magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority hide-mode-line vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation openwith wordel helpful elisp-demos command-log-mode use-package)))
+   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar minimap magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation openwith wordel helpful elisp-demos command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -623,6 +623,12 @@ Amend MODE-LINE to the mode line for the duration of the selection."
         nyan-wavy-trail t
         nyan-bar-length 40)
   (nyan-mode 1))
+
+;;==============================================================================
+;; hide-mode-line
+;;==============================================================================
+
+(use-package hide-mode-line)
 
 ;;==============================================================================
 ;; minibar
@@ -2413,12 +2419,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package rich-minority)
 
 ;;==============================================================================
-;; hide-mode-line
-;;==============================================================================
-
-(use-package hide-mode-line)
-
-;;==============================================================================
 ;; ediff
 ;;
 ;; https://oremacs.com/2015/01/17/setting-up-ediff/
@@ -2588,9 +2588,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (interactive)
     (if multi-vterm-dedicated-buffer-lock-state
         (progn
+          (hide-mode-line-mode)
           (setq multi-vterm-dedicated-buffer-lock-state nil)
           (message "multi-vterm-dedicated-buffer UNLOCKED."))
       (progn
+        (hide-mode-line-mode -1)
+        (redraw-frame)
         (setq multi-vterm-dedicated-buffer-lock-state t)
         (message "multi-vterm-dedicated-buffer LOCKED."))))
 
@@ -2604,6 +2607,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
                                (let ((buffer (current-buffer)))
                                  (when (string-prefix-p "*vterminal - dedicated" (buffer-name buffer))
+                                   (hide-mode-line-mode)
                                    (buffer-focus-out-callback 'multi-vterm-dedicated-buffer-focus-out buffer))))))
 
 ;;==============================================================================
