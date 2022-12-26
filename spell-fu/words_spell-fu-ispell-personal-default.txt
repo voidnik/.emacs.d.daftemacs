@@ -4,6 +4,7 @@ Anisotropic
 autoencoder
 autoencoders
 autoregressive
+backpropagation
 bicubic
 bilinear
 chrominance
@@ -37,7 +38,9 @@ discriminatively
 downsampled
 downsampling
 equivariant
+gans
 grayscale
+hyperparameter
 ImageNet
 incentivize
 incentivizes
@@ -48,14 +51,19 @@ intra
 invariance
 iteratively
 learnable
+lipschitz
+lsgans
+minimax
 MobileNet
 modelling
 Monochromic
+multilayer
 multiscale
 noniterative
 nonparametric
 OpenCV
 optimality
+perceptrons
 persistency
 photometric
 piecewise
@@ -69,6 +77,7 @@ reconstructor
 regressor
 rescale
 ResNet
+resnets
 runtime
 runtimes
 scalability
@@ -77,6 +86,7 @@ scanline
 scanlines
 segmentations
 sharable
+sigmoid
 sociotechnical
 softmax
 spatio
@@ -95,3 +105,4 @@ upsampling
 upscaled
 upscaling
 variational
+wasserstein

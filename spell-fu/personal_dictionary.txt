@@ -12,6 +12,7 @@ adaptively
 autoencoder
 autoencoders
 autoregressive
+backpropagation
 bicubic
 bilinear
 chrominance
@@ -41,7 +42,9 @@ discriminatively
 downsampled
 downsampling
 equivariant
+gans
 grayscale
+hyperparameter
 incentivize
 incentivizes
 inpaint
@@ -51,11 +54,16 @@ intra
 invariance
 iteratively
 learnable
+lipschitz
+lsgans
+minimax
 modelling
+multilayer
 multiscale
 noniterative
 nonparametric
 optimality
+perceptrons
 persistency
 photometric
 piecewise
@@ -68,6 +76,7 @@ realtime
 reconstructor
 regressor
 rescale
+resnets
 runtime
 runtimes
 scalability
@@ -76,6 +85,7 @@ scanline
 scanlines
 segmentations
 sharable
+sigmoid
 sociotechnical
 softmax
 spatio
@@ -94,3 +104,4 @@ upsampling
 upscaled
 upscaling
 variational
+wasserstein
