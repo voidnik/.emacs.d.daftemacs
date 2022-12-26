@@ -183,7 +183,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx undo-tree exec-path-from-shell all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar minimap magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation openwith wordel helpful elisp-demos command-log-mode use-package)))
+   '(string-utils flx helpful elisp-demos undo-tree exec-path-from-shell openwith all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar minimap magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -248,6 +248,28 @@
 ;;==============================================================================
 
 (use-package flx)
+
+;;==============================================================================
+;; helpful
+;;
+;; https://github.com/Wilfred/helpful
+;;==============================================================================
+
+(use-package helpful
+  :config
+  (setq counsel-describe-function-function #'helpful-callable)
+  (setq counsel-describe-variable-function #'helpful-variable))
+
+;;==============================================================================
+;; elisp-demos
+;;
+;; https://github.com/xuchunyang/elisp-demos
+;;==============================================================================
+
+(use-package elisp-demos
+  :config
+  (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
+  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 ;;==============================================================================
 ;; buffer-focus-hook
@@ -362,6 +384,65 @@ Amend MODE-LINE to the mode line for the duration of the selection."
     (exec-path-from-shell-initialize))
   (when (daemonp)
     (exec-path-from-shell-initialize)))
+
+;;==============================================================================
+;; Setting the default web browser
+;;
+;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
+;;==============================================================================
+
+(defun browse-url-qutebrowser (url &optional new-window)
+  "Ask the Nyxt web browser to load URL."
+  (interactive (browse-url-interactive-arg "URL (qutebrowser): "))
+  (setq url (browse-url-encode-url url))
+  (let* ((process-environment (browse-url-process-environment)))
+    (apply #'start-process
+           (concat "qutebrowser " url) nil
+           "qutebrowser"
+           (list url))))
+
+(when (string-equal system-type "gnu/linux")
+  (defun browse-url-surf (url &optional new-window)
+    "Ask the Surf web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL (Surf): "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "surf " url) nil
+             "surf"
+             (list url))))
+
+  (defun browse-url-nyxt (url &optional new-window)
+    "Ask the Nyxt web browser to load URL."
+    (interactive (browse-url-interactive-arg "URL (Nyxt): "))
+    (setq url (browse-url-encode-url url))
+    (let* ((process-environment (browse-url-process-environment)))
+      (apply #'start-process
+             (concat "nyxt " url) nil
+             "nyxt"
+             (list url)))))
+
+  (setq browse-url-browser-function 'browse-url-qutebrowser)
+
+;;==============================================================================
+;; Setting the default app with an association
+;;==============================================================================
+
+(use-package openwith
+  :config
+  (openwith-mode t)
+  (setq openwith-associations '(("\\.\\(?:ts\\|mxf\\|mpe?g\\|mov\\|mp4\\|avi\\|mkv\\|wmv\\)\\'" "mpv" (file))))
+
+  ;; https://emacs.stackexchange.com/questions/17095/how-supress-dired-confirmation-of-large-file-for-specific-extensions
+  (defvar my-ok-large-file-types
+    (mapconcat 'car openwith-associations "\\|")
+    "Regexp matching filenames which are definitely ok to visit,
+even when the file is larger than `large-file-warning-threshold'.")
+  (defadvice abort-if-file-too-large (around my-check-ok-large-file-types)
+    "If FILENAME matches `my-ok-large-file-types', do not abort."
+    (unless (string-match-p my-ok-large-file-types (ad-get-arg 2))
+      ad-do-it))
+  (ad-activate 'abort-if-file-too-large))
 
 ;;==============================================================================
 ;; all-the-icons
@@ -1114,6 +1195,60 @@ That is, a string used to represent it on the tab bar."
 (use-package org-re-reveal
   :config
   (setq org-re-reveal-root (concat (getenv "HOME") "/.emacs.d/reveal.js")))
+
+;; Embedding YouTube videos with org-mode links
+;;
+;; Based on http://endlessparentheses.com/embedding-youtube-videos-with-org-mode-links.html
+;;
+;; - Examples
+;;   [[YouTube:KJritAFWnUM]]
+;;   [[YouTube:KJritAFWnUM/640x360]]
+(defun org-youtube-link-parse-path (path default-width default-height)
+  (if (string-match "/" path)
+      (let* ((split-path (split-string path "/"))
+             (real-path (car split-path))
+             (resolution (car (cdr split-path))))
+        (if (string-match "x" resolution)
+            (let ((split-resolution (split-string resolution "x")))
+              (if (and split-resolution (= (length split-resolution) 2))
+                  (let ((w (string-to-number (car split-resolution)))
+                        (h (string-to-number (car (cdr split-resolution)))))
+                    (if (and (> w 0) (> h 0))
+                        (values real-path w h)
+                      (values real-path default-width default-height)))
+                (values real-path default-width default-height)))
+          (values real-path default-width default-height)))
+    (values path default-width default-height)))
+
+(defvar org-youtube-link-iframe-format
+  (concat "<iframe width=\"%d\""
+          " height=\"%d\""
+          " src=\"https://www.youtube.com/embed/%s\""
+          " frameborder=\"0\""
+          " allowfullscreen>%s</iframe><br>"))
+
+(org-add-link-type
+ "YouTube"
+ (lambda (handle)
+   (let ((parsed-path (org-youtube-link-parse-path handle 640 360)))
+     (browse-url
+      (concat "https://www.youtube.com/embed/"
+              (car parsed-path)))))
+ (lambda (path desc backend)
+   (let ((parsed-path (org-youtube-link-parse-path path 640 360)))
+     (cl-case backend
+       (html
+        (format org-youtube-link-iframe-format
+                (nth 1 parsed-path)
+                (nth 2 parsed-path)
+                (nth 0 parsed-path)
+                (or desc "")))
+       (latex
+        (format "\href{%s}{%s}"
+                (nth 1 parsed-path)
+                (nth 2 parsed-path)
+                (nth 0 parsed-path)
+                (or desc "video")))))))
 
 ;;==============================================================================
 ;; markdown
@@ -3029,150 +3164,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (require 'stackoverflow)
 
 ;;==============================================================================
-;; Embedding YouTube videos with org-mode links
-;;
-;; Based on http://endlessparentheses.com/embedding-youtube-videos-with-org-mode-links.html
-;;
-;; - Examples
-;;   [[YouTube:KJritAFWnUM]]
-;;   [[YouTube:KJritAFWnUM/640x360]]
-;;==============================================================================
-
-(defun org-youtube-link-parse-path (path default-width default-height)
-  (if (string-match "/" path)
-      (let* ((split-path (split-string path "/"))
-             (real-path (car split-path))
-             (resolution (car (cdr split-path))))
-        (if (string-match "x" resolution)
-            (let ((split-resolution (split-string resolution "x")))
-              (if (and split-resolution (= (length split-resolution) 2))
-                  (let ((w (string-to-number (car split-resolution)))
-                        (h (string-to-number (car (cdr split-resolution)))))
-                    (if (and (> w 0) (> h 0))
-                        (values real-path w h)
-                      (values real-path default-width default-height)))
-                (values real-path default-width default-height)))
-          (values real-path default-width default-height)))
-    (values path default-width default-height)))
-
-(defvar org-youtube-link-iframe-format
-  (concat "<iframe width=\"%d\""
-          " height=\"%d\""
-          " src=\"https://www.youtube.com/embed/%s\""
-          " frameborder=\"0\""
-          " allowfullscreen>%s</iframe><br>"))
-
-(org-add-link-type
- "YouTube"
- (lambda (handle)
-   (let ((parsed-path (org-youtube-link-parse-path handle 640 360)))
-     (browse-url
-      (concat "https://www.youtube.com/embed/"
-              (car parsed-path)))))
- (lambda (path desc backend)
-   (let ((parsed-path (org-youtube-link-parse-path path 640 360)))
-     (cl-case backend
-       (html
-        (format org-youtube-link-iframe-format
-                (nth 1 parsed-path)
-                (nth 2 parsed-path)
-                (nth 0 parsed-path)
-                (or desc "")))
-       (latex
-        (format "\href{%s}{%s}"
-                (nth 1 parsed-path)
-                (nth 2 parsed-path)
-                (nth 0 parsed-path)
-                (or desc "video")))))))
-
-;;==============================================================================
-;; Setting the default web browser
-;;
-;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
-;;==============================================================================
-
-(defun browse-url-qutebrowser (url &optional new-window)
-  "Ask the Nyxt web browser to load URL."
-  (interactive (browse-url-interactive-arg "URL (qutebrowser): "))
-  (setq url (browse-url-encode-url url))
-  (let* ((process-environment (browse-url-process-environment)))
-    (apply #'start-process
-           (concat "qutebrowser " url) nil
-           "qutebrowser"
-           (list url))))
-
-(when (string-equal system-type "gnu/linux")
-  (defun browse-url-surf (url &optional new-window)
-    "Ask the Surf web browser to load URL."
-    (interactive (browse-url-interactive-arg "URL (Surf): "))
-    (setq url (browse-url-encode-url url))
-    (let* ((process-environment (browse-url-process-environment)))
-      (apply #'start-process
-             (concat "surf " url) nil
-             "surf"
-             (list url))))
-
-  (defun browse-url-nyxt (url &optional new-window)
-    "Ask the Nyxt web browser to load URL."
-    (interactive (browse-url-interactive-arg "URL (Nyxt): "))
-    (setq url (browse-url-encode-url url))
-    (let* ((process-environment (browse-url-process-environment)))
-      (apply #'start-process
-             (concat "nyxt " url) nil
-             "nyxt"
-             (list url)))))
-
-  (setq browse-url-browser-function 'browse-url-qutebrowser)
-
-;;==============================================================================
-;; Setting the default app with an association
-;;==============================================================================
-
-(use-package openwith
-  :config
-  (openwith-mode t)
-  (setq openwith-associations '(("\\.\\(?:ts\\|mxf\\|mpe?g\\|mov\\|mp4\\|avi\\|mkv\\|wmv\\)\\'" "mpv" (file))))
-
-  ;; https://emacs.stackexchange.com/questions/17095/how-supress-dired-confirmation-of-large-file-for-specific-extensions
-  (defvar my-ok-large-file-types
-    (mapconcat 'car openwith-associations "\\|")
-    "Regexp matching filenames which are definitely ok to visit,
-even when the file is larger than `large-file-warning-threshold'.")
-  (defadvice abort-if-file-too-large (around my-check-ok-large-file-types)
-    "If FILENAME matches `my-ok-large-file-types', do not abort."
-    (unless (string-match-p my-ok-large-file-types (ad-get-arg 2))
-      ad-do-it))
-  (ad-activate 'abort-if-file-too-large))
-
-;;==============================================================================
 ;; Wordel: Wordle in Emacs
 ;;
 ;; https://github.com/progfolio/wordel
 ;;==============================================================================
 
 (use-package wordel)
-
-;;==============================================================================
-;; helpful
-;;
-;; https://github.com/Wilfred/helpful
-;;==============================================================================
-
-(use-package helpful
-  :config
-  (setq counsel-describe-function-function #'helpful-callable)
-  (setq counsel-describe-variable-function #'helpful-variable))
-
-;;==============================================================================
-;; elisp-demos
-;;
-;; https://github.com/xuchunyang/elisp-demos
-;;==============================================================================
-
-(use-package elisp-demos
-  :config
-  (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
-  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 ;;==============================================================================
 ;; Global Keys
