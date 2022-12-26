@@ -646,7 +646,37 @@ Amend MODE-LINE to the mode line for the duration of the selection."
   (use-package minibar
     :config
     (minibar-mode +1)
-    (setq minibar-group-middle '(minibar-module-cpu minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
+
+    (defun daftemacs/minibar-module-temperature ()
+      "Module for showing CPU temperature."
+      (when (or (not minibar--module-temperature-cache)
+                (>= (float-time
+                     (time-since (cdr minibar--module-temperature-cache)))
+                    minibar-module-temperature-cache-for))
+        (setq
+         minibar--module-temperature-cache
+         (cons
+          (let ((zone 1))
+            (with-temp-buffer
+              (insert-file-contents
+               (format "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp%i_input" zone))
+              (let* ((temp (/ (string-to-number (buffer-string)) 1000))
+                     (str (concat (int-to-string temp)
+                                  (if (char-displayable-p ?°) "°" " ")
+                                  "C")))
+                (if (>= temp minibar-module-temperature-high-threshold)
+                    (propertize
+                     str 'face
+                     (if (>=
+                          temp
+                          minibar-module-temperature-very-high-threshold)
+                         'minibar-module-temperature-high-face
+                       'minibar-module-temperature-very-high-face))
+                  str))))
+          (current-time))))
+      (car minibar--module-temperature-cache))
+
+    (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
 
 ;;==============================================================================
 ;; minimap
