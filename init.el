@@ -3061,6 +3061,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; http://ergoemacs.org/emacs/emacs_set_default_browser.html
 ;;==============================================================================
 
+(defun browse-url-qutebrowser (url &optional new-window)
+  "Ask the Nyxt web browser to load URL."
+  (interactive (browse-url-interactive-arg "URL (qutebrowser): "))
+  (setq url (browse-url-encode-url url))
+  (let* ((process-environment (browse-url-process-environment)))
+    (apply #'start-process
+           (concat "qutebrowser " url) nil
+           "qutebrowser"
+           (list url))))
+
 (when (string-equal system-type "gnu/linux")
   (defun browse-url-surf (url &optional new-window)
     "Ask the Surf web browser to load URL."
@@ -3072,16 +3082,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
              "surf"
              (list url))))
 
-  (defun browse-url-qutebrowser (url &optional new-window)
-    "Ask the Nyxt web browser to load URL."
-    (interactive (browse-url-interactive-arg "URL (qutebrowser): "))
-    (setq url (browse-url-encode-url url))
-    (let* ((process-environment (browse-url-process-environment)))
-      (apply #'start-process
-             (concat "qutebrowser " url) nil
-             "qutebrowser"
-             (list url))))
-
   (defun browse-url-nyxt (url &optional new-window)
     "Ask the Nyxt web browser to load URL."
     (interactive (browse-url-interactive-arg "URL (Nyxt): "))
@@ -3090,9 +3090,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
       (apply #'start-process
              (concat "nyxt " url) nil
              "nyxt"
-             (list url))))
+             (list url)))))
 
-  (setq browse-url-browser-function 'browse-url-qutebrowser))
+  (setq browse-url-browser-function 'browse-url-qutebrowser)
 
 ;;==============================================================================
 ;; Setting the default app with an association
