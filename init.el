@@ -740,7 +740,7 @@ even when the file is larger than `large-file-warning-threshold'.")
           (let ((zone 1))
             (with-temp-buffer
               (insert-file-contents
-               (format "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp%i_input" zone))
+               (car (file-expand-wildcards (format "/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp%i_input" zone))))
               (let* ((temp (/ (string-to-number (buffer-string)) 1000))
                      (str (concat (int-to-string temp)
                                   (if (char-displayable-p ?°) "°" " ")
