@@ -3174,6 +3174,26 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (require 'stackoverflow)
 
 ;;==============================================================================
+;; stock-tracker
+;;==============================================================================
+
+(load-file "~/.emacs.d/stock-tracker.el")
+(require 'stock-tracker)
+
+;; Refresh stock price every 5*10 secs
+(customize-set-variable 'stock-tracker-refresh-interval 1)
+
+;; Set up as green, down as red
+(customize-set-variable 'stock-tracker-up-red-down-green nil)
+
+;; Customize stocks
+(customize-set-variable 'stock-tracker-list-of-stocks
+                        '("AAPL"
+                          "GOOG"
+                          "AMD"
+                          "NVDA"))
+
+;;==============================================================================
 ;; Wordel: Wordle in Emacs
 ;;
 ;; https://github.com/progfolio/wordel
@@ -3256,10 +3276,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                           (window-resize window 1)))))
 
 (global-set-key (kbd "C-c u m") 'minimap-mode)
-(global-set-key (kbd "C-c u s") 'open-dedicated-terminal)
-(global-set-key (kbd "C-c u S") 'open-terminal)
+(global-set-key (kbd "C-c u t") 'open-dedicated-terminal)
+(global-set-key (kbd "C-c u T") 'open-terminal)
 (global-set-key (kbd "C-c u d") 'dirvish)
-(global-set-key (kbd "C-c u t") 'dir-treeview-open)
+(global-set-key (kbd "C-c u D") 'dir-treeview-open)
 (global-set-key (kbd "C-c u k") 'docker)
 (global-set-key (kbd "C-c u c") 'open-calculator)
 (global-set-key (kbd "C-c u p") 'neato-graph-bar)
@@ -3267,6 +3287,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c u r") 'md4rd)
 (global-set-key (kbd "C-c u a") 'arxiv-complex-search)
 (global-set-key (kbd "C-c u o") 'stackoverflow-lookup)
+(global-set-key (kbd "C-c u s") 'stock-tracker-start)
 
 (defun kill-side-windows ()
   (interactive)
