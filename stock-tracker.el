@@ -516,7 +516,7 @@ It defaults to a comma."
               stock-tracker--money126-api-res-prefix
             (if (cl-search stock-tracker--cnbc-api-res-prefix-1 (buffer-string))
                 stock-tracker--cnbc-api-res-prefix-1
-              stock--tracker--cnbc-api-res-prefix-2)))
+              stock-tracker--cnbc-api-res-prefix-2)))
 
         (defun stock-tracker--subprocess-request-synchronously (stock string-tag)
           "Get stock data synchronously, return a list of JSON each as alist."
