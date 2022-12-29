@@ -350,8 +350,8 @@ It defaults to a comma."
 
     ;; color setting
     (if stock-tracker-up-red-down-green
-        (if (> updown 0) (setq color "red") (setq color "green"))
-      (if (> updown 0) (setq color "green") (setq color "red")))
+        (if (> updown 0) (setq color "#ff5555") (setq color "#50fa7b"))
+      (if (> updown 0) (setq color "#50fa7b") (setq color "#ff5555")))
 
     ;; some extra handling
     (and (cl-typep tag 'stock-tracker--chn-symbol) (setq percent (* 100 percent)))
@@ -394,22 +394,22 @@ It defaults to a comma."
 
 (defun stock-tracker--colorize-content ()
   "Colorize stock base on price."
-  (let (ended pos beg end (color "red"))
+  (let (ended pos beg end (color "#ff5555"))
     (goto-char (point-min))
     ; colorize timestamp
     (re-search-forward "%current-time%" nil 'move)
     (let ((ov (make-overlay (- (point) (length "%current-time%")) (point))))
       (overlay-put ov 'display (current-time-string))
-      (overlay-put ov 'face '(:foreground "green"))
+      (overlay-put ov 'face '(:foreground "#50fa7b"))
       (overlay-put ov 'intangible t))
     ; colorize refresh state
     (re-search-forward "%refresh-state%" nil 'move)
     (let ((ov (make-overlay (- (point) (length "%refresh-state%")) (point))))
       (if stock-tracker--refresh-timer
           (progn
-            (overlay-put ov 'face '(:foreground "green"))
+            (overlay-put ov 'face '(:foreground "#50fa7b"))
             (overlay-put ov 'display "ON"))
-        (overlay-put ov 'face '(:foreground "red"))
+        (overlay-put ov 'face '(:foreground "#ff5555"))
         (overlay-put ov 'display "OFF"))
       (overlay-put ov 'intangible t))
     ; colorize table
@@ -422,7 +422,7 @@ It defaults to a comma."
         (setq end (line-end-position)))
       (while (and end (<= (point) end) (re-search-forward "|" nil 'move))
         (and beg (1- (point))
-             ;; (propertize "Red Text" 'font-lock-face '(:foreground "red"))
+             ;; (propertize "Red Text" 'font-lock-face '(:foreground "#ff5555"))
              ;; propertize doesn't work in org-table-cell, so use overlay here
              (overlay-put (make-overlay beg (1- (point))) 'face `(:foreground ,color))
              (setq beg (point)))))))
