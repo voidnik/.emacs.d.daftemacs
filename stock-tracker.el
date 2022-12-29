@@ -103,42 +103,13 @@
 ;; Interface
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(cl-defstruct stock-tracker--chn-symbol)
+(defconst stock-tracker--money126-api-url "https://api.money.126.net/data/feed/%s"
+  "Money126 API URL string")
 
-(cl-defstruct stock-tracker--us-symbol)
+(defconst stock-tracker--money126-api-res-prefix "_ntes_quote_callback("
+  "Money126 API result prefix string")
 
-(cl-defgeneric stock-tracker--api-url (object)
-  "Stock-Tracker API template for stocks listed in SS, SZ, HK, US basd on OBJECT.")
-
-(cl-defmethod stock-tracker--api-url ((s stock-tracker--chn-symbol))
-  "API to get stock for S from CHN."
-  (ignore s)
-  "https://api.money.126.net/data/feed/%s")
-
-(cl-defmethod stock-tracker--api-url ((s stock-tracker--us-symbol))
-  "API to get stock for S from US."
-  (ignore s)
-  "https://quote.cnbc.com/quote-html-webservice/quote.htm?partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extendedMask=2&output=json&symbols=%s")
-
-(cl-defgeneric stock-tracker--result-prefix (object)
-  "Stock-Tracker result prefix based on OBJECT.")
-
-(cl-defmethod stock-tracker--result-prefix ((s stock-tracker--chn-symbol))
-  "Stock-Tracker result prefix for S from CHN."
-  (ignore s)
-  "_ntes_quote_callback(")
-
-(cl-defmethod stock-tracker--result-prefix ((s stock-tracker--us-symbol))
-  "Stock-Tracker result prefix for S from US."
-  (ignore s)
-  "{\"QuickQuoteResult\":{\"QuickQuote\":[")
-
-(cl-defgeneric stock-tracker--result-fields (object)
-  "Stock-Tracker result fields based on OBJECT.")
-
-(cl-defmethod stock-tracker--result-fields ((s stock-tracker--chn-symbol))
-  "Stock-Tracker result fields for S from CHN."
-  (ignore s)
+(defconst stock-tracker--money126-api-res-fields
   '((code . code)
     (symbol . symbol)
     (name . name)
@@ -149,11 +120,19 @@
     (yestclose . yestclose)
     (high . high)
     (low . low)
-    (volume . volume)))
+    (volume . volume))
+  "Money126 API result fields mapping table")
 
-(cl-defmethod stock-tracker--result-fields ((s stock-tracker--us-symbol))
-  "Stock-Tracker result fields for S from US."
-  (ignore s)
+(defconst stock-tracker--cnbc-api-url "https://quote.cnbc.com/quote-html-webservice/quote.htm?partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extendedMask=2&output=json&symbols=%s"
+  "CNBC API URL string")
+
+(defconst stock-tracker--cnbc-api-res-prefix-1 "{\"QuickQuoteResult\":{\"QuickQuote\":["
+  "CNBC API result prefix string (Type-1)")
+
+(defconst stock-tracker--cnbc-api-res-prefix-2 "{\"QuickQuoteResult\":{\"xmlns\":\"http://quote.cnbc.com/services/MultiQuote/2006\",\"QuickQuote\":"
+  "CNBC API result prefix string (Type-2)")
+
+(defconst stock-tracker--cnbc-api-res-fields
   '((code . symbol)
     (symbol . symbol)
     (name . name)
@@ -164,7 +143,52 @@
     (yestclose . previous_day_closing)
     (high . high)
     (low . low)
-    (volume . fullVolume)))
+    (volume . fullVolume))
+  "CNBC API result fields mapping table")
+(cl-defstruct stock-tracker--chn-symbol)
+
+(cl-defstruct stock-tracker--us-symbol)
+
+(cl-defgeneric stock-tracker--api-url (object)
+  "Stock-Tracker API template for stocks listed in SS, SZ, HK, US basd on OBJECT.")
+
+(cl-defmethod stock-tracker--api-url ((s stock-tracker--chn-symbol))
+  "API to get stock for S from CHN."
+  (ignore s)
+  stock-tracker--money126-api-url)
+
+(cl-defmethod stock-tracker--api-url ((s stock-tracker--us-symbol))
+  "API to get stock for S from US."
+  (ignore s)
+  stock-tracker--cnbc-api-url)
+
+(cl-defgeneric stock-tracker--result-prefix (object)
+  "Stock-Tracker result prefix based on OBJECT.")
+
+(cl-defmethod stock-tracker--result-prefix ((s stock-tracker--chn-symbol))
+  "Stock-Tracker result prefix for S from CHN."
+  (ignore s)
+  stock-tracker--money126-api-res-prefix)
+
+(cl-defmethod stock-tracker--result-prefix ((s stock-tracker--us-symbol))
+  "Stock-Tracker result prefix for S from US."
+  (ignore s)
+  (if (cl-search stock-tracker--cnbc-api-res-prefix-1 (buffer-string))
+      stock-tracker--cnbc-api-res-prefix-1
+    stock-tracker--cnbc-api-res-prefix-2))
+
+(cl-defgeneric stock-tracker--result-fields (object)
+  "Stock-Tracker result fields based on OBJECT.")
+
+(cl-defmethod stock-tracker--result-fields ((s stock-tracker--chn-symbol))
+  "Stock-Tracker result fields for S from CHN."
+  (ignore s)
+  stock-tracker--money126-api-res-fields)
+
+(cl-defmethod stock-tracker--result-fields ((s stock-tracker--us-symbol))
+  "Stock-Tracker result fields for S from US."
+  (ignore s)
+  stock-tracker--cnbc-api-res-fields)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Definition
@@ -190,14 +214,7 @@
 
 (defconst stock-tracker--note-string
   (purecopy
-   "** Add     stock, use [ *a* ]
-** Delete  stock, use [ *d* ]
-** Start refresh, use [ *g* ]
-** Stop  refresh, use [ *s* ]
-
-** Stocks listed in SH, prefix with [ *0* ], e.g: 0600000
-** Stocks listed in SZ, prefix with [ *1* ], e.g: 1002024
-** Stocks listed in US,                    e.g: GOOG")
+   "** Add stock (*a*) / Delete stock (*d*) / Start refresh (*g*) / Stop refresh (*s*)")
   "Stock-Tracker note string.")
 
 (defvar stock-tracker--refresh-timer nil
@@ -466,6 +483,21 @@ It defaults to a comma."
         (require 'subr-x)
         (require 'url)
 
+        (defconst stock-tracker--money126-api-url "https://api.money.126.net/data/feed/%s"
+          "Money126 API URL string")
+
+        (defconst stock-tracker--money126-api-res-prefix "_ntes_quote_callback("
+          "Money126 API result prefix string")
+
+        (defconst stock-tracker--cnbc-api-url "https://quote.cnbc.com/quote-html-webservice/quote.htm?partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extendedMask=2&output=json&symbols=%s"
+          "CNBC API URL string")
+
+        (defconst stock-tracker--cnbc-api-res-prefix-1 "{\"QuickQuoteResult\":{\"QuickQuote\":["
+          "CNBC API result prefix string (Type-1)")
+
+        (defconst stock-tracker--cnbc-api-res-prefix-2 "{\"QuickQuoteResult\":{\"xmlns\":\"http://quote.cnbc.com/services/MultiQuote/2006\",\"QuickQuote\":"
+          "CNBC API result prefix string (Type-2)")
+
         ;; pass params to subprocess, use literal (string, integer, float) here
         (setq subprocess-chn-stocks-string ,chn-stocks-string
               subprocess-us-stocks-string ,us-stocks-string
@@ -475,14 +507,16 @@ It defaults to a comma."
         (defun stock-tracker--subprocess-api-url (string-tag)
           "API to get stock data."
           (if (equal string-tag "chn-stock")
-              "https://api.money.126.net/data/feed/%s"
-            "https://quote.cnbc.com/quote-html-webservice/quote.htm?partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extendedMask=2&output=json&symbols=%s"))
+              stock-tracker--money126-api-url
+            stock-tracker--cnbc-api-url))
 
         (defun stock-tracker--subprocess-result-prefix (string-tag)
           "Stock data result prefix."
           (if (equal string-tag "chn-stock")
-              "_ntes_quote_callback("
-            "{\"QuickQuoteResult\":{\"QuickQuote\":["))
+              stock-tracker--money126-api-res-prefix
+            (if (cl-search stock-tracker--cnbc-api-res-prefix-1 (buffer-string))
+                stock-tracker--cnbc-api-res-prefix-1
+              stock--tracker--cnbc-api-res-prefix-2)))
 
         (defun stock-tracker--subprocess-request-synchronously (stock string-tag)
           "Get stock data synchronously, return a list of JSON each as alist."
