@@ -130,9 +130,32 @@
     (low . low)
     (volume . fullVolume))
   "CNBC API result fields mapping table")
+
+(defconst stock-tracker--yahoo-api-url "https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=%s"
+  "Yahoo API URL string")
+
+(defconst stock-tracker--yahoo-api-res-prefix "{\"quoteResponse\":{\"result\":["
+  "Yahoo API result prefix string")
+
+(defconst stock-tracker--yahoo-api-res-fields
+  '((code . symbol)
+    (symbol . symbol)
+    (name . longName)
+    (price . regularMarketPrice)
+    (percent . regularMarketChangePercent)
+    (updown . regularMarketChange)
+    (open . regularMarketOpen)
+    (yestclose . regularMarketPreviousClose)
+    (high . fiftyTwoWeekHigh)
+    (low . fiftyTwoWeekLow)
+    (volume . regularMarketVolume))
+  "Yahoo API result fields mapping table")
+
 (cl-defstruct stock-tracker--chn-symbol)
 
 (cl-defstruct stock-tracker--us-symbol)
+
+(cl-defstruct stock-tracker--kr-symbol)
 
 (cl-defgeneric stock-tracker--api-url (object)
   "Stock-Tracker API template for stocks listed in SS, SZ, HK, US basd on OBJECT.")
@@ -146,6 +169,11 @@
   "API to get stock for S from US."
   (ignore s)
   stock-tracker--cnbc-api-url)
+
+(cl-defmethod stock-tracker--api-url ((s stock-tracker--kr-symbol))
+  "API to get stock for S from KR."
+  (ignore s)
+  stock-tracker--yahoo-api-url)
 
 (cl-defgeneric stock-tracker--result-prefix (object)
   "Stock-Tracker result prefix based on OBJECT.")
@@ -162,6 +190,11 @@
       stock-tracker--cnbc-api-res-prefix-1
     stock-tracker--cnbc-api-res-prefix-2))
 
+(cl-defmethod stock-tracker--result-prefix ((s stock-tracker--kr-symbol))
+  "Stock-Tracker result prefix for S from KR."
+  (ignore s)
+  stock-tracker--yahoo-api-res-prefix)
+
 (cl-defgeneric stock-tracker--result-fields (object)
   "Stock-Tracker result fields based on OBJECT.")
 
@@ -174,6 +207,11 @@
   "Stock-Tracker result fields for S from US."
   (ignore s)
   stock-tracker--cnbc-api-res-fields)
+
+(cl-defmethod stock-tracker--result-fields ((s stock-tracker--kr-symbol))
+  "Stock-Tracker result fields for S from KR."
+  (ignore s)
+  stock-tracker--yahoo-api-res-fields)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Definition
@@ -259,18 +297,26 @@ It defaults to a comma."
     num))
 
 (defun stock-tracker--get-us-stocks (stocks)
-  "Separate chn stock from us stock with `STOCKS'."
+  "Separate us stock from kr and chn stock with `STOCKS'."
   (let ((us-stocks nil))
     (dolist (stock stocks)
       (when (zerop (string-to-number stock))
         (push stock us-stocks)))
     (setq us-stocks (reverse us-stocks))))
 
+(defun stock-tracker--get-kr-stocks (stocks)
+  "Separate kr stock from us and chn stock with `STOCKS'."
+  (let ((kr-stocks nil))
+    (dolist (stock stocks)
+      (when (s-suffix? ".KS" stock)
+        (push stock kr-stocks)))
+    (setq kr-stocks (reverse kr-stocks))))
+
 (defun stock-tracker--get-chn-stocks (stocks)
-  "Separate chn stock from us stock with `STOCKS'."
+  "Separate chn stock from kr and us stock with `STOCKS'."
   (let ((chn-stocks nil))
     (dolist (stock stocks)
-      (unless (zerop (string-to-number stock))
+      (when (and (not (zerop (string-to-number stock))) (not (s-suffix? ".KS" stock)))
         (push stock chn-stocks)))
     (setq chn-stocks (reverse chn-stocks))))
 
@@ -448,12 +494,14 @@ It defaults to a comma."
            (goto-char origin)
            (set-buffer-modified-p nil)))))
 
-(defun stock-tracker--refresh-async (chn-stocks  us-stocks)
-  "Refresh list of stocks namely CHN-STOCKS and US-STOCKS."
+(defun stock-tracker--refresh-async (chn-stocks us-stocks kr-stocks)
+  "Refresh list of stocks namely CHN-STOCKS, US-STOCKS and KR-STOCKS."
   (let* ((chn-stocks-string (mapconcat #'identity chn-stocks ","))
          (us-stocks-string (mapconcat #'identity us-stocks ","))
+         (kr-stocks-string (mapconcat #'identity kr-stocks ","))
          (chn-symbol (make-stock-tracker--chn-symbol))
          (us-symbol (make-stock-tracker--us-symbol))
+         (kr-symbol (make-stock-tracker--kr-symbol))
          (data-retrieve-timestamp (time-to-seconds)))
 
     (stock-tracker--log "Fetching stock data async ...")
@@ -483,9 +531,16 @@ It defaults to a comma."
         (defconst stock-tracker--cnbc-api-res-prefix-2 "{\"QuickQuoteResult\":{\"xmlns\":\"http://quote.cnbc.com/services/MultiQuote/2006\",\"QuickQuote\":"
           "CNBC API result prefix string (Type-2)")
 
+        (defconst stock-tracker--yahoo-api-url "https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=%s"
+          "Yahoo API URL string")
+
+        (defconst stock-tracker--yahoo-api-res-prefix "{\"quoteResponse\":{\"result\":["
+          "Yahoo API result prefix string")
+
         ;; pass params to subprocess, use literal (string, integer, float) here
         (setq subprocess-chn-stocks-string ,chn-stocks-string
               subprocess-us-stocks-string ,us-stocks-string
+              subprocess-kr-stocks-string ,kr-stocks-string
               subprocess-kill-delay ,stock-tracker-subprocess-kill-delay)
 
         ;; mininum required functions in subprocess
@@ -493,15 +548,19 @@ It defaults to a comma."
           "API to get stock data."
           (if (equal string-tag "chn-stock")
               stock-tracker--money126-api-url
-            stock-tracker--cnbc-api-url))
+            (if (equal string-tag "kr-stock")
+                stock-tracker--yahoo-api-url
+              stock-tracker--cnbc-api-url)))
 
         (defun stock-tracker--subprocess-result-prefix (string-tag)
           "Stock data result prefix."
           (if (equal string-tag "chn-stock")
               stock-tracker--money126-api-res-prefix
-            (if (cl-search stock-tracker--cnbc-api-res-prefix-1 (buffer-string))
-                stock-tracker--cnbc-api-res-prefix-1
-              stock-tracker--cnbc-api-res-prefix-2)))
+            (if (equal string-tag "kr-stock")
+                stock-tracker--yahoo-api-res-prefix
+              (if (cl-search stock-tracker--cnbc-api-res-prefix-1 (buffer-string))
+                  stock-tracker--cnbc-api-res-prefix-1
+                stock-tracker--cnbc-api-res-prefix-2))))
 
         (defun stock-tracker--subprocess-request-synchronously (stock string-tag)
           "Get stock data synchronously, return a list of JSON each as alist."
@@ -532,9 +591,10 @@ It defaults to a comma."
           (run-with-timer (* 10 subprocess-kill-delay) 10 (lambda () (kill-emacs))))
 
         ;; do real business here
-        (let ((result '((chn-stock . 0) (us-stock . 0)))
+        (let ((result '((chn-stock . 0) (us-stock . 0) (kr-stock . 0)))
               (chn-result nil)
-              (us-result nil))
+              (us-result nil)
+              (kr-result nil))
 
           ;; fetch chn stocks
           (unless (string-empty-p subprocess-chn-stocks-string)
@@ -549,12 +609,20 @@ It defaults to a comma."
                (stock-tracker--subprocess-request-synchronously us-stock "us-stock") us-result))
             (when us-result (map-put! result 'us-stock us-result)))
 
+          ;; fetch kr stocks
+          (unless (string-empty-p subprocess-kr-stocks-string)
+            (dolist (kr-stock (split-string subprocess-kr-stocks-string ","))
+              (push
+               (stock-tracker--subprocess-request-synchronously kr-stock "kr-stock") kr-result))
+            (when kr-result (map-put! result 'kr-stock kr-result)))
+
           result))
 
      ;; What to do when it finishes
      (lambda (result)
        (let ((chn-result (cdr (assoc 'chn-stock result)))
              (us-result (cdr (assoc 'us-stock result)))
+             (kr-result (cdr (assoc 'kr-stock result)))
              (all-collected-stocks-info nil))
 
          (if (< data-retrieve-timestamp stock-tracker--data-timestamp)
@@ -566,10 +634,11 @@ It defaults to a comma."
 
            (stock-tracker--log "Fetching stock done")
 
-           ;; format chn stocks
-           (unless (numberp chn-result)
-             (push (stock-tracker--format-response chn-result chn-symbol t)
-                   all-collected-stocks-info))
+          ;; format kr stocks
+           (unless (numberp kr-result)
+             (dolist (kr-stock kr-result)
+               (push (stock-tracker--format-response kr-stock kr-symbol t)
+                     all-collected-stocks-info)))
 
            ;; format us stocks
            (unless (numberp us-result)
@@ -577,9 +646,14 @@ It defaults to a comma."
                (push (stock-tracker--format-response us-stock us-symbol t)
                      all-collected-stocks-info)))
 
+           ;; format chn stocks
+           (unless (numberp chn-result)
+             (push (stock-tracker--format-response chn-result chn-symbol t)
+                   all-collected-stocks-info))
+
            ;; populate stocks
            (when all-collected-stocks-info
-             (stock-tracker--refresh-content (reverse all-collected-stocks-info)))))))))
+             (stock-tracker--refresh-content all-collected-stocks-info))))))))
 
 (defun stock-tracker--refresh (&optional asynchronously)
   "Refresh list of stocks ASYNCHRONOUSLY or not."
@@ -587,13 +661,15 @@ It defaults to a comma."
               (valid-stocks (delq nil (delete-dups has-stocks))))
     (let* ((chn-stocks (stock-tracker--get-chn-stocks valid-stocks))
            (us-stocks (stock-tracker--get-us-stocks valid-stocks))
+           (kr-stocks (stock-tracker--get-kr-stocks valid-stocks))
            (chn-stocks-string (mapconcat #'identity chn-stocks ","))
            (all-collected-stocks-info nil)
            (chn-symbol (make-stock-tracker--chn-symbol))
-           (us-symbol (make-stock-tracker--us-symbol)))
+           (us-symbol (make-stock-tracker--us-symbol))
+           (kr-symbol (make-stock-tracker--kr-symbol)))
       (if asynchronously
           ;; asynchronously
-          (stock-tracker--refresh-async chn-stocks us-stocks)
+          (stock-tracker--refresh-async chn-stocks us-stocks kr-stocks)
         ;; synchronously
         (with-temp-message "Fetching stock data ..."
           (when chn-stocks-string
@@ -603,6 +679,10 @@ It defaults to a comma."
           (dolist (us-stock us-stocks)
             (push
              (stock-tracker--format-response (stock-tracker--request-synchronously us-stock us-symbol) us-symbol)
+             all-collected-stocks-info))
+          (dolist (kr-stock kr-stocks)
+            (push
+             (stock-tracker--format-response (stock-tracker--request-synchronously kr-stock kr-symbol) kr-symbol)
              all-collected-stocks-info))
           (when all-collected-stocks-info
             (stock-tracker--refresh-content (reverse all-collected-stocks-info)))
@@ -663,7 +743,9 @@ It defaults to a comma."
   (let* ((stock (format "%s" (read-from-minibuffer "stock? ")))
          (tag
           (if (zerop (string-to-number stock))
-              (make-stock-tracker--us-symbol)
+              (if (s-suffix? ".KS" stock)
+                  (make-stock-tracker--kr-symbol)
+                (make-stock-tracker--us-symbol))
             (make-stock-tracker--chn-symbol))))
     (when-let* ((is-valid-stock (not (string= "" stock)))
                 (is-not-duplicate (not (member stock stock-tracker-list-of-stocks)))

@@ -3190,8 +3190,18 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (customize-set-variable 'stock-tracker-list-of-stocks
                         '("AAPL"
                           "GOOG"
+                          "GOOGL"
+                          "MSFT"
+                          "AMZN"
+                          "TSLA"
+                          "META"
+                          "NFLX"
                           "AMD"
-                          "NVDA"))
+                          "NVDA"
+                          "005930.KS" ;; Samsung Electronics Co., Ltd.
+                          "000660.KS" ;; SK hynix Inc.
+                          "017670.KS" ;; SK Telecom Co.,Ltd
+                          ))
 
 ;;==============================================================================
 ;; Wordel: Wordle in Emacs
