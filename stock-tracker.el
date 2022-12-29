@@ -1,5 +1,9 @@
 ;;; stock-tracker.el --- Track stock price -*- lexical-binding: t; -*-
 
+;; Modified by Richard Hur (daftcoder@gmail.com)
+
+;;; Original stock-tracker.el
+
 ;; Copyright (C) 2019-2022 Huming Chen
 
 ;; Author: Huming Chen <chenhuming@gmail.com>
@@ -34,29 +38,10 @@
 ;; `stock-tracker-start'
 ;; Start stock-tracker and display stock information with buffer
 
-;;; Change Log:
-;;
-;; 0.1.1 Removed asynchronous handling to make logic simpler
-;;       Added "quote.cnbc.com" api to get US stock information
-;;       Remove HK stock, as no available api for now
-;; 0.1.2 Support asynchronous stock fetching with async
-;; 0.1.3 Clean hanging subprocesses periodically
-;;       Save stock-tracker-list-of-stocks with desktop
-;; 0.1.4 Fix can't add and remove stock issue
-;;       Colorize stock based on price
-;; 0.1.5 Add timestamp to skip outdated data
-;;       Fix empty line generated during adding/removing stocks
-;;       Restore original position after refreshing stocks
-;;       Disable logging by default
-;; 0.1.6 Add stock-tracker-stop-refresh
-;;       Add refresh state
-;;       Add stock-tracker-up-red-down-green to config color
-
 ;;; Code:
 
 (require 'async)
 (require 'dash)
-;;(require 'desktop)
 (require 'json)
 (require 'org)
 (require 'seq)
@@ -743,8 +728,6 @@ It defaults to a comma."
         show-trailing-whitespace nil)
   (setq-local line-move-visual t)
   (setq-local view-read-only nil)
-  ;;(setq desktop-globals-to-save
-  ;;      (add-to-list 'desktop-globals-to-save 'stock-tracker-list-of-stocks))
   (add-hook 'kill-buffer-hook #'stock-tracker--cancel-timer-on-exit)
   (run-mode-hooks))
 
