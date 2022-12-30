@@ -1,4 +1,5 @@
 
+abstractive
 adaptively
 Anisotropic
 autoencoder
@@ -7,6 +8,7 @@ autoregressive
 backpropagation
 bicubic
 bilinear
+blockchain
 chrominance
 CNNs
 colour
@@ -41,6 +43,7 @@ equivariant
 gans
 grayscale
 hyperparameter
+hyperparameters
 ImageNet
 incentivize
 incentivizes
@@ -50,6 +53,7 @@ inpainting
 intra
 invariance
 iteratively
+keypoints
 learnable
 lipschitz
 lsgans
@@ -59,10 +63,12 @@ modelling
 Monochromic
 multilayer
 multiscale
+noncircularity
 noniterative
 nonparametric
 OpenCV
 optimality
+parallelizable
 perceptrons
 persistency
 photometric
@@ -71,6 +77,7 @@ pre
 preprocessed
 preprocessing
 pretrained
+pretraining
 priori
 realtime
 reconstructor
@@ -91,11 +98,15 @@ sociotechnical
 softmax
 spatio
 strided
+subband
 subsampling
+summarization
 superresolution
 thresholding
 tradeoff
 trained
+tranformer
+transfomer
 tunable
 undeservingly
 upsample
