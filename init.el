@@ -183,7 +183,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar minimap magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar minimap magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker docker-tramp dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar elfeed elfeed-tube elfeed-tube-mpv md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -3096,9 +3096,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package neato-graph-bar)
 
 ;;==============================================================================
+;; mpv
+;;==============================================================================
+
+(use-package mpv)
+
+;;==============================================================================
 ;; elfeed
 ;;
 ;; https://github.com/skeeto/elfeed
+;; https://github.com/karthink/elfeed-tube
 ;;==============================================================================
 
 (use-package elfeed
@@ -3127,6 +3134,28 @@ If optional arg SILENT is non-nil, do not display progress messages."
       (fill-individual-paragraphs (point) (point-max))
       (setq buffer-read-only t))
     (switch-to-buffer buffer)))
+
+(use-package elfeed-tube
+  :after elfeed
+  :demand t
+  :config
+  ;;(setq elfeed-tube-auto-save-p nil) ; default value
+  ;;(setq elfeed-tube-auto-fetch-p t)  ; default value
+  (elfeed-tube-setup)
+  :bind (:map elfeed-show-mode-map
+              ("F" . elfeed-tube-fetch)
+              ([remap save-buffer] . elfeed-tube-save)
+         :map elfeed-search-mode-map
+              ("F" . elfeed-tube-fetch)
+              ([remap save-buffer] . elfeed-tube-save)))
+
+(use-package elfeed-tube-mpv
+  :config
+  (elfeed-tube-mpv-follow-mode)
+  :bind (:map elfeed-show-mode-map
+              ("C-c C-f" . elfeed-tube-mpv-follow-mode)
+              ("C-c C-c" . elfeed-tube-mpv)
+              ("C-c C-w" . elfeed-tube-mpv-where)))
 
 ;;==============================================================================
 ;; md4rd - Mode for reddit
