@@ -3206,7 +3206,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; stock-tracker
 ;;==============================================================================
 
-(load-file "~/.emacs.d/stock-tracker.el")
+(load-file "~/.emacs.d/stock-tracker.elc")
 (require 'stock-tracker)
 
 ;; Refresh stock price every 5*10 secs
