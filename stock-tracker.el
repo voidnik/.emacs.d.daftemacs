@@ -59,14 +59,14 @@
   :version "0.1"
   :group 'tools)
 
+(defcustom stock-tracker-stocks-file-path (expand-file-name "stocks" user-emacs-directory)
+  "File path for list of stocks"
+  :type 'string
+  :group 'stock-tracker)
+
 (defcustom stock-tracker-refresh-interval 1
   "Refresh stock every N * 10 SECS."
   :type 'integer
-  :group 'stock-tracker)
-
-(defcustom stock-tracker-list-of-stocks '("BABA")
-  "List of stock to monitor."
-  :type 'list
   :group 'stock-tracker)
 
 (defcustom stock-tracker-subprocess-kill-delay 12
@@ -239,6 +239,9 @@
   (purecopy
    "** Add stock (*a*) / Delete stock (*d*) / Start refresh (*g*) / Stop refresh (*s*)")
   "Stock-Tracker note string.")
+
+(defvar stock-tracker-list-of-stocks nil
+  "Stock-Tracker list of stocks.")
 
 (defvar stock-tracker--refresh-timer nil
   "Stock-Tracker refresh timer.")
@@ -726,6 +729,12 @@ It defaults to a comma."
 (defun stock-tracker-start ()
   "Start stock-tracker, show result in `stock-tracker--buffer-name' buffer."
   (interactive)
+  (when (not stock-tracker-list-of-stocks)
+    (setq stock-tracker-list-of-stocks
+          (with-temp-buffer
+            (insert-file-contents stock-tracker-stocks-file-path)
+            (cl-assert (eq (point) (point-min)))
+            (read (current-buffer)))))
   (when stock-tracker-list-of-stocks
     (stock-tracker--cancel-timers)
     (stock-tracker--run-timers)
@@ -810,7 +819,12 @@ It defaults to a comma."
         show-trailing-whitespace nil)
   (setq-local line-move-visual t)
   (setq-local view-read-only nil)
-  (add-hook 'kill-buffer-hook #'stock-tracker--cancel-timer-on-exit)
+  (add-hook 'kill-buffer-hook #'(lambda ()
+                                  ;; storing stock-tracker-list-of-stocks to file.
+                                  (with-temp-file stock-tracker-stocks-file-path
+                                    (prin1 stock-tracker-list-of-stocks (current-buffer)))
+
+                                  (stock-tracker--cancel-timer-on-exit)))
   (run-mode-hooks))
 
 
