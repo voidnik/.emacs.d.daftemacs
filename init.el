@@ -1053,6 +1053,19 @@ That is, a string used to represent it on the tab bar."
                                     (switch-to-buffer dashboard-buffer-name)
                                     (set-buffer-modified-p nil)))))
 
+;;TODO: Temporary solution to invalidate the fix "Caculate line length in pixel width (#427)"
+(defun dashboard-center-text (start end)
+  "Center the text between START and END."
+  (save-excursion
+    (goto-char start)
+    (let ((width 0))
+      (while (< (point) end)
+        (let ((line-length (- (line-end-position) (line-beginning-position))))
+          (setq width (max width line-length)))
+        (forward-line 1))
+      (let ((prefix (propertize " " 'display `(space . (:align-to (- center ,(/ width 2)))))))
+        (add-text-properties start end `(line-prefix ,prefix indent-prefix ,prefix))))))
+
 ;;==============================================================================
 ;; centered-window (The customized version)
 ;;
