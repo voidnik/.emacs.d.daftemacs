@@ -1414,12 +1414,12 @@ That is, a string used to represent it on the tab bar."
 
 (use-package projectile
   :config
-  (projectile-mode +1)
   (setq projectile-enable-caching t)
   (defadvice projectile-project-root (around ignore-remote first activate)
     (unless (file-remote-p default-directory) ad-do-it))
   ;;(message "projectile-globally-ignored-directories: %s" projectile-globally-ignored-directories)
-  )
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c j") 'projectile-command-map))
 
 ;;==============================================================================
 ;; restclient
@@ -1525,8 +1525,23 @@ That is, a string used to represent it on the tab bar."
   (setq counsel-rg-base-command "rg --vimgrep %s"))
 
 (use-package counsel-projectile
-  ;;:config (counsel-projectile-mode +1) ;; This is commented to prevent that the original shortcuts for projectile are overrided.
-  )
+  :config
+  ;; The original keymaps for projectile are overrided.
+  (setq counsel-projectile-key-bindings
+        '((projectile-find-file        . counsel-projectile-find-file)
+          (projectile-find-file-dwim   . counsel-projectile-find-file-dwim)
+          (projectile-find-dir         . counsel-projectile-find-dir)
+          (projectile-switch-to-buffer . counsel-projectile-switch-to-buffer)
+          (projectile-switch-project   . counsel-projectile-switch-project)
+          (" "                         . counsel-projectile)
+          ("si"                        . counsel-projectile-git-grep)
+          ("Oc"                        . counsel-projectile-org-capture)
+          ("Oa"                        . counsel-projectile-org-agenda)))
+  (counsel-projectile-mode +1)
+
+  (global-set-key (kbd "C-c j s G") #'counsel-projectile-grep)
+  (global-set-key (kbd "C-c j s R") #'counsel-projectile-rg)
+  (global-set-key (kbd "C-c j s S") #'counsel-projectile-ag))
 
 (use-package counsel-at-point)
 
@@ -3293,11 +3308,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (global-set-key (kbd "C-c c r") 'counsel-register)
 (global-set-key (kbd "C-c c e") 'counsel-recentf)
-(global-set-key (kbd "C-c c f") 'counsel-projectile-find-file)
-(global-set-key (kbd "C-c c d") 'counsel-projectile-find-dir)
-(global-set-key (kbd "C-c c b") 'counsel-projectile-switch-to-buffer)
-(global-set-key (kbd "C-c c g") 'counsel-projectile-rg)
-(global-set-key (kbd "C-c c p") 'counsel-projectile-switch-project)
+(global-set-key (kbd "C-c c s g") 'counsel-grep)
+(global-set-key (kbd "C-c c s r") 'counsel-rg)
+(global-set-key (kbd "C-c c s s") 'counsel-ag)
 
 (defun open-dedicated-terminal ()
   (interactive)
@@ -3356,8 +3369,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (add-hook 'vterm-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c ESC ESC") 'kill-side-windows)))
-
-(define-key projectile-mode-map (kbd "C-c j") 'projectile-command-map)
 
 ;; helpful
 ;; Note that the built-in `describe-function' includes both functions
