@@ -3093,7 +3093,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; neato-graph-bar
 ;;==============================================================================
 
-(use-package neato-graph-bar)
+(when (string-equal system-type "gnu/linux")
+  (use-package neato-graph-bar))
 
 ;;==============================================================================
 ;; mpv
@@ -3308,7 +3309,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c u D") 'dir-treeview-open)
 (global-set-key (kbd "C-c u k") 'docker)
 (global-set-key (kbd "C-c u c") 'open-calculator)
-(global-set-key (kbd "C-c u p") 'neato-graph-bar)
+(when (string-equal system-type "gnu/linux")
+  (global-set-key (kbd "C-c u p") 'neato-graph-bar))
 (global-set-key (kbd "C-c u f") 'elfeed)
 (global-set-key (kbd "C-c u r") 'md4rd)
 (global-set-key (kbd "C-c u a") 'arxiv-complex-search)
