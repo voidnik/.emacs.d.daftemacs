@@ -2757,6 +2757,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package multi-vterm
   :config
+  (setq multi-vterm-dedicated-window-height 40)
+
   (defvar multi-vterm-dedicated-buffer-lock-state nil)
 
   (defun multi-vterm-dedicated-buffer-lock-toggle ()
@@ -2772,7 +2774,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (setq multi-vterm-dedicated-buffer-lock-state t)
         (message "multi-vterm-dedicated-buffer LOCKED."))))
 
-  (defun multi-vterm-dedicated-buffer-focus-out ()
+  (defun multi-vterm-dedicated--buffer-focus-out ()
     (if (and (multi-vterm-dedicated-exist-p) (not multi-vterm-dedicated-buffer-lock-state))
         (multi-vterm-dedicated-close)))
 
@@ -2783,7 +2785,14 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                (let ((buffer (current-buffer)))
                                  (when (string-prefix-p "*vterminal - dedicated" (buffer-name buffer))
                                    (hide-mode-line-mode)
-                                   (buffer-focus-out-callback 'multi-vterm-dedicated-buffer-focus-out buffer))))))
+                                   (buffer-focus-out-callback 'multi-vterm-dedicated--buffer-focus-out buffer)))))
+
+  (defun multi-vterm-dedicated--change-height-on-frame-size-change (&optional _)
+    (when (multi-vterm-dedicated-exist-p)
+      (setq multi-vterm-dedicated-window-height (multi-vterm-current-window-height multi-vterm-dedicated-window))))
+
+  (add-hook 'window-size-change-functions
+            #'multi-vterm-dedicated--change-height-on-frame-size-change))
 
 ;;==============================================================================
 ;; ansi-term
