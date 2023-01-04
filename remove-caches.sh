@@ -5,7 +5,7 @@ cat /dev/null > eshell/history
 cat /dev/null > eshell/lastdir
 rm -rf auto-save-list/.saves*
 rm recentf
-rm -rf image-dired/*
 rm -rf dirvish
+rm -rf image-dired/*
 rm projectile-bookmarks.eld
 rm projectile.cache
