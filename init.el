@@ -2497,7 +2497,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :config
   (defun js-mode-bindings ()
     "Sets a hotkey for using the json-snatcher plugin"
-	(when (string-match  "\\.json$" (buffer-name))
+    (when (string-match  "\\.json$" (buffer-name))
       (local-set-key (kbd "C-c C-g") 'jsons-print-path)))
   (add-hook 'js-mode-hook 'js-mode-bindings)
   (add-hook 'js2-mode-hook 'js-mode-bindings))
@@ -3157,11 +3157,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (lambda ()
           (cond
            ((string-equal system-type "gnu/linux")
-	        (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 25)))
+            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 25)))
            ((string-equal system-type "darwin")
-	        (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 12))))
-	      (setq fill-column 120)
-	      (setq elfeed-show-entry-switch #'my-show-elfeed)))
+            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 12))))
+          (setq fill-column 120)
+          (setq elfeed-show-entry-switch #'my-show-elfeed)))
 
   (defun my-show-elfeed (buffer)
     (with-current-buffer buffer
