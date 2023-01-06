@@ -294,9 +294,9 @@ Amend MODE-LINE to the mode line for the duration of the selection."
     (setq aw-action action)
     (let ((start-window (selected-window))
           (previous-window-scope (cl-case aw-scope
-                                   ('visible 'visible)
-                                   ('global 'visible)
-                                   ('frame 'frame)))
+                                   (visible 'visible)
+                                   (global 'visible)
+                                   (frame 'frame)))
           (wnd-list (aw-window-list))
           window)
       (setq window
@@ -2573,9 +2573,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 ;; https://github.com/Silex/docker.el
 (use-package docker)
-
-;; https://github.com/emacs-pe/docker-tramp.el
-(use-package docker-tramp)
 
 ;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode
