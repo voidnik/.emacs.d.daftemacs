@@ -762,7 +762,7 @@ active region."
 
 ;;; Minimap minor mode
 
- (defvar minimap-sb-mode-map (make-sparse-keymap)
+(defvar minimap-sb-mode-map (make-sparse-keymap)
   "Keymap used by `minimap-sb-mode'.")
 
 (define-key minimap-sb-mode-map [down-mouse-1] 'minimap-move-overlay-mouse)
@@ -771,7 +771,9 @@ active region."
 
 (define-minor-mode minimap-sb-mode
   "Minor mode for minimap sidebar."
-  nil "minimap" minimap-sb-mode-map)
+  :global nil
+  :lighter "minimap"
+  :keymap minimap-sb-mode-map)
 
 ;;; Sync minimap with modes which create/delete overlays.
 
