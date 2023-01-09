@@ -29,6 +29,8 @@
 (setq-default truncate-lines t)
 (setq-default tab-width 4)
 (put 'erase-buffer 'disabled nil)
+(setq show-paren-style 'expression
+      show-paren-priority 0)
 (show-paren-mode t)
 (delete-selection-mode t)
 ;;(display-time-mode t)

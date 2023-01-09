@@ -225,6 +225,7 @@
  '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
  '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
  '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
+ '(show-paren-match ((((class color)):foreground unspecified :background "#455073" :weight bold) (t :weight bold)))
  '(wordel-correct ((t (:background "#39b357"))))
  '(wordel-guessed ((t (:background "#202020" :foreground "#616580"))))
  '(wordel-almost ((t (:background "#acb364"))))
