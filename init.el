@@ -183,7 +183,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode px magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar disk-usage mpv elfeed elfeed-tube elfeed-tube-mpv md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith all-the-icons doom-themes doom-modeline nyan-mode hide-mode-line minibar magit magit-popup centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode texfrag magic-latex-buffer ag rg ripgrep deadgrep dumb-jump peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich ivy-posframe avy find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-icons-dired treemacs-magit treemacs-perspective neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar disk-usage mpv elfeed elfeed-tube elfeed-tube-mpv md4rd arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -208,14 +208,10 @@
  '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))) t)
  '(fringe ((t (:background "#282a36"))))
  '(header-line ((t (:background "#23242f"))))
- '(md4rd--greentext-face ((((type graphic) (background dark))
-                           :background unspecified :foreground "#50fa7b")
-                          (((type graphic) (background light))
-                           :background unspecified :foreground "#50fa7b")
-                          (t :background unspecified :foreground "#50fa7b")))
- '(minimap-font-face ((default :family "JetBrains Mono" :height 30)))
- '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
+ '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#50fa7b") (((type graphic) (background light)) :background unspecified :foreground "#50fa7b") (t :background unspecified :foreground "#50fa7b")))
  '(minimap-active-region-background ((t (:background "#1e2029" :extend t))))
+ '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
+ '(minimap-font-face ((default :family "JetBrains Mono" :height 30)))
  '(mode-line ((t (:background "#455073"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
@@ -225,15 +221,15 @@
  '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
  '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
  '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
- '(show-paren-match ((((class color)):foreground unspecified :background "#455073" :weight bold) (t :weight bold)))
- '(wordel-correct ((t (:background "#39b357"))))
- '(wordel-guessed ((t (:background "#202020" :foreground "#616580"))))
+ '(show-paren-match ((((class color)) :foreground unspecified :background "#455073" :weight bold) (t :weight bold)))
  '(wordel-almost ((t (:background "#acb364"))))
  '(wordel-box ((t (:box (:line-width -4 :color "#1e2029" :style released-button)))))
+ '(wordel-correct ((t (:background "#39b357"))))
  '(wordel-current-box ((t (:box (:line-width -4 :color "#ffb86c" :style released-button)))))
- '(wordel-spacer ((t (:width ultra-condensed :height 0.1 :background unspecified))))
  '(wordel-default ((t (:weight ultra-bold :background "#44475a" :foreground "#D7DADC" :height 3.0))))
- '(wordel-error ((t (:inherit compilation-error)))))
+ '(wordel-error ((t (:inherit compilation-error))))
+ '(wordel-guessed ((t (:background "#202020" :foreground "#616580"))))
+ '(wordel-spacer ((t (:width ultra-condensed :height 0.1 :background unspecified)))))
 
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
@@ -1287,13 +1283,15 @@ That is, a string used to represent it on the tab bar."
 
 (use-package markdown-mode
   :config
-  (setq markdown-command "pandoc")
+  (setq markdown-command "pandoc"
+        markdown-enable-math t)
   ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
   (define-key markdown-mode-map (kbd "C-M-{") nil)
   (define-key markdown-mode-map (kbd "C-M-}") nil)
 
   (defun daftemacs/markdown-style ()
-    (visual-line-mode t))
+    (visual-line-mode t)
+    (texfrag-mode +1))
 
   (add-hook 'markdown-mode-hook 'daftemacs/markdown-style)
   :bind
@@ -1311,8 +1309,8 @@ That is, a string used to represent it on the tab bar."
 ;; LaTeX Preview
 ;;==============================================================================
 
-;; https://github.com/aaptel/preview-latex
-(use-package px)
+;; https://github.com/TobiasZawada/texfrag
+(use-package texfrag)
 
 ;; https://github.com/zk-phi/magic-latex-buffer
 (use-package magic-latex-buffer
