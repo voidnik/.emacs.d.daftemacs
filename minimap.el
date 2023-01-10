@@ -331,6 +331,9 @@ from `minimap-major-modes' (excluding the minibuffer)."
   :type 'boolen
   :group 'minimap)
 
+(defun minimap-ignore-specific-buffers ()
+  nil)
+
 ;;; Internal variables
 
 ;; The buffer currently displayed in the minimap
@@ -432,17 +435,18 @@ If REMOVE is non-nil, remove minimap from other modes."
   :lighter " MMap"
   (if minimap-mode
       (progn
-	(when (and minimap-major-modes
-		   (apply 'derived-mode-p minimap-major-modes))
-	  (unless (minimap-get-window)
-	    (minimap-create-window))
-	  ;; Create minimap.
-	  (minimap-new-minimap))
-	;; Create timer.
-	(setq minimap-timer-object
-	      (run-with-idle-timer minimap-update-delay t 'minimap-update))
-	;; Hook into other modes.
-	(minimap-setup-hooks))
+	    (when (and minimap-major-modes
+		           (apply 'derived-mode-p minimap-major-modes)
+                   (not (minimap-ignore-specific-buffers)))
+	      (unless (minimap-get-window)
+	        (minimap-create-window))
+	      ;; Create minimap.
+	      (minimap-new-minimap))
+	    ;; Create timer.
+	    (setq minimap-timer-object
+	          (run-with-idle-timer minimap-update-delay t 'minimap-update))
+	    ;; Hook into other modes.
+	    (minimap-setup-hooks))
     ;; Turn it off
     (minimap-kill)
     (minimap-setup-hooks t)))
@@ -544,32 +548,33 @@ When FORCE, enforce update of the active region."
   ;; If we are in the minibuffer, do nothing.
   (unless (active-minibuffer-window)
     (if (minimap-active-current-buffer-p)
-	;; We are still in the same buffer, so just update the minimap.
-	(minimap-update-current-buffer force)
+	    ;; We are still in the same buffer, so just update the minimap.
+	    (minimap-update-current-buffer force)
       ;; The buffer was switched, check if the minimap should switch, too.
       (if (and minimap-major-modes
-	       (apply 'derived-mode-p minimap-major-modes))
-	  (progn
-	    ;; Create window if necessary...
-	    (unless (minimap-get-window)
-	      (minimap-create-window))
-	    ;; ...and re-create minimap with new buffer...
-	    (minimap-new-minimap)
-	    ;; Redisplay
-	    (sit-for 0)
-	    ;; ...and call update again.
-	    (minimap-update t))
-	;; We have entered a buffer for which no minimap should be
-	;; displayed. Check if we should de
-	(when (and (minimap-get-window)
-		   (minimap-need-to-delete-window))
-	  ;; We wait a tiny bit before deleting the window, since we
-	  ;; might only be temporarily in another buffer.
-	  (run-with-timer 0.3 nil
-			  (lambda ()
-			    (when (and (null (minimap-active-current-buffer-p))
-				       (minimap-get-window))
-			      (delete-window (minimap-get-window))))))))))
+	           (apply 'derived-mode-p minimap-major-modes)
+               (not (minimap-ignore-specific-buffers)))
+	      (progn
+	        ;; Create window if necessary...
+	        (unless (minimap-get-window)
+	          (minimap-create-window))
+	        ;; ...and re-create minimap with new buffer...
+	        (minimap-new-minimap)
+	        ;; Redisplay
+	        (sit-for 0)
+	        ;; ...and call update again.
+	        (minimap-update t))
+	    ;; We have entered a buffer for which no minimap should be
+	    ;; displayed. Check if we should de
+	    (when (and (minimap-get-window)
+		           (minimap-need-to-delete-window))
+	      ;; We wait a tiny bit before deleting the window, since we
+	      ;; might only be temporarily in another buffer.
+	      (run-with-timer 0.3 nil
+			              (lambda ()
+			                (when (and (null (minimap-active-current-buffer-p))
+				                       (minimap-get-window))
+			                  (delete-window (minimap-get-window))))))))))
 
 (defun minimap-need-to-delete-window ()
   "Check if we should delete the minimap window.

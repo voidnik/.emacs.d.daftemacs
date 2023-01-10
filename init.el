@@ -792,15 +792,21 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; https://github.com/dengste/minimap
 ;;==============================================================================
 
-(load-file "~/.emacs.d/minimap.el")
+(load-file "~/.emacs.d/minimap.elc")
 (require 'minimap)
 
 (setq minimap-window-location 'right
       minimap-update-delay 0.2
       minimap-enlarge-certain-faces 'always
       minimap-major-modes '(prog-mode yaml-mode))
+
+(defun minimap-ignore-specific-buffers ()
+  (or (string-match "*scratch" (buffer-name))
+      (string-match "\s?\*ein" (buffer-name))))
+
 (when (boundp 'aw-ignored-buffers)
   (push minimap-buffer-name aw-ignored-buffers))
+
 (minimap-mode)
 
 ;;==============================================================================
