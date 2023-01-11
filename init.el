@@ -2756,9 +2756,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :config
   (pdf-tools-install)
   (add-hook 'pdf-tools-enabled-hook (lambda ()
-                                      ;;(hide-mode-line-mode)
-                                      ;;(pdf-view-midnight-minor-mode)
-                                      (pdf-view-fit-page-to-window))))
+                                      (pdf-view-fit-page-to-window)
+                                      (pdf-isearch-batch-mode))))
 
 ;;==============================================================================
 ;; vterm
