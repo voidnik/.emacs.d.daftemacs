@@ -43,6 +43,10 @@
                           (reusable-frames . t)))
 (customize-set-variable 'even-window-sizes nil) ; avoid resizing
 
+;; Make script files executable automatically
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil))
 
