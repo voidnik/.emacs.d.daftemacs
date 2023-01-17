@@ -18,6 +18,7 @@ autoencoders
 autoregressive
 backpropagation
 bicubic
+bijective
 bilinear
 blockchain
 cardinality
@@ -73,8 +74,10 @@ inpaint
 inpainted
 inpainting
 interdependencies
+interpretable
 intra
 invariance
+invertible
 iteratively
 jacobian
 keypoints
@@ -97,7 +100,9 @@ nonparametric
 optimality
 optimisation
 overfitting
+parallelizability
 parallelizable
+parametrize
 parametrized
 perceptron
 perceptrons
