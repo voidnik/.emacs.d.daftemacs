@@ -9,3 +9,6 @@ rm -rf dirvish
 rm -rf image-dired/*
 rm projectile-bookmarks.eld
 rm projectile.cache
+rm -rf .cache
+rm .lsp-session-v1
+rm .dap-breakpoints
