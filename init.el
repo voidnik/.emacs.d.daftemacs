@@ -723,8 +723,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (use-package nyan-mode
   :config
-  (setq nyan-animate-nyancat t
-        nyan-wavy-trail t
+  (setq nyan-animate-nyancat nil
+        nyan-wavy-trail nil
         nyan-bar-length 40)
   (nyan-mode 1))
 
