@@ -1327,13 +1327,74 @@ That is, a string used to represent it on the tab bar."
 ;; grep variants
 ;;==============================================================================
 
-(use-package ag)
+(use-package ag
+  :config
+  (setq ag-arguments (list "--smart-case" "--stats" "-a" "--hidden")))
 
-(use-package rg)
+(use-package rg
+  :config
+  (setq rg-command-line-flags '("--no-ignore" "--hidden" "--unrestricted")))
 
-(use-package ripgrep)
+(use-package ripgrep
+  :config
+  (setq ripgrep-arguments (list "--no-ignore" "--hidden" "--unrestricted")))
 
-(use-package deadgrep)
+(use-package deadgrep
+  :config
+  (defun deadgrep--arguments (search-term search-type case context)
+    "Return a list of command line arguments that we can execute in a shell
+to obtain ripgrep results."
+    (let (args)
+      (push "--hidden" args)
+      (push "--no-ignore" args)
+      (push "--unrestricted" args)
+
+      (push "--color=ansi" args)
+      (push "--line-number" args)
+      (push "--no-heading" args)
+      (push "--no-column" args)
+      (push "--with-filename" args)
+      (push "--no-config" args)
+
+      (cond
+       ((eq search-type 'string)
+        (push "--fixed-strings" args))
+       ((eq search-type 'words)
+        (push "--fixed-strings" args)
+        (push "--word-regexp" args))
+       ((eq search-type 'regexp))
+       (t
+        (error "Unknown search type: %s" search-type)))
+
+      (cond
+       ((eq case 'smart)
+        (push "--smart-case" args))
+       ((eq case 'sensitive)
+        (push "--case-sensitive" args))
+       ((eq case 'ignore)
+        (push "--ignore-case" args))
+       (t
+        (error "Unknown case: %s" case)))
+
+      (cond
+       ((eq deadgrep--file-type 'all))
+       ((eq (car-safe deadgrep--file-type) 'type)
+        (push (format "--type=%s" (cdr deadgrep--file-type)) args))
+       ((eq (car-safe deadgrep--file-type) 'glob)
+        (push (format "--type-add=custom:%s" (cdr deadgrep--file-type)) args)
+        (push "--type=custom" args))
+       (t
+        (error "Unknown file-type: %S" deadgrep--file-type)))
+
+      (when context
+        (push (format "--before-context=%s" (car context)) args)
+        (push (format "--after-context=%s" (cdr context)) args))
+
+      (push "--" args)
+      (push search-term args)
+      (push "." args)
+
+      (nreverse args))))
 
 (use-package dumb-jump
   :config
