@@ -151,6 +151,23 @@
 (setq scroll-conservatively 10000)
 
 ;;==============================================================================
+;; Miscellaneous
+;;==============================================================================
+
+;; https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
+(defun copy-file-name-on-clipboard ()
+  "Copy the current buffer file name to the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
+
+;;==============================================================================
 ;; Global Keys
 ;;==============================================================================
 
