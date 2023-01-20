@@ -803,8 +803,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 (when (boundp 'aw-ignored-buffers)
   (push minimap-buffer-name aw-ignored-buffers))
 
-(minimap-mode)
-
 ;;==============================================================================
 ;; magit
 ;;==============================================================================
