@@ -16,7 +16,7 @@
 ;;----------------------------------------------------------
 ;; https://draculatheme.com/contribute
 
-;; My favorite special characters: 🔥 🚀 ⭐ 🌙 ⚡ 👍
+;; My favorite special characters: 🔥 🚀 ⚡ 🌙 🪐 ⭐ 👍 🦊 🐳 🌈 🍭
 ;; https://unicode-table.com/en/sets/top-emoji/
 
 (setq with-pgtk (string-equal window-system "pgtk"))
@@ -2648,7 +2648,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (global-ligature-mode t))
 
 ;;==============================================================================
-;; Docker
+;; Docker 🐳
 ;;==============================================================================
 
 ;; https://github.com/Silex/docker.el
@@ -2663,15 +2663,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package docker-compose-mode)
 
 ;;==============================================================================
-;; graphviz
+;; Graphviz
+;;
+;; https://graphviz.org/
 ;;==============================================================================
 
+;; https://github.com/ppareit/graphviz-dot-mode
 (use-package graphviz-dot-mode
   :config
-  (setq graphviz-dot-indent-width 4))
-
-(use-package company-graphviz-dot
-  :ensure nil)
+  (setq graphviz-dot-indent-width 4)
+  (add-hook 'graphviz-dot-mode-hook 'company-mode))
 
 ;;==============================================================================
 ;; focus
