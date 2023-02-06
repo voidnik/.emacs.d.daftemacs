@@ -1282,7 +1282,9 @@ That is, a string used to represent it on the tab bar."
 (use-package markdown-mode
   :config
   (setq markdown-command "pandoc"
-        markdown-enable-math t)
+        markdown-enable-math t
+        markdown-fontify-code-blocks-natively t)
+
   ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
   (define-key markdown-mode-map (kbd "C-M-{") nil)
   (define-key markdown-mode-map (kbd "C-M-}") nil)
