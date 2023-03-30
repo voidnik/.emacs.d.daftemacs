@@ -1836,6 +1836,7 @@ to obtain ripgrep results."
     (insecure-lock-posframe)
     (if insecure-lock-mode
         (progn
+          (kill-side-windows)
           (centaur-tabs-mode 0)
           (doom-modeline-mode 0)
           (global-hide-mode-line-mode))
