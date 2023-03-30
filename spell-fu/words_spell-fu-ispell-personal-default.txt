@@ -65,8 +65,10 @@ downsampled
 downsampling
 downscaled
 downscaling
+embeddings
 encodings
 equivariant
+facto
 feedbacks
 feedforward
 foveated
@@ -151,6 +153,8 @@ referenceless
 regressor
 regressors
 regularizer
+renormalize
+renormalized
 reparameterization
 resampling
 rescale
@@ -176,6 +180,7 @@ spatio
 spatiotemporal
 spectrally
 strided
+stylegan
 stylization
 subband
 subpixel
