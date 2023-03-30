@@ -1815,6 +1815,8 @@ to obtain ripgrep results."
 
 ;;==============================================================================
 ;; insecure-lock - Screen locker in pure Emacs Lisp
+;;
+;; https://github.com/kchanqvq/insecure-lock
 ;;==============================================================================
 
 (use-package redacted)
@@ -1822,7 +1824,26 @@ to obtain ripgrep results."
 (use-package insecure-lock
   :config
   (insecure-lock-run-idle 600) ;; in seconds
-  (setq insecure-lock-mode-hook '(insecure-lock-redact insecure-lock-posframe)))
+  (setq insecure-lock-posframe-parameters
+    '(:position (0 . 0) ;; workaround posframe bug
+                :poshandler posframe-poshandler-frame-center
+                :foreground-color "#50fa7b"
+                :background-color "#44475a"
+                :internal-border-width 3
+                :internal-border-color "#ff79c6"))
+  (defun my-insecure-lock-mode ()
+    (insecure-lock-redact)
+    (insecure-lock-posframe)
+    (if insecure-lock-mode
+        (progn
+          (centaur-tabs-mode 0)
+          (doom-modeline-mode 0)
+          (global-hide-mode-line-mode))
+      (progn
+        (global-hide-mode-line-mode 0)
+        (doom-modeline-mode t)
+        (centaur-tabs-mode t))))
+  (setq insecure-lock-mode-hook 'my-insecure-lock-mode))
 
 ;;==============================================================================
 ;; find-file-in-project
