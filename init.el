@@ -1823,7 +1823,7 @@ to obtain ripgrep results."
 
 (use-package insecure-lock
   :config
-  (insecure-lock-run-idle 600) ;; in seconds
+  (insecure-lock-run-idle 1800) ;; in seconds
   (setq insecure-lock-posframe-parameters
     '(:position (0 . 0) ;; workaround posframe bug
                 :poshandler posframe-poshandler-frame-center
@@ -3547,6 +3547,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c u D") 'dir-treeview-open)
 (global-set-key (kbd "C-c u k") 'docker)
 (global-set-key (kbd "C-c u c") 'open-calculator)
+(global-set-key (kbd "C-c u l") 'insecure-lock-enter)
 (when (string-equal system-type "gnu/linux")
   (global-set-key (kbd "C-c u p") 'neato-graph-bar))
 (global-set-key (kbd "C-c u u") 'disk-usage)
