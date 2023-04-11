@@ -1,0 +1,4 @@
+# Conatins the name of the dir-treeview theme.
+# This file is automatically written.
+
+Petunia
