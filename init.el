@@ -579,6 +579,7 @@ even when the file is larger than `large-file-warning-threshold'.")
   (doom-themes-neotree-config)
   ;; or for treemacs users
   (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-enable-variable-pitch nil)
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
