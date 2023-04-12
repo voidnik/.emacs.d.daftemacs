@@ -1850,7 +1850,14 @@ to obtain ripgrep results."
         (global-hide-mode-line-mode 0)
         (doom-modeline-mode t)
         (centaur-tabs-mode t))))
-  (setq insecure-lock-mode-hook 'my-insecure-lock-mode))
+  (setq insecure-lock-mode-hook 'my-insecure-lock-mode)
+
+  (defun my-after-insecure-lock-lock-keys ()
+    (global-set-key (kbd "C-g") #'(lambda ()
+                                    (interactive)
+                                    (if (active-minibuffer-window)
+                                        (select-window (active-minibuffer-window))))))
+  (advice-add 'insecure-lock-lock-keys :after #'my-after-insecure-lock-lock-keys))
 
 ;;==============================================================================
 ;; find-file-in-project
