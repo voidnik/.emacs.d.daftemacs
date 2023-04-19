@@ -1842,7 +1842,6 @@ to obtain ripgrep results."
     (insecure-lock-posframe)
     (if insecure-lock-mode
         (progn
-          (kill-side-windows)
           (centaur-tabs-mode 0)
           (doom-modeline-mode 0)
           (global-hide-mode-line-mode))
@@ -2219,7 +2218,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
           (let ((p (with-current-buffer neotree-buffer (point))))
             (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)
             (goto-char p))
-        (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir)))))
+        (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir))))
+
+  (defun neotree-kill ()
+    (when (buffer-name neo-global--buffer)
+      (kill-buffer (buffer-name neo-global--buffer)))))
 
 (defun treemacs-or-neotree-select-window ()
   (interactive)
@@ -3568,7 +3571,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (defun kill-side-windows ()
   (interactive)
   (treemacs-kill)
-  (neotree-hide)
+  (neotree-kill)
   (bufler-sidebar-close)
   (when (get-buffer-window "*Ilist*")
     (delete-window (get-buffer-window "*Ilist*")))
