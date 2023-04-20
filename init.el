@@ -2221,7 +2221,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (neotree-show-project-root-dir-or-find-file-in-project-dir-or-current-dir))))
 
   (defun neotree-kill ()
-    (when (buffer-name neo-global--buffer)
+    (interactive)
+    (when (and neo-global--buffer (buffer-name neo-global--buffer))
       (kill-buffer (buffer-name neo-global--buffer)))))
 
 (defun treemacs-or-neotree-select-window ()
