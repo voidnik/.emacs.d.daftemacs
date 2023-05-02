@@ -1829,7 +1829,7 @@ to obtain ripgrep results."
 
 (use-package insecure-lock
   :config
-  (insecure-lock-run-idle 1800) ;; in seconds
+  ;;(insecure-lock-run-idle 1800) ;; in seconds
   (setq insecure-lock-posframe-parameters
     '(:position (0 . 0) ;; workaround posframe bug
                 :poshandler posframe-poshandler-frame-center
