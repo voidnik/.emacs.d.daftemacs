@@ -3551,6 +3551,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-c S") 'find-file-in-project)
 
 (global-set-key (kbd "C-c b v") 'visual-line-mode)
 (global-set-key (kbd "C-c b f") 'focus-mode)
