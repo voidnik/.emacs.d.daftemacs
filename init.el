@@ -3390,12 +3390,13 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package md4rd
   :config
   (add-hook 'md4rd-mode-hook 'md4rd-indent-all-the-lines)
-  (setq md4rd--oauth-access-token "44428323-ci7Q1lW1XZadFiMIYPdQu2Xdj-asyw")
-  (setq md4rd--oauth-refresh-token "44428323-vwOa5w774LmcjoMcy7IxTySny2aXBw")
-  (run-with-timer 0 3540 'md4rd-refresh-login)
+  (setq md4rd--oauth-client-id "daftcoder")
+  (setq md4rd--oauth-redirect-uri "http://localhost:12345")
+  ;;(setq md4rd--oauth-access-token "44428323-ci7Q1lW1XZadFiMIYPdQu2Xdj-asyw")
+  ;;(setq md4rd--oauth-refresh-token "44428323-vwOa5w774LmcjoMcy7IxTySny2aXBw")
   ;;(message "md4rd--oauth-access-token: %s" md4rd--oauth-access-token)
   ;;(message "md4rd--oauth-refresh-token: %s" md4rd--oauth-refresh-token)
-
+  ;;(run-with-timer 0 3540 'md4rd-refresh-login)
   (setq md4rd-subs-active '(emacs lisp+Common_Lisp prolog clojure rust)))
 
 ;;==============================================================================
