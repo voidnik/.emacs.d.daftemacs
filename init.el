@@ -449,7 +449,7 @@ Amend MODE-LINE to the mode line for the duration of the selection."
              "nyxt"
              (list url)))))
 
-  (setq browse-url-browser-function 'browse-url-qutebrowser)
+(setq browse-url-browser-function 'browse-url-qutebrowser)
 
 ;;==============================================================================
 ;; Setting the default app with an association
