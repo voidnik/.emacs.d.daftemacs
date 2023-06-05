@@ -90,6 +90,9 @@
     (find-file-read-only "~/.qutebrowser/config.py")
     (find-file-read-only "~/.qutebrowser/daftemacs-qb/daftemacs_qb_config.py"))))
 
+(message "split-width-threshold: %d" split-width-threshold)
+(message "Display pixel size: %dx%d" (display-pixel-width) (display-pixel-height))
+
 ;;==============================================================================
 ;; Read-only directories
 ;;

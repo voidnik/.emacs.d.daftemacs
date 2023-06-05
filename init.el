@@ -106,14 +106,6 @@
 (message " | (_| | (_| | | | ||  __/ | | | | | (_| | (__\\__ \\")
 (message "  \\__,_|\\__,_|_|  \\__\\___|_| |_| |_|\\__,_|\\___|___/\n")
 (message "emacs-version: %s %d %d" emacs-version emacs-major-version emacs-minor-version)
-(message "system-type: %s" system-type)
-(message "system-name: %s" system-name)
-(message "window-system: %s" window-system)
-(message "user-login-name: %s" user-login-name)
-(message "user-init-file: %s" user-init-file)
-(message "user-emacs-directory: %s" user-emacs-directory)
-(message "split-width-threshold: %d" split-width-threshold)
-(message "Display pixel size: %dx%d" (display-pixel-width) (display-pixel-height))
 
 (if (and (fboundp 'native-comp-available-p)
          (native-comp-available-p))
@@ -127,6 +119,13 @@
 (if (functionp 'json-serialize)
     (message "Native JSON: Enabled")
   (message "Native JSON: Disabled"))
+
+(message "system-type: %s" system-type)
+(message "system-name: %s" system-name)
+(message "window-system: %s" window-system)
+(message "user-login-name: %s" user-login-name)
+(message "user-init-file: %s" user-init-file)
+(message "user-emacs-directory: %s" user-emacs-directory)
 
 ;;==============================================================================
 ;; init-base
