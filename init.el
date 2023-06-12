@@ -2548,15 +2548,15 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package importmagic
   :config
   (add-hook 'python-mode-hook 'importmagic-mode)
-  (setq importmagic-python-interpreter "~/anaconda3/bin/python3"))
+  (setq importmagic-python-interpreter "~/miniconda3/bin/python3"))
 
 (use-package pyvenv
   :config
   (cond
-   ((file-directory-p "~/anaconda3/envs")
-    (setenv "WORKON_HOME" "~/anaconda3/envs"))
-   ((file-directory-p "~/opt/anaconda3/envs")
-    (setenv "WORKON_HOME" "~/opt/anaconda3/envs")))
+   ((file-directory-p "~/miniconda3/envs")
+    (setenv "WORKON_HOME" "~/miniconda3/envs"))
+   ((file-directory-p "~/opt/miniconda3/envs")
+    (setenv "WORKON_HOME" "~/opt/miniconda3/envs")))
   (pyvenv-mode 1))
 
 (use-package lsp-pyright
