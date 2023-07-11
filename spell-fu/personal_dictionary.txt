@@ -13,17 +13,20 @@ accuracies
 activations
 adaptively
 adaptiveness
+affine
 analyse
 associationism
 autoencoder
 autoencoders
 autoregressive
 backpropagation
+benchmarking
 bicubic
 bijective
 bilinear
 blockchain
 blockwise
+capsulate
 cardinality
 chrominance
 cloze
@@ -32,7 +35,9 @@ codec
 codecs
 codenamed
 colour
+complementarily
 computable
+contrastive
 convolutional
 convolved
 convolving
@@ -97,6 +102,7 @@ invertible
 iteratively
 jacobian
 keyframe
+keypoint
 keypoints
 learnable
 lipschitz
@@ -126,6 +132,7 @@ optimisation
 overfitting
 parallelizability
 parallelizable
+parameterization
 parameterless
 parametrize
 parametrized
@@ -156,6 +163,7 @@ regularizer
 renormalize
 renormalized
 reparameterization
+reproducibility
 resampling
 rescale
 rescaling
@@ -192,6 +200,7 @@ superresolution
 thresholding
 topologies
 tradeoff
+tradeoffs
 trained
 tranformer
 transfomer

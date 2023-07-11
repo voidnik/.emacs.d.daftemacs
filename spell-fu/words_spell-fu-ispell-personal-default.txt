@@ -11,6 +11,7 @@ autoencoder
 autoencoders
 autoregressive
 backpropagation
+benchmarking
 bicubic
 bijective
 bilinear
@@ -26,6 +27,7 @@ codecs
 codenamed
 colour
 computable
+contrastive
 ConvNets
 convolutional
 convolved
@@ -156,6 +158,7 @@ regularizer
 renormalize
 renormalized
 reparameterization
+reproducibility
 resampling
 rescale
 rescaling
