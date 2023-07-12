@@ -31,3 +31,5 @@ transient
 elpy
 __pycache__
 wordel
+devdocs
+devdocs-browser
