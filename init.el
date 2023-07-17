@@ -180,7 +180,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode xit-mode texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage mpv elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode xit-mode texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage mpv yeetube elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -3329,6 +3329,32 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package mpv)
 
 ;;==============================================================================
+;; yeetube
+;;
+;; https://git.sr.ht/~thanosapollo/yeetube.el
+;; https://invidious.io/
+;;==============================================================================
+
+(use-package yeetube
+  :config
+  (setq yeetube-results-limit 50)
+
+  ;; Overriding 'yeetube-play' in 'yeetube.el'
+  (defun yeetube-play ()
+    "Open the url at point in an `'org-mode buffer using 'yeetube-player'."
+    (interactive)
+    (let ((url (org-element-property
+                :raw-link (org-element-context))))
+      (if (string-match "mpv" yeetube-player)
+          (shell-command (format "pkill -9 -f mpv"))
+        (shell-command (format "pkill -9 -f %s" (shell-quote-argument yeetube-player))))
+      (when (string-prefix-p "http" url)
+        (call-process-shell-command
+         (format "%s '%s'" yeetube-player url) nil 0)
+        (message "Opening with %s" yeetube-player)))
+    (yeetube--get-title)))
+
+;;==============================================================================
 ;; elfeed
 ;;
 ;; https://github.com/skeeto/elfeed
@@ -3554,6 +3580,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c u r") 'md4rd)
 (global-set-key (kbd "C-c u a") 'arxiv-complex-search)
 (global-set-key (kbd "C-c u o") 'stackoverflow-lookup)
+(global-set-key (kbd "C-c u y") 'yeetube-search)
 (global-set-key (kbd "C-c u s") 'stock-tracker-start)
 
 (defun kill-side-windows ()
