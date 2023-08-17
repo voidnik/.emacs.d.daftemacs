@@ -28,6 +28,7 @@ codec
 codecs
 codenamed
 colour
+combinatorial
 complementarily
 computable
 contrastive
@@ -62,6 +63,7 @@ deraining
 detections
 differentiability
 differentiabilty
+differentiably
 dimensionality
 discriminability
 discriminative
@@ -92,6 +94,7 @@ inpaint
 inpainted
 inpainting
 interdependencies
+interpretability
 interpretable
 intra
 invariance
@@ -110,6 +113,8 @@ lua
 luminance
 luminances
 minimax
+misclassification
+misclassifications
 MobileNet
 modelling
 modularized
@@ -124,6 +129,7 @@ noncircularity
 nonequilibrium
 noniterative
 nonlinearities
+nonlinearity
 nonparametric
 objectness
 OpenCV
@@ -213,7 +219,9 @@ undertrain
 undertrained
 undeservingly
 undistorted
+uninterpretable
 unreferenced
+unregularized
 untrackable
 upsample
 upsampled
