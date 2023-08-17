@@ -105,7 +105,8 @@
 (message "  / _` |/ _` |  _| __/ _ \\ '_ ` _ \\ / _` |/ __/ __|")
 (message " | (_| | (_| | | | ||  __/ | | | | | (_| | (__\\__ \\")
 (message "  \\__,_|\\__,_|_|  \\__\\___|_| |_| |_|\\__,_|\\___|___/\n")
-(message "emacs-version: %s %d %d" emacs-version emacs-major-version emacs-minor-version)
+(message "Version: %s" (replace-regexp-in-string "\n" "" (emacs-version)))
+(message "Repository: %s %s" emacs-repository-version emacs-repository-branch)
 
 (if (and (fboundp 'native-comp-available-p)
          (native-comp-available-p))
