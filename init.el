@@ -181,7 +181,7 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode xit-mode texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage go-translate mpv yeetube elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode xit-mode texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-fuzzy company-statistics company-box company-restclient yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters tree-sitter tree-sitter-langs lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage go-translate mpv yeetube elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -2331,6 +2331,52 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package rainbow-delimiters
   :hook ((prog-mode . rainbow-delimiters-mode)))
+
+;;==============================================================================
+;; tree-sitter
+;;
+;; https://emacs-tree-sitter.github.io/
+;; https://tree-sitter.github.io/tree-sitter/
+;; https://github.com/tree-sitter/tree-sitter
+;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+;;==============================================================================
+
+;;(setq treesit-language-source-alist
+;;      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+;;        (cmake "https://github.com/uyha/tree-sitter-cmake")
+;;        (css "https://github.com/tree-sitter/tree-sitter-css")
+;;        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+;;        (c "https://github.com/tree-sitter/tree-sitter-c")
+;;        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+;;        (go "https://github.com/tree-sitter/tree-sitter-go")
+;;        (html "https://github.com/tree-sitter/tree-sitter-html")
+;;        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+;;        (json "https://github.com/tree-sitter/tree-sitter-json")
+;;        (make "https://github.com/alemuller/tree-sitter-make")
+;;        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+;;        (python "https://github.com/tree-sitter/tree-sitter-python")
+;;        (toml "https://github.com/tree-sitter/tree-sitter-toml")
+;;        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+;;        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+;;        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+;;
+;;(setq major-mode-remap-alist
+;;      '((yaml-mode . yaml-ts-mode)
+;;        (bash-mode . bash-ts-mode)
+;;        (js2-mode . js-ts-mode)
+;;        (typescript-mode . typescript-ts-mode)
+;;        (json-mode . json-ts-mode)
+;;        (css-mode . css-ts-mode)
+;;        (python-mode . python-mode)))
+
+(use-package tree-sitter
+  :hook ((c-mode . tree-sitter-hl-mode)
+         (c++-mode . tree-sitter-hl-mode)
+         (python-mode . tree-sitter-hl-mode)
+         (json-mode . tree-sitter-hl-mode)
+         (yaml-mode . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs)
 
 ;;==============================================================================
 ;; cc-search-directories
