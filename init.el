@@ -2370,13 +2370,28 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;        (python-mode . python-mode)))
 
 (use-package tree-sitter
-  :hook ((c-mode . tree-sitter-hl-mode)
-         (c++-mode . tree-sitter-hl-mode)
-         (python-mode . tree-sitter-hl-mode)
-         (json-mode . tree-sitter-hl-mode)
-         (yaml-mode . tree-sitter-hl-mode)))
+  :hook
+  ((c-mode
+    c++-mode
+    python-mode
+    css-mode
+    js-mode
+    json-mode
+    php-mode
+    ruby-mode
+    rust-mode
+    sh-mode
+    terraform-mode
+    typescript-mode
+    yaml-mode) . daft-tree-sitter-mode-enable)
+  :preface
+  (defun daft-tree-sitter-mode-enable ()
+    (tree-sitter-mode t))
+  :defer t)
 
-(use-package tree-sitter-langs)
+(use-package tree-sitter-langs
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode))
 
 ;;==============================================================================
 ;; cc-search-directories
