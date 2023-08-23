@@ -465,11 +465,11 @@ Amend MODE-LINE to the mode line for the duration of the selection."
     (mapconcat 'car openwith-associations "\\|")
     "Regexp matching filenames which are definitely ok to visit,
 even when the file is larger than `large-file-warning-threshold'.")
-  (defadvice abort-if-file-too-large (around my-check-ok-large-file-types)
+  (defun abort-if-file-too-large--my-check-ok-large-file-types (orig-fun size op-type filename &rest args)
     "If FILENAME matches `my-ok-large-file-types', do not abort."
-    (unless (string-match-p my-ok-large-file-types (ad-get-arg 2))
-      ad-do-it))
-  (ad-activate 'abort-if-file-too-large))
+    (unless (string-match-p my-ok-large-file-types filename)
+      (apply orig-fun size op-type filename args)))
+  (advice-add 'abort-if-file-too-large :around #'abort-if-file-too-large--my-check-ok-large-file-types))
 
 ;;==============================================================================
 ;; magit
@@ -1555,9 +1555,13 @@ to obtain ripgrep results."
 (use-package projectile
   :config
   (setq projectile-enable-caching t)
-  (defadvice projectile-project-root (around ignore-remote first activate)
-    (unless (file-remote-p default-directory) ad-do-it))
+
+  (defun projectile-project-root--ignore-remote (orig-fun &rest args)
+    (unless (file-remote-p default-directory)
+      (apply orig-fun args)))
+  (advice-add 'projectile-project-root :around #'projectile-project-root--ignore-remote)
   ;;(message "projectile-globally-ignored-directories: %s" projectile-globally-ignored-directories)
+
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c j") 'projectile-command-map))
 
@@ -2533,20 +2537,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (require 'find-file) ;; for the "cc-other-file-alist" variable
 (nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
 
-(defadvice ff-get-file-name (around ff-get-file-name-framework
-                                    (search-dirs
-                                     fname-stub
-                                     &optional suffix-list))
+(defun ff-get-file-name--ff-get-file-name-framework (orig-fun search-dirs fname-stub &rest args)
   "Search for Mac framework headers as well as POSIX headers."
   (or
    (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
        (let* ((framework (match-string 1 fname-stub))
               (header (match-string 2 fname-stub))
               (fname-stub (concat framework ".framework/Headers/" header)))
-         ad-do-it))
-   ad-do-it))
-(ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
-(ad-activate 'ff-get-file-name)
+         (apply orig-fun search-dirs fname-stub args)))
+   (apply orig-fun search-dirs fname-stub args)))
+(advice-add 'ff-get-file-name :around #'ff-get-file-name--ff-get-file-name-framework)
 
 ;; for lsp-mode
 (add-hook 'objc-mode-hook 'lsp-deferred)
