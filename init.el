@@ -21,13 +21,13 @@
 
 (setq with-pgtk (string-equal window-system "pgtk"))
 
-(defun daftemacs/display-startup-time ()
+(defun daftemacs-display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
                    (float-time
                     (time-subtract after-init-time before-init-time)))
            gcs-done))
-(add-hook 'emacs-startup-hook #'daftemacs/display-startup-time)
+(add-hook 'emacs-startup-hook #'daftemacs-display-startup-time)
 
 ;;==============================================================================
 ;; Setup Frame and Font
@@ -461,15 +461,15 @@ Amend MODE-LINE to the mode line for the duration of the selection."
   (setq openwith-associations '(("\\.\\(?:ts\\|mxf\\|mpe?g\\|mov\\|mp4\\|avi\\|mkv\\|wmv\\)\\'" "mpv" (file))))
 
   ;; https://emacs.stackexchange.com/questions/17095/how-supress-dired-confirmation-of-large-file-for-specific-extensions
-  (defvar my-ok-large-file-types
+  (defvar daftemacs-ok-large-file-types
     (mapconcat 'car openwith-associations "\\|")
     "Regexp matching filenames which are definitely ok to visit,
 even when the file is larger than `large-file-warning-threshold'.")
-  (defun abort-if-file-too-large--my-check-ok-large-file-types (orig-fun size op-type filename &rest args)
-    "If FILENAME matches `my-ok-large-file-types', do not abort."
-    (unless (string-match-p my-ok-large-file-types filename)
+  (defun abort-if-file-too-large--daftemacs-check-ok-large-file-types (orig-fun size op-type filename &rest args)
+    "If FILENAME matches `daftemacs-ok-large-file-types', do not abort."
+    (unless (string-match-p daftemacs-ok-large-file-types filename)
       (apply orig-fun size op-type filename args)))
-  (advice-add 'abort-if-file-too-large :around #'abort-if-file-too-large--my-check-ok-large-file-types))
+  (advice-add 'abort-if-file-too-large :around #'abort-if-file-too-large--daftemacs-check-ok-large-file-types))
 
 ;;==============================================================================
 ;; magit
@@ -807,7 +807,7 @@ even when the file is larger than `large-file-warning-threshold'.")
     :config
     (minibar-mode +1)
 
-    (defun daftemacs/minibar-module-temperature ()
+    (defun daftemacs-minibar-module-temperature ()
       "Module for showing CPU temperature."
       (when (or (not minibar--module-temperature-cache)
                 (>= (float-time
@@ -836,7 +836,7 @@ even when the file is larger than `large-file-warning-threshold'.")
           (current-time))))
       (car minibar--module-temperature-cache))
 
-    (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
+    (setq minibar-group-middle '(minibar-module-cpu daftemacs-minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
 
 ;;==============================================================================
 ;; minimap
@@ -910,7 +910,7 @@ even when the file is larger than `large-file-warning-threshold'.")
                                 2
                                 centaur-tabs-bar-height))
 
-  (defsubst daftemacs/centaur-tabs-button-tab (button)
+  (defsubst daftemacs-centaur-tabs-button-tab (button)
     "Return the display representation of button BUTTON.
 That is, a propertized string used as an `centaur-tabs-display-line-format'
 template element."
@@ -924,7 +924,7 @@ template element."
   (defun centaur-tabs-count (index count)
     "Return a centaur-tabs-button-tab with the current tab INDEX and the total tabs COUNT."
     (if centaur-tabs-show-count
-        (propertize (daftemacs/centaur-tabs-button-tab (format " [%d/%d] " index count))
+        (propertize (daftemacs-centaur-tabs-button-tab (format " [%d/%d] " index count))
                     'help-echo "Tabs count")
       ""))
 
@@ -1189,7 +1189,7 @@ That is, a string used to represent it on the tab bar."
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(defun daftemacs/org-style ()
+(defun daftemacs-org-style ()
   (visual-line-mode t)
   (org-indent-mode t)
 
@@ -1202,7 +1202,7 @@ That is, a string used to represent it on the tab bar."
          'org-drawer
          'org-property-value)))
 
-(add-hook 'org-mode-hook 'daftemacs/org-style)
+(add-hook 'org-mode-hook 'daftemacs-org-style)
 
 ;; Change size of the inline image for LaTeX fragment in org-mode
 ;; https://tex.stackexchange.com/questions/78501/change-size-of-the-inline-image-for-latex-fragment-in-emacs-org-mode
@@ -1230,7 +1230,7 @@ That is, a string used to represent it on the tab bar."
   (define-key org-tree-slide-mode-map (kbd "<f10>") 'org-tree-slide-move-next-tree)
   (define-key org-tree-slide-mode-map (kbd "<f11>") 'org-tree-slide-content)
 
-  (defun daftemacs/ots-presentation-start ()
+  (defun daftemacs-ots-presentation-start ()
     (setq org-tree-slide-skip-outline-level 4)
     (org-tree-slide-presentation-profile)
     (setq org-tree-slide-heading-emphasis t)
@@ -1241,15 +1241,15 @@ That is, a string used to represent it on the tab bar."
     (hide-mode-line-mode)
     (centaur-tabs-local-mode nil))
 
-  (defun daftemacs/ots-presentation-end ()
+  (defun daftemacs-ots-presentation-end ()
     (View-exit-and-edit)
     (text-scale-set 0)
     (set-window-margins (selected-window) 0 0)
     (hide-mode-line-mode -1)
     (centaur-tabs-local-mode 0))
 
-  (add-hook 'org-tree-slide-play-hook 'daftemacs/ots-presentation-start)
-  (add-hook 'org-tree-slide-stop-hook 'daftemacs/ots-presentation-end))
+  (add-hook 'org-tree-slide-play-hook 'daftemacs-ots-presentation-start)
+  (add-hook 'org-tree-slide-stop-hook 'daftemacs-ots-presentation-end))
 
 ;; org-re-reveal
 ;; https://gitlab.com/oer/org-re-reveal
@@ -1326,11 +1326,11 @@ That is, a string used to represent it on the tab bar."
   (define-key markdown-mode-map (kbd "C-M-{") nil)
   (define-key markdown-mode-map (kbd "C-M-}") nil)
 
-  (defun daftemacs/markdown-style ()
+  (defun daftemacs-markdown-style ()
     (visual-line-mode t)
     (texfrag-mode +1))
 
-  (add-hook 'markdown-mode-hook 'daftemacs/markdown-style)
+  (add-hook 'markdown-mode-hook 'daftemacs-markdown-style)
   :bind
   ("M-+" . markdown-backward-block)
   ("M-\"" . markdown-forward-block))
@@ -1799,7 +1799,7 @@ to obtain ripgrep results."
                 :background-color "#44475a"
                 :internal-border-width 3
                 :internal-border-color "#ff79c6"))
-  (defun my-insecure-lock-mode ()
+  (defun daftemacs-insecure-lock-mode ()
     (insecure-lock-redact)
     (insecure-lock-posframe)
     (if insecure-lock-mode
@@ -1811,14 +1811,14 @@ to obtain ripgrep results."
         (global-hide-mode-line-mode 0)
         (doom-modeline-mode t)
         (centaur-tabs-mode t))))
-  (setq insecure-lock-mode-hook 'my-insecure-lock-mode)
+  (setq insecure-lock-mode-hook 'daftemacs-insecure-lock-mode)
 
-  (defun my-after-insecure-lock-lock-keys ()
+  (defun daftemacs-after-insecure-lock-lock-keys ()
     (global-set-key (kbd "C-g") #'(lambda ()
                                     (interactive)
                                     (if (active-minibuffer-window)
                                         (select-window (active-minibuffer-window))))))
-  (advice-add 'insecure-lock-lock-keys :after #'my-after-insecure-lock-lock-keys))
+  (advice-add 'insecure-lock-lock-keys :after #'daftemacs-after-insecure-lock-lock-keys))
 
 ;;==============================================================================
 ;; find-file-in-project
@@ -2997,10 +2997,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :config
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
   (setq nov-text-width t)
-  (defun my-nov-mode-hook ()
+  (defun daftemacs-nov-mode-hook ()
     (face-remap-add-relative 'variable-pitch :family "IBM 3270" :height 2.0)
     (visual-line-mode t))
-  (add-hook 'nov-mode-hook 'my-nov-mode-hook))
+  (add-hook 'nov-mode-hook 'daftemacs-nov-mode-hook))
 
 ;;==============================================================================
 ;; vterm
@@ -3259,11 +3259,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (set (make-variable-buffer-local 'font-lock-mode) nil)
   (set (make-variable-buffer-local 'global-hl-line-mode) nil))
 
-(defun my-find-file-check-if-very-large-file-hook ()
+(defun daftemacs-find-file-check-if-very-large-file-hook ()
   "If a file is over 2MB, turn off modes of the buffer that make it slow."
   (when (> (buffer-size) (* 2 1024 1024))
     (disable-slow-modes)))
-(add-hook 'find-file-hook 'my-find-file-check-if-very-large-file-hook)
+(add-hook 'find-file-hook 'daftemacs-find-file-check-if-very-large-file-hook)
 
 ;;==============================================================================
 ;; vlf
@@ -3403,6 +3403,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; go-translate
 ;;
 ;; https://github.com/lorniu/go-translate
+;; https://www.emacswiki.org/emacs/GoTranslate
 ;;==============================================================================
 
 (use-package go-translate
@@ -3509,9 +3510,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
            ((string-equal system-type "darwin")
             (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 12))))
           (setq fill-column 120)
-          (setq elfeed-show-entry-switch #'my-show-elfeed)))
+          (setq elfeed-show-entry-switch #'daftemacs-show-elfeed)))
 
-  (defun my-show-elfeed (buffer)
+  (defun daftemacs-show-elfeed (buffer)
     (with-current-buffer buffer
       (setq buffer-read-only nil)
       (goto-char (point-min))
