@@ -2197,7 +2197,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
       (neotree-select-window)
     (pcase (treemacs-current-visibility)
       ('visible (treemacs--select-visible-window))
-      (code (treemacs-select-window)))))
+      (code (neotree-select-window)))))
 
 (use-package dir-treeview
   :custom-face
@@ -3651,7 +3651,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-S-<right>") 'buf-move-right)
 
 (global-set-key (kbd "C-c m") 'magit)
-(global-set-key (kbd "C-c 0") 'neotree-select-window)
+(global-set-key (kbd "C-c 0") 'treemacs-select-window)
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
