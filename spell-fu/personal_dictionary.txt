@@ -22,6 +22,8 @@ autoregressive
 backpropagation
 benchmarking
 bicubic
+bijection
+bijections
 bijective
 bilinear
 blockchain
@@ -84,13 +86,18 @@ feedbacks
 feedforward
 foveated
 gans
+gaussians
 generalise
+generalizable
 gpus
 grayscale
 hebbian
 homography
+hotspot
+hotspots
 hyperparameter
 hyperparameters
+inadaptability
 incentivize
 incentivizes
 inpaint
@@ -123,6 +130,7 @@ modularized
 multilayer
 multiresolution
 multiscale
+natively
 neighbour
 neurone
 nonblind
@@ -138,6 +146,7 @@ optimisation
 overfitting
 parallelizability
 parallelizable
+parallelly
 parameterization
 parameterless
 parametrize
@@ -157,7 +166,9 @@ pretraining
 pretrains
 priori
 psychovisual
+quadratically
 quantized
+rasterization
 realtime
 recalibrates
 recognizers
@@ -202,7 +213,10 @@ subtask
 subtasks
 sudo
 summarization
+superpixel
+superpixels
 superresolution
+surrogation
 thresholding
 topologies
 tradeoff
@@ -229,6 +243,7 @@ upsampling
 upscaled
 upscaling
 variational
+vit
 wasserstein
 webpage
 webpages
