@@ -1327,6 +1327,8 @@ That is, a string used to represent it on the tab bar."
   (define-key markdown-mode-map (kbd "C-M-}") nil)
 
   (defun daftemacs-markdown-style ()
+    (setq indent-tabs-mode t)
+    (setq tab-width 4)
     (visual-line-mode t)
     (texfrag-mode +1))
 
