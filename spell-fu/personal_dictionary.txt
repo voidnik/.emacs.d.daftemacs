@@ -54,6 +54,7 @@ deblocking
 deblurring
 deconvolution
 deconvolutions
+deflickering
 deformable
 degradations
 deinterlace
@@ -100,6 +101,7 @@ hyperparameters
 inadaptability
 incentivize
 incentivizes
+injective
 inpaint
 inpainted
 inpainting
@@ -143,6 +145,7 @@ nonparametric
 objectness
 optimality
 optimisation
+overcomplete
 overfitting
 parallelizability
 parallelizable
@@ -203,10 +206,13 @@ sotas
 spatio
 spatiotemporal
 spectrally
+stochasticity
 strided
 stylegan
 stylization
 subband
+subimage
+subimages
 subpixel
 subsampling
 subtask

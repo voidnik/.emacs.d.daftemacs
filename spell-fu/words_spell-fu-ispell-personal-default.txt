@@ -49,6 +49,7 @@ deblurring
 deconvolution
 Deconvolutional
 deconvolutions
+deflickering
 deformable
 degradations
 deinterlace
@@ -97,6 +98,7 @@ ImageNet
 inadaptability
 incentivize
 incentivizes
+injective
 inpaint
 inpainted
 inpainting
@@ -143,6 +145,7 @@ objectness
 OpenCV
 optimality
 optimisation
+overcomplete
 overfitting
 parallelizability
 parallelizable
@@ -204,10 +207,13 @@ sotas
 spatio
 spatiotemporal
 spectrally
+stochasticity
 strided
 stylegan
 stylization
 subband
+subimage
+subimages
 subpixel
 subsampling
 subtask
