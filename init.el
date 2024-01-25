@@ -1190,8 +1190,9 @@ That is, a string used to represent it on the tab bar."
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (defun daftemacs-org-style ()
-  (visual-line-mode t)
-  (org-indent-mode t)
+  (read-only-mode)
+  (visual-line-mode)
+  (org-indent-mode)
 
   (mapc
    (lambda (face)
