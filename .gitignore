@@ -2,6 +2,7 @@ elpa
 eln-cache
 auto-save-list
 undo-tree-history
+org-persist
 persp-state-default
 bookmarks
 semanticdb
