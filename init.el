@@ -449,7 +449,8 @@ Amend MODE-LINE to the mode line for the duration of the selection."
              "nyxt"
              (list url)))))
 
-(setq browse-url-browser-function 'browse-url-qutebrowser)
+(if (string-equal system-type "gnu/linux")
+    (setq browse-url-browser-function 'browse-url-qutebrowser))
 
 ;;==============================================================================
 ;; Setting the default app with an association
@@ -2092,7 +2093,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
           (kill-buffer buffer)))))
   :bind
   (:map global-map
-        ("C-c 9"     . treemacs-select-window)
         ("C-c f 1"   . treemacs-delete-other-windows)
         ("C-c f t"   . treemacs)
         ("C-c f d"   . treemacs-select-directory)
@@ -3053,7 +3053,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (vterm-clear-scrollback))
 
   (add-hook 'vterm-mode-hook (lambda ()
-                               (define-key vterm-mode-map (kbd "M-0") 'neotree-or-treemacs-select-window)
+                               (define-key vterm-mode-map (kbd "M-0") 'treemacs-select-window)
                                (define-key vterm-mode-map (kbd "M-]") 'centaur-tabs-forward)
                                (define-key vterm-mode-map (kbd "C-S-k") 'vterm-clear-all)
 
@@ -3673,7 +3673,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 (global-set-key (kbd "M-M") 'imenu-list)
-(global-set-key (kbd "M-0") 'neotree-or-treemacs-select-window)
+(global-set-key (kbd "M-0") 'treemacs-select-window)
 (global-set-key (kbd "M-q") 'filldent-dwim)
 
 (global-set-key (kbd "C-S-<up>") 'buf-move-up)
@@ -3682,7 +3682,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-S-<right>") 'buf-move-right)
 
 (global-set-key (kbd "C-c m") 'magit)
-(global-set-key (kbd "C-c 0") 'treemacs-select-window)
+(global-set-key (kbd "C-c 9") 'treemacs-select-window)
+(global-set-key (kbd "C-c 0") 'neotree-or-treemacs-select-window)
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
