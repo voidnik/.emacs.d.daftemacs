@@ -2222,6 +2222,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (when (and neo-global--buffer (buffer-name neo-global--buffer))
       (kill-buffer (buffer-name neo-global--buffer)))))
 
+(defun treemacs-or-neotree-select-window ()
+  (interactive)
+  (if (neo-global--window-exists-p)
+      (neotree-select-window)
+    (treemacs-select-window)))
+
 (defun neotree-or-treemacs-select-window ()
   (interactive)
   (if (neo-global--window-exists-p)
@@ -3673,7 +3679,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 (global-set-key (kbd "M-M") 'imenu-list)
-(global-set-key (kbd "M-0") 'treemacs-select-window)
+(global-set-key (kbd "M-0") 'treemacs-or-neotree-select-window)
 (global-set-key (kbd "M-q") 'filldent-dwim)
 
 (global-set-key (kbd "C-S-<up>") 'buf-move-up)
@@ -3682,8 +3688,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-S-<right>") 'buf-move-right)
 
 (global-set-key (kbd "C-c m") 'magit)
-(global-set-key (kbd "C-c 9") 'treemacs-select-window)
-(global-set-key (kbd "C-c 0") 'neotree-or-treemacs-select-window)
+(global-set-key (kbd "C-c 9") #'(lambda ()
+                                  (interactive)
+                                  (neotree-hide)
+                                  (treemacs-select-window)))
+(global-set-key (kbd "C-c 0") 'neotree-select-window)
 (global-set-key (kbd "C-c s") 'swiper)
 (global-set-key (kbd "C-c C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-c C-r") 'isearch-backward-regexp)
