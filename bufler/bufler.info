@@ -1,4 +1,4 @@
-This is README.info, produced by makeinfo version 5.2 from README.texi.
+This is README.info, produced by makeinfo version 6.7 from README.texi.
 
 INFO-DIR-SECTION Emacs
 START-INFO-DIR-ENTRY
@@ -57,9 +57,10 @@ Defining groups
 
 Changelog
 
-* 0.3-pre: 03-pre. 
-* 0.2: 02. 
-* 0.1: 01. 
+* 0.4-pre: 04-pre.
+* 0.3: 03.
+* 0.2: 02.
+* 0.1: 01.
 
 
 
@@ -520,15 +521,83 @@ File: README.info,  Node: Changelog,  Next: Credits,  Prev: Compared to Ibuffer,
 
 * Menu:
 
-* 0.3-pre: 03-pre. 
-* 0.2: 02. 
-* 0.1: 01. 
+* 0.4-pre: 04-pre.
+* 0.3: 03.
+* 0.2: 02.
+* 0.1: 01.
 
 
-File: README.info,  Node: 03-pre,  Next: 02,  Up: Changelog
+File: README.info,  Node: 04-pre,  Next: 03,  Up: Changelog
 
-5.1 0.3-pre
+5.1 0.4-pre
 ===========
+
+This release includes additional support for Emacs’s ‘tab-bar-mode’.
+Basically, commands and features that formerly acted on the current
+frame now act on the current tab when ‘tab-bar-mode’ is active,
+otherwise on the current frame.
+
+   Notably, these changes are also designed to facilitate integration
+with Burly (https://github.com/alphapapa/burly.el)’s ‘burly-tabs-mode’
+(e.g.  when a Burly bookmark is opened in a ‘tab-bar’ tab, the tab’s
+Bufler workspace can be set to the workspace containing the buffer, so
+that ‘bufler-switch-buffer’ automatically offers buffers relevant to the
+tab).
+
+   Note as well that the existing
+‘bufler-workspace-workspaces-as-tabs-mode’ _overrides_ some aspects of
+Emacs’s ‘tab-bar-mode’ and ‘tab-line-mode’; this functionality is still
+somewhat experimental and may not suit every user’s taste.  But while
+that mode may remain disabled, Bufler’s other features are still useful
+with standard ‘tab-bar-mode’.  (_Yes, all these names and modes and
+features do get confusing.  The term "workspaces" is vague, encompassing
+a variety of ideas envisioned by a range of users.  Bufler’s
+implementation is just one iteration of the concept._)
+
+   *Additions*
+
+   • Command ‘bufler-workspace-set’ sets the workspace of the current
+     ‘tab-bar’ tab or frame.
+   • Option ‘bufler-workspace-switch-buffer-and-tab’ (enabled by
+     default) automatically switches to a buffer’s workspace’s tab, if
+     it has one, when using ‘bufler-switch-buffer’.  (This tries to
+     solve the age-old problem of buffers not "staying in their
+     workspace.")
+   • Commands ‘bufler-workspace-open’ and ‘bufler-workspace-save’.
+     These open and save workspaces using Burly
+     (https://github.com/alphapapa/burly.el) as a backend (which is now
+     a dependency).  (This is basically like calling
+     ‘burly-open-bookmark’ and ‘burly-bookmark-windows’, but integrating
+     some ‘bufler-workspace’ features automatically.)
+   • Option ‘bufler-workspace-prefix-abbreviation’, which abbreviates
+     workspace names in tab/frame names.
+   • Option ‘bufler-switch-buffer-include-recent-buffers’ includes
+     recently shown buffers in the ‘bufler-switch-buffer’ command’s list
+     of buffers.
+
+   *Changes*
+
+   • Command ‘bufler-workspace-focus-buffer’ sets the workspace of the
+     current ‘tab-bar’ tab or frame to the current buffer’s workspace.
+   • Command ‘bufler-workspace-switch-buffer’ offers buffers from the
+     workspace of the current ‘tab-bar’ tab or frame.
+   • Mode ‘bufler-workspace-mode’’s mode-line lighter shows the path of
+     the current ‘tab-bar’ tab or frame.
+
+   *Fixes*
+
+   • The ‘dir’ buffer group uses the base buffer’s directory for
+     indirect buffers.
+   • When testing whether two directories are related, both the paths
+     as-given and the canonicalized paths are compared (so that if a
+     subdirectory is a symlink to a directory outside the parent
+     directory, it will still be considered related).
+
+
+File: README.info,  Node: 03,  Next: 02,  Prev: 04-pre,  Up: Changelog
+
+5.2 0.3
+=======
 
 *Added*
    • Group type ‘auto-parent-project’.
@@ -563,12 +632,18 @@ File: README.info,  Node: 03-pre,  Next: 02,  Up: Changelog
    • Option ‘bufler-indent-per-level’, which sets the indentation
      applied per level of depth.
    • Command ‘bufler-sidebar’ displays the Bufler list in a side window.
+   • Project metadata cache (because the ‘project-current’ function can
+     be slow when called for many paths in rapid succession, as when
+     many buffers are open).
 
    *Fixed*
    • Option ‘bufler-filter-buffer-modes’ had the wrong customization
      type.
    • Depend on at least version 2.1 of the ‘map’ package (required for
      ‘pcase’ macro expansion).
+   • Columns’ ‘max-width’ options.  (Fixes #79
+     (https://github.com/alphapapa/bufler.el/issues/79).  Thanks to Tory
+     S.  Anderson (https://github.com/WorldsEndless) for reporting.)
 
    *Changed*
    • Don’t show ‘*xref*’ buffers by default.
@@ -577,9 +652,9 @@ File: README.info,  Node: 03-pre,  Next: 02,  Up: Changelog
      ‘switch-to-buffer’).
 
 
-File: README.info,  Node: 02,  Next: 01,  Prev: 03-pre,  Up: Changelog
+File: README.info,  Node: 02,  Next: 01,  Prev: 03,  Up: Changelog
 
-5.2 0.2
+5.3 0.2
 =======
 
 Project expanded and renamed from Sbuffer to Bufler.
@@ -587,7 +662,7 @@ Project expanded and renamed from Sbuffer to Bufler.
 
 File: README.info,  Node: 01,  Prev: 02,  Up: Changelog
 
-5.3 0.1
+5.4 0.1
 =======
 
 First tagged release.
@@ -629,28 +704,29 @@ GPLv3
 
 Tag Table:
 Node: Top258
-Node: Screenshots1362
-Node: Installation2432
-Node: Quelpa2641
-Node: Usage3220
-Node: Workflow4791
-Node: Commands7051
-Node: Bindings8515
-Node: Tips9447
-Node: Defining groups9788
-Node: Default groups example11175
-Node: Group types14102
-Node: Helm support17048
-Node: Ivy support17794
-Node: Prism support18221
-Node: Compared to Ibuffer18661
-Node: Changelog20411
-Node: 03-pre20583
-Node: 0223119
-Node: 0123264
-Node: Credits23363
-Node: Development24052
-Node: License24222
+Node: Screenshots1370
+Node: Installation2440
+Node: Quelpa2649
+Node: Usage3228
+Node: Workflow4799
+Node: Commands7059
+Node: Bindings8523
+Node: Tips9455
+Node: Defining groups9796
+Node: Default groups example11183
+Node: Group types14110
+Node: Helm support17056
+Node: Ivy support17802
+Node: Prism support18229
+Node: Compared to Ibuffer18669
+Node: Changelog20419
+Node: 04-pre20599
+Node: 0323807
+Node: 0226719
+Node: 0126860
+Node: Credits26959
+Node: Development27648
+Node: License27818
 
 End Tag Table
 
