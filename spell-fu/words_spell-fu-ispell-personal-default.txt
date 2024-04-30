@@ -5,6 +5,7 @@ activations
 adaptively
 adaptiveness
 affine
+alexnet
 analyse
 Anisotropic
 associationism
@@ -12,6 +13,9 @@ autoencoder
 autoencoders
 autoregressive
 backpropagation
+basicvsr
+batchnorm
+batchnorm's
 benchmarking
 bicubic
 bijection
@@ -34,6 +38,7 @@ combinatorial
 complementarily
 computable
 contrastive
+controlnet
 ConvNets
 convolutional
 convolved
@@ -62,6 +67,7 @@ denoiser
 denoisers
 denoising
 DenseNet
+densenets
 deraining
 detections
 differentiability
@@ -71,6 +77,8 @@ dimensionality
 discriminability
 discriminative
 discriminatively
+dnn
+dnns
 downsampled
 downsampling
 downscaled
@@ -78,14 +86,21 @@ downscaling
 embeddings
 encodings
 equivariant
+extensibility
 facto
+fastrealvsr
 feedbacks
 feedforward
+finetuning
 foveated
 gans
 gaussians
+generalisation
 generalise
+generalizability
 generalizable
+gigagan
+googlenet
 gpus
 grayscale
 hebbian
@@ -113,6 +128,8 @@ jacobian
 keyframe
 keypoint
 keypoints
+labelled
+layerwise
 learnable
 lipschitz
 localisation
@@ -136,6 +153,7 @@ neighbour
 neurone
 nonblind
 noncircularity
+nonconvex
 nonequilibrium
 noniterative
 nonlinearities
@@ -161,6 +179,7 @@ photometric
 photorealistic
 piecewise
 pre
+prelu
 preprocessed
 preprocessing
 pretrain
@@ -172,6 +191,7 @@ psychovisual
 quadratically
 quantized
 rasterization
+realbasicvsr
 realtime
 recalibrates
 recognizers
@@ -180,6 +200,8 @@ referenceless
 regressor
 regressors
 regularizer
+relu
+relus
 renormalize
 renormalized
 reparameterization
@@ -189,6 +211,7 @@ rescale
 rescaling
 ResNet
 resnets
+resnext
 reweight
 runtime
 runtimes
@@ -240,16 +263,20 @@ undertrained
 undeservingly
 undistorted
 uninterpretable
+unlabelled
 unreferenced
 unregularized
 untrackable
 upsample
 upsampled
+upsampler
 upsamples
 upsampling
 upscaled
 upscaling
 variational
+vggnet
+videogigagan
 vit
 wasserstein
 webpage
