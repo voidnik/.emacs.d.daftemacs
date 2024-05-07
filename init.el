@@ -3453,48 +3453,27 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package go-translate
   :config
-  ;; your languages pair used to translate
-  (setq gts-translate-list '(("en" "ko") ("ko" "en")))
-
-  ;; config the default translator, it will be used by command gts-do-translate
-  (setq gts-default-translator
-        (gts-translator
-
-         :picker ; used to pick source text, from, to. choose one.
-
-         ;;(gts-noprompt-picker)
-         ;;(gts-noprompt-picker :texter (gts-whole-buffer-texter))
-         (gts-prompt-picker)
-         ;;(gts-prompt-picker :single t)
-         ;;(gts-prompt-picker :texter (gts-current-or-selection-texter) :single t)
-
-         :engines ; engines, one or more. Provide a parser to give different output.
-
-         (list
-          (gts-bing-engine)
-          ;;(gts-google-engine)
-          ;;(gts-google-rpc-engine)
-          ;;(gts-deepl-engine :auth-key [YOUR_AUTH_KEY] :pro nil)
-          (gts-google-engine :parser (gts-google-summary-parser))
-          (gts-google-engine :parser (gts-google-parser))
-          ;;(gts-google-rpc-engine :parser (gts-google-rpc-summary-parser) :url "https://translate.google.com")
-          ;;(gts-google-rpc-engine :parser (gts-google-rpc-parser) :url "https://translate.google.com")
-          )
-
-         :render ; render, only one, used to consumer the output result. Install posframe yourself when use gts-posframe-xxx
-
-         (gts-buffer-render)
-         ;;(gts-posframe-pop-render)
-         ;;(gts-posframe-pop-render :backcolor "#333333" :forecolor "#ffffff")
-         ;;(gts-posframe-pin-render)
-         ;;(gts-posframe-pin-render :position (cons 1200 20))
-         ;;(gts-posframe-pin-render :width 80 :height 25 :position (cons 1000 20) :forecolor "#ffffff" :backcolor "#111111")
-         ;;(gts-kill-ring-render)
-
-         :splitter ; optional, used to split text into several parts, and the translation result will be a list.
-
-         (gts-paragraph-splitter)
-         )))
+  (setq gt-langs '(en ko))
+  (setq gt-default-translator
+        (gt-translator
+         :taker   (gt-taker :text 'buffer :pick 'paragraph)  ; config the Taker
+         :engines (list (gt-bing-engine) (gt-google-engine)) ; specify the Engines
+         :render  (gt-buffer-render)))                       ; config the Render
+  (setq gt-preset-translators
+        `((ts-1 . ,(gt-translator
+                    :taker (gt-taker :langs '(en ko) :text 'word)
+                    :engines (gt-bing-engine)
+                    :render (gt-overlay-render)))
+          (ts-2 . ,(gt-translator
+                    :taker (gt-taker :langs '(en ko) :text 'sentence)
+                    :engines (gt-google-engine)
+                    :render (gt-insert-render)))
+          (ts-3 . ,(gt-translator
+                    :taker (gt-taker :langs '(en ko) :text 'buffer
+                                     :pick 'word :pick-pred (lambda (w) (length> w 6)))
+                    :engines (gt-google-engine)
+                    :render (gt-overlay-render :type 'help-echo)))))
+  )
 
 ;;==============================================================================
 ;; mpv
