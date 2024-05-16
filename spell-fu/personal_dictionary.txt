@@ -97,8 +97,10 @@ facto
 fastrealvsr
 feedbacks
 feedforward
+fids
 finetuning
 foveated
+fréchet
 gans
 gaussians
 generalisation
@@ -168,6 +170,7 @@ optimality
 optimisation
 overcomplete
 overfitting
+pacgan
 parallelizability
 parallelizable
 parallelly
@@ -190,9 +193,12 @@ pretrained
 pretraining
 pretrains
 priori
+progan
 psychovisual
 quadratically
 quantized
+ragan
+ragans
 rasterization
 realbasicvsr
 realtime
@@ -215,6 +221,7 @@ rescaling
 resnets
 resnext
 reweight
+rgans
 runtime
 runtimes
 scalability
