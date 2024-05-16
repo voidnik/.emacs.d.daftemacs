@@ -34,6 +34,7 @@ blockchain
 blockwise
 capsulate
 cardinality
+charbonnier
 chrominance
 cloze
 codebook
@@ -89,6 +90,7 @@ downscaled
 downscaling
 embeddings
 encodings
+enhancenet
 equivariant
 extensibility
 facto
@@ -132,6 +134,7 @@ keyframe
 keypoint
 keypoints
 labelled
+lapsrn
 layerwise
 learnable
 lipschitz
