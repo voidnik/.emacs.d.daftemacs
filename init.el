@@ -1745,7 +1745,7 @@ to obtain ripgrep results."
         '(ivy-switch-buffer
           (:columns
            ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate (:width 35))
+            (ivy-rich-candidate (:width 100))
             (ivy-rich-switch-buffer-size (:width 7))
             (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
             (ivy-rich-switch-buffer-major-mode (:width 16 :face warning))
@@ -1756,7 +1756,7 @@ to obtain ripgrep results."
           counsel-projectile-switch-to-buffer
           (:columns
            ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate (:width 35))
+            (ivy-rich-candidate (:width 100))
             (ivy-rich-switch-buffer-size (:width 7))
             (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
             (ivy-rich-switch-buffer-major-mode (:width 16 :face warning))
@@ -1777,16 +1777,16 @@ to obtain ripgrep results."
             (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
           counsel-recentf
           (:columns
-           ((ivy-rich-candidate (:width 130))
+           ((ivy-rich-candidate (:width 160))
             (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))
           counsel-bookmark
           (:columns
            ((ivy-rich-bookmark-type (:width 8))
-            (ivy-rich-candidate (:width 50))
+            (ivy-rich-candidate (:width 60))
             (ivy-rich-bookmark-info)))
           package-install
           (:columns
-           ((ivy-rich-candidate (:width 25))
+           ((ivy-rich-candidate (:width 60))
             (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
             (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
             (ivy-rich-package-install-summary (:width 55 :face font-lock-doc-face))))))
