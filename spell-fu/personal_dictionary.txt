@@ -26,6 +26,7 @@ batchnorm
 batchnorm's
 benchmarking
 bicubic
+biggan
 bijection
 bijections
 bijective
@@ -34,6 +35,8 @@ blockchain
 blockwise
 capsulate
 cardinality
+celeba
+centric
 charbonnier
 chrominance
 cloze
@@ -46,12 +49,14 @@ combinatorial
 complementarily
 computable
 contrastive
+controllability
 controlnet
 convolutional
 convolved
 convolving
 covariate
 customizable
+cutmix
 datapoint
 dataset
 datasets
@@ -91,6 +96,7 @@ downscaling
 embeddings
 encodings
 enhancenet
+ensembling
 equivariant
 extensibility
 facto
@@ -242,6 +248,7 @@ spectrally
 stochasticity
 strided
 stylegan
+stylegan's
 stylization
 subband
 subimage
