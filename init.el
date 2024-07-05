@@ -1928,6 +1928,10 @@ to obtain ripgrep results."
   ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
   ;; For smooth work with 'perspective', '(buffer-list)' is replaced with '(persp-buffer-list)'.
   ;;
+  (defun centaur-tabs-filter-out (condp lst)
+    "Filter list LST with using CONDP as the filtering condition."
+    (delq nil (mapcar (lambda (x) (if (funcall condp x) nil x)) lst)))
+
   (defun centaur-tabs-buffer-list ()
     "Return the list of buffers to show in tabs.
 Exclude buffers whose name starts with a space, when they are not
