@@ -87,6 +87,8 @@ dimensionality
 discriminability
 discriminative
 discriminatively
+dm
+dms
 dnn
 dnns
 downsampled
@@ -144,6 +146,8 @@ keypoints
 labelled
 lapsrn
 layerwise
+ldm
+ldms
 learnable
 lipschitz
 localisation
