@@ -176,12 +176,10 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist '((fullscreen . maximized)))
  '(org-file-apps
-   '((auto-mode . emacs)
-     ("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . default)
-     ("\\.pdf\\'" . emacs)))
+   '((auto-mode . emacs) ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default) ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode obsidian texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-statistics company-box company-restclient company-fuzzy yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree burly google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters tree-sitter tree-sitter-langs lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools nov vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage go-translate mpv yeetube elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets mixed-pitch org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode obsidian texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg ace-window projectile restclient company company-statistics company-box company-restclient company-fuzzy yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree burly google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters tree-sitter tree-sitter-langs lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools nov vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage go-translate mpv yeetube elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -1176,19 +1174,38 @@ That is, a string used to represent it on the tab bar."
 ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 ;;==============================================================================
 
+(require 'org-mouse)
+
 (setq org-hide-emphasis-markers t) ;; Hide the markup for /italic/, *bold*, _underline_
 (setq org-startup-with-inline-images t)
 (setq org-image-actual-width nil)
+(setq org-imenu-depth 4) ;; Show up to 4 levels in the imenu and imenu-list
+(setq org-todo-keywords '((sequence "TODO" "BLOCKED" "|" "DONE" ))) ;; 3 States for TODO
 
-;; Better Bullets
-(font-lock-add-keywords 'org-mode
-                        '(("^ +\\([-*]\\) "
-                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-;; Better Header Bullets
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+;;TODO(jhhur)
+;;
+;;(setq org-startup-indented t)
+;;
+;;;; set the org-agenda prefix to skip printing the source files
+;;(setq org-agenda-prefix-format '(
+;;  ;; (agenda  . " %i %-12:c%?-12t% s") ;; file name + org-agenda-entry-type
+;;  (agenda  . " %-12t ")
+;;  (timeline  . "  % s")
+;;  (todo  . " %i %-12:c")
+;;  (tags  . " %i %-12:c")
+;;  (search . " %i %-12:c")))
+;;
+;;;; Setup capture templates
+;;;; currently only have one for standup summaries
+;;(setq org-capture-templates
+;;  '(    ;; ... other templates
+;;    ("s" "Standup Entry"
+;;         entry (file+datetree "~/org/standup.org")
+;;         "* %?"
+;;         :empty-lines 1)
+;;
+;;        ;; ... other templates
+;;    ))
 
 (defun daftemacs-org-style ()
   (read-only-mode)
@@ -1202,13 +1219,44 @@ That is, a string used to represent it on the tab bar."
          'org-meta-line
          'org-block-begin-line
          'org-drawer
-         'org-property-value)))
+         'org-property-value))
+
+  ;;;; Beautify Org Checkbox Symbol: Prettify check boxes to use Unicode characters.
+  ;;(push '("[ ]" . "☐") prettify-symbols-alist)
+  ;;(push '("[X]" . "☑" ) prettify-symbols-alist)
+  ;;(push '("[-]" . "❍" ) prettify-symbols-alist)
+  ;;(prettify-symbols-mode)
+  )
 
 (add-hook 'org-mode-hook 'daftemacs-org-style)
 
 ;; Change size of the inline image for LaTeX fragment in org-mode
 ;; https://tex.stackexchange.com/questions/78501/change-size-of-the-inline-image-for-latex-fragment-in-emacs-org-mode
 (plist-put org-format-latex-options :scale 2)
+
+;; Better Bullets
+(font-lock-add-keywords 'org-mode
+                        '(("^ +\\([-*]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+;; Better Header Bullets
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode))
+
+;; set org-mode to use variable width fonts smartly
+(use-package mixed-pitch
+  :hook (org-mode . mixed-pitch-mode))
+
+;; org-autolist
+(use-package org-autolist
+  :hook (org-mode . org-autolist-mode))
+
+;; org-pretty-table
+;; https://github.com/Fuco1/org-pretty-table
+(use-package org-pretty-table
+  :load-path "org-pretty-table"
+  :hook (org-mode . org-pretty-table-mode)
+)
 
 ;; org-present
 (use-package org-present
