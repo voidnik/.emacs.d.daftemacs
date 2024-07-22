@@ -48,13 +48,17 @@
   ;; Hack (https://github.com/source-foundry/Hack)
   ;; D2Coding (https://github.com/naver/d2codingfont)
   ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
+  ;; Input (https://input.djr.com/)
   ;;(print (font-family-list))
   (cond
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
-          (set-face-attribute 'default nil :width 'normal :height 94 :family "JetBrains Mono")
-        (set-face-attribute 'default nil :width 'normal :height 95 :family "JetBrains Mono"))
+          (set-face-attribute 'default nil :height 94 :family "Input Mono")
+        (set-face-attribute 'default nil :height 95 :family "Input Mono"))
+      ;;(if with-pgtk
+      ;;    (set-face-attribute 'default nil :width 'normal :height 94 :family "JetBrains Mono")
+      ;;  (set-face-attribute 'default nil :width 'normal :height 95 :family "JetBrains Mono"))
       ;;(if with-pgtk
       ;;    (set-face-attribute 'default nil :height 94 :family "Source Code Pro")
       ;;  (set-face-attribute 'default nil :height 95 :family "Source Code Pro"))
@@ -69,10 +73,14 @@
       ;;(set-face-attribute 'default nil :height 100 :family "Inconsolata")
       ;;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
+      (if with-pgtk
+          (set-face-attribute 'variable-pitch nil :height 94 :weight 'thin :family "Input Sans Narrow")
+        (set-face-attribute 'variable-pitch nil :height 95 :weight 'thin :family "Input Sans Narrow"))
       ))
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
-      (set-face-attribute 'default nil :width 'normal :height 120 :family "JetBrains Mono")
+      (set-face-attribute 'default nil :height 120 :family "Input Mono Narrow")
+      ;;(set-face-attribute 'default nil :width 'normal :height 120 :family "JetBrains Mono")
       ;;(set-face-attribute 'default nil :height 120 :family "Source Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro")
       ;;(set-face-attribute 'default nil :height 120 :family "Office Code Pro D")
@@ -82,6 +90,7 @@
       ;;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;;(set-face-attribute 'default nil :height 115 :family "D2Coding")
       ;;(set-face-attribute 'default nil :height 125 :family "IBM 3270")
+      (set-face-attribute 'variable-pitch nil :height 120 :weight 'thin :family "Input Sans Narrow")
       )))
 
   ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
@@ -207,7 +216,7 @@
  '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#50fa7b") (((type graphic) (background light)) :background unspecified :foreground "#50fa7b") (t :background unspecified :foreground "#50fa7b")))
  '(minimap-active-region-background ((t (:background "#1e2029" :extend t))))
  '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
- '(minimap-font-face ((default :family "JetBrains Mono" :height 30)))
+ '(minimap-font-face ((default :family "Input Mono" :height 30)))
  '(mode-line ((t (:background "#455073"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
@@ -1245,7 +1254,9 @@ That is, a string used to represent it on the tab bar."
 
 ;; set org-mode to use variable width fonts smartly
 (use-package mixed-pitch
-  :hook (org-mode . mixed-pitch-mode))
+  :hook (org-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-set-height t))
 
 ;; org-autolist
 (use-package org-autolist
@@ -3582,9 +3593,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (lambda ()
           (cond
            ((string-equal system-type "gnu/linux")
-            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 25)))
+            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "Input Mono" :size 25)))
            ((string-equal system-type "darwin")
-            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "JetBrains Mono" :size 12))))
+            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "Input Mono" :size 12))))
           (setq fill-column 120)
           (setq elfeed-show-entry-switch #'daftemacs-show-elfeed)))
 
