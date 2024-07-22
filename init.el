@@ -54,8 +54,8 @@
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
-          (set-face-attribute 'default nil :height 94 :family "Input Mono")
-        (set-face-attribute 'default nil :height 95 :family "Input Mono"))
+          (set-face-attribute 'default nil :height 94 :family "Input Mono Narrow")
+        (set-face-attribute 'default nil :height 95 :family "Input Mono Narrow"))
       ;;(if with-pgtk
       ;;    (set-face-attribute 'default nil :width 'normal :height 94 :family "JetBrains Mono")
       ;;  (set-face-attribute 'default nil :width 'normal :height 95 :family "JetBrains Mono"))
@@ -216,7 +216,7 @@
  '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#50fa7b") (((type graphic) (background light)) :background unspecified :foreground "#50fa7b") (t :background unspecified :foreground "#50fa7b")))
  '(minimap-active-region-background ((t (:background "#1e2029" :extend t))))
  '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
- '(minimap-font-face ((default :family "Input Mono" :height 30)))
+ '(minimap-font-face ((default :family "Input Mono Narrow" :height 30)))
  '(mode-line ((t (:background "#455073"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
@@ -3593,9 +3593,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (lambda ()
           (cond
            ((string-equal system-type "gnu/linux")
-            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "Input Mono" :size 25)))
+            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "Input Mono Narrow" :size 25)))
            ((string-equal system-type "darwin")
-            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "Input Mono" :size 12))))
+            (set-face-attribute 'variable-pitch (selected-frame) :font (font-spec :family "Input Mono Narrow" :size 12))))
           (setq fill-column 120)
           (setq elfeed-show-entry-switch #'daftemacs-show-elfeed)))
 
