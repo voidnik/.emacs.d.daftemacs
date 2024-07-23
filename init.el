@@ -1750,8 +1750,8 @@ to obtain ripgrep results."
         ivy-count-format "[%d/%d] "
         ivy-initial-inputs-alist nil))
 
-(use-package all-the-icons-ivy
-  :hook (after-init . all-the-icons-ivy-setup))
+;;(use-package all-the-icons-ivy
+;;  :hook (after-init . all-the-icons-ivy-setup))
 
 (use-package counsel
   :diminish
