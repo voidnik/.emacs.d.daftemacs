@@ -896,7 +896,13 @@ even when the file is larger than `large-file-warning-threshold'.")
         centaur-tabs-backward-tab-text ""
         centaur-tabs-forward-tab-text ""
         centaur-tabs-show-count t
-        centaur-tabs-new-tab-text " ⭐ ")
+        centaur-tabs-new-tab-text " ⭐ "
+        ;; Workaround to avoid the malfunction in which the 'mouse-2' event was incorrectly fired when the left button of the mouse is clicked while using centaur-tabs with org-mouse.
+        centaur-tabs-default-map
+        (let ((map (make-sparse-keymap)))
+          (define-key map (vector centaur-tabs-display-line 'mouse-1) 'centaur-tabs-do-select)
+          (define-key map (vector centaur-tabs-display-line 'mouse-2) 'centaur-tabs-do-select)
+          map))
   (cond
    ((string-equal system-type "darwin")
     (setq centaur-tabs-height 25)
@@ -1183,6 +1189,7 @@ That is, a string used to represent it on the tab bar."
 ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 ;;==============================================================================
 
+(require 'org)
 (require 'org-mouse)
 
 (setq org-hide-emphasis-markers t) ;; Hide the markup for /italic/, *bold*, _underline_
