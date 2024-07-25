@@ -40,15 +40,15 @@
   (set-frame-position (selected-frame) 0 0))
 
 (defun setup-font ()
+  ;; Input (https://input.djr.com/)
   ;; JetBrainsMono (https://www.jetbrains.com/lp/mono/, https://fonts.google.com/specimen/JetBrains+Mono)
   ;; Source Code Pro (https://github.com/adobe-fonts/source-code-pro)
   ;; Office Code Pro (https://github.com/nathco/Office-Code-Pro)
-  ;; Menlo (https://github.com/hbin/top-programming-fonts
+  ;; Menlo (https://github.com/hbin/top-programming-fonts)
   ;; IBM 3270 (https://github.com/rbanffy/3270font)
   ;; Hack (https://github.com/source-foundry/Hack)
   ;; D2Coding (https://github.com/naver/d2codingfont)
   ;; NanumGothicCoding (https://github.com/naver/nanumfont/blob/master/README.md)
-  ;; Input (https://input.djr.com/)
   ;;(print (font-family-list))
   (cond
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
