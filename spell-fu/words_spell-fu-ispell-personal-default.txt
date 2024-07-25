@@ -17,6 +17,7 @@ basicvsr
 batchnorm
 batchnorm's
 benchmarking
+bethnal
 bicubic
 biggan
 bijection
@@ -49,6 +50,7 @@ convolutional
 convolved
 convolving
 covariate
+crossway
 customizable
 cutmix
 datapoint
@@ -160,6 +162,7 @@ MobileNet
 modelling
 modularized
 Monochromic
+mosquitos
 multilayer
 multiresolution
 multiscale
@@ -303,3 +306,4 @@ vit
 wasserstein
 webpage
 webpages
+wether

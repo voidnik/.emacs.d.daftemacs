@@ -25,6 +25,7 @@ basicvsr
 batchnorm
 batchnorm's
 benchmarking
+bethnal
 bicubic
 biggan
 bijection
@@ -55,6 +56,7 @@ convolutional
 convolved
 convolving
 covariate
+crossway
 customizable
 cutmix
 datapoint
@@ -161,6 +163,7 @@ misclassification
 misclassifications
 modelling
 modularized
+mosquitos
 multilayer
 multiresolution
 multiscale
@@ -302,3 +305,4 @@ vit
 wasserstein
 webpage
 webpages
+wether
