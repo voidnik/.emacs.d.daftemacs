@@ -74,8 +74,8 @@
       ;;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
       (if with-pgtk
-          (set-face-attribute 'variable-pitch nil :height 94 :weight 'thin :family "Input Sans Narrow")
-        (set-face-attribute 'variable-pitch nil :height 95 :weight 'thin :family "Input Sans Narrow"))
+          (set-face-attribute 'variable-pitch nil :height 94 :family "Input Sans Narrow")
+        (set-face-attribute 'variable-pitch nil :height 95 :family "Input Sans Narrow"))
       ))
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
@@ -90,7 +90,7 @@
       ;;(set-face-attribute 'default nil :height 115 :family "monospace")
       ;;(set-face-attribute 'default nil :height 115 :family "D2Coding")
       ;;(set-face-attribute 'default nil :height 125 :family "IBM 3270")
-      (set-face-attribute 'variable-pitch nil :height 120 :weight 'thin :family "Input Sans Narrow")
+      (set-face-attribute 'variable-pitch nil :height 120 :family "Input Sans Narrow")
       )))
 
   ;; To resolve the problem that cells of a table on Org mode containing Hangul are broken
