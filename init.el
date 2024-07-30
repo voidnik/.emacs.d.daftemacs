@@ -1395,9 +1395,10 @@ That is, a string used to represent it on the tab bar."
   (define-key markdown-mode-map (kbd "C-M-}") nil)
 
   (defun daftemacs-markdown-style ()
+    (read-only-mode)
+    (visual-line-mode)
     (setq indent-tabs-mode t)
     (setq tab-width 4)
-    (visual-line-mode t)
     (texfrag-mode +1))
 
   (add-hook 'markdown-mode-hook 'daftemacs-markdown-style)
@@ -1934,11 +1935,13 @@ to obtain ripgrep results."
 
 (use-package spell-fu
   :config
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (setq ispell-personal-dictionary "~/.emacs.d/spell-fu/personal_dictionary.txt")
-              (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
-              (spell-fu-mode))))
+  (defun daftemacs-spell-fu ()
+    (setq ispell-personal-dictionary "~/.emacs.d/spell-fu/personal_dictionary.txt")
+    (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
+    (spell-fu-mode))
+
+  (add-hook 'org-mode-hook 'daftemacs-spell-fu)
+  (add-hook 'markdown-mode-hook 'daftemacs-spell-fu))
 
 ;;==============================================================================
 ;; perspective
