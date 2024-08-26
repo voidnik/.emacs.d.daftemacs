@@ -17,6 +17,7 @@ basicvsr
 batchnorm
 batchnorm's
 benchmarking
+bended
 bethnal
 bicubic
 biggan
@@ -39,6 +40,7 @@ codec
 codecs
 codenamed
 colour
+colours
 combinatorial
 complementarily
 computable
@@ -78,6 +80,8 @@ DenseNet
 densenets
 deraining
 detections
+detune
+detuned
 differentiability
 differentiabilty
 differentiably
@@ -101,6 +105,8 @@ equivariant
 extensibility
 facto
 fastrealvsr
+favour
+favours
 feedbacks
 feedforward
 fids
@@ -127,6 +133,7 @@ ImageNet
 inadaptability
 incentivize
 incentivizes
+infector
 injective
 inpaint
 inpainted
@@ -169,6 +176,7 @@ multiscale
 natively
 neighbour
 neurone
+nevermind
 nonblind
 noncircularity
 nonconvex
@@ -236,6 +244,8 @@ resnets
 resnext
 reweight
 rgans
+ruiner
+ruiner's
 runtime
 runtimes
 scalability
