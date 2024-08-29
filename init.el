@@ -245,6 +245,14 @@
 
 (setenv "MANWIDTH" "72")
 
+;;==============================================================================
+;; tramp
+;;==============================================================================
+
+(require 'tramp)
+
+;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
 ;; How to speed up TRAMP?
 ;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
 (setq remote-file-name-inhibit-cache nil) ;; Set remote-file-name-inhibit-cache to nil if remote files are not independently updated outside TRAMP’s control.
@@ -1198,7 +1206,7 @@ That is, a string used to represent it on the tab bar."
 (setq org-imenu-depth 4) ;; Show up to 4 levels in the imenu and imenu-list
 (setq org-todo-keywords '((sequence "TODO" "BLOCKED" "|" "DONE" ))) ;; 3 States for TODO
 
-;;TODO(jhhur)
+;;TODO(daftcoder)
 ;;
 ;;(setq org-startup-indented t)
 ;;
@@ -2544,12 +2552,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
                        (define-key lsp-mode-map "\M-." 'lsp-find-definition)
                        (define-key lsp-mode-map (kbd "s-l 0") 'lsp-treemacs-symbols))))
   :config
+  (setq lsp-log-io t)
   (setq lsp-file-watch-ignored
         (append lsp-file-watch-ignored
                 '("[/\\\\]\\.cache$"
                   "[/\\\\]\\.libs$")))
-  ;;(message "lsp-file-watch-ignored: %s" lsp-file-watch-ignored)
-  )
+  (message "lsp-file-watch-ignored: %s" lsp-file-watch-ignored))
 
 (use-package lsp-ui)
 
@@ -2615,7 +2623,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;  :hook ((c-mode c++-mode objc-mode) . (lambda () (require 'ccls) (lsp-deferred)))
 ;;  :config
 ;;  (setq ccls-executable "~/.emacs.d/ccls/Release/ccls")
-;;  ;;TODO
+;;  ;;TODO(daftcoder)
 ;;  ;;(setq
 ;;  ;; ccls-initialization-options
 ;;  ;; `(:index (:multiVersion 1 :trackDependency 1)))
@@ -2751,7 +2759,15 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :hook (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))
   :config
   (add-hook 'pyvenv-post-activate-hooks (lambda () (lsp-restart-workspace)))
-  (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace))))
+  (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace)))
+
+  ;;TODO(daftcoder)
+  ;;(lsp-register-client
+  ;; (make-lsp-client :new-connection (lsp-tramp-connection "pyright")
+  ;;                  :major-modes '(python-mode)
+  ;;                  :remote? t
+  ;;                  :server-id 'pyright-remote))
+  )
 
 ;;(use-package elpy
 ;;  :init
