@@ -118,6 +118,7 @@
 ;;==============================================================================
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'yaml-mode-hook #'display-line-numbers-mode)
 
 ;;==============================================================================
 ;; Fill Column Indicator
