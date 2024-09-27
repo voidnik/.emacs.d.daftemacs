@@ -11,9 +11,11 @@ ResNet
 abstractive
 accuracies
 activations
+adain
 adaptively
 adaptiveness
 affine
+afterworld
 alexnet
 analyse
 associationism
@@ -39,6 +41,8 @@ capsulate
 cardinality
 celeba
 centric
+chancer
+chancers
 charbonnier
 chrominance
 cloze
@@ -61,6 +65,7 @@ covariate
 crossway
 customizable
 cutmix
+cyclegan
 datapoint
 dataset
 datasets
@@ -200,6 +205,7 @@ parameterization
 parameterless
 parametrize
 parametrized
+pennyroyal
 perceptron
 perceptrons
 persistency
@@ -282,6 +288,7 @@ superpixel
 superpixels
 superresolution
 surrogation
+there'll
 thresholding
 topologies
 tradeoff
