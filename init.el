@@ -916,17 +916,13 @@ even when the file is larger than `large-file-warning-threshold'.")
     (setq centaur-tabs-height 25)
     (setq centaur-tabs-bar-height 25))
    ((string-equal system-type "gnu/linux")
-    (if (string-equal (getenv "GDK_SCALE") "2")
-        (if with-pgtk
-            (progn
-              (setq centaur-tabs-height 25)
-              (setq centaur-tabs-bar-height 25))
-          (progn
-            (setq centaur-tabs-height 50)
-            (setq centaur-tabs-bar-height 34)))
+    (if with-pgtk
+        (progn
+          (setq centaur-tabs-height 25)
+          (setq centaur-tabs-bar-height 25))
       (progn
-        (setq centaur-tabs-height 25)
-        (setq centaur-tabs-bar-height 25)))))
+        (setq centaur-tabs-height 50)
+        (setq centaur-tabs-bar-height 34)))))
   (setq centaur-tabs-active-bar
         (centaur-tabs--make-xpm 'centaur-tabs-active-bar-face
                                 2
