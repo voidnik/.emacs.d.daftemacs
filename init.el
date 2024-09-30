@@ -188,7 +188,33 @@
    '((auto-mode . emacs) ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default) ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(string-utils transient flx helpful elisp-demos undo-tree vundo exec-path-from-shell openwith magit magit-popup magit-stats all-the-icons nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer doom-themes doom-modeline nyan-mode hide-mode-line minibar centaur-tabs page-break-lines dashboard centered-cursor-mode which-key hydra pretty-hydra flycheck auto-complete org-bullets mixed-pitch org-autolist org-present org-tree-slide org-re-reveal markdown-mode markdown-preview-mode obsidian texfrag magic-latex-buffer ag wgrep-ag rg ripgrep deadgrep wgrep-deadgrep dumb-jump occurx-mode peep-dired dirvish helm helm-ag helm-rg helm-company ace-window projectile restclient company company-statistics company-box company-restclient company-fuzzy yasnippet ivy all-the-icons-ivy counsel counsel-projectile counsel-at-point swiper ivy-rich all-the-icons-ivy-rich nerd-icons-ivy-rich ivy-posframe avy redacted insecure-lock find-file-in-project spell-fu perspective treemacs treemacs-projectile treemacs-magit treemacs-perspective treemacs-nerd-icons neotree dir-treeview dir-treeview-themes ztree burly google-c-style highlight-indent-guides highlight-indentation filldent gnu-indent rainbow-delimiters tree-sitter tree-sitter-langs lsp-mode lsp-ui helm-lsp lsp-ivy lsp-treemacs dap-mode ccls objc-font-lock swift-mode pip-requirements py-autopep8 epc importmagic pyvenv lsp-pyright elpy ein typescript-mode haskell-mode lua-mode cuda-mode json-mode json-snatcher json-reformat yaml-mode qml-mode cmake-mode i3wm-config-mode ligature docker dockerfile-mode docker-compose-mode graphviz-dot-mode focus rich-minority vdiff vdiff-magit diff-hl pdf-tools nov vterm multi-vterm vlf keyfreq imenu-list shrink-path neato-graph-bar proced-narrow disk-usage go-translate mpv yeetube elfeed elfeed-tube elfeed-tube-mpv md4rd devdocs devdocs-browser arxiv-mode arxiv-citation wordel command-log-mode use-package)))
+   '(ag all-the-icons arxiv-citation arxiv-mode auto-complete burly
+        centaur-tabs centered-cursor-mode cmake-mode command-log-mode
+        company-box company-restclient company-statistics
+        counsel-at-point counsel-projectile cuda-mode dap-mode
+        dashboard deadgrep devdocs devdocs-browser diff-hl
+        dir-treeview-themes dirvish disk-usage docker
+        docker-compose-mode dockerfile-mode doom-modeline doom-themes
+        dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
+        filldent find-file-in-project flx flycheck focus gnu-indent
+        go-translate google-c-style graphviz-dot-mode haskell-mode
+        helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
+        highlight-indent-guides highlight-indentation i3wm-config-mode
+        imenu-list importmagic insecure-lock json-mode json-reformat
+        keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
+        magic-latex-buffer magit-popup magit-stats
+        markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
+        neotree nerd-icons-completion nerd-icons-dired
+        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
+        objc-font-lock obsidian occurx-mode openwith org-autolist
+        org-bullets org-present org-re-reveal org-tree-slide
+        page-break-lines pdf-tools peep-dired pip-requirements
+        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
+        rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
+        string-utils swift-mode texfrag tree-sitter-langs
+        treemacs-magit treemacs-nerd-icons treemacs-persp
+        treemacs-projectile typescript-mode undo-tree vdiff-magit vlf
+        vundo wgrep-ag wgrep-deadgrep yasnippet yeetube ztree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -226,15 +252,7 @@
  '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
  '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
  '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
- '(show-paren-match ((((class color)) :foreground unspecified :background "#455073" :weight bold) (t :weight bold)))
- '(wordel-almost ((t (:background "#acb364"))))
- '(wordel-box ((t (:box (:line-width -4 :color "#1e2029" :style released-button)))))
- '(wordel-correct ((t (:background "#39b357"))))
- '(wordel-current-box ((t (:box (:line-width -4 :color "#ffb86c" :style released-button)))))
- '(wordel-default ((t (:weight ultra-bold :background "#44475a" :foreground "#D7DADC" :height 3.0))))
- '(wordel-error ((t (:inherit compilation-error))))
- '(wordel-guessed ((t (:background "#202020" :foreground "#616580"))))
- '(wordel-spacer ((t (:width ultra-condensed :height 0.1 :background unspecified)))))
+ '(show-paren-match ((((class color)) :foreground unspecified :background "#455073" :weight bold) (t :weight bold))))
 
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
@@ -309,7 +327,8 @@
 ;; https://github.com/mschuldt/buffer-focus-hook
 ;;==============================================================================
 
-(load-file "~/.emacs.d/buffer-focus-hook.elc")
+(use-package buffer-focus-hook
+  :load-path "custom-packages/buffer-focus-hook")
 
 ;;==============================================================================
 ;; ace-window
@@ -860,20 +879,20 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; https://github.com/dengste/minimap
 ;;==============================================================================
 
-(load-file "~/.emacs.d/minimap.elc")
-(require 'minimap)
+(use-package minimap
+  :load-path "custom-packages/minimap"
+  :config
+  (setq minimap-window-location 'right
+        minimap-update-delay 0.2
+        minimap-enlarge-certain-faces 'always
+        minimap-major-modes '(prog-mode yaml-mode))
 
-(setq minimap-window-location 'right
-      minimap-update-delay 0.2
-      minimap-enlarge-certain-faces 'always
-      minimap-major-modes '(prog-mode yaml-mode))
+  (defun minimap-ignore-specific-buffers ()
+    (or (string-match "*scratch" (buffer-name))
+        (string-match "\s?\*ein" (buffer-name))))
 
-(defun minimap-ignore-specific-buffers ()
-  (or (string-match "*scratch" (buffer-name))
-      (string-match "\s?\*ein" (buffer-name))))
-
-(when (boundp 'aw-ignored-buffers)
-  (push minimap-buffer-name aw-ignored-buffers))
+  (when (boundp 'aw-ignored-buffers)
+    (push minimap-buffer-name aw-ignored-buffers)))
 
 ;;==============================================================================
 ;; centaur-tabs
@@ -1133,15 +1152,15 @@ That is, a string used to represent it on the tab bar."
 ;; Based on https://github.com/anler/centered-window-mode
 ;;==============================================================================
 
-(load-file "~/.emacs.d/centered-window.elc")
-(require 'centered-window-mode)
+(use-package centered-window
+  :load-path "custom-packages/centered-window"
+  :config
+  (if with-pgtk
+      (setq-default cwm-centered-window-width 200)
+    (setq-default cwm-centered-window-width 180))
 
-(if with-pgtk
-    (setq-default cwm-centered-window-width 200)
-  (setq-default cwm-centered-window-width 180))
-
-(add-hook 'dashboard-after-initialize-hook #'(lambda ()
-                                               (centered-window-mode)))
+  (add-hook 'dashboard-after-initialize-hook #'(lambda ()
+                                                 (centered-window-mode))))
 
 ;;==============================================================================
 ;; centered-cursor-mode
@@ -1280,9 +1299,8 @@ That is, a string used to represent it on the tab bar."
 ;; org-pretty-table
 ;; https://github.com/Fuco1/org-pretty-table
 (use-package org-pretty-table
-  :load-path "org-pretty-table"
-  :hook (org-mode . org-pretty-table-mode)
-)
+  :load-path "custom-packages/org-pretty-table"
+  :hook (org-mode . org-pretty-table-mode))
 
 ;; org-present
 (use-package org-present
@@ -1965,6 +1983,7 @@ to obtain ripgrep results."
 ;;==============================================================================
 
 (use-package perspective
+  :load-path "custom-packages/perspective"
   :init
   (setq persp-modestring-dividers '("<" ">" "|")
         persp-modestring-short t
@@ -2195,6 +2214,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :after (treemacs magit))
 
 (use-package treemacs-perspective ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  :load-path "custom-packages/treemacs-perspective"
   :after (treemacs perspective) ;;or perspective vs. persp-mode
   :config
   (treemacs-set-scope-type 'Perspectives))
@@ -2373,7 +2393,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package bufler
-  :load-path "bufler"
+  :load-path "custom-packages/bufler"
   :config
   (setq bufler-show-header-string nil
         bufler-use-header-line-format nil
@@ -3384,7 +3404,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; buffer-move
 ;;==============================================================================
 
-(load-file "~/.emacs.d/buffer-move.elc")
+(use-package buffer-move
+  :load-path "custom-packages/buffer-move")
 
 ;;==============================================================================
 ;; find-file-hook for handling the very large file
@@ -3716,29 +3737,20 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; Instant Stackoverflow Solutions
 ;;==============================================================================
 
-(load-file "~/.emacs.d/stackoverflow.elc")
-(require 'stackoverflow)
+(use-package stackoverflow
+  :load-path "custom-packages/stackoverflow")
 
 ;;==============================================================================
 ;; stock-tracker
 ;;==============================================================================
 
-(load-file "~/.emacs.d/stock-tracker.elc")
-(require 'stock-tracker)
-
-;; Refresh stock price every 5*10 secs
-(customize-set-variable 'stock-tracker-refresh-interval 1)
-
-;; Set up as green, down as red
-(customize-set-variable 'stock-tracker-up-red-down-green nil)
-
-;;==============================================================================
-;; Wordel: Wordle in Emacs
-;;
-;; https://github.com/progfolio/wordel
-;;==============================================================================
-
-(use-package wordel)
+(use-package stock-tracker
+  :load-path "custom-packages/stock-tracker"
+  :config
+  ;; Refresh stock price every 5*10 secs
+  (customize-set-variable 'stock-tracker-refresh-interval 1)
+  ;; Set up as green, down as red
+  (customize-set-variable 'stock-tracker-up-red-down-green nil))
 
 ;;==============================================================================
 ;; Global Keys
