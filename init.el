@@ -2560,11 +2560,16 @@ If optional arg SILENT is non-nil, do not display progress messages."
                        (define-key lsp-mode-map (kbd "s-l 0") 'lsp-treemacs-symbols))))
   :config
   (setq lsp-log-io t)
-  (setq lsp-file-watch-ignored
-        (append lsp-file-watch-ignored
-                '("[/\\\\]\\.cache$"
-                  "[/\\\\]\\.libs$")))
-  (message "lsp-file-watch-ignored: %s" lsp-file-watch-ignored))
+
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.cache\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.libs\\'")
+  ;; for spnv-sr
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build_ffmpeg_on_macos_m1")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build_ffmpeg_on_ubuntu")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build_standalone_ffmpeg_on_ubuntu")
+
+  (message "lsp-file-watch-ignored-directories: %s" lsp-file-watch-ignored-directories)
+  (message "lsp-file-watch-ignored-files: %s" lsp-file-watch-ignored-files))
 
 (use-package lsp-ui)
 
