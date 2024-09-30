@@ -212,9 +212,9 @@
         pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
         rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
         string-utils swift-mode texfrag tree-sitter-langs
-        treemacs-magit treemacs-nerd-icons treemacs-persp
-        treemacs-projectile typescript-mode undo-tree vdiff-magit vlf
-        vundo wgrep-ag wgrep-deadgrep yasnippet yeetube ztree)))
+        treemacs-magit treemacs-nerd-icons treemacs-projectile
+        typescript-mode undo-tree vdiff-magit vlf vundo wgrep-ag
+        wgrep-deadgrep yasnippet yeetube ztree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
