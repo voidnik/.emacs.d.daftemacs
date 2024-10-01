@@ -3542,8 +3542,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; neato-graph-bar
 ;;==============================================================================
 
-(when (string-equal system-type "gnu/linux")
-  (use-package neato-graph-bar))
+(use-package neato-graph-bar)
 
 ;;==============================================================================
 ;; proced
