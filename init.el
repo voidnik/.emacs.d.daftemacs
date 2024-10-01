@@ -149,9 +149,12 @@
 ;;==============================================================================
 
 (require 'package)
-(setq package-archives `(("melpa" . "http://melpa.org/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("nongnu" . "http://elpa.nongnu.org/nongnu/")))
+(setq package-archive-priorities '(("gnu" . 10)
+                                   ("melpa" . 5))
+      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ;("nongnu" . "http://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "https://stable.melpa.org/packages/")
+                         ("melpa-devel" . "https://melpa.org/packages/")))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
