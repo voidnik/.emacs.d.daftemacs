@@ -207,7 +207,7 @@
         keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
         magic-latex-buffer magit-popup magit-stats
         markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
-        neotree nerd-icons-completion nerd-icons-dired
+        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
         nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
         objc-font-lock obsidian occurx-mode openwith org-autolist
         org-bullets org-present org-re-reveal org-tree-slide
