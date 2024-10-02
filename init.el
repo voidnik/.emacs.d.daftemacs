@@ -187,7 +187,34 @@
  '(org-file-apps
    '((auto-mode . emacs) ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default) ("\\.pdf\\'" . emacs)))
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(ag all-the-icons arxiv-citation arxiv-mode auto-complete burly
+        centaur-tabs centered-cursor-mode cmake-mode command-log-mode
+        company-box company-restclient company-statistics
+        counsel-at-point counsel-projectile cuda-mode dap-mode
+        dashboard deadgrep devdocs devdocs-browser diff-hl
+        dir-treeview-themes dirvish disk-usage docker
+        docker-compose-mode dockerfile-mode doom-modeline doom-themes
+        dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
+        filldent find-file-in-project flx flycheck focus gnu-indent
+        go-translate google-c-style graphviz-dot-mode haskell-mode
+        helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
+        highlight-indent-guides highlight-indentation i3wm-config-mode
+        imenu-list importmagic insecure-lock json-mode json-reformat
+        keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
+        magic-latex-buffer magit-popup magit-stats
+        markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
+        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
+        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
+        objc-font-lock obsidian occurx-mode openwith org-autolist
+        org-bullets org-present org-re-reveal org-tree-slide
+        page-break-lines pdf-tools peep-dired pip-requirements
+        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
+        rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
+        string-utils swift-mode texfrag tree-sitter-langs
+        treemacs-magit treemacs-nerd-icons treemacs-perspective
+        treemacs-projectile typescript-mode undo-tree vdiff-magit vlf
+        vundo wgrep-ag wgrep-deadgrep yasnippet yeetube ztree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
