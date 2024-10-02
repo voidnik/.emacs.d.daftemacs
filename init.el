@@ -149,9 +149,9 @@
 ;;==============================================================================
 
 (require 'package)
-(setq package-archives `(("melpa" . "http://melpa.org/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("nongnu" . "http://elpa.nongnu.org/nongnu/")))
+(setq package-archives `(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("nongnu" . "http://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "http://melpa.org/packages/")))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -187,34 +187,7 @@
  '(org-file-apps
    '((auto-mode . emacs) ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default) ("\\.pdf\\'" . emacs)))
- '(package-selected-packages
-   '(ag all-the-icons arxiv-citation arxiv-mode auto-complete burly
-        centaur-tabs centered-cursor-mode cmake-mode command-log-mode
-        company-box company-restclient company-statistics
-        counsel-at-point counsel-projectile cuda-mode dap-mode
-        dashboard deadgrep devdocs devdocs-browser diff-hl
-        dir-treeview-themes dirvish disk-usage docker
-        docker-compose-mode dockerfile-mode doom-modeline doom-themes
-        dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
-        filldent find-file-in-project flx flycheck focus gnu-indent
-        go-translate google-c-style graphviz-dot-mode haskell-mode
-        helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
-        highlight-indent-guides highlight-indentation i3wm-config-mode
-        imenu-list importmagic insecure-lock json-mode json-reformat
-        keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
-        magic-latex-buffer magit-popup magit-stats
-        markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
-        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
-        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
-        objc-font-lock obsidian occurx-mode openwith org-autolist
-        org-bullets org-present org-re-reveal org-tree-slide
-        page-break-lines pdf-tools peep-dired pip-requirements
-        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
-        rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
-        string-utils swift-mode texfrag tree-sitter-langs
-        treemacs-magit treemacs-nerd-icons treemacs-projectile
-        typescript-mode undo-tree vdiff-magit vlf vundo wgrep-ag
-        wgrep-deadgrep yasnippet yeetube ztree)))
+ '(package-selected-packages nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -1983,7 +1956,6 @@ to obtain ripgrep results."
 ;;==============================================================================
 
 (use-package perspective
-  :load-path "custom-packages/perspective"
   :init
   (setq persp-modestring-dividers '("<" ">" "|")
         persp-modestring-short t
@@ -2135,6 +2107,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
           treemacs-is-never-other-window           nil
           treemacs-max-git-entries                 5000
           treemacs-missing-project-action          'ask
+          treemacs-move-files-by-mouse-dragging    t
           treemacs-move-forward-on-expand          nil
           treemacs-no-png-images                   nil
           treemacs-no-delete-other-windows         t
@@ -2214,7 +2187,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :after (treemacs magit))
 
 (use-package treemacs-perspective ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :load-path "custom-packages/treemacs-perspective"
   :after (treemacs perspective) ;;or perspective vs. persp-mode
   :config
   (treemacs-set-scope-type 'Perspectives))
