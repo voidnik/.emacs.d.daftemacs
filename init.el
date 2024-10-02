@@ -2406,6 +2406,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (add-hook 'window-buffer-change-functions 'bufler-refresh-when-visible)
 
   (add-hook 'bufler-list-mode-hook (lambda ()
+                                     (local-set-key (kbd "C-g C-g") 'bufler-sidebar-close)
                                      (let ((buffer (current-buffer)))
                                        (when (string-prefix-p "*Bufler" (buffer-name buffer))
                                          (setq mode-line-format nil)
