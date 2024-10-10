@@ -1688,7 +1688,7 @@ to obtain ripgrep results."
     (unless (file-remote-p default-directory)
       (apply orig-fun args)))
   (advice-add 'projectile-project-root :around #'projectile-project-root--ignore-remote)
-  ;;(message "projectile-globally-ignored-directories: %s" projectile-globally-ignored-directories)
+  (message "projectile-globally-ignored-directories: %s" projectile-globally-ignored-directories)
 
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c j") 'projectile-command-map))
@@ -3180,7 +3180,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package vterm
   :config
-  (setq vterm-max-scrollback 1000000)
+  (setq vterm-shell explicit-shell-file-name
+        vterm-max-scrollback 1000000)
 
   (defun vterm-clear-all ()
     (interactive)
@@ -3238,12 +3239,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;
 ;; https://oremacs.com/2015/01/01/three-ansi-term-tips/
 ;;==============================================================================
-
-(cond
- ((string-equal system-type "darwin")
-  (setq explicit-shell-file-name "/bin/zsh"))
- ((string-equal system-type "gnu/linux")
-  (setq explicit-shell-file-name "/usr/bin/zsh")))
 
 (defun oleh-term-exec-hook ()
   (let* ((buff (current-buffer))

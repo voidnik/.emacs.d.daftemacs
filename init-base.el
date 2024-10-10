@@ -17,6 +17,15 @@
 ;; https://www.masteringemacs.org/article/improving-performance-emacs-display-engine
 (setq redisplay-dont-pause t)
 
+(setq-default shell-file-name "/bin/sh")
+(cond
+ ((string-equal system-type "darwin")
+  (setq explicit-shell-file-name "/bin/zsh"))
+ ((string-equal system-type "gnu/linux")
+  (setq explicit-shell-file-name "/usr/bin/zsh")))
+(message "shell-file-name: %s" shell-file-name)
+(message "explicit-shell-file-name: %s" explicit-shell-file-name)
+
 (setq visible-bell t
       make-backup-files nil
       column-number-mode t
