@@ -139,6 +139,7 @@ hotspot
 hotspots
 hyperparameter
 hyperparameters
+hypnotised
 inadaptability
 incentivize
 incentivizes
@@ -298,6 +299,7 @@ tranformer
 transfomer
 tunable
 unbiasedly
+undenied
 underfits
 underperform
 undertrain

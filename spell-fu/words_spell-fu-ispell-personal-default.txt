@@ -135,6 +135,7 @@ hotspot
 hotspots
 hyperparameter
 hyperparameters
+hypnotised
 ImageNet
 inadaptability
 incentivize
@@ -299,6 +300,7 @@ tranformer
 transfomer
 tunable
 unbiasedly
+undenied
 underfits
 underperform
 undertrain
