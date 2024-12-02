@@ -453,7 +453,7 @@ Amend MODE-LINE to the mode line for the duration of the selection."
 ;;==============================================================================
 
 (defun browse-url-qutebrowser (url &optional new-window)
-  "Ask the Nyxt web browser to load URL."
+  "Ask the qutebrowser to load URL."
   (interactive (browse-url-interactive-arg "URL (qutebrowser): "))
   (setq url (browse-url-encode-url url))
   (let* ((process-environment (browse-url-process-environment)))
