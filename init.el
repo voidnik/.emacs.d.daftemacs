@@ -914,10 +914,10 @@ even when the file is larger than `large-file-warning-threshold'.")
         x-underline-at-descent-line t
         centaur-tabs-set-icons t
         centaur-tabs-icon-type 'nerd-icons
+        centaur-tabs-gray-out-icons 'buffer
         centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "🔥"
         centaur-tabs-set-close-button nil
-        centaur-tabs-gray-out-icons 'buffer
         centaur-tabs-cycle-scope 'tabs
         centaur-tabs-show-navigation-buttons t
         centaur-tabs-down-tab-text " 🚀 "
