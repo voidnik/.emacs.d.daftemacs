@@ -2806,15 +2806,15 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 (use-package importmagic
   :config
   (add-hook 'python-mode-hook 'importmagic-mode)
-  (setq importmagic-python-interpreter "~/miniconda3/bin/python3"))
+  (setq importmagic-python-interpreter "~/miniforge3/bin/python3"))
 
 (use-package pyvenv
   :config
   (cond
-   ((file-directory-p "~/miniconda3/envs")
-    (setenv "WORKON_HOME" "~/miniconda3/envs"))
-   ((file-directory-p "~/opt/miniconda3/envs")
-    (setenv "WORKON_HOME" "~/opt/miniconda3/envs")))
+   ((file-directory-p "~/miniforge3/envs")
+    (setenv "WORKON_HOME" "~/miniforge3/envs"))
+   ((file-directory-p "~/opt/miniforge3/envs")
+    (setenv "WORKON_HOME" "~/opt/miniforge3/envs")))
   (pyvenv-mode 1))
 
 (use-package lsp-pyright
