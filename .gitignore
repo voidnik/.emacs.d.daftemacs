@@ -1,5 +1,6 @@
 elpa
 eln-cache
+cloned-packages
 auto-save-list
 undo-tree-history
 org-persist
