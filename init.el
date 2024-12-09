@@ -211,10 +211,10 @@
         page-break-lines pdf-tools peep-dired pip-requirements
         pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
         rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
-        string-utils swift-mode texfrag tree-sitter-langs
-        treemacs-magit treemacs-nerd-icons treemacs-perspective
-        treemacs-projectile typescript-mode undo-tree vdiff-magit vlf
-        vundo wgrep-ag wgrep-deadgrep yasnippet yeetube ztree)))
+        string-utils swift-mode texfrag treemacs-magit
+        treemacs-nerd-icons treemacs-perspective treemacs-projectile
+        typescript-mode undo-tree vdiff-magit vlf vundo wgrep-ag
+        wgrep-deadgrep yasnippet yeetube ztree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -2525,7 +2525,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;        (typescript-mode . typescript-ts-mode)
 ;;        (json-mode . json-ts-mode)
 ;;        (css-mode . css-ts-mode)
-;;        (python-mode . python-mode)))
+;;        (python-mode . python-ts-mode)))
 
 (use-package tree-sitter
   :hook
@@ -2541,13 +2541,42 @@ If optional arg SILENT is non-nil, do not display progress messages."
     sh-mode
     terraform-mode
     typescript-mode
-    yaml-mode) . daft-tree-sitter-mode-enable)
+    yaml-mode) . daftemacs/tree-sitter-mode-enable)
   :preface
-  (defun daft-tree-sitter-mode-enable ()
+  (defun daftemacs/tree-sitter-mode-enable ()
     (tree-sitter-mode t))
   :defer t)
 
+(defun daftemacs/clone-tree-sitter-langs ()
+  "Clone the tree-sitter-langs repository if the target directory doesn't exist.
+The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs/'."
+  (interactive)
+  (let* ((target-dir (expand-file-name "~/.emacs.d/cloned-packages/tree-sitter-langs"))
+         (git-url "https://github.com/emacs-tree-sitter/tree-sitter-langs.git"))
+
+    ;; Check if directory exists
+    (if (not (file-exists-p target-dir))
+        (progn
+          ;; Create parent directory if it doesn't exist
+          (make-directory target-dir t)
+
+          ;; Execute git clone
+          (let ((default-directory (file-name-directory target-dir)))
+            (shell-command
+             (format "git clone %s %s" git-url (file-name-nondirectory target-dir))
+             "*Tree-sitter Clone Output*"))
+
+          (message "tree-sitter-langs repository cloned successfully to %s" target-dir))
+
+      ;; If directory already exists
+      (message "Directory %s already exists. Skipping clone." target-dir))))
+
+(daftemacs/clone-tree-sitter-langs)
+
 (use-package tree-sitter-langs
+  :load-path "cloned-packages/tree-sitter-langs"
+  :init
+  (require 'tree-sitter-langs)
   :hook
   (tree-sitter-after-on . tree-sitter-hl-mode))
 
