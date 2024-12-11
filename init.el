@@ -211,7 +211,7 @@
         page-break-lines pdf-tools peep-dired pip-requirements
         pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
         rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
-        string-utils swift-mode texfrag treemacs-magit
+        string-utils swift-mode texfrag tree-sitter treemacs-magit
         treemacs-nerd-icons treemacs-perspective treemacs-projectile
         typescript-mode undo-tree vdiff-magit vlf vundo wgrep-ag
         wgrep-deadgrep yasnippet yeetube ztree)))
