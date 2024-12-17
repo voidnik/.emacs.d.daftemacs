@@ -1683,10 +1683,12 @@ to obtain ripgrep results."
   :config
   (setq projectile-enable-caching t)
 
-  (defun projectile-project-root--ignore-remote (orig-fun &rest args)
-    (unless (file-remote-p default-directory)
-      (apply orig-fun args)))
-  (advice-add 'projectile-project-root :around #'projectile-project-root--ignore-remote)
+  ;; Remote projects can be excluded from Projectile by uncommenting the following.
+  ;(defun projectile-project-root--ignore-remote (orig-fun &rest args)
+  ;  (unless (file-remote-p default-directory)
+  ;    (apply orig-fun args)))
+  ;(advice-add 'projectile-project-root :around #'projectile-project-root--ignore-remote)
+
   (message "projectile-globally-ignored-directories: %s" projectile-globally-ignored-directories)
 
   (projectile-mode +1)
