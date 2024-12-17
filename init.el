@@ -2821,13 +2821,31 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
   (add-hook 'pyvenv-post-activate-hooks (lambda () (lsp-restart-workspace)))
   (add-hook 'pyvenv-post-deactivate-hooks (lambda () (lsp-restart-workspace)))
 
-  ;;TODO(daftcoder)
-  ;;(lsp-register-client
-  ;; (make-lsp-client :new-connection (lsp-tramp-connection "pyright")
-  ;;                  :major-modes '(python-mode)
-  ;;                  :remote? t
-  ;;                  :server-id 'pyright-remote))
-  )
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-tramp-connection (lambda ()
+                                            (cons "pyright-langserver"
+                                                  lsp-pyright-langserver-command-args)))
+    :major-modes '(python-mode)
+    :remote? t
+    :server-id 'pyright-remote
+    :multi-root t
+    :priority 3
+    :initialization-options (lambda () (ht-merge (lsp-configuration-section "pyright")
+                                                 (lsp-configuration-section "python")))
+    :initialized-fn (lambda (workspace)
+                      (with-lsp-workspace workspace
+                        (lsp--set-configuration
+                         (ht-merge (lsp-configuration-section "pyright")
+                                   (lsp-configuration-section "python")))))
+    :download-server-fn (lambda (_client callback error-callback _update?)
+                          (lsp-package-ensure 'pyright callback error-callback))
+    :notification-handlers (lsp-ht ("pyright/beginProgress" 'lsp-pyright--begin-progress-callback)
+                                   ("pyright/reportProgress" 'lsp-pyright--report-progress-callback)
+                                   ("pyright/endProgress" 'lsp-pyright--end-progress-callback))))
+
+  ;; [daft-hard-coded] Adding remote path for pyright in spnv-rtx3090 server
+  (add-to-list 'tramp-remote-path "/home/mplab/.nvm/versions/node/v22.12.0/bin"))
 
 ;;(use-package elpy
 ;;  :init
