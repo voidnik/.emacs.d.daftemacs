@@ -269,8 +269,6 @@
 
 (require 'tramp)
 
-;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
 ;; How to speed up TRAMP?
 ;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
 (setq remote-file-name-inhibit-cache nil) ;; Set remote-file-name-inhibit-cache to nil if remote files are not independently updated outside TRAMP’s control.
@@ -2613,7 +2611,7 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.cache\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.libs\\'")
-  ;; for spnv-sr
+  ;; [daft-hard-coded] lsp-file-watch-ignored-directories for spnv-sr
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build_ffmpeg_on_macos_m1")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build_ffmpeg_on_ubuntu")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build_standalone_ffmpeg_on_ubuntu")
