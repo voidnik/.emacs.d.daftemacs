@@ -3229,6 +3229,7 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 (use-package vterm
   :config
   (setq vterm-shell explicit-shell-file-name
+        vterm-tramp-shells '(("ssh" "/bin/zsh") ("docker" "/bin/sh"))
         vterm-max-scrollback 1000000)
 
   (defun vterm-clear-all ()
