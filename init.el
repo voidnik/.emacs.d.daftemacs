@@ -210,11 +210,12 @@
         org-bullets org-present org-re-reveal org-tree-slide
         page-break-lines pdf-tools peep-dired pip-requirements
         pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
-        rainbow-delimiters redacted rg rich-minority ripgrep spell-fu
-        string-utils swift-mode texfrag tree-sitter treemacs-magit
-        treemacs-nerd-icons treemacs-perspective treemacs-projectile
-        typescript-mode undo-tree vdiff-magit vlf vundo wgrep-ag
-        wgrep-deadgrep yasnippet yeetube ztree)))
+        rainbow-delimiters redacted rg rich-minority ripgrep
+        selected-window-contrast spell-fu string-utils swift-mode
+        texfrag tree-sitter treemacs-magit treemacs-nerd-icons
+        treemacs-perspective treemacs-projectile typescript-mode
+        undo-tree vdiff-magit vlf vundo wgrep-ag wgrep-deadgrep
+        yasnippet yeetube ztree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -870,6 +871,54 @@ even when the file is larger than `large-file-warning-threshold'.")
       (car minibar--module-temperature-cache))
 
     (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
+
+;;==============================================================================
+;; selected-window-contrast
+;;
+;; https://codeberg.org/Anoncheg/selected-window-contrast
+;;==============================================================================
+
+(use-package selected-window-contrast
+  :config
+  ;; - increase contrast for selected window
+  (setopt selected-window-contrast-selected-magnitude-text 1.0)  ; default = 1
+  (setopt selected-window-contrast-selected-magnitude-background 1.0)  ; default = 1
+  ;; - decrease conrtrast for other windows
+  (setopt selected-window-contrast-not-sel-magnitude-text 1.1)  ; default = 1
+  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)  ; default = 1
+
+  ;;
+  ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
+  ;;
+  (defun selected-window-contrast-highlight-selected-window ()
+    "Highlight not selected windows with a different background color."
+    (let ((cbn (buffer-name (current-buffer)))
+          (sw (selected-window)))
+      ;; - not selected:
+      (walk-windows (lambda (w)
+                      (unless (or (and (= 1 selected-window-contrast-not-sel-magnitude-text)
+                                       (= 1 selected-window-contrast-not-sel-magnitude-background))
+                                  (eq sw w)
+                                  (eq cbn (buffer-name (window-buffer w))))
+                        (with-selected-window w
+                          (buffer-face-set 'default)
+                          (selected-window-contrast-change-window
+                           selected-window-contrast-not-sel-magnitude-text
+                           selected-window-contrast-not-sel-magnitude-background))))
+                    -1 ) ; -1 means to not include minimuber
+
+      ;; - selected:
+      (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
+                    (= 1 selected-window-contrast-selected-magnitude-background)))
+          (selected-window-contrast-change-window
+           selected-window-contrast-selected-magnitude-text
+           selected-window-contrast-selected-magnitude-background)
+        ;; else
+        (buffer-face-set 'default))))
+
+  (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
+  ;; - for case of call: $ emacsclient -c ~/file
+  (add-hook 'server-after-make-frame-hook #'selected-window-contrast-highlight-selected-window))
 
 ;;==============================================================================
 ;; minimap
