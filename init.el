@@ -2,7 +2,7 @@
 
 ;; Dracula color codes
 ;;----------------------------------------------------------
-;; Background   | #282a36 | hsl(231,15%,18%)  | 40 42 54
+;; Background   | #1e1f29 | hsl(235,27%,16%)  | 30 31 41
 ;; Current Line | #44475a | hsl(232,14%,31%)  | 68 71 90
 ;; Foreground   | #f8f8f2 | hsl(60,30%,96%)   | 248 248 242
 ;; Comment      | #6272a4 | hsl(225,27%,51%)  | 98 114 164
@@ -231,17 +231,17 @@
  '(ediff-even-diff-A ((t (:background "#464752"))))
  '(ediff-even-diff-B ((t (:background "#464752"))))
  '(ediff-even-diff-C ((t (:background "#464752"))))
- '(ediff-fine-diff-A ((t (:foreground "#282a36" :background "#ff79c6"))))
- '(ediff-fine-diff-B ((t (:foreground "#282a36" :background "#50fa7b"))))
- '(ediff-fine-diff-C ((t (:foreground "#282a36" :background "#8be9fd"))))
+ '(ediff-fine-diff-A ((t (:foreground "#1e1f29" :background "#ff79c6"))))
+ '(ediff-fine-diff-B ((t (:foreground "#1e1f29" :background "#50fa7b"))))
+ '(ediff-fine-diff-C ((t (:foreground "#1e1f29" :background "#8be9fd"))))
  '(ediff-odd-diff-A ((t (:background "#464752"))))
  '(ediff-odd-diff-B ((t (:background "#464752"))))
  '(ediff-odd-diff-C ((t (:background "#464752"))))
  '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))) t)
- '(fringe ((t (:background "#282a36"))))
+ '(fringe ((t (:background "#1e1f29"))))
  '(header-line ((t (:background "#23242f"))))
  '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#50fa7b") (((type graphic) (background light)) :background unspecified :foreground "#50fa7b") (t :background unspecified :foreground "#50fa7b")))
- '(minimap-active-region-background ((t (:background "#1e2029" :extend t))))
+ '(minimap-active-region-background ((t (:background "#16171d" :extend t))))
  '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
  '(minimap-font-face ((default :family "Input Mono Narrow" :height 30)))
  '(mode-line ((t (:background "#455073"))))
@@ -565,7 +565,10 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-dracula t)
+
+  (load-file "~/.emacs.d/daft-doom-dracula-theme.el")
+  (register-definition-prefixes "daft-doom-dracula-theme" '("daft-doom-dracula"))
+  (load-theme 'daft-doom-dracula t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -950,11 +953,11 @@ even when the file is larger than `large-file-warning-threshold'.")
 (use-package centaur-tabs
   :demand
   :custom-face
-  (centaur-tabs-default ((t (:background "#1e2029" :foreground "#f8f8f2"))))
+  (centaur-tabs-default ((t (:background "#16171d" :foreground "#f8f8f2"))))
   (centaur-tabs-selected ((t (:background "#455073" :foreground "#f8f8f2"))))
   (centaur-tabs-selected-modified ((t (:background "#455073" :foreground "#ff5555"))))
-  (centaur-tabs-unselected ((t (:background "#1e2029" :foreground "#6272a4"))))
-  (centaur-tabs-unselected-modified ((t (:background "#1e2029" :foreground "#b33939"))))
+  (centaur-tabs-unselected ((t (:background "#16171d" :foreground "#6272a4"))))
+  (centaur-tabs-unselected-modified ((t (:background "#16171d" :foreground "#b33939"))))
   :config
   (setq centaur-tabs-style "bar"
         centaur-tabs-set-bar 'under
@@ -2395,9 +2398,9 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package dir-treeview
   :custom-face
-  (dir-treeview-control-mouse-face ((t (:foreground "#282a36" :background "#bd93f9"))))
-  (dir-treeview-label-mouse-face ((t (:foreground "#282a36" :background "#50fa7b"))))
-  (dir-treeview-start-dir-face ((t (:foreground "#282a36" :background "#ff79c6"))))
+  (dir-treeview-control-mouse-face ((t (:foreground "#1e1f29" :background "#bd93f9"))))
+  (dir-treeview-label-mouse-face ((t (:foreground "#1e1f29" :background "#50fa7b"))))
+  (dir-treeview-start-dir-face ((t (:foreground "#1e1f29" :background "#ff79c6"))))
   (dir-treeview-select-face ((t (:background "#6272a4"))))
   :config
   (setq dir-treeview-control-keymap
