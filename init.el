@@ -3287,7 +3287,7 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
     (vterm-clear-scrollback))
 
   (add-hook 'vterm-mode-hook (lambda ()
-                               (define-key vterm-mode-map (kbd "M-0") 'treemacs-select-window)
+                               (define-key vterm-mode-map (kbd "M-0") 'treemacs-or-neotree-select-window)
                                (define-key vterm-mode-map (kbd "M-]") 'centaur-tabs-forward)
                                (define-key vterm-mode-map (kbd "C-S-k") 'vterm-clear-all)
 
