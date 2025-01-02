@@ -1302,7 +1302,6 @@ That is, a string used to represent it on the tab bar."
 ;;    ))
 
 (defun daftemacs/org-style ()
-  (read-only-mode)
   (visual-line-mode)
   (org-indent-mode)
 
@@ -1472,7 +1471,6 @@ That is, a string used to represent it on the tab bar."
   (define-key markdown-mode-map (kbd "C-M-}") nil)
 
   (defun daftemacs/markdown-style ()
-    (read-only-mode)
     (visual-line-mode)
     (setq indent-tabs-mode t)
     (setq tab-width 4)
