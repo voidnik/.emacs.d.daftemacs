@@ -1813,7 +1813,7 @@ to obtain ripgrep results."
   (message "company-backends: %s" company-backends))
 
 ;(with-eval-after-load 'company-fuzzy
-;  (message "company-fuzzy--backends-%s" company-fuzzy--backends))
+;  (message "company-fuzzy--backends: %s" company-fuzzy--backends))
 
 ;;==============================================================================
 ;; yasnippet
