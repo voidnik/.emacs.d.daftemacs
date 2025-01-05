@@ -2165,7 +2165,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
   :config
   (progn
     (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay        0.5
           treemacs-directory-name-transformer      #'identity
           treemacs-display-in-side-window          t
           treemacs-eldoc-display                   'simple
@@ -2176,14 +2175,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
           treemacs-follow-after-init               t
           treemacs-expand-after-init               t
           treemacs-find-workspace-method           'find-for-file-or-pick-first
-          treemacs-git-command-pipe                ""
           treemacs-goto-tag-strategy               'refetch-index
           treemacs-header-scroll-indicators        '(nil . "^^^^^^")
-          treemacs-hide-dot-git-directory          t
           treemacs-indentation                     2
           treemacs-indentation-string              " "
           treemacs-is-never-other-window           nil
-          treemacs-max-git-entries                 5000
           treemacs-missing-project-action          'ask
           treemacs-move-files-by-mouse-dragging    t
           treemacs-move-forward-on-expand          nil
@@ -2225,17 +2221,20 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode 'always)
+
+    (setq treemacs-deferred-git-apply-delay        0.5
+          treemacs-git-command-pipe                ""
+          treemacs-hide-dot-git-directory          t
+          treemacs-hide-gitignored-files-mode t
+          treemacs-max-git-entries                 5000)
     (when treemacs-python-executable
       (treemacs-git-commit-diff-mode t))
-
     (pcase (cons (not (null (executable-find "git")))
                  (not (null treemacs-python-executable)))
       (`(t . t)
        (treemacs-git-mode 'deferred))
       (`(t . _)
        (treemacs-git-mode 'simple)))
-
-    (treemacs-hide-gitignored-files-mode nil)
 
     (defun treemacs-hide ()
       (interactive)
