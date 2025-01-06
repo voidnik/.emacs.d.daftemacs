@@ -607,9 +607,11 @@ even when the file is larger than `large-file-warning-threshold'.")
    ((string-equal system-type "darwin")
     (setq doom-modeline-height 25))
    ((string-equal system-type "gnu/linux")
-    (if with-pgtk
-        (setq doom-modeline-height 25)
-      (setq doom-modeline-height 50))))
+    (if (string-equal (getenv "GDK_SCALE") "2")
+        (if with-pgtk
+            (setq doom-modeline-height 25)
+          (setq doom-modeline-height 50))
+      (setq doom-modeline-height 25))))
 
   ;; How wide the mode-line bar should be. It's only respected in GUI.
   (setq doom-modeline-bar-width 3)
@@ -833,47 +835,46 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;; https://codeberg.org/akib/emacs-minibar
 ;;==============================================================================
 
-(cond
- ((string-equal system-type "darwin")
-  (use-package minibar
-    :config
-    (minibar-mode +1)
-    (setq minibar-group-middle '(minibar-module-battery minibar-module-time))))
- ((string-equal system-type "gnu/linux")
-  (use-package minibar
-    :config
-    (minibar-mode +1)
-
-    (defun daftemacs/minibar-module-temperature ()
-      "Module for showing CPU temperature."
-      (when (or (not minibar--module-temperature-cache)
-                (>= (float-time
-                     (time-since (cdr minibar--module-temperature-cache)))
-                    minibar-module-temperature-cache-for))
-        (setq
-         minibar--module-temperature-cache
-         (cons
-          (let ((zone 1))
-            (with-temp-buffer
-              (insert-file-contents
-               (car (file-expand-wildcards (format "/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp%i_input" zone))))
-              (let* ((temp (/ (string-to-number (buffer-string)) 1000))
-                     (str (concat (int-to-string temp)
-                                  (if (char-displayable-p ?°) "°" " ")
-                                  "C")))
-                (if (>= temp minibar-module-temperature-high-threshold)
-                    (propertize
-                     str 'face
-                     (if (>=
-                          temp
-                          minibar-module-temperature-very-high-threshold)
-                         'minibar-module-temperature-high-face
-                       'minibar-module-temperature-very-high-face))
-                  str))))
-          (current-time))))
-      (car minibar--module-temperature-cache))
-
-    (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))))
+(use-package minibar
+  :config
+  (minibar-mode +1)
+  (cond
+   ((string-equal system-type "darwin")
+    (setq minibar-group-middle '(minibar-module-battery minibar-module-time)))
+   ((string-equal system-type "gnu/linux")
+    (cond
+     ((string-equal system-name "DaftBlade")
+      (defun daftemacs/minibar-module-temperature ()
+        "Module for showing CPU temperature."
+        (when (or (not minibar--module-temperature-cache)
+                  (>= (float-time
+                       (time-since (cdr minibar--module-temperature-cache)))
+                      minibar-module-temperature-cache-for))
+          (setq
+           minibar--module-temperature-cache
+           (cons
+            (let ((zone 1))
+              (with-temp-buffer
+                (insert-file-contents
+                 (car (file-expand-wildcards (format "/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp%i_input" zone))))
+                (let* ((temp (/ (string-to-number (buffer-string)) 1000))
+                       (str (concat (int-to-string temp)
+                                    (if (char-displayable-p ?°) "°" " ")
+                                    "C")))
+                  (if (>= temp minibar-module-temperature-high-threshold)
+                      (propertize
+                       str 'face
+                       (if (>=
+                            temp
+                            minibar-module-temperature-very-high-threshold)
+                           'minibar-module-temperature-high-face
+                         'minibar-module-temperature-very-high-face))
+                    str))))
+            (current-time))))
+        (car minibar--module-temperature-cache))
+      (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))
+     ((string-equal system-name "DaftUTM")
+      (setq minibar-group-middle '(minibar-module-cpu minibar-module-network-speeds minibar-module-time)))))))
 
 ;;==============================================================================
 ;; selected-window-contrast
