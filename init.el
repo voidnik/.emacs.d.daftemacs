@@ -2896,8 +2896,9 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
                                    ("pyright/reportProgress" 'lsp-pyright--report-progress-callback)
                                    ("pyright/endProgress" 'lsp-pyright--end-progress-callback))))
 
-  ;; [daft-hard-coded] Adding remote path for pyright in spnv-rtx3090 server
-  (add-to-list 'tramp-remote-path "/home/mplab/.nvm/versions/node/v22.12.0/bin"))
+  ;; [daft-hard-coded] Adding directory paths containing Pyright from remote servers to the list 'tramp-remote-path'.
+  (add-to-list 'tramp-remote-path "/home/genai/.nvm/versions/node/v22.13.1/bin")
+  (add-to-list 'tramp-remote-path "/home/mplab/.nvm/versions/node/v22.13.1/bin"))
 
 ;;(use-package elpy
 ;;  :init
