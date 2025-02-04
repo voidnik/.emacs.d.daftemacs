@@ -1,4 +1,4 @@
-;;; buffer-move.el --- 
+;;; buffer-move.el --- Move a buffer  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2004-2014  Lucas Bonnet <lucas@rincevent.net.fr>
 
@@ -62,7 +62,6 @@
 
 
 ;;; Code:
-
 
 (require 'windmove)
 
@@ -140,7 +139,6 @@ one, an error is signaled."
       ;; move this one to top
       (set-window-buffer other-win buf-this-buf)
       (select-window other-win))))
-
 
 (provide 'buffer-move)
 ;;; buffer-move.el ends here

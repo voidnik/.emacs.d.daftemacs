@@ -330,6 +330,20 @@
   :load-path "custom-packages/buffer-focus-hook")
 
 ;;==============================================================================
+;; buffer-focus
+;;==============================================================================
+
+(use-package buffer-focus
+  :load-path "custom-packages/buffer-focus")
+
+;;==============================================================================
+;; buffer-move
+;;==============================================================================
+
+(use-package buffer-move
+  :load-path "custom-packages/buffer-move")
+
+;;==============================================================================
 ;; ace-window
 ;;==============================================================================
 
@@ -3501,13 +3515,6 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
   (message "Done."))
 
 ;;==============================================================================
-;; buffer-move
-;;==============================================================================
-
-(use-package buffer-move
-  :load-path "custom-packages/buffer-move")
-
-;;==============================================================================
 ;; find-file-hook for handling the very large file
 ;;
 ;; https://stackoverflow.com/questions/18316665/
@@ -3876,10 +3883,15 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 (global-set-key (kbd "M-0") 'treemacs-or-neotree-select-window)
 (global-set-key (kbd "M-q") 'filldent-dwim)
 
-(global-set-key (kbd "C-S-<up>") 'buf-move-up)
-(global-set-key (kbd "C-S-<down>") 'buf-move-down)
-(global-set-key (kbd "C-S-<left>") 'buf-move-left)
-(global-set-key (kbd "C-S-<right>") 'buf-move-right)
+(global-set-key (kbd "C-S-<up>") 'buf-focus-up)
+(global-set-key (kbd "C-S-<down>") 'buf-focus-down)
+(global-set-key (kbd "C-S-<left>") 'buf-focus-left)
+(global-set-key (kbd "C-S-<right>") 'buf-focus-right)
+
+(global-set-key (kbd "C-S-M-<up>") 'buf-move-up)
+(global-set-key (kbd "C-S-M-<down>") 'buf-move-down)
+(global-set-key (kbd "C-S-M-<left>") 'buf-move-left)
+(global-set-key (kbd "C-S-M-<right>") 'buf-move-right)
 
 (global-set-key (kbd "C-c m") 'magit)
 (global-set-key (kbd "C-c 9") #'(lambda ()
