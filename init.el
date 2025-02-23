@@ -1510,30 +1510,29 @@ That is, a string used to represent it on the tab bar."
 ;;==============================================================================
 
 (use-package obsidian
-  :demand t
   :config
-  (obsidian-specify-path "~/Workspace/daftvaults")
   (global-obsidian-mode t)
+  (obsidian-backlinks-mode t)
   :custom
-  ;; This directory will be used for `obsidian-capture' if set.
+  ;; location of obsidian vault
+  (obsidian-directory "~/Workspace/daftvaults")
+  ;; Default location for new notes from `obsidian-capture'
   (obsidian-inbox-directory "Inbox")
-  ;; Create missing files in inbox? - when clicking on a wiki link
-  ;; t: in inbox, nil: next to the file with the link
-  ;; default: t
-  ;(obsidian-wiki-link-create-file-in-inbox nil)
-  ;; The directory for daily notes (file name is YYYY-MM-DD.md)
-  (obsidian-daily-notes-directory "Daily Notes")
-  ;; Directory of note templates, unset (nil) by default
-  ;(obsidian-templates-directory "Templates")
-  ;; Daily Note template name - requires a template directory. Default: Daily Note Template.md
-  ;(setq obsidian-daily-note-template "Daily Note Template.md")
+  ;; Useful if you're going to be using wiki links
+  (markdown-enable-wiki-links t)
+
+  ;; These bindings are only suggestions; it's okay to use other bindings
   :bind (:map obsidian-mode-map
-  ;; Replace C-c C-o with Obsidian.el's implementation. It's ok to use another key binding.
-  ("C-c C-o" . obsidian-follow-link-at-point)
-  ;; Jump to backlinks
-  ("C-c C-b" . obsidian-backlink-jump)
-  ;; If you prefer you can use `obsidian-insert-link'
-  ("C-c C-l" . obsidian-insert-wikilink)))
+              ;; Create note
+              ("C-c C-n" . obsidian-capture)
+              ;; If you prefer you can use `obsidian-insert-wikilink'
+              ("C-c C-l" . obsidian-insert-link)
+              ;; Open file pointed to by link at point
+              ("C-c C-o" . obsidian-follow-link-at-point)
+              ;; Open a different note from vault
+              ("C-c C-p" . obsidian-jump)
+              ;; Follow a backlink for the current file
+              ("C-c C-b" . obsidian-backlink-jump)))
 
 ;;==============================================================================
 ;; LaTeX Preview
