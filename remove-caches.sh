@@ -14,3 +14,4 @@ rm projectile.cache
 rm -rf .cache
 rm .lsp-session-v1
 rm .dap-breakpoints
+rm elgrep-data.el elgrep-data.el\~
