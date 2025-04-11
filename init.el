@@ -3745,7 +3745,7 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
           ("https://planet.emacslife.com/atom.xml" emacs)
           "http://arxiv.org/rss/cs.CV"
           ;; YouTube
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCsJ6RuBiTVWRX156FVbeaGg"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCHnyfMqiRRG1u-2MsSQLbXA" ;; Veritasium
           ))
 
   (setq elfeed-show-mode-hook
