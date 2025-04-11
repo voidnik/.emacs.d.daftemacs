@@ -188,21 +188,21 @@
    '((auto-mode . emacs) ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default) ("\\.pdf\\'" . emacs)))
  '(package-selected-packages
-   '(ag all-the-icons arxiv-citation arxiv-mode auto-complete burly
-        centaur-tabs centered-cursor-mode cmake-mode command-log-mode
-        company-box company-restclient company-statistics
-        counsel-at-point counsel-projectile cuda-mode dap-mode
-        dashboard deadgrep devdocs devdocs-browser diff-hl
-        dir-treeview-themes dirvish disk-usage docker
-        docker-compose-mode dockerfile-mode doom-modeline doom-themes
-        dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
-        filldent find-file-in-project flx flycheck focus gnu-indent
-        go-translate google-c-style graphviz-dot-mode haskell-mode
-        helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
-        highlight-indent-guides highlight-indentation i3wm-config-mode
-        imenu-list importmagic insecure-lock json-mode json-reformat
-        keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
-        magic-latex-buffer magit-popup magit-stats
+   '(ag all-the-icons arxiv-mode auto-complete biblio burly centaur-tabs
+        centered-cursor-mode cmake-mode command-log-mode company-box
+        company-restclient company-statistics counsel-at-point
+        counsel-projectile cuda-mode dap-mode dashboard deadgrep
+        devdocs devdocs-browser diff-hl dir-treeview-themes dirvish
+        disk-usage docker docker-compose-mode dockerfile-mode
+        doom-modeline doom-themes dumb-jump ein elfeed-tube-mpv
+        elisp-demos exec-path-from-shell filldent find-file-in-project
+        flx flycheck focus fretboard gnu-indent go-translate
+        google-c-style graphviz-dot-mode haskell-mode helm-ag
+        helm-company helm-lsp helm-rg helpful hide-mode-line
+        highlight-indent-guides highlight-indentation howdoyou
+        i3wm-config-mode imenu-list importmagic insecure-lock
+        json-mode json-reformat keyfreq ligature lsp-ivy lsp-pyright
+        lsp-ui lua-mode magic-latex-buffer magit-popup magit-stats
         markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
         neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
         nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
@@ -3808,42 +3808,26 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
   (setq md4rd-subs-active '(emacs lisp+Common_Lisp prolog clojure rust)))
 
 ;;==============================================================================
-;; devdocs.io
-;;
-;; devdocs: https://github.com/astoff/devdocs.el
-;; devdocs-browser: https://github.com/blahgeek/emacs-devdocs-browser
+;; devdocs (https://github.com/astoff/devdocs.el)
+;; devdocs-browser (https://github.com/blahgeek/emacs-devdocs-browser)
+;; biblio (https://github.com/cpitclaudel/biblio.el)
+;; howdoyou (https://github.com/thanhvg/emacs-howdoyou)
+;; arxiv-mode (https://github.com/fizban007/arxiv-mode)
 ;;==============================================================================
 
 (use-package devdocs)
 (use-package devdocs-browser)
-
-;;==============================================================================
-;; arxiv-mode
-;;
-;; https://github.com/fizban007/arxiv-mode
-;;==============================================================================
-
+(use-package biblio)
+(use-package howdoyou)
 (use-package arxiv-mode)
 
 ;;==============================================================================
-;; arxiv-citation
+;; fretboard
 ;;
-;; https://gitlab.com/slotThe/arxiv-citation
+;; https://github.com/skyefreeman/fretboard.el
 ;;==============================================================================
 
-(use-package arxiv-citation
-  :commands (arxiv-citation-elfeed arxiv-citation-gui)
-  :custom
-  (arxiv-citation-library "~/Documents")
-  (arxiv-citation-bibtex-files '("~/Documents/bibliography.bib"))
-  (arxiv-citation-open-pdf-function #'browse-url-emacs))
-
-;;==============================================================================
-;; Instant Stackoverflow Solutions
-;;==============================================================================
-
-(use-package stackoverflow
-  :load-path "custom-packages/stackoverflow")
+(use-package fretboard)
 
 ;;==============================================================================
 ;; stock-tracker
