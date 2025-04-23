@@ -190,17 +190,17 @@
  '(package-selected-packages
    '(ag all-the-icons arxiv-mode auto-complete biblio burly centaur-tabs
         centered-cursor-mode cmake-mode command-log-mode company-box
-        company-restclient company-statistics counsel-at-point
-        counsel-projectile cuda-mode dap-mode dashboard deadgrep
-        devdocs devdocs-browser diff-hl dir-treeview-themes dirvish
-        disk-usage docker docker-compose-mode dockerfile-mode
-        doom-modeline doom-themes dumb-jump ein elfeed-tube-mpv
-        elisp-demos exec-path-from-shell filldent find-file-in-project
-        flx flycheck focus fretboard gnu-indent go-translate
-        google-c-style graphviz-dot-mode haskell-mode helm-ag
-        helm-company helm-lsp helm-rg helpful hide-mode-line
-        highlight-indent-guides highlight-indentation howdoyou
-        i3wm-config-mode imenu-list importmagic insecure-lock
+        company-fuzzy company-restclient company-statistics
+        counsel-at-point counsel-projectile cuda-mode dap-mode
+        dashboard deadgrep devdocs devdocs-browser diff-hl
+        dir-treeview-themes dirvish disk-usage docker
+        docker-compose-mode dockerfile-mode doom-modeline doom-themes
+        dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
+        filldent find-file-in-project flx flycheck focus fretboard
+        gnu-indent go-translate google-c-style graphviz-dot-mode
+        haskell-mode helm-ag helm-company helm-lsp helm-rg helpful
+        hide-mode-line highlight-indent-guides highlight-indentation
+        howdoyou i3wm-config-mode imenu-list importmagic insecure-lock
         json-mode json-reformat keyfreq ligature lsp-ivy lsp-pyright
         lsp-ui lua-mode magic-latex-buffer magit-popup magit-stats
         markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
