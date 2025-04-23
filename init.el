@@ -1812,20 +1812,20 @@ to obtain ripgrep results."
     (add-to-list 'company-backends 'company-restclient)))
 
 ;; https://github.com/jcs-elpa/company-fuzzy
-;(use-package company-fuzzy
-;  :hook (company-mode . company-fuzzy-mode)
-;  :init
-;  (setq company-fuzzy-sorting-backend 'flx
-;        company-fuzzy-prefix-on-top nil
-;        company-fuzzy-show-annotation t
-;        company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@"))
-;  (global-company-fuzzy-mode 1))
+(use-package company-fuzzy
+  :hook (company-mode . company-fuzzy-mode)
+  :init
+  (setq company-fuzzy-sorting-backend 'flx
+        company-fuzzy-prefix-on-top nil
+        company-fuzzy-show-annotation t
+        company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@"))
+  (global-company-fuzzy-mode 1))
 
 (with-eval-after-load 'company
   (message "company-backends: %s" company-backends))
 
-;(with-eval-after-load 'company-fuzzy
-;  (message "company-fuzzy--backends: %s" company-fuzzy--backends))
+(with-eval-after-load 'company-fuzzy
+  (message "company-fuzzy--backends: %s" company-fuzzy--backends))
 
 ;;==============================================================================
 ;; yasnippet
