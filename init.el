@@ -1796,6 +1796,14 @@ to obtain ripgrep results."
         company-idle-delay 0.5
         company-minimum-prefix-length 1
         company-show-numbers "on")
+  :config
+  ;; Enable downcase only when completing the completion.
+  (defun jcs--company-complete-selection--advice-around (fn)
+    "Advice execute around `company-complete-selection' command."
+    (let ((company-dabbrev-downcase t))
+      (call-interactively fn)))
+  (advice-add 'company-complete-selection :around #'jcs--company-complete-selection--advice-around)
+
   (global-company-mode 1))
 
 ;; https://github.com/company-mode/company-statistics
@@ -1815,10 +1823,12 @@ to obtain ripgrep results."
 (use-package company-fuzzy
   :hook (company-mode . company-fuzzy-mode)
   :init
-  (setq company-fuzzy-sorting-backend 'flx
+  (setq company-fuzzy-sorting-backend 'alphabetic
+        company-fuzzy-reset-selection t
         company-fuzzy-prefix-on-top nil
-        company-fuzzy-show-annotation t
         company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@"))
+  (setq company-fuzzy-passthrough-backends '(company-files))
+  :config
   (global-company-fuzzy-mode 1))
 
 (with-eval-after-load 'company
