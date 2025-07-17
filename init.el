@@ -207,15 +207,18 @@
         neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
         nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
         objc-font-lock obsidian occurx-mode openwith org-autolist
-        org-bullets org-present org-re-reveal org-tree-slide
-        page-break-lines pdf-tools peep-dired pip-requirements
-        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
-        rainbow-delimiters redacted rg rich-minority ripgrep
+        org-bullets org-present org-re-reveal org-table-highlight
+        org-tree-slide page-break-lines pdf-tools peep-dired
+        pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
+        qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
         selected-window-contrast spell-fu string-utils swift-mode
         texfrag tree-sitter treemacs-magit treemacs-nerd-icons
         treemacs-perspective treemacs-projectile typescript-mode
-        undo-tree vdiff-magit vlf vundo wgrep-ag wgrep-deadgrep
-        yasnippet yeetube ztree)))
+        ultra-scroll undo-tree vdiff-magit vlf vundo wgrep-ag
+        wgrep-deadgrep yasnippet yeetube ztree))
+ '(package-vc-selected-packages
+   '((org-table-highlight :url
+                          "https://www.github.com/llcc/org-table-highlight"))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -445,6 +448,20 @@ Amend MODE-LINE to the mode line for the duration of the selection."
 (use-package vundo
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
+
+;;==============================================================================
+;; ultra-scroll
+;;
+;; https://github.com/jdtsmith/ultra-scroll
+;;==============================================================================
+
+(use-package ultra-scroll
+  :vc (:url "https://github.com/jdtsmith/ultra-scroll") ; if desired (emacs>=v30)
+  :init
+  (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
+        scroll-margin 0)        ; important: scroll-margin>0 not yet supported
+  :config
+  (ultra-scroll-mode 1))
 
 ;;==============================================================================
 ;; exec-path-from-shell
@@ -1366,6 +1383,14 @@ That is, a string used to represent it on the tab bar."
 (use-package org-pretty-table
   :load-path "custom-packages/org-pretty-table"
   :hook (org-mode . org-pretty-table-mode))
+
+;; org-table-highlight
+;; https://github.com/llcc/org-table-highlight
+(use-package org-table-highlight
+  :vc (:url "https://www.github.com/llcc/org-table-highlight" :rev :newest)
+  :hook (org-mode . org-table-highlight-mode)
+  :config
+  (add-hook 'after-init-hook #'org-table-highlight-load-metadata))
 
 ;; org-present
 (use-package org-present
