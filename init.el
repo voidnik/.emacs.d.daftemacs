@@ -2295,7 +2295,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
     (defun treemacs-kill ()
       (interactive)
       (dolist (buffer (buffer-list))
-        (when (s-starts-with? treemacs--buffer-name-prefix (buffer-name buffer))
+        (when (s-starts-with? treemacs-buffer-name-prefix (buffer-name buffer))
           (kill-buffer buffer)))))
   :bind
   (:map global-map
