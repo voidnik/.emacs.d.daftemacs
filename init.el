@@ -645,7 +645,7 @@ even when the file is larger than `large-file-warning-threshold'.")
       (setq doom-modeline-height 25))))
 
   ;; How wide the mode-line bar should be. It's only respected in GUI.
-  (setq doom-modeline-bar-width 3)
+  (setq doom-modeline-bar-width 4)
 
   ;; Whether to use hud instead of default bar. It's only respected in GUI.
   (setq doom-modeline-hud nil)
@@ -654,6 +654,13 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; If `window-width' is smaller than the limit, some information won't be
   ;; displayed. It can be an integer or a float number. `nil' means no limit."
   (setq doom-modeline-window-width-limit 85)
+
+  ;; Override attributes of the face used for padding.
+  ;; If the space character is very thin in the modeline, for example if a
+  ;; variable pitch font is used there, then segments may appear unusually close.
+  ;; To use the space character from the `fixed-pitch' font family instead, set
+  ;; this variable to `(list :family (face-attribute 'fixed-pitch :family))'.
+  (setq doom-modeline-spc-face-overrides nil)
 
   ;; How to detect the project root.
   ;; nil means to use `default-directory'.
@@ -677,6 +684,7 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;;   relative-from-project => emacs/lisp/comint.el
   ;;   relative-to-project => lisp/comint.el
   ;;   file-name => comint.el
+  ;;   file-name-with-project => FOSS|comint.el
   ;;   buffer-name => comint.el<2> (uniquify buffer name)
   ;;
   ;; If you are experiencing the laggy issue, especially while editing remote files
@@ -688,22 +696,36 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; While using the server mode in GUI, should set the value explicitly.
   (setq doom-modeline-icon t)
 
-  ;; Whether display the icon for `major-mode'. It respects `doom-modeline-icon'.
+  ;; Whether display the icon for `major-mode'. It respects option `doom-modeline-icon'.
   (setq doom-modeline-major-mode-icon t)
 
   ;; Whether display the colorful icon for `major-mode'.
-  ;; It respects `nerdg-icons-color-icons'.
+  ;; It respects `nerd-icons-color-icons'.
   (setq doom-modeline-major-mode-color-icon t)
 
-  ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
+  ;; Whether display the icon for the buffer state. It respects option `doom-modeline-icon'.
   (setq doom-modeline-buffer-state-icon t)
 
   ;; Whether display the modification icon for the buffer.
-  ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
+  ;; It respects option `doom-modeline-icon' and option `doom-modeline-buffer-state-icon'.
   (setq doom-modeline-buffer-modification-icon t)
 
-  ;; Whether display the time icon. It respects variable `doom-modeline-icon'.
+  ;; Whether display the lsp icon. It respects option `doom-modeline-icon'.
+  (setq doom-modeline-lsp-icon t)
+
+  ;; Whether display the time icon. It respects option `doom-modeline-icon'.
   (setq doom-modeline-time-icon t)
+
+  ;; Whether display the live icons of time.
+  ;; It respects option `doom-modeline-icon' and option `doom-modeline-time-icon'.
+  (setq doom-modeline-time-live-icon t)
+
+  ;; Whether to use an analogue clock svg as the live time icon.
+  ;; It respects options `doom-modeline-icon', `doom-modeline-time-icon', and `doom-modeline-time-live-icon'.
+  (setq doom-modeline-time-analogue-clock t)
+
+  ;; The scaling factor used when drawing the analogue clock.
+  (setq doom-modeline-time-clock-size 0.7)
 
   ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
   (setq doom-modeline-unicode-fallback nil)
@@ -713,6 +735,25 @@ even when the file is larger than `large-file-warning-threshold'.")
 
   ;; Whether highlight the modified buffer name.
   (setq doom-modeline-highlight-modified-buffer-name t)
+
+  ;; When non-nil, mode line displays column numbers zero-based.
+  ;; See `column-number-indicator-zero-based'.
+  (setq doom-modeline-column-zero-based t)
+
+  ;; Specification of \"percentage offset\" of window through buffer.
+  ;; See `mode-line-percent-position'.
+  (setq doom-modeline-percent-position '(-3 "%p"))
+
+  ;; Format used to display line numbers in the mode line.
+  ;; See `mode-line-position-line-format'.
+  (setq doom-modeline-position-line-format '("L%l"))
+
+  ;; Format used to display column numbers in the mode line.
+  ;; See `mode-line-position-column-format'.
+  (setq doom-modeline-position-column-format '("C%c"))
+
+  ;; Format used to display combined line/column numbers in the mode line. See `mode-line-position-column-line-format'.
+  (setq doom-modeline-position-column-line-format '("%l:%c"))
 
   ;; Whether display the minor modes in the mode-line.
   (setq doom-modeline-minor-modes nil)
@@ -732,14 +773,38 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Whether display the indentation information.
   (setq doom-modeline-indent-info nil)
 
-  ;; If non-nil, only display one number for checker information if applicable.
-  (setq doom-modeline-checker-simple-format t)
+  ;; Whether display the total line number。
+  (setq doom-modeline-total-line-number nil)
+
+  ;; Whether display the icon of vcs segment. It respects option `doom-modeline-icon'."
+  (setq doom-modeline-vcs-icon t)
+
+  ;; The maximum displayed length of the branch name of version control.
+  (setq doom-modeline-vcs-max-length 15)
+
+  ;; The function to display the branch name.
+  (setq doom-modeline-vcs-display-function #'doom-modeline-vcs-name)
+
+  ;; Alist mapping VCS states to their corresponding faces.
+  ;; See `vc-state' for possible values of the state.
+  ;; For states not explicitly listed, the `doom-modeline-vcs-default' face is used.
+  (setq doom-modeline-vcs-state-faces-alist
+        '((needs-update . (doom-modeline-warning bold))
+          (removed . (doom-modeline-urgent bold))
+          (conflict . (doom-modeline-urgent bold))
+          (unregistered . (doom-modeline-urgent bold))))
+
+  ;; Whether display the icon of check segment. It respects option `doom-modeline-icon'.
+  (setq doom-modeline-check-icon t)
+
+  ;; If non-nil, only display one number for check information if applicable.
+  (setq doom-modeline-check-simple-format nil)
 
   ;; The maximum number displayed for notifications.
   (setq doom-modeline-number-limit 99)
 
-  ;; The maximum displayed length of the branch name of version control.
-  (setq doom-modeline-vcs-max-length 12)
+  ;; Whether display the project name. Non-nil to display in the mode-line.
+  (setq doom-modeline-project-name t)
 
   ;; Whether display the workspace name. Non-nil to display in the mode-line.
   (setq doom-modeline-workspace-name t)
@@ -770,8 +835,14 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Including `evil', `overwrite', `god', `ryo' and `xah-fly-keys', etc.
   (setq doom-modeline-modal-icon t)
 
-  ;;;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
-  ;;(setq doom-modeline-mu4e nil)
+  ;; Whether display the modern icons for modals.
+  (setq doom-modeline-modal-modern-icon t)
+
+  ;; When non-nil, always show the register name when recording an evil macro.
+  (setq doom-modeline-always-show-macro-register nil)
+
+  ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
+  (setq doom-modeline-mu4e nil)
   ;;;; also enable the start of mu4e-alert
   ;;(mu4e-alert-enable-mode-line-display)
 
@@ -799,6 +870,12 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Whether display the misc segment on all mode lines.
   ;; If nil, display only if the mode line is active.
   (setq doom-modeline-display-misc-in-all-mode-lines t)
+
+  ;; The function to handle `buffer-file-name'.
+  (setq doom-modeline-buffer-file-name-function #'identity)
+
+  ;; The function to handle `buffer-file-truename'.
+  (setq doom-modeline-buffer-file-truename-function #'identity)
 
   ;; Whether display the environment version.
   (setq doom-modeline-env-version t)
