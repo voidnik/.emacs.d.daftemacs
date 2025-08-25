@@ -197,10 +197,10 @@
         docker-compose-mode dockerfile-mode doom-modeline doom-themes
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
         filldent find-file-in-project flx flycheck focus fretboard
-        gnu-indent go-translate google-c-style graphviz-dot-mode
-        haskell-mode helm-ag helm-company helm-lsp helm-rg helpful
-        hide-mode-line highlight-indent-guides highlight-indentation
-        howdoyou i3wm-config-mode imenu-list importmagic insecure-lock
+        gnu-indent google-c-style graphviz-dot-mode gt haskell-mode
+        helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
+        highlight-indent-guides highlight-indentation howdoyou
+        i3wm-config-mode imenu-list importmagic insecure-lock
         json-mode json-reformat keyfreq ligature lsp-ivy lsp-pyright
         lsp-ui lua-mode magic-latex-buffer magit-popup magit-stats
         markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
@@ -217,7 +217,8 @@
         ultra-scroll undo-tree vdiff-magit vlf vundo wgrep-ag
         wgrep-deadgrep yasnippet yeetube ztree))
  '(package-vc-selected-packages
-   '((org-table-highlight :url
+   '((helm-ag :url "https://github.com/emacsattic/helm-ag.git")
+     (org-table-highlight :url
                           "https://www.github.com/llcc/org-table-highlight"))))
 
 (custom-set-faces
@@ -1828,7 +1829,8 @@ to obtain ripgrep results."
 
 (use-package helm)
 
-(use-package helm-ag)
+(use-package helm-ag
+  :vc (:url "https://github.com/emacsattic/helm-ag.git"))
 
 (use-package helm-rg)
 
@@ -2570,7 +2572,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package bufler
   :load-path "custom-packages/bufler"
   :config
-  (setq bufler-show-header-string nil
+  (setq bufler-show-header-string t
         bufler-use-header-line-format nil
         bufler-delete-bufler-window-when-switching-to-buffer t)
   (setq bufler-filter-buffer-modes
@@ -3788,13 +3790,12 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 (use-package disk-usage)
 
 ;;==============================================================================
-;; go-translate
+;; gt
 ;;
-;; https://github.com/lorniu/go-translate
-;; https://www.emacswiki.org/emacs/GoTranslate
+;; https://github.com/lorniu/gt.el
 ;;==============================================================================
 
-(use-package go-translate
+(use-package gt
   :config
   (setq gt-langs '(en ko))
   (setq gt-default-translator
@@ -3815,8 +3816,7 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
                     :taker (gt-taker :langs '(en ko) :text 'buffer
                                      :pick 'word :pick-pred (lambda (w) (length> w 6)))
                     :engines (gt-google-engine)
-                    :render (gt-overlay-render :type 'help-echo)))))
-  )
+                    :render (gt-overlay-render :type 'help-echo))))))
 
 ;;==============================================================================
 ;; mpv
