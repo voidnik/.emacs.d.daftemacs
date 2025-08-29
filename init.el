@@ -200,9 +200,10 @@
         gnu-indent google-c-style graphviz-dot-mode gt haskell-mode
         helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
         highlight-indent-guides highlight-indentation howdoyou
-        i3wm-config-mode imenu-list importmagic insecure-lock
-        json-mode json-reformat keyfreq ligature lsp-ivy lsp-pyright
-        lsp-ui lua-mode magic-latex-buffer magit-popup magit-stats
+        i3wm-config-mode ibuffer-projectile ibuffer-sidebar ibuffer-vc
+        imenu-list importmagic insecure-lock json-mode json-reformat
+        keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
+        magic-latex-buffer magit-popup magit-stats
         markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
         neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
         nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
@@ -1243,6 +1244,7 @@ That is, a string used to represent it on the tab bar."
        (string-prefix-p "*Compile-Log*" name)
        (string-prefix-p "*Backtrace*" name)
        (string-prefix-p "*Bufler*" name)
+       (string-prefix-p "*Ibuffer*" name)
        (string-prefix-p "*lsp" name)
        (string-prefix-p "*LSP" name)
        (string-prefix-p "*company" name)
@@ -2198,7 +2200,8 @@ to obtain ripgrep results."
       (message "There is no saved file for the default perspective state.")))
 
   (add-hook 'persp-before-switch-hook #'(lambda ()
-                                          (kill-side-windows)))
+                                          (kill-side-windows)
+                                          (ibuffer-close)))
 
   (add-hook 'kill-emacs-hook #'(lambda ()
                                  (kill-side-windows)
@@ -2589,6 +2592,41 @@ If optional arg SILENT is non-nil, do not display progress messages."
                                        (when (string-prefix-p "*Bufler" (buffer-name buffer))
                                          (setq mode-line-format nil)
                                          (buffer-focus-out-callback 'bufler-sidebar-close buffer))))))
+
+;;==============================================================================
+;; ibuffer stuffs
+;;
+;; https://github.com/purcell/ibuffer-projectile
+;; https://github.com/purcell/ibuffer-vc
+;;==============================================================================
+
+(setq ibuffer-formats '((mark modified read-only locked
+                              " " (name 24 24 :left :elide)
+				              " " (size 9 -1 :right)
+				              " " (mode 16 16 :left :elide) " " filename-and-process)
+			            (mark " " (name 16 -1) " " filename)))
+
+(defun ibuffer-close ()
+  (interactive)
+  (when (get-buffer "*Ibuffer*")
+    (kill-buffer "*Ibuffer*")))
+
+(add-hook 'ibuffer-mode-hook (lambda ()
+                               (local-set-key (kbd "C-g C-g") 'ibuffer-close)
+                               (let ((buffer (current-buffer)))
+                                 (when (string-prefix-p "*Ibuffer" (buffer-name buffer))
+                                   (setq mode-line-format nil)))))
+
+(use-package ibuffer-projectile
+  :config
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (setq ibuffer-show-empty-filter-groups nil)
+              (ibuffer-projectile-set-filter-groups)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic)))))
+
+(use-package ibuffer-vc)
 
 ;;==============================================================================
 ;; Code Style
@@ -3971,8 +4009,8 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-b") 'bufler-sidebar)
-(global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
+(global-set-key (kbd "C-x C-b") 'persp-ibuffer)
+(global-set-key (kbd "C-x C-S-b") 'bufler-sidebar)
 (global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
 (global-set-key (kbd "C-x U") 'vundo)
