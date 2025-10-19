@@ -200,9 +200,9 @@
         gnu-indent google-c-style graphviz-dot-mode gt haskell-mode
         helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
         highlight-indent-guides highlight-indentation howdoyou
-        i3wm-config-mode ibuffer-projectile ibuffer-sidebar ibuffer-vc
-        imenu-list importmagic insecure-lock json-mode json-reformat
-        keyfreq ligature lsp-ivy lsp-pyright lsp-ui lua-mode
+        i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
+        importmagic insecure-lock json-mode json-reformat keyfreq
+        ligature lsp-ivy lsp-pyright lsp-ui lua-mode
         magic-latex-buffer magit-popup magit-stats
         markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
         neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
@@ -218,9 +218,7 @@
         ultra-scroll undo-tree vdiff-magit vlf vundo wgrep-ag
         wgrep-deadgrep yasnippet yeetube ztree))
  '(package-vc-selected-packages
-   '((helm-ag :url "https://github.com/emacsattic/helm-ag.git")
-     (org-table-highlight :url
-                          "https://www.github.com/llcc/org-table-highlight"))))
+   '((helm-ag :url "https://github.com/emacsattic/helm-ag.git"))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -1467,10 +1465,7 @@ That is, a string used to represent it on the tab bar."
 ;; org-table-highlight
 ;; https://github.com/llcc/org-table-highlight
 (use-package org-table-highlight
-  :vc (:url "https://www.github.com/llcc/org-table-highlight" :rev :newest)
-  :hook (org-mode . org-table-highlight-mode)
-  :config
-  (add-hook 'after-init-hook #'org-table-highlight-load-metadata))
+  :hook (org-mode . org-table-highlight-mode))
 
 ;; org-present
 (use-package org-present
