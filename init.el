@@ -2795,7 +2795,8 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 ;;==============================================================================
 
 (setq cc-search-directories '("." "../include" "/usr/include" "/usr/local/include/*"
-                              "/System/Library/Frameworks" "/Library/Frameworks"))
+                              "/System/Library/Frameworks" "/Library/Frameworks"
+                              "/opt/homebrew/include"))
 
 ;;==============================================================================
 ;; Language Server Protocol (LSP)
