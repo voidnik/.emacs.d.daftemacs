@@ -9,6 +9,11 @@
 (setq read-process-output-max (* 1024 1024))
 (message "read-process-output-max: %d" read-process-output-max)
 
+;; If you want the buffer to be displayed but not in a new window:
+(add-to-list 'display-buffer-alist
+             '("\\*Compile-Log\\*"
+               (display-buffer-same-window . nil)))
+
 ;; Don’t compact font caches during GC.
 ;; If you experience a slow down in performace when rendering multiple
 ;; icons simultaneously, you can try setting the following variable.
