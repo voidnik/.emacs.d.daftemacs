@@ -213,10 +213,10 @@
         pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
         qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
         selected-window-contrast spell-fu string-utils swift-mode
-        texfrag tree-sitter treemacs-magit treemacs-nerd-icons
-        treemacs-perspective treemacs-projectile typescript-mode
-        ultra-scroll undo-tree vdiff-magit vlf vundo wgrep-ag
-        wgrep-deadgrep yasnippet yeetube ztree))
+        texfrag trailing-newline-indicator tree-sitter treemacs-magit
+        treemacs-nerd-icons treemacs-perspective treemacs-projectile
+        typescript-mode ultra-scroll undo-tree vdiff-magit vlf vundo
+        wgrep-ag wgrep-deadgrep yasnippet yeetube ztree))
  '(package-vc-selected-packages
    '((helm-ag :url "https://github.com/emacsattic/helm-ag.git"))))
 
@@ -300,6 +300,16 @@
 ;;==============================================================================
 
 (use-package flx)
+
+;;==============================================================================
+;; trailing-newline-indicator
+;;
+;; https://github.com/saulotoledo/trailing-newline-indicator
+;;==============================================================================
+
+(use-package trailing-newline-indicator
+  :init
+  (global-trailing-newline-indicator-mode 1))
 
 ;;==============================================================================
 ;; helpful
