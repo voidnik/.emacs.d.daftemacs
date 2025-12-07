@@ -395,7 +395,7 @@ which are otherwise filtered by `bufler-filter-buffer-fns'."
                           (magit-insert-heading (make-string (* 2 level) ? )
                             (format-group type level)
                             (propertize (format " (%s)" num-buffers)
-                                        'face 'bufler-size))
+                                        'font-lock-face 'bufler-size))
                           (--each things
                             (insert-thing it path (1+ level)))
                           (when suffix
@@ -406,7 +406,7 @@ which are otherwise filtered by `bufler-filter-buffer-fns'."
                             (string group)
                             (otherwise (prin1-to-string group)))))
              (propertize string
-                         'face (list :inherit (list 'bufler-group (bufler-level-face level))))))
+                         'font-lock-face (list :inherit (list 'bufler-group (bufler-level-face level))))))
          (hidden-p (buffer)
            (string-prefix-p " " (buffer-name buffer)))
          (as-string (arg)
@@ -703,7 +703,7 @@ omit buffers that match any of them."
          (paths (bufler-group-tree-paths grouped-buffers)))
     (cl-labels ((format-heading (heading level)
                   (propertize heading
-                              'face (bufler-level-face level)))
+                              'font-lock-face (bufler-level-face level)))
                 (format-path (path)
                   (string-join (cl-loop for level from level-start
                                         for element in path
@@ -739,7 +739,7 @@ omit buffers that match any of them."
                 (cl-decf level))
            collect (cl-typecase element
                      (string (propertize element
-                                         'face (bufler-level-face level)))
+                                         'font-lock-face (bufler-level-face level)))
                      (buffer (buffer-name element)))))
 
 (defun bufler-level-face (level)
@@ -751,14 +751,14 @@ omit buffers that match any of them."
   (let* ((modified-s (propertize (if (and (buffer-file-name buffer)
                                           (buffer-modified-p buffer))
                                      "*" "")
-                                 'face 'font-lock-warning-face))
+                                 'font-lock-face 'font-lock-warning-face))
          (buffer-face (if (bufler--buffer-special-p buffer)
                           'bufler-buffer-special 'bufler-buffer))
          (level-face (bufler-level-face depth))
          (face (list :inherit (list buffer-face level-face)))
-         (name (propertize (buffer-name buffer) 'face face))
+         (name (propertize (buffer-name buffer) 'font-lock-face face))
          (size (propertize (concat "(" (file-size-human-readable (buffer-size buffer)) ")")
-                           'face 'bufler-size))
+                           'font-lock-face 'bufler-size))
          ;; Getting correct, up-to-date results from vc is harder than it should be.
          (vc-state (when bufler-vc-state
                      (or (when (and (buffer-file-name buffer)
@@ -770,7 +770,7 @@ omit buffers that match any of them."
                            (pcase (vc-state (buffer-file-name buffer))
                              ((and 'edited it)
                               (propertize (format " %s" it)
-                                          'face 'bufler-vc))))
+                                          'font-lock-face 'bufler-vc))))
                          "")))
          (mode-annotation (when (cl-loop for fn in bufler-buffer-mode-annotate-preds
                                          thereis (funcall fn buffer))
@@ -778,7 +778,7 @@ omit buffers that match any of them."
                                          (rx "-mode" eos) ""
                                          (format " %s" (buffer-local-value 'major-mode buffer))
                                          t t)
-                                        'face 'bufler-mode))))
+                                        'font-lock-face 'bufler-mode))))
     (concat name modified-s " " size vc-state mode-annotation)))
 
 (defun bufler--map-sections (fn sections)
@@ -885,7 +885,7 @@ PLIST may be a plist setting the following options:
                   ;; Faces are not defined until load time, while this checks type at expansion
                   ;; time, so we can only test that the argument is a symbol, not a face.
                   (cl-check-type face symbol ":face must be a face symbol")
-                  `(setf string (propertize string 'face ',face)))
+                  `(setf string (propertize string 'font-lock-face ',face)))
                string)
            ""))
        (setf (map-elt bufler-column-format-fns ,name) #',fn-name))))
@@ -902,12 +902,12 @@ PLIST may be a plist setting the following options:
                                                 (symbol-name (buffer-local-value 'major-mode buffer))
                                                 t t)
                                                " ")
-                                       'face 'bufler-mode)))
+                                       'font-lock-face 'bufler-mode)))
         (buffer-name (buffer-name buffer))
         (modified (when (and (buffer-file-name buffer)
                              (buffer-modified-p buffer))
                     (propertize bufler-column-name-modified-buffer-sigil
-                                'face 'font-lock-warning-face))))
+                                'font-lock-face 'font-lock-warning-face))))
     (concat indentation mode-annotation buffer-name modified)))
 
 (bufler-define-column "Size" (:face bufler-size)
@@ -939,8 +939,8 @@ have their state displayed."
                           (vc-backend (buffer-file-name buffer)))))
     (pcase (vc-state (buffer-file-name buffer))
       ('nil nil)
-      ((and 'edited it) (propertize (symbol-name it) 'face 'bufler-vc))
-      (it (propertize (symbol-name it) 'face 'bufler-dim)))))
+      ((and 'edited it) (propertize (symbol-name it) 'font-lock-face 'bufler-vc))
+      (it (propertize (symbol-name it) 'font-lock-face 'bufler-dim)))))
 
 (bufler-define-column "Path" (:face bufler-path :max-width nil)
   (ignore depth)
@@ -1192,11 +1192,11 @@ NAME, okay, `checkdoc'?"
                             (when (buffer-base-buffer buffer)
                               (buffer-file-name (buffer-base-buffer buffer))))))
     (propertize (concat "File: " (file-name-nondirectory filename))
-                'face 'magit-section-heading)))
+                'font-lock-face 'magit-section-heading)))
 
 (bufler-defauto-group directory
   (propertize (concat "Dir: " (file-truename (buffer-local-value 'default-directory buffer)))
-              'face 'magit-section-heading))
+              'font-lock-face 'magit-section-heading))
 
 (bufler-defauto-group mode
   (symbol-name (buffer-local-value 'major-mode buffer)))
