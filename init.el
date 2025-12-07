@@ -4015,8 +4015,8 @@ The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-b") 'persp-ibuffer)
-(global-set-key (kbd "C-x C-S-b") 'bufler-sidebar)
+(global-set-key (kbd "C-x C-b") 'bufler-sidebar)
+(global-set-key (kbd "C-x C-S-b") 'persp-ibuffer)
 (global-set-key (kbd "C-x b") 'persp-counsel-switch-buffer)
 (global-set-key (kbd "C-x k") 'persp-kill-buffer*)
 (global-set-key (kbd "C-x U") 'vundo)
