@@ -2761,86 +2761,87 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 ;;==============================================================================
 
-;;(setq treesit-language-source-alist
-;;      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-;;        (cmake "https://github.com/uyha/tree-sitter-cmake")
-;;        (css "https://github.com/tree-sitter/tree-sitter-css")
-;;        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-;;        (c "https://github.com/tree-sitter/tree-sitter-c")
-;;        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-;;        (go "https://github.com/tree-sitter/tree-sitter-go")
-;;        (html "https://github.com/tree-sitter/tree-sitter-html")
-;;        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-;;        (json "https://github.com/tree-sitter/tree-sitter-json")
-;;        (make "https://github.com/alemuller/tree-sitter-make")
-;;        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-;;        (python "https://github.com/tree-sitter/tree-sitter-python")
-;;        (toml "https://github.com/tree-sitter/tree-sitter-toml")
-;;        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-;;        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-;;        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+(setq treesit-language-source-alist
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (cmake "https://github.com/uyha/tree-sitter-cmake")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (c "https://github.com/tree-sitter/tree-sitter-c")
+        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+        (rust "https://github.com/tree-sitter/tree-sitter-rust")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (html "https://github.com/tree-sitter/tree-sitter-html")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
+        (make "https://github.com/alemuller/tree-sitter-make")
+        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (toml "https://github.com/tree-sitter/tree-sitter-toml")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+(setq major-mode-remap-alist
+      '((yaml-mode . yaml-ts-mode)
+        (bash-mode . bash-ts-mode)
+        (js2-mode . js-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (json-mode . json-ts-mode)
+        (css-mode . css-ts-mode)
+        (python-mode . python-ts-mode)))
+
+;;(use-package tree-sitter
+;;  :hook
+;;  ((c-mode
+;;    c++-mode
+;;    python-mode
+;;    css-mode
+;;    js-mode
+;;    json-mode
+;;    php-mode
+;;    ruby-mode
+;;    rust-mode
+;;    sh-mode
+;;    terraform-mode
+;;    typescript-mode
+;;    yaml-mode) . daftemacs/tree-sitter-mode-enable)
+;;  :preface
+;;  (defun daftemacs/tree-sitter-mode-enable ()
+;;    (tree-sitter-mode t))
+;;  :defer t)
 ;;
-;;(setq major-mode-remap-alist
-;;      '((yaml-mode . yaml-ts-mode)
-;;        (bash-mode . bash-ts-mode)
-;;        (js2-mode . js-ts-mode)
-;;        (typescript-mode . typescript-ts-mode)
-;;        (json-mode . json-ts-mode)
-;;        (css-mode . css-ts-mode)
-;;        (python-mode . python-ts-mode)))
-
-(use-package tree-sitter
-  :hook
-  ((c-mode
-    c++-mode
-    python-mode
-    css-mode
-    js-mode
-    json-mode
-    php-mode
-    ruby-mode
-    rust-mode
-    sh-mode
-    terraform-mode
-    typescript-mode
-    yaml-mode) . daftemacs/tree-sitter-mode-enable)
-  :preface
-  (defun daftemacs/tree-sitter-mode-enable ()
-    (tree-sitter-mode t))
-  :defer t)
-
-(defun daftemacs/clone-tree-sitter-langs ()
-  "Clone the tree-sitter-langs repository if the target directory doesn't exist.
-The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs/'."
-  (interactive)
-  (let* ((target-dir (expand-file-name "~/.emacs.d/cloned-packages/tree-sitter-langs"))
-         (git-url "https://github.com/emacs-tree-sitter/tree-sitter-langs.git"))
-
-    ;; Check if directory exists
-    (if (not (file-exists-p target-dir))
-        (progn
-          ;; Create parent directory if it doesn't exist
-          (make-directory target-dir t)
-
-          ;; Execute git clone
-          (let ((default-directory (file-name-directory target-dir)))
-            (shell-command
-             (format "git clone %s %s" git-url (file-name-nondirectory target-dir))
-             "*Tree-sitter Clone Output*"))
-
-          (message "tree-sitter-langs repository cloned successfully to %s" target-dir))
-
-      ;; If directory already exists
-      (message "Directory %s already exists. Skipping clone." target-dir))))
-
-(daftemacs/clone-tree-sitter-langs)
-
-(use-package tree-sitter-langs
-  :load-path "cloned-packages/tree-sitter-langs"
-  :init
-  (require 'tree-sitter-langs)
-  :hook
-  (tree-sitter-after-on . tree-sitter-hl-mode))
+;;(defun daftemacs/clone-tree-sitter-langs ()
+;;  "Clone the tree-sitter-langs repository if the target directory doesn't exist.
+;;The repository will be cloned into '~/.emacs.d/cloned-packages/tree-sitter-langs/'."
+;;  (interactive)
+;;  (let* ((target-dir (expand-file-name "~/.emacs.d/cloned-packages/tree-sitter-langs"))
+;;         (git-url "https://github.com/emacs-tree-sitter/tree-sitter-langs.git"))
+;;
+;;    ;; Check if directory exists
+;;    (if (not (file-exists-p target-dir))
+;;        (progn
+;;          ;; Create parent directory if it doesn't exist
+;;          (make-directory target-dir t)
+;;
+;;          ;; Execute git clone
+;;          (let ((default-directory (file-name-directory target-dir)))
+;;            (shell-command
+;;             (format "git clone %s %s" git-url (file-name-nondirectory target-dir))
+;;             "*Tree-sitter Clone Output*"))
+;;
+;;          (message "tree-sitter-langs repository cloned successfully to %s" target-dir))
+;;
+;;      ;; If directory already exists
+;;      (message "Directory %s already exists. Skipping clone." target-dir))))
+;;
+;;(daftemacs/clone-tree-sitter-langs)
+;;
+;;(use-package tree-sitter-langs
+;;  :load-path "cloned-packages/tree-sitter-langs"
+;;  :init
+;;  (require 'tree-sitter-langs)
+;;  :hook
+;;  (tree-sitter-after-on . tree-sitter-hl-mode))
 
 ;;==============================================================================
 ;; cc-search-directories
