@@ -2971,50 +2971,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;  )
 
 ;;==============================================================================
-;; Objective C
-;;
-;; https://www.emacswiki.org/emacs/ObjectiveCMode
-;;==============================================================================
-
-(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
-
-(add-to-list 'magic-mode-alist
-             `(,(lambda ()
-                  (and (buffer-file-name)
-                       (string= (file-name-extension buffer-file-name) "h")
-                       (re-search-forward "@\\<interface\\>"
-                                          magic-mode-regexp-match-limit t)))
-               . objc-mode))
-
-(require 'find-file) ;; for the "cc-other-file-alist" variable
-(nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
-
-(defun ff-get-file-name--ff-get-file-name-framework (orig-fun search-dirs fname-stub &rest args)
-  "Search for Mac framework headers as well as POSIX headers."
-  (or
-   (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
-       (let* ((framework (match-string 1 fname-stub))
-              (header (match-string 2 fname-stub))
-              (fname-stub (concat framework ".framework/Headers/" header)))
-         (apply orig-fun search-dirs fname-stub args)))
-   (apply orig-fun search-dirs fname-stub args)))
-(advice-add 'ff-get-file-name :around #'ff-get-file-name--ff-get-file-name-framework)
-
-;; for lsp-mode
-(add-hook 'objc-mode-hook 'lsp-deferred)
-
-;; objc-font-lock
-(use-package objc-font-lock)
-
-;;==============================================================================
-;; Swift
-;;
-;; https://github.com/swift-emacs/swift-mode
-;;==============================================================================
-
-(use-package swift-mode)
-
-;;==============================================================================
 ;; Python
 ;;
 ;; - elpy (https://github.com/jorgenschaefer/elpy)
@@ -3190,6 +3146,17 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (add-hook 'typescript-mode-hook (lambda () (lsp-deferred)))
 
 ;;==============================================================================
+;; Rust
+;;==============================================================================
+
+(use-package rust-mode
+  :init
+  (setq rust-mode-treesitter-derive t)
+  :config
+  (add-hook 'rust-mode-hook
+            (lambda () (setq indent-tabs-mode nil))))
+
+;;==============================================================================
 ;; haskell-mode
 ;;==============================================================================
 
@@ -3204,6 +3171,50 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
   (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
   (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
+
+;;==============================================================================
+;; Objective C
+;;
+;; https://www.emacswiki.org/emacs/ObjectiveCMode
+;;==============================================================================
+
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+
+(add-to-list 'magic-mode-alist
+             `(,(lambda ()
+                  (and (buffer-file-name)
+                       (string= (file-name-extension buffer-file-name) "h")
+                       (re-search-forward "@\\<interface\\>"
+                                          magic-mode-regexp-match-limit t)))
+               . objc-mode))
+
+(require 'find-file) ;; for the "cc-other-file-alist" variable
+(nconc (cadr (assoc "\\.h\\'" cc-other-file-alist)) '(".m" ".mm"))
+
+(defun ff-get-file-name--ff-get-file-name-framework (orig-fun search-dirs fname-stub &rest args)
+  "Search for Mac framework headers as well as POSIX headers."
+  (or
+   (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
+       (let* ((framework (match-string 1 fname-stub))
+              (header (match-string 2 fname-stub))
+              (fname-stub (concat framework ".framework/Headers/" header)))
+         (apply orig-fun search-dirs fname-stub args)))
+   (apply orig-fun search-dirs fname-stub args)))
+(advice-add 'ff-get-file-name :around #'ff-get-file-name--ff-get-file-name-framework)
+
+;; for lsp-mode
+(add-hook 'objc-mode-hook 'lsp-deferred)
+
+;; objc-font-lock
+(use-package objc-font-lock)
+
+;;==============================================================================
+;; Swift
+;;
+;; https://github.com/swift-emacs/swift-mode
+;;==============================================================================
+
+(use-package swift-mode)
 
 ;;==============================================================================
 ;; cuda-mode
