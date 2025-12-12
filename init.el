@@ -203,17 +203,17 @@
         i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
         importmagic insecure-lock json-mode json-reformat keyfreq
         ligature lsp-ivy lsp-pyright lsp-ui lua-mode
-        magic-latex-buffer magit-popup magit-stats
-        markdown-preview-mode md4rd minibar mixed-pitch multi-vterm
-        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
-        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
-        objc-font-lock obsidian occurx-mode openwith org-autolist
-        org-bullets org-present org-re-reveal org-table-highlight
-        org-tree-slide page-break-lines pdf-tools peep-dired
-        pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
-        qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
+        magic-latex-buffer magit-popup magit-stats md4rd minibar
+        mixed-pitch multi-vterm neato-graph-bar neotree
+        nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer
+        nerd-icons-ivy-rich nov nyan-mode objc-font-lock obsidian
+        occurx-mode openwith org-autolist org-bullets org-present
+        org-re-reveal org-table-highlight org-tree-slide
+        page-break-lines pdf-tools peep-dired pip-requirements
+        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
+        rainbow-delimiters redacted rg rich-minority ripgrep rust-mode
         selected-window-contrast spell-fu string-utils swift-mode
-        texfrag trailing-newline-indicator tree-sitter treemacs-magit
+        texfrag trailing-newline-indicator treemacs-magit
         treemacs-nerd-icons treemacs-perspective treemacs-projectile
         typescript-mode ultra-scroll undo-tree vdiff-magit vlf vundo
         wgrep-ag wgrep-deadgrep yasnippet yeetube ztree))
@@ -1583,12 +1583,20 @@ That is, a string used to represent it on the tab bar."
 
 ;;==============================================================================
 ;; markdown
+;;
+;; https://www.reddit.com/r/emacs/comments/10h9jf0/beautify_markdown_on_emacs/
 ;;==============================================================================
 
 (use-package markdown-mode
+  :hook
+  (markdown-mode . daftemacs/markdown-style)
+  (markdown-mode . daftemacs/markdown-unhighlight)
+  (markdown-mode . abbrev-mode)
   :config
   (setq markdown-command "pandoc"
         markdown-enable-math t
+        markdown-header-scaling t
+        markdown-hide-urls t
         markdown-fontify-code-blocks-natively t)
 
   ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
@@ -1601,17 +1609,46 @@ That is, a string used to represent it on the tab bar."
     (setq tab-width 4)
     (texfrag-mode +1))
 
-  (add-hook 'markdown-mode-hook 'daftemacs/markdown-style)
+  (defvar daftemacs/current-line '(0 . 0)
+    "(start . end) of current line in current buffer")
+  (make-variable-buffer-local 'daftemacs/current-line)
+
+  (defun daftemacs/unhide-current-line (limit)
+    "Font-lock function"
+    (let ((start (max (point) (car daftemacs/current-line)))
+          (end (min limit (cdr daftemacs/current-line))))
+      (when (< start end)
+        (remove-text-properties start end
+                                '(invisible t display "" composition ""))
+        (goto-char limit)
+        t)))
+
+  (defun daftemacs/refontify-on-linemove ()
+    "Post-command-hook"
+    (let* ((start (line-beginning-position))
+           (end (line-beginning-position 2))
+           (needs-update (not (equal start (car daftemacs/current-line)))))
+      (setq daftemacs/current-line (cons start end))
+      (when needs-update
+        (font-lock-fontify-block 3))))
+
+  (defun daftemacs/markdown-unhighlight ()
+    "Enable markdown concealling"
+    (interactive)
+    (markdown-toggle-markup-hiding 'toggle)
+    (font-lock-add-keywords nil '((daftemacs/unhide-current-line)) t)
+    (add-hook 'post-command-hook #'daftemacs/refontify-on-linemove nil t))
+  :custom-face
+  (markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
+  (markdown-header-face-1 ((t (:height 1.6  :foreground "#ff757f" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-2 ((t (:height 1.4  :foreground "#e0af67" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-3 ((t (:height 1.2  :foreground "#9ece6a" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-4 ((t (:height 1.15 :foreground "#7dcfff" :weight bold :inherit markdown-header-face))))
+  (markdown-header-face-5 ((t (:height 1.1  :foreground "#7aa2f7" :weight bold :inherit markdown-header-face))))
+  (markdown-header-face-6 ((t (:height 1.05 :foreground "#bb9af7" :weight semi-bold :inherit markdown-header-face))))
   :bind
   ("M-+" . markdown-backward-block)
   ("M-\"" . markdown-forward-block))
-
-;; markdown-preview-mode
-;; https://github.com/ancane/markdown-preview-mode
-(use-package markdown-preview-mode
-  :config
-  (setq markdown-preview-stylesheets (list "~/.emacs.d/css/github-markdown.css"))
-  (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
 ;;==============================================================================
 ;; obsidian
