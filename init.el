@@ -1590,8 +1590,6 @@ That is, a string used to represent it on the tab bar."
 (use-package markdown-mode
   :hook
   (markdown-mode . daftemacs/markdown-style)
-  (markdown-mode . daftemacs/markdown-unhighlight)
-  (markdown-mode . abbrev-mode)
   :config
   (setq markdown-command "pandoc"
         markdown-enable-math t
@@ -1599,45 +1597,49 @@ That is, a string used to represent it on the tab bar."
         markdown-hide-urls t
         markdown-fontify-code-blocks-natively t)
 
-  ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
-  (define-key markdown-mode-map (kbd "C-M-{") nil)
-  (define-key markdown-mode-map (kbd "C-M-}") nil)
-
-  (defun daftemacs/markdown-style ()
-    (visual-line-mode)
-    (setq indent-tabs-mode t)
-    (setq tab-width 4)
-    (texfrag-mode +1))
-
-  (defvar daftemacs/current-line '(0 . 0)
+  (defvar markdown-current-line '(0 . 0)
     "(start . end) of current line in current buffer")
-  (make-variable-buffer-local 'daftemacs/current-line)
+  (make-variable-buffer-local 'markdown-current-line)
 
-  (defun daftemacs/unhide-current-line (limit)
+  (defun markdown-unhide-current-line (limit)
     "Font-lock function"
-    (let ((start (max (point) (car daftemacs/current-line)))
-          (end (min limit (cdr daftemacs/current-line))))
+    (let ((start (max (point) (car markdown-current-line)))
+          (end (min limit (cdr markdown-current-line))))
       (when (< start end)
         (remove-text-properties start end
                                 '(invisible t display "" composition ""))
         (goto-char limit)
         t)))
 
-  (defun daftemacs/refontify-on-linemove ()
+  (defun markdown-refontify-on-linemove ()
     "Post-command-hook"
     (let* ((start (line-beginning-position))
            (end (line-beginning-position 2))
-           (needs-update (not (equal start (car daftemacs/current-line)))))
-      (setq daftemacs/current-line (cons start end))
+           (needs-update (not (equal start (car markdown-current-line)))))
+      (setq markdown-current-line (cons start end))
       (when needs-update
-        (font-lock-fontify-block 3))))
+        (font-lock-fontify-block 4))))
 
-  (defun daftemacs/markdown-unhighlight ()
-    "Enable markdown concealling"
+  (defun markdown-toggle-concealling ()
+    "Toggle markdown concealling"
     (interactive)
     (markdown-toggle-markup-hiding 'toggle)
-    (font-lock-add-keywords nil '((daftemacs/unhide-current-line)) t)
-    (add-hook 'post-command-hook #'daftemacs/refontify-on-linemove nil t))
+    (font-lock-add-keywords nil '((markdown-unhide-current-line)) t)
+    (add-hook 'post-command-hook #'markdown-refontify-on-linemove nil t))
+
+  (defun daftemacs/markdown-style ()
+    (visual-line-mode)
+    (abbrev-mode)
+    (setq indent-tabs-mode t)
+    (setq tab-width 4)
+    (texfrag-mode +1)
+    (markdown-toggle-concealling))
+
+  ;; 'C-M-{' and 'C-M-}' are used for 'centaur-tabs'.
+  (define-key markdown-mode-map (kbd "C-M-{") nil)
+  (define-key markdown-mode-map (kbd "C-M-}") nil)
+
+  (define-key markdown-mode-map (kbd "C-c C-x C-c") 'markdown-toggle-concealling)
   :custom-face
   (markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
   (markdown-header-face-1 ((t (:height 1.6  :foreground "#ff757f" :weight extra-bold :inherit markdown-header-face))))
