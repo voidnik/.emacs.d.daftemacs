@@ -1054,7 +1054,9 @@ even when the file is larger than `large-file-warning-threshold'.")
   (setq minimap-window-location 'right
         minimap-update-delay 0.2
         minimap-enlarge-certain-faces 'always
-        minimap-major-modes '(prog-mode yaml-mode))
+        minimap-major-modes '(prog-mode
+                              yaml-mode
+                              markdown-mode))
 
   (defun minimap-ignore-specific-buffers ()
     (or (string-match "*scratch" (buffer-name))
