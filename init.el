@@ -1056,6 +1056,7 @@ even when the file is larger than `large-file-warning-threshold'.")
         minimap-enlarge-certain-faces 'always
         minimap-major-modes '(prog-mode
                               yaml-mode
+                              org-mode
                               markdown-mode))
 
   (defun minimap-ignore-specific-buffers ()
