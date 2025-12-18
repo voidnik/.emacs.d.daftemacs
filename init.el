@@ -2165,9 +2165,14 @@ to obtain ripgrep results."
 
   (defun daftemacs/insecure-lock-mode ()
     (insecure-lock-redact)
-    (insecure-lock-posframe)
+
+    ;; Due to (insecure-lock-posframe), when switching to another desktop on macOS, the mouse cursor spontaneously moves in certain areas.
+    (if (not (string-equal system-type "darwin"))
+        (insecure-lock-posframe))
+
     (if insecure-lock-mode
         (progn
+          (message "Insecure Lock Screensaver")
           (centaur-tabs-mode 0)
           (doom-modeline-mode 0)
           (global-hide-mode-line-mode))
