@@ -676,7 +676,7 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; nil means to use `default-directory'.
   ;; The project management packages have some issues on detecting project root.
   ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
-  ;; to hanle sub-projects.
+  ;; to handle sub-projects.
   ;; You can specify one if you encounter the issue.
   (setq doom-modeline-project-detection 'auto)
 
@@ -768,6 +768,9 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Whether display the minor modes in the mode-line.
   (setq doom-modeline-minor-modes nil)
 
+  ;; Whether display the selection information.
+  (setq doom-modeline-selection-info t)
+
   ;; If non-nil, a word count will be added to the selection-info modeline segment.
   (setq doom-modeline-enable-word-count nil)
 
@@ -776,6 +779,9 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
   ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
   (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+
+  ;; Whether display the buffer position information.
+  (setq doom-modeline-enable-buffer-position t)
 
   ;; Whether display the buffer encoding.
   (setq doom-modeline-buffer-encoding t)
@@ -853,7 +859,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 
   ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
   (setq doom-modeline-mu4e nil)
-  ;;;; also enable the start of mu4e-alert
+  ;; also enable the start of mu4e-alert
   ;;(mu4e-alert-enable-mode-line-display)
 
   ;; Whether display the gnus notifications.
@@ -880,6 +886,9 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Whether display the misc segment on all mode lines.
   ;; If nil, display only if the mode line is active.
   (setq doom-modeline-display-misc-in-all-mode-lines t)
+
+  ;; Whether to display the remote host information.
+  (setq doom-modeline-remote-host t)
 
   ;; The function to handle `buffer-file-name'.
   (setq doom-modeline-buffer-file-name-function #'identity)
@@ -908,8 +917,8 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; What to display as the version while a new one is being loaded
   (setq doom-modeline-env-load-string "...")
 
-  ;;;; By default, almost all segments are displayed only in the active window. To
-  ;;;; display such segments in all windows, specify e.g.
+  ;; By default, almost all segments are displayed only in the active window. To
+  ;; display such segments in all windows, specify e.g.
   ;;(setq doom-modeline-always-visible-segments '(mu4e irc))
 
   ;; Hooks that run before/after the modeline version string is updated
