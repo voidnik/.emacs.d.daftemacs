@@ -225,6 +225,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(doom-modeline-buffer-modified ((t (:inherit (warning bold) :foreground "#ff5555" :background unspecified))))
+ '(centaur-tabs-default ((t (:background "#16171d" :foreground "#f8f8f2"))))
+ '(centaur-tabs-selected ((t (:background "#455073" :foreground "#f8f8f2"))))
+ '(centaur-tabs-selected-modified ((t (:background "#455073" :foreground "#ff5555"))))
+ '(centaur-tabs-unselected ((t (:background "#16171d" :foreground "#6272a4"))))
+ '(centaur-tabs-unselected-modified ((t (:background "#16171d" :foreground "#b33939"))))
  '(diff-hl-change ((t (:foreground "#8be9fd" :background "#8be9fd"))))
  '(diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
  '(diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
@@ -248,6 +254,10 @@
  '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
  '(minimap-font-face ((default :family "Input Mono Narrow" :height 30)))
  '(mode-line ((t (:background "#455073"))))
+ '(dir-treeview-control-mouse-face ((t (:foreground "#1e1f29" :background "#bd93f9"))))
+ '(dir-treeview-label-mouse-face ((t (:foreground "#1e1f29" :background "#50fa7b"))))
+ '(dir-treeview-start-dir-face ((t (:foreground "#1e1f29" :background "#ff79c6"))))
+ '(dir-treeview-select-face ((t (:background "#6272a4"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
@@ -256,7 +266,19 @@
  '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
  '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
  '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
+ '(markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
+ '(markdown-header-face-1 ((t (:height 1.6  :foreground "#ff757f" :weight extra-bold :inherit markdown-header-face))))
+ '(markdown-header-face-2 ((t (:height 1.4  :foreground "#e0af67" :weight extra-bold :inherit markdown-header-face))))
+ '(markdown-header-face-3 ((t (:height 1.2  :foreground "#9ece6a" :weight extra-bold :inherit markdown-header-face))))
+ '(markdown-header-face-4 ((t (:height 1.15 :foreground "#7dcfff" :weight bold :inherit markdown-header-face))))
+ '(markdown-header-face-5 ((t (:height 1.1  :foreground "#7aa2f7" :weight bold :inherit markdown-header-face))))
+ '(markdown-header-face-6 ((t (:height 1.05 :foreground "#bb9af7" :weight semi-bold :inherit markdown-header-face))))
  '(show-paren-match ((((class color)) :foreground unspecified :background "#455073" :weight bold) (t :weight bold))))
+
+(setq daftemacs/color--ring-bell "#ff5555")
+(setq daftemacs/color--insecure-lock_posframe-fg "#50fa7b")
+(setq daftemacs/color--insecure-lock_posframe-bg "#44475a")
+(setq daftemacs/color--insecure-lock_posframe-ib "#ff79c6")
 
 (setq default-input-method "korean-hangul")
 (setq desktop-save-mode t)
@@ -633,8 +655,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
-  :custom-face
-  (doom-modeline-buffer-modified ((t (:inherit (warning bold) :foreground "#ff5555" :background unspecified))))
   :init
   ;; If non-nil, cause imenu to see `doom-modeline' declarations.
   ;; This is done by adjusting `lisp-imenu-generic-expression' to
@@ -932,7 +952,7 @@ even when the file is larger than `large-file-warning-threshold'.")
 (setq ring-bell-function
       (lambda ()
         (let ((orig-bg (face-background 'mode-line)))
-          (set-face-background 'mode-line "#ff5555")
+          (set-face-background 'mode-line daftemacs/color--ring-bell)
           (run-with-idle-timer 0.1 nil
                                (lambda (bg) (set-face-background 'mode-line bg))
                                orig-bg))))
@@ -1083,12 +1103,6 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (use-package centaur-tabs
   :demand
-  :custom-face
-  (centaur-tabs-default ((t (:background "#16171d" :foreground "#f8f8f2"))))
-  (centaur-tabs-selected ((t (:background "#455073" :foreground "#f8f8f2"))))
-  (centaur-tabs-selected-modified ((t (:background "#455073" :foreground "#ff5555"))))
-  (centaur-tabs-unselected ((t (:background "#16171d" :foreground "#6272a4"))))
-  (centaur-tabs-unselected-modified ((t (:background "#16171d" :foreground "#b33939"))))
   :config
   (setq centaur-tabs-style "bar"
         centaur-tabs-set-bar 'under
@@ -1652,14 +1666,6 @@ That is, a string used to represent it on the tab bar."
   (define-key markdown-mode-map (kbd "C-M-}") nil)
 
   (define-key markdown-mode-map (kbd "C-c C-x C-c") 'markdown-toggle-concealling)
-  :custom-face
-  (markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
-  (markdown-header-face-1 ((t (:height 1.6  :foreground "#ff757f" :weight extra-bold :inherit markdown-header-face))))
-  (markdown-header-face-2 ((t (:height 1.4  :foreground "#e0af67" :weight extra-bold :inherit markdown-header-face))))
-  (markdown-header-face-3 ((t (:height 1.2  :foreground "#9ece6a" :weight extra-bold :inherit markdown-header-face))))
-  (markdown-header-face-4 ((t (:height 1.15 :foreground "#7dcfff" :weight bold :inherit markdown-header-face))))
-  (markdown-header-face-5 ((t (:height 1.1  :foreground "#7aa2f7" :weight bold :inherit markdown-header-face))))
-  (markdown-header-face-6 ((t (:height 1.05 :foreground "#bb9af7" :weight semi-bold :inherit markdown-header-face))))
   :bind
   ("M-+" . markdown-backward-block)
   ("M-\"" . markdown-forward-block))
@@ -2168,10 +2174,10 @@ to obtain ripgrep results."
   (setq insecure-lock-posframe-parameters
     '(:position (0 . 0) ;; workaround posframe bug
                 :poshandler posframe-poshandler-frame-center
-                :foreground-color "#50fa7b"
-                :background-color "#44475a"
+                :foreground-color daftemacs/color--insecure-lock_posframe-fg
+                :background-color daftemacs/color--insecure-lock_posframe-bg
                 :internal-border-width 3
-                :internal-border-color "#ff79c6"))
+                :internal-border-color daftemacs/color--insecure-lock_posframe-ib))
 
   (defun daftemacs/insecure-lock-mode ()
     (insecure-lock-redact)
@@ -2591,11 +2597,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
       (code (neotree-select-window)))))
 
 (use-package dir-treeview
-  :custom-face
-  (dir-treeview-control-mouse-face ((t (:foreground "#1e1f29" :background "#bd93f9"))))
-  (dir-treeview-label-mouse-face ((t (:foreground "#1e1f29" :background "#50fa7b"))))
-  (dir-treeview-start-dir-face ((t (:foreground "#1e1f29" :background "#ff79c6"))))
-  (dir-treeview-select-face ((t (:background "#6272a4"))))
   :config
   (setq dir-treeview-control-keymap
         '(("<mouse-1>" . treeview-toggle-node-state-at-event)
@@ -3112,8 +3113,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;; EIN -- Emacs IPython Notebook
 ;; https://github.com/millejoh/emacs-ipython-notebook
 (use-package ein
-  :custom-face
-  (ein:basecell-input-area-face ((t (:extend t :background "#23242f"))))
   :config
   ;; https://github.com/millejoh/emacs-ipython-notebook/issues/88
   (defun ein:preview-md-cell-latex ()
@@ -3475,10 +3474,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 ;;==============================================================================
 
 (use-package diff-hl
-  :custom-face
-  (diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
-  (diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
-  (diff-hl-change ((t (:foreground "#8be9fd" :background "#8be9fd"))))
   :config
   (global-diff-hl-mode +1)
   (diff-hl-flydiff-mode +1)
