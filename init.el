@@ -1,6 +1,28 @@
 ;; Editor: Richard Jaeho Hur
 
-;; Dracula color codes
+;; Tokyo night color codes
+;;---------
+;; #1a1b26
+;; #71799d
+;; #a9b1d6
+;; #9099c0
+;; #b4f9f8
+;; #73daca
+;; #ff9e64
+;; #bb9af7
+;; #9aa5ce
+;; #f7768e
+;; #e0af68
+;;---------
+;; #13141c
+;; #232434
+;; #454b63
+;; #5a4a78
+;; #2f5953
+;; #587a7a
+;;---------
+
+;; Dracula color codes (https://draculatheme.com/contribute)
 ;;----------------------------------------------------------
 ;; Background   | #1e1f29 | hsl(235,27%,16%)  | 30 31 41
 ;; Current Line | #44475a | hsl(232,14%,31%)  | 68 71 90
@@ -14,7 +36,13 @@
 ;; Red          | #ff5555 | hsl(0,100%,67%)   | 255 85 85
 ;; Yellow       | #f1fa8c | hsl(65,92%,76%)   | 241 250 140
 ;;----------------------------------------------------------
-;; https://draculatheme.com/contribute
+;; #16171d
+;; #23242f
+;; #455073
+;; #803c62
+;; #277a3c
+;; #45737d
+;;----------------------------------------------------------
 
 ;; My favorite special characters: 🔥 🚀 ⚡ 🌙 🪐 ⭐ 👍 🦊 🐳 🌈 🍭
 ;; https://unicode-table.com/en/sets/top-emoji/
@@ -144,6 +172,15 @@
 (load-file "~/.emacs.d/init-base.el")
 (require 'init-base)
 
+(setq default-input-method "korean-hangul")
+(setq desktop-save-mode t)
+
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
+;;(setq uniquify-separator "/")
+(setq uniquify-buffer-name-style 'post-forward)
+
+(setenv "MANWIDTH" "72")
+
 ;;==============================================================================
 ;; Packages
 ;;==============================================================================
@@ -220,44 +257,48 @@
  '(package-vc-selected-packages
    '((helm-ag :url "https://github.com/emacsattic/helm-ag.git"))))
 
+;;==============================================================================
+;; Custom faces for Tokyo night theme
+;;==============================================================================
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(doom-modeline-buffer-modified ((t (:inherit (warning bold) :foreground "#ff5555" :background unspecified))))
- '(centaur-tabs-default ((t (:background "#16171d" :foreground "#f8f8f2"))))
- '(centaur-tabs-selected ((t (:background "#455073" :foreground "#f8f8f2"))))
- '(centaur-tabs-selected-modified ((t (:background "#455073" :foreground "#ff5555"))))
- '(centaur-tabs-unselected ((t (:background "#16171d" :foreground "#6272a4"))))
- '(centaur-tabs-unselected-modified ((t (:background "#16171d" :foreground "#b33939"))))
- '(diff-hl-change ((t (:foreground "#8be9fd" :background "#8be9fd"))))
- '(diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
- '(diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
- '(ediff-current-diff-A ((t (:background "#7f3c63"))))
- '(ediff-current-diff-B ((t (:background "#287d3d"))))
- '(ediff-current-diff-C ((t (:background "#45747e"))))
- '(ediff-even-diff-A ((t (:background "#464752"))))
- '(ediff-even-diff-B ((t (:background "#464752"))))
- '(ediff-even-diff-C ((t (:background "#464752"))))
- '(ediff-fine-diff-A ((t (:foreground "#1e1f29" :background "#ff79c6"))))
- '(ediff-fine-diff-B ((t (:foreground "#1e1f29" :background "#50fa7b"))))
- '(ediff-fine-diff-C ((t (:foreground "#1e1f29" :background "#8be9fd"))))
- '(ediff-odd-diff-A ((t (:background "#464752"))))
- '(ediff-odd-diff-B ((t (:background "#464752"))))
- '(ediff-odd-diff-C ((t (:background "#464752"))))
- '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))) t)
- '(fringe ((t (:background "#1e1f29"))))
- '(header-line ((t (:background "#23242f"))))
- '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#50fa7b") (((type graphic) (background light)) :background unspecified :foreground "#50fa7b") (t :background unspecified :foreground "#50fa7b")))
- '(minimap-active-region-background ((t (:background "#16171d" :extend t))))
+ '(doom-modeline-buffer-modified ((t (:inherit (warning bold) :foreground "#f7768e" :background unspecified))))
+ '(centaur-tabs-default ((t (:background "#13141c" :foreground "#a9b1d6"))))
+ '(centaur-tabs-selected ((t (:background "#454b63" :foreground "#a9b1d6"))))
+ '(centaur-tabs-selected-modified ((t (:background "#454b63" :foreground "#f7768e"))))
+ '(centaur-tabs-unselected ((t (:background "#13141c" :foreground "#9099c0"))))
+ '(centaur-tabs-unselected-modified ((t (:background "#13141c" :foreground "#b33939"))))
+ '(diff-hl-change ((t (:foreground "#b4f9f8" :background "#b4f9f8"))))
+ '(diff-hl-delete ((t (:foreground "#f7768e" :background "#f7768e"))))
+ '(diff-hl-insert ((t (:foreground "#73daca" :background "#73daca"))))
+ '(ediff-current-diff-A ((t (:background "#5a4a78"))))
+ '(ediff-current-diff-B ((t (:background "#2f5953"))))
+ '(ediff-current-diff-C ((t (:background "#587a7a"))))
+ '(ediff-even-diff-A ((t (:background "#454b63"))))
+ '(ediff-even-diff-B ((t (:background "#454b63"))))
+ '(ediff-even-diff-C ((t (:background "#454b63"))))
+ '(ediff-fine-diff-A ((t (:foreground "#1a1b26" :background "#bb9af7"))))
+ '(ediff-fine-diff-B ((t (:foreground "#1a1b26" :background "#73daca"))))
+ '(ediff-fine-diff-C ((t (:foreground "#1a1b26" :background "#b4f9f8"))))
+ '(ediff-odd-diff-A ((t (:background "#454b63"))))
+ '(ediff-odd-diff-B ((t (:background "#454b63"))))
+ '(ediff-odd-diff-C ((t (:background "#454b63"))))
+ '(ein:basecell-input-area-face ((t (:extend t :background "#232434"))) t)
+ '(fringe ((t (:background "#1a1b26"))))
+ '(header-line ((t (:background "#232434"))))
+ '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#73daca") (((type graphic) (background light)) :background unspecified :foreground "#73daca") (t :background unspecified :foreground "#73daca")))
+ '(minimap-active-region-background ((t (:background "#13141c" :extend t))))
  '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
  '(minimap-font-face ((default :family "Input Mono Narrow" :height 30)))
- '(mode-line ((t (:background "#455073"))))
- '(dir-treeview-control-mouse-face ((t (:foreground "#1e1f29" :background "#bd93f9"))))
- '(dir-treeview-label-mouse-face ((t (:foreground "#1e1f29" :background "#50fa7b"))))
- '(dir-treeview-start-dir-face ((t (:foreground "#1e1f29" :background "#ff79c6"))))
- '(dir-treeview-select-face ((t (:background "#6272a4"))))
+ '(mode-line ((t (:background "#454b63"))))
+ '(dir-treeview-control-mouse-face ((t (:foreground "#1a1b26" :background "#9aa5ce"))))
+ '(dir-treeview-label-mouse-face ((t (:foreground "#1a1b26" :background "#73daca"))))
+ '(dir-treeview-start-dir-face ((t (:foreground "#1a1b26" :background "#bb9af7"))))
+ '(dir-treeview-select-face ((t (:background "#9099c0"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
@@ -273,21 +314,79 @@
  '(markdown-header-face-4 ((t (:height 1.15 :foreground "#7dcfff" :weight bold :inherit markdown-header-face))))
  '(markdown-header-face-5 ((t (:height 1.1  :foreground "#7aa2f7" :weight bold :inherit markdown-header-face))))
  '(markdown-header-face-6 ((t (:height 1.05 :foreground "#bb9af7" :weight semi-bold :inherit markdown-header-face))))
- '(show-paren-match ((((class color)) :foreground unspecified :background "#455073" :weight bold) (t :weight bold))))
+ '(markdown-bold-face  ((t (:foreground "#7dcfff" :inherit bold))))
+ '(markdown-list-face ((t (:foreground "#a9b1d6" :inherit markdown-markup-face))))
+ '(markdown-link-face ((t (:foreground "#bb9af7" :inherit link))))
+ '(show-paren-match ((((class color)) :foreground unspecified :background "#454b63" :weight bold) (t :weight bold))))
+(setq daftemacs/color--ring-bell "#f7768e")
+(setq daftemacs/color--insecure-lock_posframe-fg "#73daca")
+(setq daftemacs/color--insecure-lock_posframe-bg "#71799d")
+(setq daftemacs/color--insecure-lock_posframe-ib "#bb9af7")
 
-(setq daftemacs/color--ring-bell "#ff5555")
-(setq daftemacs/color--insecure-lock_posframe-fg "#50fa7b")
-(setq daftemacs/color--insecure-lock_posframe-bg "#44475a")
-(setq daftemacs/color--insecure-lock_posframe-ib "#ff79c6")
-
-(setq default-input-method "korean-hangul")
-(setq desktop-save-mode t)
-
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
-;;(setq uniquify-separator "/")
-(setq uniquify-buffer-name-style 'post-forward)
-
-(setenv "MANWIDTH" "72")
+;;;;==============================================================================
+;;;; Custom faces for Dracula theme
+;;;;==============================================================================
+;;
+;;(custom-set-faces
+;; ;; custom-set-faces was added by Custom.
+;; ;; If you edit it by hand, you could mess it up, so be careful.
+;; ;; Your init file should contain only one such instance.
+;; ;; If there is more than one, they won't work right.
+;; '(doom-modeline-buffer-modified ((t (:inherit (warning bold) :foreground "#ff5555" :background unspecified))))
+;; '(centaur-tabs-default ((t (:background "#16171d" :foreground "#f8f8f2"))))
+;; '(centaur-tabs-selected ((t (:background "#455073" :foreground "#f8f8f2"))))
+;; '(centaur-tabs-selected-modified ((t (:background "#455073" :foreground "#ff5555"))))
+;; '(centaur-tabs-unselected ((t (:background "#16171d" :foreground "#6272a4"))))
+;; '(centaur-tabs-unselected-modified ((t (:background "#16171d" :foreground "#b33939"))))
+;; '(diff-hl-change ((t (:foreground "#8be9fd" :background "#8be9fd"))))
+;; '(diff-hl-delete ((t (:foreground "#ff5555" :background "#ff5555"))))
+;; '(diff-hl-insert ((t (:foreground "#50fa7b" :background "#50fa7b"))))
+;; '(ediff-current-diff-A ((t (:background "#803c62"))))
+;; '(ediff-current-diff-B ((t (:background "#277a3c"))))
+;; '(ediff-current-diff-C ((t (:background "#45737d"))))
+;; '(ediff-even-diff-A ((t (:background "#455073"))))
+;; '(ediff-even-diff-B ((t (:background "#455073"))))
+;; '(ediff-even-diff-C ((t (:background "#455073"))))
+;; '(ediff-fine-diff-A ((t (:foreground "#1e1f29" :background "#ff79c6"))))
+;; '(ediff-fine-diff-B ((t (:foreground "#1e1f29" :background "#50fa7b"))))
+;; '(ediff-fine-diff-C ((t (:foreground "#1e1f29" :background "#8be9fd"))))
+;; '(ediff-odd-diff-A ((t (:background "#455073"))))
+;; '(ediff-odd-diff-B ((t (:background "#455073"))))
+;; '(ediff-odd-diff-C ((t (:background "#455073"))))
+;; '(ein:basecell-input-area-face ((t (:extend t :background "#23242f"))) t)
+;; '(fringe ((t (:background "#1e1f29"))))
+;; '(header-line ((t (:background "#23242f"))))
+;; '(md4rd--greentext-face ((((type graphic) (background dark)) :background unspecified :foreground "#50fa7b") (((type graphic) (background light)) :background unspecified :foreground "#50fa7b") (t :background unspecified :foreground "#50fa7b")))
+;; '(minimap-active-region-background ((t (:background "#16171d" :extend t))))
+;; '(minimap-current-line-face ((t (:background "#0189cc" :extend t))))
+;; '(minimap-font-face ((default :family "Input Mono Narrow" :height 30)))
+;; '(mode-line ((t (:background "#455073"))))
+;; '(dir-treeview-control-mouse-face ((t (:foreground "#1e1f29" :background "#bd93f9"))))
+;; '(dir-treeview-label-mouse-face ((t (:foreground "#1e1f29" :background "#50fa7b"))))
+;; '(dir-treeview-start-dir-face ((t (:foreground "#1e1f29" :background "#ff79c6"))))
+;; '(dir-treeview-select-face ((t (:background "#6272a4"))))
+;; '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
+;; '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
+;; '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
+;; '(org-level-4 ((t (:inherit outline-4 :height 1.05))))
+;; '(org-tree-slide-heading-level-1-init ((t (:inherit outline-1 :height 1.25))))
+;; '(org-tree-slide-heading-level-2-init ((t (:inherit outline-2 :height 1.15))))
+;; '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
+;; '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
+;; '(markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
+;; '(markdown-header-face-1 ((t (:height 1.6  :foreground "#ff757f" :weight extra-bold :inherit markdown-header-face))))
+;; '(markdown-header-face-2 ((t (:height 1.4  :foreground "#e0af67" :weight extra-bold :inherit markdown-header-face))))
+;; '(markdown-header-face-3 ((t (:height 1.2  :foreground "#9ece6a" :weight extra-bold :inherit markdown-header-face))))
+;; '(markdown-header-face-4 ((t (:height 1.15 :foreground "#7dcfff" :weight bold :inherit markdown-header-face))))
+;; '(markdown-header-face-5 ((t (:height 1.1  :foreground "#7aa2f7" :weight bold :inherit markdown-header-face))))
+;; '(markdown-header-face-6 ((t (:height 1.05 :foreground "#bb9af7" :weight semi-bold :inherit markdown-header-face))))
+;; '(markdown-bold-face  ((t (:foreground "#7dcfff" :inherit bold))))
+;; '(markdown-list-face ((t (:foreground "#a9b1d6" :inherit markdown-markup-face))))
+;; '(markdown-link-face ((t (:foreground "#bb9af7" :inherit link))))
+;;(setq daftemacs/color--ring-bell "#ff5555")
+;;(setq daftemacs/color--insecure-lock_posframe-fg "#50fa7b")
+;;(setq daftemacs/color--insecure-lock_posframe-bg "#44475a")
+;;(setq daftemacs/color--insecure-lock_posframe-ib "#ff79c6")
 
 ;;==============================================================================
 ;; tramp
@@ -631,7 +730,8 @@ even when the file is larger than `large-file-warning-threshold'.")
 
   (load-file "~/.emacs.d/daft-doom-dracula-theme.el")
   (register-definition-prefixes "daft-doom-dracula-theme" '("daft-doom-dracula"))
-  (load-theme 'daft-doom-dracula t)
+  ;;(load-theme 'daft-doom-dracula t)
+  (load-theme 'doom-tokyo-night t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -1621,7 +1721,8 @@ That is, a string used to represent it on the tab bar."
         markdown-enable-math t
         markdown-header-scaling t
         markdown-hide-urls t
-        markdown-fontify-code-blocks-natively t)
+        markdown-fontify-code-blocks-natively t
+        markdown-list-item-bullets '("•" "●" "◎" "○" "◆" "◇" "►"))
 
   (defvar markdown-current-line '(0 . 0)
     "(start . end) of current line in current buffer")
