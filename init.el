@@ -1131,15 +1131,13 @@ even when the file is larger than `large-file-warning-threshold'.")
 
 (use-package selected-window-contrast
   :config
-  ;; - increase contrast for selected window
-  (setopt selected-window-contrast-selected-magnitude-text 1.0)  ; default = 1
-  (setopt selected-window-contrast-selected-magnitude-background 1.0)  ; default = 1
-  ;; - decrease conrtrast for other windows
-  (setopt selected-window-contrast-not-sel-magnitude-text 1.1)  ; default = 1
-  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)  ; default = 1
+  (setopt selected-window-contrast-text-selected 0.7)
+  (setopt selected-window-contrast-bg-selected nil)
+  (setopt selected-window-contrast-text-others 0.35)
+  (setopt selected-window-contrast-bg-others 0.7)
 
   ;;
-  ;; Overriding 'centaur-tabs-buffer-list' in 'centaur-tabs-functions.el'
+  ;; Overriding 'selected-window-contrast-highlight-selected-window' in 'selected-window-contrast.el'
   ;;
   (defun selected-window-contrast-highlight-selected-window ()
     "Highlight not selected windows with a different background color."
@@ -1147,25 +1145,17 @@ even when the file is larger than `large-file-warning-threshold'.")
           (sw (selected-window)))
       ;; - not selected:
       (walk-windows (lambda (w)
-                      (unless (or (and (= 1 selected-window-contrast-not-sel-magnitude-text)
-                                       (= 1 selected-window-contrast-not-sel-magnitude-background))
-                                  (eq sw w)
+                      (unless (or (eq sw w)
                                   (eq cbn (buffer-name (window-buffer w))))
                         (with-selected-window w
                           (buffer-face-set 'default)
                           (selected-window-contrast-change-window
-                           selected-window-contrast-not-sel-magnitude-text
-                           selected-window-contrast-not-sel-magnitude-background))))
+                           selected-window-contrast-bg-others
+                           selected-window-contrast-text-others))))
                     -1 ) ; -1 means to not include minimuber
 
       ;; - selected:
-      (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
-                    (= 1 selected-window-contrast-selected-magnitude-background)))
-          (selected-window-contrast-change-window
-           selected-window-contrast-selected-magnitude-text
-           selected-window-contrast-selected-magnitude-background)
-        ;; else
-        (buffer-face-set 'default))))
+      (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected)))
 
   (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
   ;; - for case of call: $ emacsclient -c ~/file
