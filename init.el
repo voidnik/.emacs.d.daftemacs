@@ -233,24 +233,24 @@
         dir-treeview-themes dirvish disk-usage docker
         docker-compose-mode dockerfile-mode doom-modeline doom-themes
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
-        filldent find-file-in-project flx flycheck focus fretboard
-        gnu-indent google-c-style graphviz-dot-mode gt haskell-mode
-        helm-ag helm-company helm-lsp helm-rg helpful hide-mode-line
-        highlight-indent-guides highlight-indentation howdoyou
-        i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
-        importmagic insecure-lock json-mode json-reformat keyfreq
-        ligature lsp-ivy lsp-pyright lsp-ui lua-mode
-        magic-latex-buffer magit-popup magit-stats md4rd minibar
-        mixed-pitch multi-vterm neato-graph-bar neotree
-        nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer
-        nerd-icons-ivy-rich nov nyan-mode objc-font-lock obsidian
-        occurx-mode openwith org-autolist org-bullets org-present
-        org-re-reveal org-table-highlight org-tree-slide
-        page-break-lines pdf-tools peep-dired pip-requirements
-        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
-        rainbow-delimiters redacted rg rich-minority ripgrep rust-mode
-        selected-window-contrast spell-fu string-utils swift-mode
-        texfrag trailing-newline-indicator treemacs-magit
+        filldent find-file-in-project flash flx flycheck focus
+        fretboard gnu-indent google-c-style graphviz-dot-mode gt
+        haskell-mode helm-ag helm-company helm-emoji helm-lsp helm-rg
+        helpful hide-mode-line highlight-indent-guides
+        highlight-indentation howdoyou i3wm-config-mode
+        ibuffer-projectile ibuffer-vc imenu-list importmagic
+        insecure-lock json-mode json-reformat keyfreq ligature lsp-ivy
+        lsp-pyright lsp-ui lua-mode magic-latex-buffer magit-popup
+        magit-stats md4rd minibar mixed-pitch multi-vterm
+        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
+        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
+        objc-font-lock obsidian occurx-mode openwith org-autolist
+        org-bullets org-present org-re-reveal org-table-highlight
+        org-tree-slide page-break-lines pdf-tools peep-dired
+        pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
+        qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
+        rust-mode selected-window-contrast spell-fu string-utils
+        swift-mode texfrag trailing-newline-indicator treemacs-magit
         treemacs-nerd-icons treemacs-perspective treemacs-projectile
         typescript-mode ultra-scroll undo-tree vdiff-magit vlf vundo
         wgrep-ag wgrep-deadgrep yasnippet yeetube ztree))
@@ -717,6 +717,28 @@ even when the file is larger than `large-file-warning-threshold'.")
 (use-package nerd-icons-ibuffer
   :hook
   (ibuffer-mode . nerd-icons-ibuffer-mode))
+
+;;==============================================================================
+;; flash
+;;
+;; https://github.com/Prgebish/flash
+;;==============================================================================
+
+(use-package flash
+  :commands (flash-jump flash-jump-continue
+                        flash-treesitter)
+  :bind ("s-j" . flash-jump)
+  :custom
+  (flash-multi-window t)
+  :init
+  ;; Evil integration (simple setup)
+  (with-eval-after-load 'evil
+    (require 'flash-evil)
+    (flash-evil-setup t))  ; t = also set up f/t/F/T char motions
+  :config
+  ;; Search integration (labels during C-s, /, ?)
+  (require 'flash-isearch)
+  (flash-isearch-mode 1))
 
 ;;==============================================================================
 ;; doom-themes
@@ -1995,6 +2017,8 @@ to obtain ripgrep results."
     '(progn
        (define-key company-mode-map (kbd "C-:") 'helm-company)
        (define-key company-active-map (kbd "C-:") 'helm-company))))
+
+(use-package helm-emoji)
 
 ;;==============================================================================
 ;; projectile
