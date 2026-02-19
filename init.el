@@ -1166,18 +1166,27 @@ even when the file is larger than `large-file-warning-threshold'.")
     (let ((cbn (buffer-name (current-buffer)))
           (sw (selected-window)))
       ;; - not selected:
-      (walk-windows (lambda (w)
-                      (unless (or (eq sw w)
-                                  (eq cbn (buffer-name (window-buffer w))))
-                        (with-selected-window w
-                          (buffer-face-set 'default)
-                          (selected-window-contrast-change-window
-                           selected-window-contrast-bg-others
-                           selected-window-contrast-text-others))))
-                    -1 ) ; -1 means to not include minimuber
+      (when selected-window-contrast-flag
+        (walk-windows (lambda (w)
+                        (unless (or (eq sw w)
+                                    (eq cbn (buffer-name (window-buffer w))))
+                          (with-selected-window w
+                            (buffer-face-set 'default)
+                            (selected-window-contrast-change-window
+                             selected-window-contrast-bg-others
+                             selected-window-contrast-text-others))))
+                      -1)) ; -1 means to not include minibuffer
 
       ;; - selected:
-      (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected)))
+      (when selected-window-contrast-flag
+        (selected-window-contrast-change-window selected-window-contrast-bg-selected
+                                                selected-window-contrast-text-selected))
+      (if selected-window-contrast-region-flag
+          (add-hook 'window-selection-change-functions
+                    #'selected-window-contrast-mark-small-rectangle-temporary nil t)
+        ;; else
+        (remove-hook 'window-selection-change-functions
+                     #'selected-window-contrast-mark-small-rectangle-temporary t))))
 
   (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
   ;; - for case of call: $ emacsclient -c ~/file
