@@ -235,25 +235,27 @@
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
         filldent find-file-in-project flash flx flycheck focus
         fretboard gnu-indent google-c-style graphviz-dot-mode gt
-        haskell-mode helm-ag helm-company helm-emoji helm-lsp helm-rg
-        helpful hide-mode-line highlight-indent-guides
-        highlight-indentation howdoyou i3wm-config-mode
-        ibuffer-projectile ibuffer-vc imenu-list importmagic
-        insecure-lock json-mode json-reformat keyfreq ligature lsp-ivy
-        lsp-pyright lsp-ui lua-mode magic-latex-buffer magit-popup
-        magit-stats md4rd minibar mixed-pitch multi-vterm
-        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
-        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
-        objc-font-lock obsidian occurx-mode openwith org-autolist
-        org-bullets org-present org-re-reveal org-table-highlight
-        org-tree-slide page-break-lines pdf-tools peep-dired
-        pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
-        qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
-        rust-mode selected-window-contrast spell-fu string-utils
-        swift-mode texfrag trailing-newline-indicator treemacs-magit
+        hackernews-modern haskell-mode helm-ag helm-company helm-emoji
+        helm-lsp helm-rg helpful hide-mode-line
+        highlight-indent-guides highlight-indentation howdoyou
+        i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
+        importmagic insecure-lock json-mode json-reformat keyfreq
+        ligature lsp-ivy lsp-pyright lsp-ui lua-mode
+        magic-latex-buffer magit-popup magit-stats md4rd minibar
+        mixed-pitch multi-vterm neato-graph-bar neotree
+        nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer
+        nerd-icons-ivy-rich nov nyan-mode objc-font-lock obsidian
+        occurx-mode openwith org-autolist org-bullets org-present
+        org-re-reveal org-table-highlight org-tree-slide
+        page-break-lines pdf-tools peep-dired pip-requirements
+        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
+        rainbow-delimiters redacted rg rich-minority ripgrep rust-mode
+        selected-window-contrast spell-fu string-utils swift-mode
+        texfrag trailing-newline-indicator treemacs-magit
         treemacs-nerd-icons treemacs-perspective treemacs-projectile
-        typescript-mode ultra-scroll undo-tree vdiff-magit vlf vundo
-        wgrep-ag wgrep-deadgrep yasnippet yeetube ztree))
+        typescript-mode ultra-scroll undo-tree vdiff-magit
+        visual-fill-column vlf vundo wgrep-ag wgrep-deadgrep yasnippet
+        yeetube ztree))
  '(package-vc-selected-packages
    '((helm-ag :url "https://github.com/emacsattic/helm-ag.git"))))
 
@@ -421,6 +423,14 @@
 ;;==============================================================================
 
 (use-package flx)
+
+;;==============================================================================
+;; visual-fill-column
+;;
+;; https://github.com/joostkremers/visual-fill-column
+;;==============================================================================
+
+(use-package visual-fill-column)
 
 ;;==============================================================================
 ;; trailing-newline-indicator
@@ -4165,6 +4175,20 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq md4rd-subs-active '(emacs lisp+Common_Lisp prolog clojure rust)))
 
 ;;==============================================================================
+;; hackernews-modern - Hacker News Modern Emacs Client
+;;
+;; https://git.andros.dev/andros/hackernews-modern-el
+;;==============================================================================
+
+(use-package hackernews-modern
+  :config
+  ;; Optional: enable emoji icons in the header and comment counts
+  (setq hackernews-modern-enable-emojis t)
+  ;; Optional: customize display width (default 80)
+  (setq hackernews-modern-display-width 100)
+  )
+
+;;==============================================================================
 ;; devdocs (https://github.com/astoff/devdocs.el)
 ;; devdocs-browser (https://github.com/blahgeek/emacs-devdocs-browser)
 ;; biblio (https://github.com/cpitclaudel/biblio.el)
@@ -4295,6 +4319,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c u g") 'gts-do-translate)
 (global-set-key (kbd "C-c u f") 'elfeed)
 (global-set-key (kbd "C-c u r") 'md4rd)
+(global-set-key (kbd "C-c u h") 'hackernews-modern)
 (global-set-key (kbd "C-c u a") 'arxiv-complex-search)
 (global-set-key (kbd "C-c u o") 'stackoverflow-lookup)
 (global-set-key (kbd "C-c u y") 'yeetube-search)
