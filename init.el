@@ -1191,7 +1191,7 @@ even when the file is larger than `large-file-warning-threshold'.")
       (when selected-window-contrast-flag
         (selected-window-contrast-change-window selected-window-contrast-bg-selected
                                                 selected-window-contrast-text-selected))
-      (if selected-window-contrast-region-flag
+      (if selected-window-contrast-cursor-flag
           (add-hook 'window-selection-change-functions
                     #'selected-window-contrast-mark-small-rectangle-temporary nil t)
         ;; else
