@@ -3045,7 +3045,10 @@ If optional arg SILENT is non-nil, do not display progress messages."
 
 (use-package lsp-ivy)
 
-(use-package lsp-treemacs)
+;; https://github.com/emacs-lsp/lsp-treemacs
+(use-package lsp-treemacs
+  :config
+  (lsp-treemacs-sync-mode 1))
 
 ;;==============================================================================
 ;; Debug Adapter Protocol (DAP)
