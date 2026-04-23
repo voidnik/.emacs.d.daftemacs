@@ -4339,7 +4339,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (global-set-key (kbd "C-c u p") 'neato-graph-bar))
 (global-set-key (kbd "C-c u P") 'proced)
 (global-set-key (kbd "C-c u u") 'disk-usage)
-(global-set-key (kbd "C-c u g") 'gts-do-translate)
+(global-set-key (kbd "C-c u g") 'gt-translate)
 (global-set-key (kbd "C-c u f") 'elfeed)
 (global-set-key (kbd "C-c u r") 'md4rd)
 (global-set-key (kbd "C-c u h") 'hackernews-modern)
