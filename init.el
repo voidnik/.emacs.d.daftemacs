@@ -228,15 +228,15 @@
    '(ag all-the-icons arxiv-mode auto-complete biblio burly centaur-tabs
         centered-cursor-mode cmake-mode command-log-mode company-box
         company-fuzzy company-restclient company-statistics
-        counsel-at-point counsel-projectile cuda-mode dap-mode
-        dashboard deadgrep devdocs devdocs-browser diff-hl
+        consult-gumshoe counsel-at-point counsel-projectile cuda-mode
+        dap-mode dashboard deadgrep devdocs devdocs-browser diff-hl
         dir-treeview-themes dirvish disk-usage docker
         docker-compose-mode dockerfile-mode doom-modeline doom-themes
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
         filldent find-file-in-project flash flx flycheck focus
         fretboard gnu-indent google-c-style graphviz-dot-mode gt
-        hackernews-modern haskell-mode helm-ag helm-company helm-emoji
-        helm-lsp helm-rg helpful hide-mode-line
+        gumshoe hackernews-modern haskell-mode helm-ag helm-company
+        helm-emoji helm-lsp helm-rg helpful hide-mode-line
         highlight-indent-guides highlight-indentation howdoyou
         i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
         importmagic insecure-lock json-mode json-reformat keyfreq
@@ -247,11 +247,11 @@
         nerd-icons-ivy-rich nov nyan-mode objc-font-lock obsidian
         occurx-mode openwith org-autolist org-bullets org-present
         org-re-reveal org-table-highlight org-tree-slide
-        page-break-lines pdf-tools peep-dired pip-requirements
-        pretty-hydra proced-narrow py-autopep8 pyvenv qml-mode
-        rainbow-delimiters redacted rg rich-minority ripgrep rust-mode
-        selected-window-contrast spell-fu string-utils swift-mode
-        texfrag trailing-newline-indicator treemacs-magit
+        page-break-lines pdf-tools peep-dired persp-gumshoe
+        pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
+        qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
+        rust-mode selected-window-contrast spell-fu string-utils
+        swift-mode texfrag trailing-newline-indicator treemacs-magit
         treemacs-nerd-icons treemacs-perspective treemacs-projectile
         typescript-mode ultra-scroll undo-tree vdiff-magit
         visual-fill-column vlf vundo wgrep-ag wgrep-deadgrep yasnippet
@@ -2830,6 +2830,21 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package ibuffer-vc)
 
 ;;==============================================================================
+;; Gumshoe: a smart POINT tracker
+;;
+;; https://github.com/Overdr0ne/gumshoe
+;;==============================================================================
+
+(use-package gumshoe
+  :init
+  (global-gumshoe-mode +1)
+  (setf gumshoe-slot-schema '(perspective buffer position line time))
+  (setf gumshoe-auto-cancel-backtracking-p nil))
+
+(use-package persp-gumshoe)
+(use-package consult-gumshoe)
+
+;;==============================================================================
 ;; Code Style
 ;;==============================================================================
 
@@ -4286,6 +4301,11 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c c s g") 'counsel-grep)
 (global-set-key (kbd "C-c c s r") 'counsel-rg)
 (global-set-key (kbd "C-c c s s") 'counsel-ag)
+
+(global-set-key (kbd "C-c g g") 'gumshoe-persp-backtrack)
+(global-set-key (kbd "C-c g G") 'gumshoe-peruse-globally)
+(global-set-key (kbd "C-c g m") 'gumshoe-peruse-markers)
+(global-set-key (kbd "C-c g M") 'gumshoe-drop-marker)
 
 (defun open-dedicated-terminal ()
   (interactive)
