@@ -4065,7 +4065,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
   (setq gt-default-translator
         (gt-translator
          :taker   (gt-taker :text 'buffer :pick 'paragraph)  ; config the Taker
-         :engines (list (gt-bing-engine) (gt-google-engine)) ; specify the Engines
+         :engines (list (gt-google-engine) (gt-bing-engine)) ; specify the Engines
          :render  (gt-buffer-render)))                       ; config the Render
   (setq gt-preset-translators
         `((ts-1 . ,(gt-translator
