@@ -133,6 +133,7 @@ gigagan
 googlenet
 gpus
 grayscale
+heathrow
 hebbian
 homography
 hotspot
@@ -184,6 +185,7 @@ multiresolution
 multiscale
 natively
 neighbour
+neighbours
 neurone
 nevermind
 nonblind
@@ -256,6 +258,7 @@ ruiner
 ruiner's
 runtime
 runtimes
+saviour
 scalability
 scalable
 scanline
