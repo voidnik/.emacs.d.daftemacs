@@ -4080,7 +4080,8 @@ If optional arg SILENT is non-nil, do not display progress messages."
                     :taker (gt-taker :langs '(en ko) :text 'buffer
                                      :pick 'word :pick-pred (lambda (w) (length> w 6)))
                     :engines (gt-google-engine)
-                    :render (gt-overlay-render :type 'help-echo))))))
+                    :render (gt-overlay-render :type 'help-echo)))))
+  (add-hook 'gt-buffer-render-init-hook #'visual-line-mode))
 
 ;;==============================================================================
 ;; mpv
