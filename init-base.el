@@ -38,7 +38,8 @@
       split-height-threshold nil ; not to split this way.
       register-preview-delay 0
       gdb-many-windows t
-      large-file-warning-threshold (* 100 1024 1024))
+      large-file-warning-threshold (* 100 1024 1024)
+      warning-suppress-log-types '((files missing-lexbind-cookie)))
 (blink-cursor-mode 0)
 (setq-default truncate-lines t)
 (setq-default tab-width 4)
