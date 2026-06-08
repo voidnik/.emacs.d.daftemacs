@@ -235,27 +235,26 @@
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
         filldent find-file-in-project flash flx flycheck focus
         fretboard gnu-indent google-c-style graphviz-dot-mode gt
-        gumshoe hackernews-modern haskell-mode helm-ag helm-company
-        helm-emoji helm-lsp helm-rg helpful hide-mode-line
+        hackernews-modern haskell-mode helm-ag helm-company helm-emoji
+        helm-lsp helm-rg helpful hide-mode-line
         highlight-indent-guides highlight-indentation howdoyou
         i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
-        importmagic insecure-lock json-mode json-reformat keyfreq
-        ligature lsp-ivy lsp-pyright lsp-ui lua-mode
-        magic-latex-buffer magit-popup magit-stats md4rd minibar
-        mixed-pitch multi-vterm neato-graph-bar neotree
-        nerd-icons-completion nerd-icons-dired nerd-icons-ibuffer
-        nerd-icons-ivy-rich nov nyan-mode objc-font-lock obsidian
-        occurx-mode openwith org-autolist org-bullets org-present
-        org-re-reveal org-table-highlight org-tree-slide
-        page-break-lines pdf-tools peep-dired persp-gumshoe
-        pip-requirements pretty-hydra proced-narrow py-autopep8 pyvenv
-        qml-mode rainbow-delimiters redacted rg rich-minority ripgrep
-        rust-mode selected-window-contrast spell-fu string-utils
-        swift-mode texfrag trailing-newline-indicator treemacs-magit
-        treemacs-nerd-icons treemacs-perspective treemacs-projectile
-        typescript-mode ultra-scroll undo-tree vdiff-magit
-        visual-fill-column vlf vundo wgrep-ag wgrep-deadgrep yasnippet
-        yeetube ztree))
+        importmagic json-mode json-reformat keyfreq ligature lsp-ivy
+        lsp-pyright lsp-ui lua-mode magic-latex-buffer magit-popup
+        magit-stats md4rd minibar mixed-pitch multi-vterm
+        neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
+        nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
+        objc-font-lock obsidian occurx-mode openwith org-autolist
+        org-bullets org-present org-re-reveal org-table-highlight
+        org-tree-slide page-break-lines pdf-tools peep-dired
+        persp-gumshoe pip-requirements pretty-hydra proced-narrow
+        py-autopep8 pyvenv qml-mode rainbow-delimiters redacted rg
+        rich-minority ripgrep rust-mode selected-window-contrast
+        spell-fu string-utils swift-mode texfrag
+        trailing-newline-indicator treemacs-magit treemacs-nerd-icons
+        treemacs-perspective treemacs-projectile typescript-mode
+        ultra-scroll undo-tree vdiff-magit vlf vundo wgrep-ag
+        wgrep-deadgrep yasnippet yeetube ztree))
  '(package-vc-selected-packages
    '((helm-ag :url "https://github.com/emacsattic/helm-ag.git"))))
 
@@ -293,7 +292,7 @@
  '(ediff-odd-diff-A ((t (:background "#454b63"))))
  '(ediff-odd-diff-B ((t (:background "#454b63"))))
  '(ediff-odd-diff-C ((t (:background "#454b63"))))
- '(ein:basecell-input-area-face ((t (:extend t :background "#232434"))) t)
+ '(ein:basecell-input-area-face ((t (:extend t :background "#232434"))))
  '(fringe ((t (:background "#1a1b26"))))
  '(header-line ((t (:background "#232434"))))
  '(markdown-bold-face ((t (:foreground "#7dcfff" :inherit bold))))
@@ -321,9 +320,6 @@
  '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
  '(show-paren-match ((((class color)) :foreground unspecified :background "#454b63" :weight bold) (t :weight bold))))
 (setq daftemacs/color--ring-bell "#f7768e")
-(setq daftemacs/color--insecure-lock_posframe-fg "#73daca")
-(setq daftemacs/color--insecure-lock_posframe-bg "#71799d")
-(setq daftemacs/color--insecure-lock_posframe-ib "#bb9af7")
 
 ;;;;==============================================================================
 ;;;; Custom faces for Dracula theme
@@ -386,9 +382,6 @@
 ;; '(org-tree-slide-heading-level-3-init ((t (:inherit outline-3 :height 1.1))))
 ;; '(org-tree-slide-heading-level-4-init ((t (:inherit outline-4 :height 1.05))))
 ;;(setq daftemacs/color--ring-bell "#ff5555")
-;;(setq daftemacs/color--insecure-lock_posframe-fg "#50fa7b")
-;;(setq daftemacs/color--insecure-lock_posframe-bg "#44475a")
-;;(setq daftemacs/color--insecure-lock_posframe-ib "#ff79c6")
 
 ;;==============================================================================
 ;; tramp
@@ -749,6 +742,22 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; Search integration (labels during C-s, /, ?)
   (require 'flash-isearch)
   (flash-isearch-mode 1))
+
+;;==============================================================================
+;; page-break-lines
+;;
+;; https://github.com/purcell/page-break-lines
+;;==============================================================================
+
+(use-package page-break-lines)
+
+;;==============================================================================
+;; redacted
+;;
+;; https://github.com/bkaestner/redacted.el
+;;==============================================================================
+
+(use-package redacted)
 
 ;;==============================================================================
 ;; doom-themes
@@ -1441,14 +1450,6 @@ That is, a string used to represent it on the tab bar."
   ("C-c t s" . centaur-tabs-counsel-switch-group)
   ("C-c t g" . centaur-tabs-toggle-group-by)
   ("C-c t k" . centaur-tabs-kill-all-buffers-in-current-group))
-
-;;==============================================================================
-;; page-break-lines
-;;
-;; https://github.com/purcell/page-break-lines
-;;==============================================================================
-
-(use-package page-break-lines)
 
 ;;==============================================================================
 ;; dashboard
@@ -2289,55 +2290,6 @@ to obtain ripgrep results."
 ;;==============================================================================
 
 (use-package avy)
-
-;;==============================================================================
-;; insecure-lock - Screen locker in pure Emacs Lisp
-;;
-;; https://github.com/kchanqvq/insecure-lock
-;;==============================================================================
-
-(use-package redacted)
-
-(use-package insecure-lock
-  :config
-  (insecure-lock-run-idle 1800) ;; in seconds
-
-  (if (string-equal system-type "darwin")
-      (setq insecure-lock-require-password nil))
-
-  (setq insecure-lock-posframe-parameters
-    '(:position (0 . 0) ;; workaround posframe bug
-                :poshandler posframe-poshandler-frame-center
-                :foreground-color daftemacs/color--insecure-lock_posframe-fg
-                :background-color daftemacs/color--insecure-lock_posframe-bg
-                :internal-border-width 3
-                :internal-border-color daftemacs/color--insecure-lock_posframe-ib))
-
-  (defun daftemacs/insecure-lock-mode ()
-    (insecure-lock-redact)
-
-    ;; Due to (insecure-lock-posframe), when switching to another desktop on macOS, the mouse cursor spontaneously moves in certain areas.
-    (if (not (string-equal system-type "darwin"))
-        (insecure-lock-posframe))
-
-    (if insecure-lock-mode
-        (progn
-          (message "Insecure Lock Screensaver")
-          (centaur-tabs-mode 0)
-          (doom-modeline-mode 0)
-          (global-hide-mode-line-mode))
-      (progn
-        (global-hide-mode-line-mode 0)
-        (doom-modeline-mode t)
-        (centaur-tabs-mode t))))
-  (setq insecure-lock-mode-hook 'daftemacs/insecure-lock-mode)
-
-  (defun daftemacs/after-insecure-lock-lock-keys ()
-    (global-set-key (kbd "C-g") #'(lambda ()
-                                    (interactive)
-                                    (if (active-minibuffer-window)
-                                        (select-window (active-minibuffer-window))))))
-  (advice-add 'insecure-lock-lock-keys :after #'daftemacs/after-insecure-lock-lock-keys))
 
 ;;==============================================================================
 ;; find-file-in-project
@@ -4335,7 +4287,6 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "C-c u D") 'dir-treeview-open)
 (global-set-key (kbd "C-c u k") 'docker)
 (global-set-key (kbd "C-c u c") 'open-calculator)
-(global-set-key (kbd "C-c u l") 'insecure-lock-enter)
 (when (string-equal system-type "gnu/linux")
   (global-set-key (kbd "C-c u p") 'neato-graph-bar))
 (global-set-key (kbd "C-c u P") 'proced)
