@@ -234,9 +234,9 @@
         docker-compose-mode dockerfile-mode doom-modeline doom-themes
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
         filldent find-file-in-project flash flx flycheck focus
-        fretboard gnu-indent google-c-style graphviz-dot-mode gt
-        hackernews-modern haskell-mode helm-ag helm-company helm-emoji
-        helm-lsp helm-rg helpful hide-mode-line
+        fretboard fzf gnu-indent google-c-style graphviz-dot-mode gt
+        gumshoe hackernews-modern haskell-mode helm-ag helm-company
+        helm-emoji helm-lsp helm-rg helpful hide-mode-line
         highlight-indent-guides highlight-indentation howdoyou
         i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
         importmagic json-mode json-reformat keyfreq ligature lsp-ivy
@@ -3853,6 +3853,25 @@ If optional arg SILENT is non-nil, do not display progress messages."
              (t (beep)))
           (error (beep))))))
   (message "Done."))
+
+;;==============================================================================
+;; fzf
+;;
+;; https://github.com/bling/fzf.el
+;;==============================================================================
+
+(use-package fzf
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+        ;; command used for `fzf-grep-*` functions
+        ;; example usage for ripgrep:
+        ;; fzf/grep-command "rg --no-heading -nH"
+        fzf/grep-command "grep -nrH"
+        ;; If nil, the fzf buffer will appear at the top of the window
+        fzf/position-bottom t
+        fzf/window-height 15))
 
 ;;==============================================================================
 ;; find-file-hook for handling the very large file

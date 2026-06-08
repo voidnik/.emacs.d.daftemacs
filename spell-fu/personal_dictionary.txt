@@ -82,6 +82,7 @@ deinterlaced
 deinterlacer
 deinterlacers
 deinterlacing
+delegator
 denoised
 denoiser
 denoisers
