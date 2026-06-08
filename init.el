@@ -82,8 +82,8 @@
    ((string-equal system-type "gnu/linux") ;; Font path: ~/.local/share/fonts
     (progn
       (if with-pgtk
-          (set-face-attribute 'default nil :height 94 :family "Input Mono Narrow")
-        (set-face-attribute 'default nil :height 95 :family "Input Mono Narrow"))
+          (set-face-attribute 'default nil :height 100 :family "Input Mono Narrow")
+        (set-face-attribute 'default nil :height 102 :family "Input Mono Narrow"))
       ;;(if with-pgtk
       ;;    (set-face-attribute 'default nil :width 'normal :height 94 :family "JetBrains Mono")
       ;;  (set-face-attribute 'default nil :width 'normal :height 95 :family "JetBrains Mono"))
@@ -102,8 +102,8 @@
       ;;(set-face-attribute 'default nil :height 95 :family "FreeMono")
       ;;(set-face-attribute 'default nil :height 115 :family "Ubuntu Mono")
       (if with-pgtk
-          (set-face-attribute 'variable-pitch nil :height 94 :family "Input Sans Narrow")
-        (set-face-attribute 'variable-pitch nil :height 95 :family "Input Sans Narrow"))
+          (set-face-attribute 'variable-pitch nil :height 100 :family "Input Sans Narrow")
+        (set-face-attribute 'variable-pitch nil :height 102 :family "Input Sans Narrow"))
       ))
    ((string-equal system-type "darwin") ;; Font path: ~/Library/Fonts
     (progn
