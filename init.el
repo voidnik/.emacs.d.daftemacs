@@ -4214,7 +4214,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-O") 'ace-select-previous-window)
 (global-set-key (kbd "C-M-o") 'ace-swap-window)
-(global-set-key (kbd "C-c o") 'ff-find-other-file)
+(global-set-key (kbd "C-c o") 'projectile-find-other-file) ;; 'projectile-find-other-file or 'ff-find-other-file
 (global-set-key (kbd "M-m") 'lsp-ui-imenu)
 (global-set-key (kbd "M-M") 'imenu-list)
 (global-set-key (kbd "M-0") 'treemacs-or-neotree-select-window)
