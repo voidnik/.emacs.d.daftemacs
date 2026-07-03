@@ -3409,6 +3409,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
 (use-package i3wm-config-mode)
 
 ;;==============================================================================
+;; fish-mode
+;;==============================================================================
+
+(use-package fish-mode)
+
+;;==============================================================================
 ;; ligature
 ;;
 ;; https://github.com/mickeynp/ligature.el
