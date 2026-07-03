@@ -154,6 +154,8 @@
     (message "PGTK: Enabled")
   (message "PGTK: Disabled"))
 
+(message "GDK_SCALE: %s" (getenv "GDK_SCALE"))
+
 (if (functionp 'json-serialize)
     (message "Native JSON: Enabled")
   (message "Native JSON: Disabled"))
@@ -233,15 +235,15 @@
         dir-treeview-themes dirvish disk-usage docker
         docker-compose-mode dockerfile-mode doom-modeline doom-themes
         dumb-jump ein elfeed-tube-mpv elisp-demos exec-path-from-shell
-        filldent find-file-in-project flash flx flycheck focus
-        fretboard fzf gnu-indent google-c-style graphviz-dot-mode gt
-        gumshoe hackernews-modern haskell-mode helm-ag helm-company
-        helm-emoji helm-lsp helm-rg helpful hide-mode-line
-        highlight-indent-guides highlight-indentation howdoyou
-        i3wm-config-mode ibuffer-projectile ibuffer-vc imenu-list
-        importmagic json-mode json-reformat keyfreq ligature lsp-ivy
-        lsp-pyright lsp-ui lua-mode magic-latex-buffer magit-popup
-        magit-stats md4rd minibar mixed-pitch multi-vterm
+        filldent find-file-in-project fish-mode flash flx flycheck
+        focus fretboard fzf gnu-indent google-c-style
+        graphviz-dot-mode gt hackernews-modern haskell-mode helm-ag
+        helm-company helm-emoji helm-lsp helm-rg helpful
+        hide-mode-line highlight-indent-guides highlight-indentation
+        howdoyou i3wm-config-mode ibuffer-projectile ibuffer-vc
+        imenu-list importmagic json-mode json-reformat keyfreq
+        ligature lsp-ivy lsp-pyright lsp-ui magic-latex-buffer
+        magit-popup magit-stats md4rd minibar mixed-pitch multi-vterm
         neato-graph-bar neotree nerd-icons-completion nerd-icons-dired
         nerd-icons-ibuffer nerd-icons-ivy-rich nov nyan-mode
         objc-font-lock obsidian occurx-mode openwith org-autolist
@@ -809,11 +811,15 @@ even when the file is larger than `large-file-warning-threshold'.")
    ((string-equal system-type "darwin")
     (setq doom-modeline-height 25))
    ((string-equal system-type "gnu/linux")
-    (if (string-equal (getenv "GDK_SCALE") "2")
-        (if with-pgtk
-            (setq doom-modeline-height 25)
-          (setq doom-modeline-height 50))
-      (setq doom-modeline-height 25))))
+    (cond
+     ((string-equal system-name "DaftZ13-KJP-CachyOS")
+      (setq doom-modeline-height 50))
+     (t
+      (if (string-equal (getenv "GDK_SCALE") "2")
+          (if with-pgtk
+              (setq doom-modeline-height 25)
+            (setq doom-modeline-height 50))
+        (setq doom-modeline-height 25))))))
 
   ;; How wide the mode-line bar should be. It's only respected in GUI.
   (setq doom-modeline-bar-width 4)
@@ -1130,7 +1136,7 @@ even when the file is larger than `large-file-warning-threshold'.")
    ((string-equal system-type "darwin")
     (setq minibar-group-middle '(minibar-module-battery minibar-module-time)))
    ((string-equal system-type "gnu/linux")
-    (defun daftemacs/minibar-module-temperature ()
+    (defun daftemacs/minibar-module-temperature-on-ubuntu ()
       "Module for showing CPU temperature."
       (when (or (not minibar--module-temperature-cache)
                 (>= (float-time
@@ -1159,12 +1165,12 @@ even when the file is larger than `large-file-warning-threshold'.")
           (current-time))))
       (car minibar--module-temperature-cache))
     (cond
-     ((string-equal system-name "DaftBlade")
-      (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery minibar-module-time)))
+     ((string-equal system-name "DaftZ13-KJP-CachyOS")
+      (setq minibar-group-middle '(minibar-module-cpu minibar-module-network-speeds minibar-module-battery minibar-module-time)))
      ((string-equal system-name "DaftUTM")
       (setq minibar-group-middle '(minibar-module-cpu minibar-module-network-speeds minibar-module-time)))
      ((string-equal system-name "a17962")
-      (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature minibar-module-network-speeds minibar-module-battery)))))))
+      (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature-on-ubuntu minibar-module-network-speeds minibar-module-battery)))))))
 
 ;;==============================================================================
 ;; selected-window-contrast
@@ -1273,17 +1279,22 @@ even when the file is larger than `large-file-warning-threshold'.")
     (setq centaur-tabs-height 25)
     (setq centaur-tabs-bar-height 25))
    ((string-equal system-type "gnu/linux")
-    (if (string-equal (getenv "GDK_SCALE") "2")
-        (if with-pgtk
+    (cond
+     ((string-equal system-name "DaftZ13-KJP-CachyOS")
+      (setq centaur-tabs-height 50)
+      (setq centaur-tabs-bar-height 34))
+     (t
+      (if (string-equal (getenv "GDK_SCALE") "2")
+          (if with-pgtk
+              (progn
+                (setq centaur-tabs-height 25)
+                (setq centaur-tabs-bar-height 25))
             (progn
-              (setq centaur-tabs-height 25)
-              (setq centaur-tabs-bar-height 25))
-          (progn
-            (setq centaur-tabs-height 50)
-            (setq centaur-tabs-bar-height 34)))
-      (progn
-        (setq centaur-tabs-height 25)
-        (setq centaur-tabs-bar-height 25)))))
+              (setq centaur-tabs-height 50)
+              (setq centaur-tabs-bar-height 34)))
+        (progn
+          (setq centaur-tabs-height 25)
+          (setq centaur-tabs-bar-height 25)))))))
   (setq centaur-tabs-active-bar
         (centaur-tabs--make-xpm 'centaur-tabs-active-bar-face
                                 2
