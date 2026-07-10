@@ -19,6 +19,8 @@ image-dired
 thumbs
 projectile-bookmarks.eld
 projectile.cache
+projectile-frecency.eld
+recentf.eld
 company-statistics-cache.el
 .emacs.desktop
 .emacs.desktop.lock
