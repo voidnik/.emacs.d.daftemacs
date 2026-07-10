@@ -787,14 +787,7 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; or for treemacs users
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-
-  ;; Temporary solution: When trying to change the file name by pressing R
-  ;; on a file in Emacs' treemacs, the message "face-spec-set-2: Face
-  ;; inheritance results in inheritance cycle: gnus-group-news-low" appears
-  ;; and does not work properly.
-  (setcdr (assoc 'gnus-group-news-low-empty doom-themes-base-faces)
-          '(:inherit 'gnus-group-mail-1-empty :weight 'normal)))
+  (doom-themes-org-config))
 
 ;; https://draculatheme.com/emacs/
 ;;(load-file "~/.emacs.d/dracula-theme.el")
