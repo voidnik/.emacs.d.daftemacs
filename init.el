@@ -775,6 +775,13 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;; for neotree users
   (doom-themes-neotree-file-icons t)
   :config
+  ;; Temporary solution: When trying to change the file name by pressing R
+  ;; on a file in Emacs' treemacs, the message "face-spec-set-2: Face
+  ;; inheritance results in inheritance cycle: gnus-group-news-low" appears
+  ;; and does not work properly.
+  (setcdr (assoc 'gnus-group-news-low-empty doom-themes-base-faces)
+          '(:inherit 'gnus-group-mail-1-empty :weight 'normal)))
+
   (load-file "~/.emacs.d/daft-doom-dracula-theme.el")
   (register-definition-prefixes "daft-doom-dracula-theme" '("daft-doom-dracula"))
   ;;(load-theme 'daft-doom-dracula t)
