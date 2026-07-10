@@ -766,11 +766,15 @@ even when the file is larger than `large-file-warning-threshold'.")
 ;;==============================================================================
 
 (use-package doom-themes
-  :config
+  :custom
   ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
+  (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; for treemacs users
+  (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  ;; for neotree users
+  (doom-themes-neotree-file-icons t)
+  :config
   (load-file "~/.emacs.d/daft-doom-dracula-theme.el")
   (register-definition-prefixes "daft-doom-dracula-theme" '("daft-doom-dracula"))
   ;;(load-theme 'daft-doom-dracula t)
@@ -778,12 +782,9 @@ even when the file is larger than `large-file-warning-threshold'.")
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (setq doom-themes-neotree-file-icons t)
+  ;; Enable custom neotree theme (nerd-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
-  (setq doom-themes-treemacs-enable-variable-pitch nil)
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
