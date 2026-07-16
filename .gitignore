@@ -17,9 +17,10 @@ ido.last
 dirvish
 image-dired
 thumbs
-projectile-bookmarks.eld
 projectile.cache
+projectile-bookmarks.eld
 projectile-frecency.eld
+projects.eld
 recentf.eld
 company-statistics-cache.el
 .emacs.desktop
