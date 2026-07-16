@@ -822,6 +822,8 @@ even when the file is larger than `large-file-warning-threshold'.")
     (cond
      ((string-equal system-name "DaftZ13-KJP-CachyOS")
       (setq doom-modeline-height 50))
+     ((string-equal system-name "a17962")
+      (setq doom-modeline-height 25))
      (t
       (if (string-equal (getenv "GDK_SCALE") "2")
           (if with-pgtk
@@ -1175,10 +1177,10 @@ even when the file is larger than `large-file-warning-threshold'.")
     (cond
      ((string-equal system-name "DaftZ13-KJP-CachyOS")
       (setq minibar-group-middle '(minibar-module-cpu minibar-module-network-speeds minibar-module-battery minibar-module-time)))
-     ((string-equal system-name "DaftUTM")
-      (setq minibar-group-middle '(minibar-module-cpu minibar-module-network-speeds minibar-module-time)))
      ((string-equal system-name "a17962")
-      (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature-on-ubuntu minibar-module-network-speeds minibar-module-battery)))))))
+      (setq minibar-group-middle '(minibar-module-cpu daftemacs/minibar-module-temperature-on-ubuntu minibar-module-network-speeds minibar-module-battery)))
+     ((string-equal system-name "DaftUTM")
+      (setq minibar-group-middle '(minibar-module-cpu minibar-module-network-speeds minibar-module-time)))))))
 
 ;;==============================================================================
 ;; selected-window-contrast
@@ -1291,6 +1293,9 @@ even when the file is larger than `large-file-warning-threshold'.")
      ((string-equal system-name "DaftZ13-KJP-CachyOS")
       (setq centaur-tabs-height 50)
       (setq centaur-tabs-bar-height 34))
+     ((string-equal system-name "a17962")
+      (setq centaur-tabs-height 25)
+      (setq centaur-tabs-bar-height 25))
      (t
       (if (string-equal (getenv "GDK_SCALE") "2")
           (if with-pgtk
