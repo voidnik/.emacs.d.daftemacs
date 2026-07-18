@@ -2359,11 +2359,10 @@ to obtain ripgrep results."
 
   (defun persp-buffer-list ()
     "Return a list of buffers of all living buffers in the current perspective."
-    (let ((ignore-rx (persp--make-ignore-buffer-rx)))
-      (cl-loop for buf in (persp-current-buffers)
-               if (and (buffer-live-p buf)
-                       (not (string-match-p ignore-rx (buffer-name buf))))
-               collect buf)))
+    (cl-loop for buf in (persp-current-buffers)
+             if (and (buffer-live-p buf)
+                     (not (persp--ignore-buffer-p (buffer-name buf))))
+             collect buf))
 
   (setq persp-state-default-file "~/.emacs.d/persp-state-default")
   (setq persp-state-default-file-loaded nil)
