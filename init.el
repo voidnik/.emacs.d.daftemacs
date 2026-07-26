@@ -1349,13 +1349,19 @@ template element."
         (centaur-tabs-group-buffer-groups))))
 
   ;; A workaround to solve the problem of centaur-tabs bar disappearing in magit-status.
-  (defun magit-status-on-centaur-tabs (&optional directory cache)
+  (defun daftemacs/magit-status-on-centaur-tabs (&optional directory cache)
     "Run magit-status on centaur-tabs environment."
     (interactive)
     (magit-status directory cache)
     (call-interactively 'centaur-tabs-local-mode)
     (call-interactively 'centaur-tabs-local-mode))
-  (defalias 'magit 'magit-status-on-centaur-tabs)
+  (defalias 'magit 'daftemacs/magit-status-on-centaur-tabs)
+
+  (defun daftemacs/magit-centaur-tabs-fix ()
+    "Forces centaur-tabs to be visible in the magit-status buffer by toggling local mode."
+    (centaur-tabs-local-mode 1)
+    (centaur-tabs-local-mode -1))
+  (add-hook 'magit-mode-hook #'daftemacs/magit-centaur-tabs-fix)
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-tab-label' in 'centaur-tabs-functions.el'
