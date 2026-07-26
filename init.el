@@ -1313,24 +1313,6 @@ even when the file is larger than `large-file-warning-threshold'.")
                                 2
                                 centaur-tabs-bar-height))
 
-  (defsubst daftemacs/centaur-tabs-button-tab (button)
-    "Return the display representation of button BUTTON.
-That is, a propertized string used as an `centaur-tabs-display-line-format'
-template element."
-    (let* ((face 'centaur-tabs-default))
-      (concat
-       (propertize
-        button
-        'face face
-        'mouse-face 'highlight))))
-
-  (defun centaur-tabs-count (index count)
-    "Return a centaur-tabs-button-tab with the current tab INDEX and the total tabs COUNT."
-    (if centaur-tabs-show-count
-        (propertize (daftemacs/centaur-tabs-button-tab (format " [%d/%d] " index count))
-                    'help-echo "Tabs count")
-      ""))
-
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
 
