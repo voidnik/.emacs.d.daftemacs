@@ -2402,22 +2402,22 @@ to obtain ripgrep results."
   (defun centaur-tabs-buffer-list ()
     "Return the list of buffers to show in tabs.
 Exclude buffers whose name starts with a space, when they are not
-visiting a file.  The current buffer is always included."
+visiting a file."
     (let* ((bufs (persp-buffer-list)))
       (centaur-tabs-filter-out
        'centaur-tabs-hide-tab-cached
        (delq nil
-             (cl-mapcar #'(lambda (b)
-                            (cond
-                             ;; Always include the current buffer.
-                             ((eq (current-buffer) b) b)
-                             ((buffer-file-name b) b)
-                             ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                             ((buffer-live-p b) b)))
-                        bufs))))) ;; modified by daftcoder
+             (seq-filter (lambda (b)
+                           (cond ((eq (current-buffer) b) b)
+                                 ((buffer-file-name b) b)
+                                 ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+                                 ((buffer-live-p b) b)))
+                         bufs ;; modified by daftcoder
+                         )))))
 
   ;;
-  ;; Overriding 'ibuffer-update'
+  ;; Overriding 'ibuffer-update' in 'ibuffer.el'
+  ;; For smooth work with 'ibuffer', '(buffer-list)' is replaced with '(persp-buffer-list)'.
   ;;
   (defun ibuffer-update (arg &optional silent)
     "Regenerate the list of all buffers.
@@ -2431,7 +2431,7 @@ If optional arg SILENT is non-nil, do not display progress messages."
         (setq ibuffer-display-maybe-show-predicates
               (not ibuffer-display-maybe-show-predicates)))
     (ibuffer-forward-line 0)
-    (let* ((bufs (persp-buffer-list))
+    (let* ((bufs (persp-buffer-list)) ;; modified by daftcoder
            (blist (ibuffer-filter-buffers
                    (current-buffer)
                    (if (and
@@ -2460,10 +2460,12 @@ If optional arg SILENT is non-nil, do not display progress messages."
     ;; I tried to update this automatically from the mode-line-process format,
     ;; but changing nil-ness of header-line-format while computing
     ;; mode-line-format is asking a bit too much it seems.  --Stef
-    (setq header-line-format
-          (and ibuffer-use-header-line
-               ibuffer-filtering-qualifiers
-               ibuffer-header-line-format))))
+    (unless (eq ibuffer-use-header-line 'title)
+      (setq header-line-format
+            (and ibuffer-use-header-line
+                 ibuffer-filtering-qualifiers
+                 ibuffer-header-line-format))))
+  )
 
 ;;==============================================================================
 ;; File Tree
