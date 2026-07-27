@@ -1874,6 +1874,7 @@ That is, a string used to represent it on the tab bar."
 
 (use-package ripgrep
   :config
+  (setq ripgrep-executable "noglob rg")
   (setq ripgrep-arguments (list "--no-ignore" "--hidden" "--unrestricted")))
 
 (use-package deadgrep
