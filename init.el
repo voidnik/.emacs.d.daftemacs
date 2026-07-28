@@ -1335,10 +1335,10 @@ even when the file is larger than `large-file-warning-threshold'.")
   ;;
   (defun daftemacs/magit-centaur-tabs-fix ()
     "Forces centaur-tabs to be visible in magit buffers by toggling local mode asynchronously."
-    (run-with-timer 0 nil
-                    (lambda ()
-                      (centaur-tabs-local-mode -1))))
+    (centaur-tabs-local-mode -1)
+    (centaur-tabs-buffer-update-groups))
   (add-hook 'magit-refresh-buffer-hook #'daftemacs/magit-centaur-tabs-fix)
+  (add-hook 'magit-setup-buffer-hook #'daftemacs/magit-centaur-tabs-fix)
 
   ;;
   ;; Overriding 'centaur-tabs-buffer-tab-label' in 'centaur-tabs-functions.el'
